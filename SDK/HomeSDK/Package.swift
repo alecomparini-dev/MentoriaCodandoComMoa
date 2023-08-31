@@ -20,7 +20,6 @@ let package = Package(
         .package(url: "https://github.com/alecomparini-dev/NetworkSDK.git", branch: "develop")
     ],
     
-    
 
     targets: [
 
