@@ -6,12 +6,45 @@
 	objectVersion = 56;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		0212ECAF2AA10867001C1BCF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0212ECAE2AA10867001C1BCF /* AppDelegate.swift */; };
+		0212ECB12AA10867001C1BCF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0212ECB02AA10867001C1BCF /* SceneDelegate.swift */; };
+		0212ECB82AA10868001C1BCF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0212ECB72AA10868001C1BCF /* Assets.xcassets */; };
+		0212ECBB2AA10868001C1BCF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0212ECB92AA10868001C1BCF /* LaunchScreen.storyboard */; };
+		0212ECC92AA10C1C001C1BCF /* HomePresenters in Frameworks */ = {isa = PBXBuildFile; productRef = 0212ECC82AA10C1C001C1BCF /* HomePresenters */; };
+		0212ECCB2AA10C1C001C1BCF /* HomeUI in Frameworks */ = {isa = PBXBuildFile; productRef = 0212ECCA2AA10C1C001C1BCF /* HomeUI */; };
+		0212ECCD2AA10C1C001C1BCF /* HomeUseCaseGateway in Frameworks */ = {isa = PBXBuildFile; productRef = 0212ECCC2AA10C1C001C1BCF /* HomeUseCaseGateway */; };
+		0212ECCF2AA10C1C001C1BCF /* ProfilePresenters in Frameworks */ = {isa = PBXBuildFile; productRef = 0212ECCE2AA10C1C001C1BCF /* ProfilePresenters */; };
+		0212ECD12AA10C1C001C1BCF /* ProfileUI in Frameworks */ = {isa = PBXBuildFile; productRef = 0212ECD02AA10C1C001C1BCF /* ProfileUI */; };
+		0212ECD32AA10C1C001C1BCF /* ProfileUseCaseGateway in Frameworks */ = {isa = PBXBuildFile; productRef = 0212ECD22AA10C1C001C1BCF /* ProfileUseCaseGateway */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		0212ECA72AA10254001C1BCF /* ProfileSDK */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = ProfileSDK; path = SDK/ProfileSDK; sourceTree = "<group>"; };
+		0212ECAC2AA10867001C1BCF /* Main.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Main.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0212ECAE2AA10867001C1BCF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		0212ECB02AA10867001C1BCF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		0212ECB72AA10868001C1BCF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		0212ECBA2AA10868001C1BCF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		0212ECBC2AA10868001C1BCF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0212ECC72AA10A20001C1BCF /* HomeSDK */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = HomeSDK; path = SDK/HomeSDK; sourceTree = "<group>"; };
 		02E2C39E2AA0FFD30040A2C8 /* MentoriaCodandoComMoa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MentoriaCodandoComMoa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		0212ECA92AA10867001C1BCF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0212ECCD2AA10C1C001C1BCF /* HomeUseCaseGateway in Frameworks */,
+				0212ECCF2AA10C1C001C1BCF /* ProfilePresenters in Frameworks */,
+				0212ECD12AA10C1C001C1BCF /* ProfileUI in Frameworks */,
+				0212ECC92AA10C1C001C1BCF /* HomePresenters in Frameworks */,
+				0212ECCB2AA10C1C001C1BCF /* HomeUI in Frameworks */,
+				0212ECD32AA10C1C001C1BCF /* ProfileUseCaseGateway in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		02E2C39B2AA0FFD30040A2C8 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -26,8 +59,36 @@
 			isa = PBXGroup;
 			children = (
 				0212ECA72AA10254001C1BCF /* ProfileSDK */,
+				0212ECC72AA10A20001C1BCF /* HomeSDK */,
 			);
 			name = Packages;
+			sourceTree = "<group>";
+		};
+		0212ECAD2AA10867001C1BCF /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				0212ECD42AA10CE7001C1BCF /* Resources */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		0212ECC02AA1087D001C1BCF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		0212ECD42AA10CE7001C1BCF /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				0212ECAE2AA10867001C1BCF /* AppDelegate.swift */,
+				0212ECB02AA10867001C1BCF /* SceneDelegate.swift */,
+				0212ECB72AA10868001C1BCF /* Assets.xcassets */,
+				0212ECB92AA10868001C1BCF /* LaunchScreen.storyboard */,
+				0212ECBC2AA10868001C1BCF /* Info.plist */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		02E2C3942AA0FFD30040A2C8 = {
@@ -35,7 +96,9 @@
 			children = (
 				0212ECA62AA10254001C1BCF /* Packages */,
 				02E2C3A02AA0FFD30040A2C8 /* MentoriaCodandoComMoa */,
+				0212ECAD2AA10867001C1BCF /* Main */,
 				02E2C39F2AA0FFD30040A2C8 /* Products */,
+				0212ECC02AA1087D001C1BCF /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -43,6 +106,7 @@
 			isa = PBXGroup;
 			children = (
 				02E2C39E2AA0FFD30040A2C8 /* MentoriaCodandoComMoa.framework */,
+				0212ECAC2AA10867001C1BCF /* Main.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -67,6 +131,31 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		0212ECAB2AA10867001C1BCF /* Main */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0212ECBF2AA10868001C1BCF /* Build configuration list for PBXNativeTarget "Main" */;
+			buildPhases = (
+				0212ECA82AA10867001C1BCF /* Sources */,
+				0212ECA92AA10867001C1BCF /* Frameworks */,
+				0212ECAA2AA10867001C1BCF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Main;
+			packageProductDependencies = (
+				0212ECC82AA10C1C001C1BCF /* HomePresenters */,
+				0212ECCA2AA10C1C001C1BCF /* HomeUI */,
+				0212ECCC2AA10C1C001C1BCF /* HomeUseCaseGateway */,
+				0212ECCE2AA10C1C001C1BCF /* ProfilePresenters */,
+				0212ECD02AA10C1C001C1BCF /* ProfileUI */,
+				0212ECD22AA10C1C001C1BCF /* ProfileUseCaseGateway */,
+			);
+			productName = Main;
+			productReference = 0212ECAC2AA10867001C1BCF /* Main.app */;
+			productType = "com.apple.product-type.application";
+		};
 		02E2C39D2AA0FFD30040A2C8 /* MentoriaCodandoComMoa */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 02E2C3A52AA0FFD30040A2C8 /* Build configuration list for PBXNativeTarget "MentoriaCodandoComMoa" */;
@@ -92,8 +181,12 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1430;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
+					0212ECAB2AA10867001C1BCF = {
+						CreatedOnToolsVersion = 14.3.1;
+					};
 					02E2C39D2AA0FFD30040A2C8 = {
 						CreatedOnToolsVersion = 14.3.1;
 					};
@@ -113,11 +206,21 @@
 			projectRoot = "";
 			targets = (
 				02E2C39D2AA0FFD30040A2C8 /* MentoriaCodandoComMoa */,
+				0212ECAB2AA10867001C1BCF /* Main */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		0212ECAA2AA10867001C1BCF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0212ECBB2AA10868001C1BCF /* LaunchScreen.storyboard in Resources */,
+				0212ECB82AA10868001C1BCF /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		02E2C39C2AA0FFD30040A2C8 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -128,6 +231,15 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		0212ECA82AA10867001C1BCF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0212ECAF2AA10867001C1BCF /* AppDelegate.swift in Sources */,
+				0212ECB12AA10867001C1BCF /* SceneDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		02E2C39A2AA0FFD30040A2C8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -137,7 +249,77 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXVariantGroup section */
+		0212ECB92AA10868001C1BCF /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0212ECBA2AA10868001C1BCF /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
+		0212ECBD2AA10868001C1BCF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2HCBZJR5K3;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Main/Resources/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = "";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = br.com.alecomparini.Main;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		0212ECBE2AA10868001C1BCF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2HCBZJR5K3;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Main/Resources/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = "";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = br.com.alecomparini.Main;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		02E2C3A32AA0FFD30040A2C8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -322,6 +504,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0212ECBF2AA10868001C1BCF /* Build configuration list for PBXNativeTarget "Main" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0212ECBD2AA10868001C1BCF /* Debug */,
+				0212ECBE2AA10868001C1BCF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		02E2C3982AA0FFD30040A2C8 /* Build configuration list for PBXProject "MentoriaCodandoComMoa" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -341,6 +532,33 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		0212ECC82AA10C1C001C1BCF /* HomePresenters */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = HomePresenters;
+		};
+		0212ECCA2AA10C1C001C1BCF /* HomeUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = HomeUI;
+		};
+		0212ECCC2AA10C1C001C1BCF /* HomeUseCaseGateway */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = HomeUseCaseGateway;
+		};
+		0212ECCE2AA10C1C001C1BCF /* ProfilePresenters */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ProfilePresenters;
+		};
+		0212ECD02AA10C1C001C1BCF /* ProfileUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ProfileUI;
+		};
+		0212ECD22AA10C1C001C1BCF /* ProfileUseCaseGateway */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ProfileUseCaseGateway;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 02E2C3952AA0FFD30040A2C8 /* Project object */;
 }
