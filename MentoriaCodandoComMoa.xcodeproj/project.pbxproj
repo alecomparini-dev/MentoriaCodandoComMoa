@@ -11,12 +11,6 @@
 		0212ECB12AA10867001C1BCF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0212ECB02AA10867001C1BCF /* SceneDelegate.swift */; };
 		0212ECB82AA10868001C1BCF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0212ECB72AA10868001C1BCF /* Assets.xcassets */; };
 		0212ECBB2AA10868001C1BCF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0212ECB92AA10868001C1BCF /* LaunchScreen.storyboard */; };
-		0212ECC92AA10C1C001C1BCF /* HomePresenters in Frameworks */ = {isa = PBXBuildFile; productRef = 0212ECC82AA10C1C001C1BCF /* HomePresenters */; };
-		0212ECCB2AA10C1C001C1BCF /* HomeUI in Frameworks */ = {isa = PBXBuildFile; productRef = 0212ECCA2AA10C1C001C1BCF /* HomeUI */; };
-		0212ECCD2AA10C1C001C1BCF /* HomeUseCaseGateway in Frameworks */ = {isa = PBXBuildFile; productRef = 0212ECCC2AA10C1C001C1BCF /* HomeUseCaseGateway */; };
-		0212ECCF2AA10C1C001C1BCF /* ProfilePresenters in Frameworks */ = {isa = PBXBuildFile; productRef = 0212ECCE2AA10C1C001C1BCF /* ProfilePresenters */; };
-		0212ECD12AA10C1C001C1BCF /* ProfileUI in Frameworks */ = {isa = PBXBuildFile; productRef = 0212ECD02AA10C1C001C1BCF /* ProfileUI */; };
-		0212ECD32AA10C1C001C1BCF /* ProfileUseCaseGateway in Frameworks */ = {isa = PBXBuildFile; productRef = 0212ECD22AA10C1C001C1BCF /* ProfileUseCaseGateway */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,12 +30,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0212ECCD2AA10C1C001C1BCF /* HomeUseCaseGateway in Frameworks */,
-				0212ECCF2AA10C1C001C1BCF /* ProfilePresenters in Frameworks */,
-				0212ECD12AA10C1C001C1BCF /* ProfileUI in Frameworks */,
-				0212ECC92AA10C1C001C1BCF /* HomePresenters in Frameworks */,
-				0212ECCB2AA10C1C001C1BCF /* HomeUI in Frameworks */,
-				0212ECD32AA10C1C001C1BCF /* ProfileUseCaseGateway in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,7 +83,6 @@
 			isa = PBXGroup;
 			children = (
 				0212ECA62AA10254001C1BCF /* Packages */,
-				02E2C3A02AA0FFD30040A2C8 /* MentoriaCodandoComMoa */,
 				0212ECAD2AA10867001C1BCF /* Main */,
 				02E2C39F2AA0FFD30040A2C8 /* Products */,
 				0212ECC02AA1087D001C1BCF /* Frameworks */,
@@ -109,13 +96,6 @@
 				0212ECAC2AA10867001C1BCF /* Main.app */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		02E2C3A02AA0FFD30040A2C8 /* MentoriaCodandoComMoa */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = MentoriaCodandoComMoa;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -145,12 +125,6 @@
 			);
 			name = Main;
 			packageProductDependencies = (
-				0212ECC82AA10C1C001C1BCF /* HomePresenters */,
-				0212ECCA2AA10C1C001C1BCF /* HomeUI */,
-				0212ECCC2AA10C1C001C1BCF /* HomeUseCaseGateway */,
-				0212ECCE2AA10C1C001C1BCF /* ProfilePresenters */,
-				0212ECD02AA10C1C001C1BCF /* ProfileUI */,
-				0212ECD22AA10C1C001C1BCF /* ProfileUseCaseGateway */,
 			);
 			productName = Main;
 			productReference = 0212ECAC2AA10867001C1BCF /* Main.app */;
@@ -532,33 +506,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		0212ECC82AA10C1C001C1BCF /* HomePresenters */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = HomePresenters;
-		};
-		0212ECCA2AA10C1C001C1BCF /* HomeUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = HomeUI;
-		};
-		0212ECCC2AA10C1C001C1BCF /* HomeUseCaseGateway */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = HomeUseCaseGateway;
-		};
-		0212ECCE2AA10C1C001C1BCF /* ProfilePresenters */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = ProfilePresenters;
-		};
-		0212ECD02AA10C1C001C1BCF /* ProfileUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = ProfileUI;
-		};
-		0212ECD22AA10C1C001C1BCF /* ProfileUseCaseGateway */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = ProfileUseCaseGateway;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 02E2C3952AA0FFD30040A2C8 /* Project object */;
 }

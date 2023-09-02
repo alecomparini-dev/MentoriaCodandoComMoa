@@ -2,7 +2,7 @@
 //
 
 import UIKit
-import Network
+//import NetworkSDKMain
 
 public final class HomeViewController: UIViewController {
     
@@ -13,7 +13,7 @@ public final class HomeViewController: UIViewController {
     
     public override func loadView() {
         view = login
-//        let _ = AlamofireNetwork()
+        
     }
     
 }

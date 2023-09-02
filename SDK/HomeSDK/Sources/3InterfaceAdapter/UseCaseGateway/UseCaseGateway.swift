@@ -3,12 +3,11 @@
 //
 
 import Foundation
-import Network
+import NetworkSDKMain
 
 class UseCaseGateway {
     
     init() {
-        let _ = AlamofireNetwork()
     }
     
 }
