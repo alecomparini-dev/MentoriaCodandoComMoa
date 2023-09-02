@@ -11,9 +11,7 @@ let package = Package(
     ],
     
     products: [
-        .library(name: "HomePresenters", targets: ["HomePresenters"]),
-        .library(name: "HomeUseCaseGateway", targets: ["HomeUseCaseGateway"]),
-        .library(name: "HomeUI", targets: ["HomeUI"]),
+        .library(name: "HomeSDK", targets: ["HomePresenters", "HomeUseCaseGateway", "HomeUI"]),
     ],
     
     dependencies: [
@@ -28,27 +26,28 @@ let package = Package(
         .target(
             name: "HomePresenters",
             dependencies: [],
-            path: "Sources/Layer3_InterfaceAdapter/Presenters"
+            path: "Sources/3InterfaceAdapter/Presenters"
         ),
         
         .target(
             name: "HomeUseCaseGateway",
             dependencies: [
-                .product(name: "Network" , package: "NetworkSDK")
+                .product(name: "NetworkSDK" , package: "NetworkSDK")
             ],
-            path: "Sources/Layer3_InterfaceAdapter/UseCaseGateway"
+            path: "Sources/3InterfaceAdapter/UseCaseGateway"
         ),
         
     
+        
 
         //  MARK: - DETAILS LAYER
         .target(
             name: "HomeUI",
             dependencies: ["HomePresenters"],
-            path: "Sources/Layer4_Detail/UI",
-            linkerSettings: [.linkedFramework("UIKit")]
+            path: "Sources/Detail/UI"
         ),
 
+                
         
         //  MARK: - TESTS TARGETS AREA
         .testTarget(name: "HomeSDKTests", dependencies: []),
@@ -56,3 +55,8 @@ let package = Package(
     
     ]
 )
+
+
+
+
+
