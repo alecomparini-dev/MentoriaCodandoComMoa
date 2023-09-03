@@ -3,7 +3,7 @@
 //
 
 import Foundation
-import NetworkSDKMain
+import NetworkSDK
 
 class UseCaseGateway {
     
