@@ -11,6 +11,8 @@
 		0212ECB12AA10867001C1BCF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0212ECB02AA10867001C1BCF /* SceneDelegate.swift */; };
 		0212ECB82AA10868001C1BCF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0212ECB72AA10868001C1BCF /* Assets.xcassets */; };
 		0212ECBB2AA10868001C1BCF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0212ECB92AA10868001C1BCF /* LaunchScreen.storyboard */; };
+		0234A6D42AA3C4AB00167636 /* HomeSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 0234A6D32AA3C4AB00167636 /* HomeSDK */; };
+		0234A6D62AA3C4AB00167636 /* ProfileSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 0234A6D52AA3C4AB00167636 /* ProfileSDK */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +32,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0234A6D42AA3C4AB00167636 /* HomeSDK in Frameworks */,
+				0234A6D62AA3C4AB00167636 /* ProfileSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,6 +129,8 @@
 			);
 			name = Main;
 			packageProductDependencies = (
+				0234A6D32AA3C4AB00167636 /* HomeSDK */,
+				0234A6D52AA3C4AB00167636 /* ProfileSDK */,
 			);
 			productName = Main;
 			productReference = 0212ECAC2AA10867001C1BCF /* Main.app */;
@@ -506,6 +512,17 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		0234A6D32AA3C4AB00167636 /* HomeSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = HomeSDK;
+		};
+		0234A6D52AA3C4AB00167636 /* ProfileSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ProfileSDK;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 02E2C3952AA0FFD30040A2C8 /* Project object */;
 }
