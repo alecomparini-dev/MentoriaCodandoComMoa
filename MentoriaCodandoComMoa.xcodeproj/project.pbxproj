@@ -13,6 +13,9 @@
 		0212ECBB2AA10868001C1BCF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0212ECB92AA10868001C1BCF /* LaunchScreen.storyboard */; };
 		0234A6D42AA3C4AB00167636 /* HomeSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 0234A6D32AA3C4AB00167636 /* HomeSDK */; };
 		0234A6D62AA3C4AB00167636 /* ProfileSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 0234A6D52AA3C4AB00167636 /* ProfileSDK */; };
+		028B28A12AA75EAE008E4A7E /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 028B28A02AA75EAE008E4A7E /* Environment.swift */; };
+		028B28A42AA75F8C008E4A7E /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 028B28A32AA75F8C008E4A7E /* Release.xcconfig */; };
+		028B28BC2AA76EEC008E4A7E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 028B28BB2AA76EEC008E4A7E /* Constants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +27,10 @@
 		0212ECBA2AA10868001C1BCF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0212ECBC2AA10868001C1BCF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0212ECC72AA10A20001C1BCF /* HomeSDK */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = HomeSDK; path = SDK/HomeSDK; sourceTree = "<group>"; };
+		028B28A02AA75EAE008E4A7E /* Environment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
+		028B28A22AA75F52008E4A7E /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		028B28A32AA75F8C008E4A7E /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+		028B28BB2AA76EEC008E4A7E /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		02E2C39E2AA0FFD30040A2C8 /* MentoriaCodandoComMoa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MentoriaCodandoComMoa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -59,6 +66,8 @@
 		0212ECAD2AA10867001C1BCF /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				028B28B92AA76ECF008E4A7E /* Handler */,
+				028B289F2AA75E9D008E4A7E /* Env */,
 				0212ECD42AA10CE7001C1BCF /* Resources */,
 			);
 			path = Main;
@@ -81,6 +90,32 @@
 				0212ECBC2AA10868001C1BCF /* Info.plist */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		028B289F2AA75E9D008E4A7E /* Env */ = {
+			isa = PBXGroup;
+			children = (
+				028B28A02AA75EAE008E4A7E /* Environment.swift */,
+				028B28A22AA75F52008E4A7E /* Debug.xcconfig */,
+				028B28A32AA75F8C008E4A7E /* Release.xcconfig */,
+			);
+			path = Env;
+			sourceTree = "<group>";
+		};
+		028B28B92AA76ECF008E4A7E /* Handler */ = {
+			isa = PBXGroup;
+			children = (
+				028B28BA2AA76EDC008E4A7E /* Constants */,
+			);
+			path = Handler;
+			sourceTree = "<group>";
+		};
+		028B28BA2AA76EDC008E4A7E /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				028B28BB2AA76EEC008E4A7E /* Constants.swift */,
+			);
+			path = Constants;
 			sourceTree = "<group>";
 		};
 		02E2C3942AA0FFD30040A2C8 = {
@@ -198,6 +233,7 @@
 			files = (
 				0212ECBB2AA10868001C1BCF /* LaunchScreen.storyboard in Resources */,
 				0212ECB82AA10868001C1BCF /* Assets.xcassets in Resources */,
+				028B28A42AA75F8C008E4A7E /* Release.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -216,7 +252,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				0212ECAF2AA10867001C1BCF /* AppDelegate.swift in Sources */,
+				028B28A12AA75EAE008E4A7E /* Environment.swift in Sources */,
 				0212ECB12AA10867001C1BCF /* SceneDelegate.swift in Sources */,
+				028B28BC2AA76EEC008E4A7E /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -243,6 +281,7 @@
 /* Begin XCBuildConfiguration section */
 		0212ECBD2AA10868001C1BCF /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 028B28A22AA75F52008E4A7E /* Debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -255,7 +294,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -272,6 +311,7 @@
 		};
 		0212ECBE2AA10868001C1BCF /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 028B28A32AA75F8C008E4A7E /* Release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -284,7 +324,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
