@@ -15,7 +15,8 @@ let package = Package(
     ],
     
     dependencies: [
-        .package(url: "https://github.com/alecomparini-dev/NetworkSDK.git", branch: "develop")
+        .package(url: "https://github.com/alecomparini-dev/NetworkSDK.git", branch: "develop"),
+        .package(url: "https://github.com/alecomparini-dev/DesignerSystemSDK.git", branch: "develop")
     ],
     
 
@@ -43,7 +44,11 @@ let package = Package(
         //  MARK: - DETAILS LAYER
         .target(
             name: "HomeUI",
-            dependencies: ["HomePresenters"],
+            dependencies: [
+                "HomePresenters",
+                .product(name: "DSMComponent" , package: "DesignerSystemSDK"),
+                .product(name: "DSMMain" , package: "DesignerSystemSDK")
+            ],
             path: "Sources/Detail/UI"
         ),
 
