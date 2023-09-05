@@ -2,6 +2,20 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>ENV</key>
+	<dict>
+		<key>DEFAULT_THEME</key>
+		<string>${DEFAULT_THEME}</string>
+		<key>API_BASE_URL</key>
+		<string>${API_BASE_URL}</string>
+		<key>UID_FIREBASE</key>
+		<string>${UID_FIREBASE}</string>
+	</dict>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
