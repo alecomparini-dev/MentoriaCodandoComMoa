@@ -65,8 +65,6 @@ class LoginView: UIView {
     }()
     
 
-    
-
 //  MARK: - PRIVATE AREA
     public func configure() {
         configBackgroundColor()
