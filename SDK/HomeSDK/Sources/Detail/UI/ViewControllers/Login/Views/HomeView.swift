@@ -3,8 +3,14 @@
 //
 
 import UIKit
+import DSMComponent
+
+protocol HomeViewDelegate: AnyObject {
+    func buttonTapped()
+}
 
 class HomeView: UIView {
+    weak var delegate: HomeViewDelegate?
     
     init() {
         super.init(frame: .zero)
@@ -13,6 +19,21 @@ class HomeView: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    lazy var customButton: CustomButton = {
+        let btn = CustomButton("Botão Back Login")
+            .setConstraints { build in
+                build
+                    .setTop.equalToSafeArea(50)
+                    .setLeading.setTrailing.equalToSafeArea(24)
+                    .setHeight.equalToConstant(50)
+            }
+        btn.get.addTarget(self, action: #selector(buttomCustomizeTapped), for: .touchUpInside)
+        return btn
+    }()
+    @objc private func buttomCustomizeTapped() {
+        delegate?.buttonTapped()
     }
     
     
@@ -29,11 +50,11 @@ class HomeView: UIView {
     }
     
     private func addElements() {
-        
+        addSubview(customButton.get)
     }
     
     private func configConstraints() {
-        
+        customButton.applyConstraint()
     }
     
     

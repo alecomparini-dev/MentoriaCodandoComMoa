@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import ProfileUI
 import DSMMain
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -63,10 +62,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private func startScene(_ scene: UIScene) {
         guard let windowsScene = (scene as? UIWindowScene) else { return }
         let win = UIWindow(windowScene: windowsScene)
-        let vc = LoginViewController()
-        win.rootViewController = vc
+        let nav = NavigationController()
+        win.rootViewController = nav
         win.makeKeyAndVisible()
         window = win
+        
+        let coordinator = LoginCoordinator(nav)
+        coordinator.start()
     }
 
 }
