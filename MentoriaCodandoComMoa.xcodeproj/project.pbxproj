@@ -106,7 +106,7 @@
 		026682CC2AA7D5E900EE70EC /* Coordinator */ = {
 			isa = PBXGroup;
 			children = (
-				026682D22AA7D68700EE70EC /* CustomNavigationController */,
+				026682D22AA7D68700EE70EC /* NavigationController */,
 				026682CD2AA7D62600EE70EC /* Protocol */,
 				026682D52AA7D75F00EE70EC /* LoginCoordinator.swift */,
 				026682D72AA7D8A200EE70EC /* HomeCoordinator.swift */,
@@ -123,12 +123,12 @@
 			path = Protocol;
 			sourceTree = "<group>";
 		};
-		026682D22AA7D68700EE70EC /* CustomNavigationController */ = {
+		026682D22AA7D68700EE70EC /* NavigationController */ = {
 			isa = PBXGroup;
 			children = (
 				026682D32AA7D69D00EE70EC /* NavigationController.swift */,
 			);
-			path = CustomNavigationController;
+			path = NavigationController;
 			sourceTree = "<group>";
 		};
 		028B289F2AA75E9D008E4A7E /* Env */ = {

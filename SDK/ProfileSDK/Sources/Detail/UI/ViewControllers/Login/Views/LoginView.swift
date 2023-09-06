@@ -87,7 +87,7 @@ class LoginView: UIView {
     }
     
     private func configBackgroundColor() {
-        self.backgroundColor = UIColor.HEX("#749bc2")
+        self.backgroundColor = UIColor.HEX("#FFFFFF")
     }
     
     private func addElements() {
