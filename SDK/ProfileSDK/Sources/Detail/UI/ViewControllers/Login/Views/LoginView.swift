@@ -6,7 +6,12 @@ import DSMComponent
 import CustomComponentsSDK
 
 
+protocol LoginViewDelegate: AnyObject {
+    func buttonTapped()
+}
+
 class LoginView: UIView {
+    weak var delegate: LoginViewDelegate?
     
     init() {
         super.init(frame: .zero)
@@ -31,7 +36,7 @@ class LoginView: UIView {
         return label
     }()
     
-    lazy var customButtom: CustomButton = {
+    lazy var customButton: CustomButton = {
         let btn = CustomButton("Botão customizado")
             .setConstraints { build in
                 build
@@ -39,19 +44,28 @@ class LoginView: UIView {
                     .setLeading.setTrailing.equalToSafeArea(24)
                     .setHeight.equalToConstant(50)
             }
+        btn.get.addTarget(self, action: #selector(buttomCustomizeTapped), for: .touchUpInside)
         return btn
     }()
+    @objc private func buttomCustomizeTapped() {
+        delegate?.buttonTapped()
+    }
+    
     
     lazy var customButtomPrimary: CustomButtonPrimary = {
         let btn = CustomButtonPrimary("Botão Primary")
             .setConstraints { build in
                 build
-                    .setTop.equalTo(customButtom.get, .bottom, 15)
+                    .setTop.equalTo(customButton.get, .bottom, 15)
                     .setLeading.setTrailing.equalToSafeArea(24)
                     .setHeight.equalToConstant(50)
             }
+        btn.get.addTarget(self, action: #selector(buttonPrimaryTapped), for: .touchUpInside)
         return btn
     }()
+    @objc private func buttonPrimaryTapped() {
+        delegate?.buttonTapped()
+    }
     
     lazy var buttomSecondary: CustomButtonSecondary = {
         let btn = CustomButtonSecondary("Botão Secondary")
@@ -78,14 +92,14 @@ class LoginView: UIView {
     
     private func addElements() {
         addSubview(customText.get)
-        addSubview(customButtom.get)
+        addSubview(customButton.get)
         addSubview(customButtomPrimary.get)
         addSubview(buttomSecondary.get)
     }
     
     private func configConstraints() {
         customText.applyConstraint()
-        customButtom.applyConstraint()
+        customButton.applyConstraint()
         customButtomPrimary.applyConstraint()
         buttomSecondary.applyConstraint()
     }
