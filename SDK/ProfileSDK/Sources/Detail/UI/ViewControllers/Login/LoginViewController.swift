@@ -24,6 +24,7 @@ public final class LoginViewController: UIViewController {
     
     public override func loadView() {
         self.view = self.login
+//        overrideUserInterfaceStyle = .light
         overrideUserInterfaceStyle = .dark
     }
     

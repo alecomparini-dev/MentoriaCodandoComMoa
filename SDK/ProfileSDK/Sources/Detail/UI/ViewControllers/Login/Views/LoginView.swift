@@ -88,7 +88,7 @@ class LoginView: UIView {
             .setText("Local Font Style Italic")
             .setColor(hexColor: "#ffffff")
             .setSize(27)
-            .setWeight(.bold)
+            .setItalicFont()
             .setTextAlignment(.center)
             .setConstraints { build in
                 build
@@ -147,7 +147,7 @@ class LoginView: UIView {
             .setTitleColor(named: "label")
             .setAlpha(0.8)
             .setTitleWeight(.thin)
-            .setTitleSize(24)
+            .setTitleSize(22)
             .setBorder({ build in
                 build
                     .setCornerRadius(12)
