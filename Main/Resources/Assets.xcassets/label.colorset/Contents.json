@@ -5,12 +5,12 @@
         "color-space" : "srgb",
         "components" : {
           "alpha" : "1.000",
-          "blue" : "1.000",
-          "green" : "1.000",
-          "red" : "1.000"
+          "blue" : "0.314",
+          "green" : "0.267",
+          "red" : "0.176"
         }
       },
-      "idiom" : "iphone"
+      "idiom" : "universal"
     },
     {
       "appearances" : [
@@ -20,15 +20,13 @@
         }
       ],
       "color" : {
-        "color-space" : "srgb",
+        "color-space" : "extended-gray",
         "components" : {
           "alpha" : "1.000",
-          "blue" : "1.000",
-          "green" : "1.000",
-          "red" : "1.000"
+          "white" : "1.000"
         }
       },
-      "idiom" : "iphone"
+      "idiom" : "universal"
     }
   ],
   "info" : {
