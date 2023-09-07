@@ -22,6 +22,7 @@ class LoginView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+
     
 //  MARK: - LAZY AREA
     
@@ -36,27 +37,30 @@ class LoginView: UIView {
     
     lazy var selectThemeLabel: CustomText = {
         let label = CustomText()
-            .setText("Selecione um Tema:")
-            .setTextAlignment(.center)
-            .setConstraints { build in
-                build
-                    .setTop.equalToSafeArea(35)
-                    .setLeading.setTrailing.equalToSafeArea(24)
-            }
+                .setText("Selecione um Tema:")
+                .setTextAlignment(.center)
+                .setConstraints { build in
+                    build
+                        .setTop.equalToSafeArea(35)
+                        .setLeading.setTrailing.equalToSafeArea(24)
+                }
         return label
     }()
     
-    lazy var pupUpSelectTheme: CustomText = {
-        let label = CustomText()
-            .setText("")
-            .setTextAlignment(.center)
+    
+    lazy var popUpSelectTheme: ButtonBuilder = {
+        let btn = ButtonBuilder("Ligth")
+            .setTitleSize(20)
             .setConstraints { build in
                 build
                     .setTop.equalTo(selectThemeLabel.get, .bottom, 15)
                     .setLeading.setTrailing.equalToSafeArea(24)
                     .setHeight.equalToConstant(40)
             }
-        return label
+        btn.get.setImage(UIImage(systemName: "chevron.up.chevron.down"), for: .normal)
+        btn.get.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 70)
+        btn.get.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -70)
+        return btn
     }()
     
     lazy var themeSelected: CustomText = {
@@ -65,7 +69,7 @@ class LoginView: UIView {
             .setTextAlignment(.center)
             .setConstraints { build in
                 build
-                    .setTop.equalTo(pupUpSelectTheme.get, .bottom, 15)
+                    .setTop.equalTo(popUpSelectTheme.get, .bottom, 15)
                     .setLeading.setTrailing.equalToSafeArea(24)
             }
         return label
@@ -171,12 +175,10 @@ class LoginView: UIView {
     private func addElements() {
         addSubview(backgroundView.get)
         addSubview(selectThemeLabel.get)
-        addSubview(pupUpSelectTheme.get)
+        addSubview(popUpSelectTheme.get)
         addSubview(themeSelected.get)
-        
         addSubview(customText.get)
         addSubview(localText.get)
-        
         addSubview(customButton.get)
         addSubview(customButtomPrimary.get)
         addSubview(buttomSecondary.get)
@@ -186,7 +188,7 @@ class LoginView: UIView {
     private func configConstraints() {
         backgroundView.applyConstraint()
         selectThemeLabel.applyConstraint()
-        pupUpSelectTheme.applyConstraint()
+        popUpSelectTheme.applyConstraint()
         themeSelected.applyConstraint()
         customText.applyConstraint()
         localText.applyConstraint()
