@@ -3,7 +3,7 @@
 
 import Foundation
 
-final public class Environment {
+public class Environment {
     
     private static let ENV = "ENV"
     
