@@ -25,7 +25,7 @@
 
 /* Begin PBXFileReference section */
 		0212ECA72AA10254001C1BCF /* ProfileSDK */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = ProfileSDK; path = SDK/ProfileSDK; sourceTree = "<group>"; };
-		0212ECAC2AA10867001C1BCF /* MainApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MainApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0212ECAC2AA10867001C1BCF /* Mentoria.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mentoria.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0212ECAE2AA10867001C1BCF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0212ECB02AA10867001C1BCF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		0212ECB72AA10868001C1BCF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -171,7 +171,7 @@
 			isa = PBXGroup;
 			children = (
 				02E2C39E2AA0FFD30040A2C8 /* MentoriaCodandoComMoa.framework */,
-				0212ECAC2AA10867001C1BCF /* MainApp.app */,
+				0212ECAC2AA10867001C1BCF /* Mentoria.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -189,9 +189,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		0212ECAB2AA10867001C1BCF /* MainApp */ = {
+		0212ECAB2AA10867001C1BCF /* Mentoria */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0212ECBF2AA10868001C1BCF /* Build configuration list for PBXNativeTarget "MainApp" */;
+			buildConfigurationList = 0212ECBF2AA10868001C1BCF /* Build configuration list for PBXNativeTarget "Mentoria" */;
 			buildPhases = (
 				0212ECA82AA10867001C1BCF /* Sources */,
 				0212ECA92AA10867001C1BCF /* Frameworks */,
@@ -201,13 +201,13 @@
 			);
 			dependencies = (
 			);
-			name = MainApp;
+			name = Mentoria;
 			packageProductDependencies = (
 				0234A6D32AA3C4AB00167636 /* HomeSDK */,
 				02F528DA2AAAA62100AC3119 /* ProfileSDK */,
 			);
 			productName = Main;
-			productReference = 0212ECAC2AA10867001C1BCF /* MainApp.app */;
+			productReference = 0212ECAC2AA10867001C1BCF /* Mentoria.app */;
 			productType = "com.apple.product-type.application";
 		};
 		02E2C39D2AA0FFD30040A2C8 /* MentoriaCodandoComMoa */ = {
@@ -260,7 +260,7 @@
 			projectRoot = "";
 			targets = (
 				02E2C39D2AA0FFD30040A2C8 /* MentoriaCodandoComMoa */,
-				0212ECAB2AA10867001C1BCF /* MainApp */,
+				0212ECAB2AA10867001C1BCF /* Mentoria */,
 			);
 		};
 /* End PBXProject section */
@@ -568,7 +568,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0212ECBF2AA10868001C1BCF /* Build configuration list for PBXNativeTarget "MainApp" */ = {
+		0212ECBF2AA10868001C1BCF /* Build configuration list for PBXNativeTarget "Mentoria" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0212ECBD2AA10868001C1BCF /* Debug */,

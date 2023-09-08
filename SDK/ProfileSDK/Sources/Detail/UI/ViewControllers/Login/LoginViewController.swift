@@ -29,6 +29,7 @@ public final class LoginViewController: UIViewController {
     
     public override func loadView() {
         self.view = self.login
+        overrideUserInterfaceStyle = .light
     }
     
     public override func viewDidLoad() {
@@ -65,9 +66,8 @@ public final class LoginViewController: UIViewController {
     private func createMenu() -> UIMenu {
         let menu = UIMenu(options: .displayInline , children: [
             UIAction(title: "Light", state: (themeId == 1) ? .on : .off, handler: optionClosure ),
-            UIAction(title: "Dark", state: (themeId == 2) ? .on : .off, handler: optionClosure ),
+            UIAction(title: "Dark" , state: (themeId == 2) ? .on : .off, handler: optionClosure ),
         ])
-        
         return menu
     }
     
