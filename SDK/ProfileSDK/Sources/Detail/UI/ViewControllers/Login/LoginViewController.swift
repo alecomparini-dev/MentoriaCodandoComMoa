@@ -9,6 +9,7 @@ import UIKit
 import CustomComponentsSDK
 import DSMMain
 
+
 public protocol LoginViewControllerCoordinator: AnyObject {
     func gotoHome()
 }
@@ -55,10 +56,8 @@ public final class LoginViewController: UIViewController {
 //  MARK: - CHANGE THEME AREA
     private func optionClosure(_ action: UIAction) {
         themeId = 1
-        overrideUserInterfaceStyle = .light
         if action.title == "Dark" {
             themeId = 2
-            overrideUserInterfaceStyle = .dark
         }
         startDesignerSystem()
     }
@@ -79,6 +78,9 @@ public final class LoginViewController: UIViewController {
         if themeId == 2 {
             login.popUpSelectTheme.setTitle(" Dark")
             login.themeSelected.setText("Voce selecionou: Dark")
+            overrideUserInterfaceStyle = .dark
+        } else {
+            overrideUserInterfaceStyle = .light
         }
         
     }
@@ -97,6 +99,7 @@ public final class LoginViewController: UIViewController {
     
     private func makeDSMMain() -> DSMMain {
         let uIdFirebase = "CodandoComMoa"
+//        let uIdFirebase = Environment.variable
         let baseURL = "http://mentoria.codandocommoa.com.br"
         let path = "/Api/ThemeComponent/GetListaThemeComponent"
         let url = URL(string: "\(baseURL)\(path)")!

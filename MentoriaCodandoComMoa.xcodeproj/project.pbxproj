@@ -12,7 +12,6 @@
 		0212ECB82AA10868001C1BCF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0212ECB72AA10868001C1BCF /* Assets.xcassets */; };
 		0212ECBB2AA10868001C1BCF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0212ECB92AA10868001C1BCF /* LaunchScreen.storyboard */; };
 		0234A6D42AA3C4AB00167636 /* HomeSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 0234A6D32AA3C4AB00167636 /* HomeSDK */; };
-		0234A6D62AA3C4AB00167636 /* ProfileSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 0234A6D52AA3C4AB00167636 /* ProfileSDK */; };
 		026682D02AA7D62600EE70EC /* ViewControllerCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026682CE2AA7D62600EE70EC /* ViewControllerCoordinator.swift */; };
 		026682D12AA7D62600EE70EC /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026682CF2AA7D62600EE70EC /* Coordinator.swift */; };
 		026682D42AA7D69D00EE70EC /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026682D32AA7D69D00EE70EC /* NavigationController.swift */; };
@@ -21,11 +20,12 @@
 		028B28A12AA75EAE008E4A7E /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 028B28A02AA75EAE008E4A7E /* Environment.swift */; };
 		028B28A42AA75F8C008E4A7E /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 028B28A32AA75F8C008E4A7E /* Release.xcconfig */; };
 		028B28BC2AA76EEC008E4A7E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 028B28BB2AA76EEC008E4A7E /* Constants.swift */; };
+		02F528DB2AAAA62100AC3119 /* ProfileSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 02F528DA2AAAA62100AC3119 /* ProfileSDK */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0212ECA72AA10254001C1BCF /* ProfileSDK */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = ProfileSDK; path = SDK/ProfileSDK; sourceTree = "<group>"; };
-		0212ECAC2AA10867001C1BCF /* Main.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Main.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0212ECAC2AA10867001C1BCF /* MainApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MainApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0212ECAE2AA10867001C1BCF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0212ECB02AA10867001C1BCF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		0212ECB72AA10868001C1BCF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -50,7 +50,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0234A6D42AA3C4AB00167636 /* HomeSDK in Frameworks */,
-				0234A6D62AA3C4AB00167636 /* ProfileSDK in Frameworks */,
+				02F528DB2AAAA62100AC3119 /* ProfileSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -171,7 +171,7 @@
 			isa = PBXGroup;
 			children = (
 				02E2C39E2AA0FFD30040A2C8 /* MentoriaCodandoComMoa.framework */,
-				0212ECAC2AA10867001C1BCF /* Main.app */,
+				0212ECAC2AA10867001C1BCF /* MainApp.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -189,9 +189,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		0212ECAB2AA10867001C1BCF /* Main */ = {
+		0212ECAB2AA10867001C1BCF /* MainApp */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0212ECBF2AA10868001C1BCF /* Build configuration list for PBXNativeTarget "Main" */;
+			buildConfigurationList = 0212ECBF2AA10868001C1BCF /* Build configuration list for PBXNativeTarget "MainApp" */;
 			buildPhases = (
 				0212ECA82AA10867001C1BCF /* Sources */,
 				0212ECA92AA10867001C1BCF /* Frameworks */,
@@ -201,13 +201,13 @@
 			);
 			dependencies = (
 			);
-			name = Main;
+			name = MainApp;
 			packageProductDependencies = (
 				0234A6D32AA3C4AB00167636 /* HomeSDK */,
-				0234A6D52AA3C4AB00167636 /* ProfileSDK */,
+				02F528DA2AAAA62100AC3119 /* ProfileSDK */,
 			);
 			productName = Main;
-			productReference = 0212ECAC2AA10867001C1BCF /* Main.app */;
+			productReference = 0212ECAC2AA10867001C1BCF /* MainApp.app */;
 			productType = "com.apple.product-type.application";
 		};
 		02E2C39D2AA0FFD30040A2C8 /* MentoriaCodandoComMoa */ = {
@@ -260,7 +260,7 @@
 			projectRoot = "";
 			targets = (
 				02E2C39D2AA0FFD30040A2C8 /* MentoriaCodandoComMoa */,
-				0212ECAB2AA10867001C1BCF /* Main */,
+				0212ECAB2AA10867001C1BCF /* MainApp */,
 			);
 		};
 /* End PBXProject section */
@@ -568,7 +568,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0212ECBF2AA10868001C1BCF /* Build configuration list for PBXNativeTarget "Main" */ = {
+		0212ECBF2AA10868001C1BCF /* Build configuration list for PBXNativeTarget "MainApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0212ECBD2AA10868001C1BCF /* Debug */,
@@ -602,7 +602,7 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = HomeSDK;
 		};
-		0234A6D52AA3C4AB00167636 /* ProfileSDK */ = {
+		02F528DA2AAAA62100AC3119 /* ProfileSDK */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ProfileSDK;
 		};
