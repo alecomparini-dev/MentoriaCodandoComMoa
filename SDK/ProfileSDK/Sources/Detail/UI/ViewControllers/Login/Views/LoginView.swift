@@ -35,8 +35,8 @@ class LoginView: UIView {
         return comp
     }()
     
-    lazy var entradaCustomText: CustomText = {
-        let comp = CustomText()
+    lazy var entradaCustomText: CustomTextTitle = {
+        let comp = CustomTextTitle()
             .setText("Entrada")
             .setTextAlignment(.center)
             .setConstraints { build in
@@ -118,11 +118,9 @@ class LoginView: UIView {
     }()
 
     
-    lazy var rememberText: CustomText = {
-        let label = CustomText()
+    lazy var rememberText: CustomTextSecondary = {
+        let label = CustomTextSecondary()
             .setText("Lembrar")
-            .setTextAlignment(.center)
-            .setSize(14)
             .setConstraints { build in
                 build
                     .setLeading.equalTo(rememberSwitch.get, .trailing, 8)
@@ -151,7 +149,7 @@ class LoginView: UIView {
         let comp = CustomButtonSecondary("Cadastra-se")
             .setConstraints { build in
                 build
-                    .setTop.equalTo(signInButtom.get, .bottom, 8)
+                    .setTop.equalTo(signInButtom.get, .bottom, 16)
                     .setLeading.setTrailing.setHeight.equalTo(signInButtom.get)
             }
         return comp
