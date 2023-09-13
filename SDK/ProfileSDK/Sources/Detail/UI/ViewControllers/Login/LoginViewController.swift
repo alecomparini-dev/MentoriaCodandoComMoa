@@ -27,7 +27,6 @@ public final class LoginViewController: UIViewController {
     
     public override func loadView() {
         self.view = self.screen
-        overrideUserInterfaceStyle = .light
     }
     
     public override func viewDidLoad() {
@@ -38,6 +37,7 @@ public final class LoginViewController: UIViewController {
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }
+    
     
 //  MARK: - PRIVATE AREA
     private func configure() {
