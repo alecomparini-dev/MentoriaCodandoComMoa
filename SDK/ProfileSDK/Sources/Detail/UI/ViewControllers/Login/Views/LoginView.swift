@@ -106,9 +106,8 @@ class LoginView: UIView {
         return comp
     }()
     
-    lazy var rememberSwitch: SwitchBuilder = {
-        let comp = SwitchBuilder()
-            .setIsOn(false)
+    lazy var rememberSwitch: CustomSwitchSecondary = {
+        let comp = CustomSwitchSecondary()
             .setConstraints { build in
                 build
                     .setTop.equalTo(passwordTextField.get, .bottom, 24)
@@ -117,7 +116,6 @@ class LoginView: UIView {
         return comp
     }()
 
-    
     lazy var rememberText: CustomTextSecondary = {
         let label = CustomTextSecondary()
             .setText("Lembrar")
@@ -128,7 +126,6 @@ class LoginView: UIView {
             }
         return label
     }()
-    
     
     lazy var signInButtom: CustomButtonPrimary = {
         let comp = CustomButtonPrimary("Entrar")
