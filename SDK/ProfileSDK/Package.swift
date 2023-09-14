@@ -11,7 +11,7 @@ let package = Package(
     ],
     
     products: [
-        .library(name: "ProfileSDK", targets: ["ProfilePresenters", "ProfileUseCaseGateway", "ProfileUI" ])
+        .library(name: "ProfileSDK", targets: [ "ProfilePresenters", "ProfileUseCaseGateway", "ProfileUI" ] )
     ],
     
     dependencies: [
@@ -22,17 +22,26 @@ let package = Package(
 
     targets: [
 
+
+//MARK: - INTERFACE ADAPTER LAYER
+        .target(
+            name: "ProfileUseCases",
+            dependencies: [],
+            path: "Sources/2Application/UseCases"
+        ),
+
         
 //MARK: - INTERFACE ADAPTER LAYER
         .target(
             name: "ProfilePresenters",
-            dependencies: [],
+            dependencies: ["ProfileUseCases"],
             path: "Sources/3InterfaceAdapter/Presenters"
         ),
         
         .target(
             name: "ProfileUseCaseGateway",
             dependencies: [
+                "ProfileUseCases",
                 .product(name: "NetworkSDK" , package: "NetworkSDK")
             ],
             path: "Sources/3InterfaceAdapter/UseCaseGateway"
@@ -49,6 +58,12 @@ let package = Package(
                 .product(name: "DSMMain" , package: "DesignerSystemSDK")
             ],
             path: "Sources/Detail/UI"
+        ),
+        
+        .target(
+            name: "ProfileAuthentication",
+            dependencies: [ "ProfileUseCaseGateway" ],
+            path: "Sources/Detail/Authentication"
         ),
 
         
