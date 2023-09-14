@@ -8,6 +8,7 @@ import CustomComponentsSDK
 
 protocol SignUpViewDelegate: AnyObject {
     func backButtonTapped()
+    func signUpButtonTapped()
 }
 
 class SignUpView: UIView {
@@ -166,6 +167,21 @@ class SignUpView: UIView {
         return comp
     }()
     
+    lazy var signUpButtom: CustomButtonSecondary = {
+        let comp = CustomButtonSecondary("Cadastrar")
+            .setConstraints { build in
+                build
+                    .setTop.equalTo(confirmationPasswordTextField.get, .bottom, 48)
+                    .setLeading.setTrailing.equalToSafeArea(44)
+                    .setHeight.equalToConstant(48)
+            }
+        comp.get.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
+        return comp
+    }()
+    @objc private func signUpButtonTapped() {
+        delegate?.signUpButtonTapped()
+    }
+    
     
     
 //  MARK: - PRIVATE AREA
@@ -185,6 +201,7 @@ class SignUpView: UIView {
         passwordTextField.add(insideTo: self)
         confirmationPasswordText.add(insideTo: self)
         confirmationPasswordTextField.add(insideTo: self)
+        signUpButtom.add(insideTo: self)
     }
     
     private func configConstraints() {
@@ -197,6 +214,7 @@ class SignUpView: UIView {
         passwordTextField.applyConstraint()
         confirmationPasswordText.applyConstraint()
         confirmationPasswordTextField.applyConstraint()
+        signUpButtom.applyConstraint()
     }
     
     

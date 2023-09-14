@@ -31,12 +31,16 @@ class SignUpCoordinator: Coordinator {
 
 //  MARK: - EXTENSION LoginViewControllerCoordinator
 extension SignUpCoordinator: SignUpViewControllerCoordinator {
-
     func gotoLogin() {
         let coordinator = LoginCoordinator(navigationController)
         coordinator.start()
         childCoordinator = nil
     }
-    
+
+    func gotoHome() {
+        let coordinator = HomeCoordinator(navigationController)
+        coordinator.start()
+        childCoordinator = nil
+    }
     
 }
