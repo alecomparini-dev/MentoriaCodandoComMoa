@@ -64,73 +64,26 @@ class SignUpView: UIView {
         delegate?.backButtonTapped()
     }
     
-    lazy var emailCustomText: CustomText = {
-        let comp = CustomText()
-            .setText("Email:")
+    
+    lazy var emailLoginView: EmailLoginTextFieldView = {
+        let comp = EmailLoginTextFieldView()
             .setConstraints { build in
                 build
                     .setTop.equalTo(siginUpCustomTextTitle.get, .bottom, 56)
                     .setLeading.setTrailing.equalTo(siginUpCustomTextTitle.get)
+                    .setHeight.equalToConstant(80)
             }
         return comp
     }()
     
-    lazy var emailTextField: TextFieldImageBuilder = {
-        let personImg = ImageViewBuilder(systemName: "person")
-        let comp = TextFieldImageBuilder("Digite seu e-mail")
-            .setBackgroundColor(hexColor: "#ffffff")
-            .setImage(personImg, .right, 8)
-            .setPadding(8)
-            .setKeyboard({ build in
-                build
-                    .setKeyboardType(.emailAddress)
-                    .setReturnKeyType(.continue) { [weak self] textField in
-                        self?.passwordTextField.setFocus()
-                    }
-            })
-            .setBorder({ build in
-                build
-                    .setCornerRadius(8)
-            })
-            .setConstraints { build in
-                build
-                    .setTop.equalTo(emailCustomText.get, .bottom, 16)
-                    .setLeading.setTrailing.equalTo(siginUpCustomTextTitle.get)
-                    .setHeight.equalToConstant(48)
-            }
-        return comp
-    }()
 
-    lazy var passwordText: CustomText = {
-        let label = CustomText()
-            .setText("Senha")
+    lazy var passwordLoginView: PasswordLoginTextFieldView = {
+        let comp = PasswordLoginTextFieldView()
             .setConstraints { build in
                 build
-                    .setTop.equalTo(emailTextField.get, .bottom, 24)
-                    .setLeading.setTrailing.equalTo(emailCustomText.get)
-            }
-        return label
-    }()
-    
-    lazy var passwordTextField: TextFieldPasswordBuilder = {
-        let comp = TextFieldPasswordBuilder(paddingRightImage: 8)
-            .setBackgroundColor(hexColor: "#ffffff")
-            .setPadding(8)
-            .setPlaceHolder("Digite sua senha")
-            .setKeyboard({ buid in
-                buid
-                    .setKeyboardType(.default)
-                    .setReturnKeyType(.continue)
-            })
-            .setBorder({ build in
-                build
-                    .setCornerRadius(8)
-            })
-            .setConstraints { build in
-                build
-                    .setTop.equalTo(passwordText.get, .bottom, 16)
-                    .setLeading.setTrailing.equalTo(emailTextField.get)
-                    .setHeight.equalToConstant(48)
+                    .setTop.equalTo(emailLoginView.get, .bottom, 24)
+                    .setLeading.setTrailing.equalTo(emailLoginView.get)
+                    .setHeight.equalToConstant(80)
             }
         return comp
     }()
@@ -140,8 +93,8 @@ class SignUpView: UIView {
             .setText("Confirmação Senha")
             .setConstraints { build in
                 build
-                    .setTop.equalTo(passwordTextField.get, .bottom, 24)
-                    .setLeading.setTrailing.equalTo(emailCustomText.get)
+                    .setTop.equalTo(passwordLoginView.get, .bottom, 24)
+                    .setLeading.setTrailing.equalTo(passwordLoginView.get)
             }
         return label
     }()
@@ -162,7 +115,7 @@ class SignUpView: UIView {
             .setConstraints { build in
                 build
                     .setTop.equalTo(confirmationPasswordText.get, .bottom, 16)
-                    .setLeading.setTrailing.equalTo(passwordTextField.get)
+                    .setLeading.setTrailing.equalTo(passwordLoginView.get)
                     .setHeight.equalToConstant(48)
             }
         return comp
@@ -196,10 +149,8 @@ class SignUpView: UIView {
         backgroundView.add(insideTo: self)
         siginUpCustomTextTitle.add(insideTo: self)
         backButton.add(insideTo: self)
-        emailCustomText.add(insideTo: self)
-        emailTextField.add(insideTo: self)
-        passwordText.add(insideTo: self)
-        passwordTextField.add(insideTo: self)
+        emailLoginView.add(insideTo: self)
+        passwordLoginView.add(insideTo: self)
         confirmationPasswordText.add(insideTo: self)
         confirmationPasswordTextField.add(insideTo: self)
         signUpButtom.add(insideTo: self)
@@ -209,10 +160,8 @@ class SignUpView: UIView {
         backgroundView.applyConstraint()
         siginUpCustomTextTitle.applyConstraint()
         backButton.applyConstraint()
-        emailCustomText.applyConstraint()
-        emailTextField.applyConstraint()
-        passwordText.applyConstraint()
-        passwordTextField.applyConstraint()
+        emailLoginView.applyConstraint()
+        passwordLoginView.applyConstraint()
         confirmationPasswordText.applyConstraint()
         confirmationPasswordTextField.applyConstraint()
         signUpButtom.applyConstraint()

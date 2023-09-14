@@ -23,7 +23,6 @@ class LoginView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-
     
 //  MARK: - LAZY AREA
     
@@ -48,71 +47,24 @@ class LoginView: UIView {
         return comp
     }()
     
-    lazy var emailCustomText: CustomText = {
-        let comp = CustomText()
-            .setText("Email:")
+    lazy var emailLoginView: EmailLoginTextFieldView = {
+        let comp = EmailLoginTextFieldView()
             .setConstraints { build in
                 build
                     .setTop.equalTo(signInCustomTextTitle.get, .bottom, 56)
                     .setLeading.setTrailing.equalTo(signInCustomTextTitle.get)
+                    .setHeight.equalToConstant(80)
             }
         return comp
     }()
     
-    lazy var emailTextField: TextFieldImageBuilder = {
-        let personImg = ImageViewBuilder(systemName: "person")
-        let comp = TextFieldImageBuilder("Digite seu e-mail")
-            .setBackgroundColor(hexColor: "#ffffff")
-            .setImage(personImg, .right, 8)
-            .setPadding(8)
-            .setKeyboard({ build in
-                build
-                    .setKeyboardType(.emailAddress)
-                    .setReturnKeyType(.continue)
-            })
-            .setBorder({ build in
-                build
-                    .setCornerRadius(8)
-            })
+    lazy var passwordLoginView: PasswordLoginTextFieldView = {
+        let comp = PasswordLoginTextFieldView()
             .setConstraints { build in
                 build
-                    .setTop.equalTo(emailCustomText.get, .bottom, 16)
-                    .setLeading.setTrailing.equalTo(signInCustomTextTitle.get)
-                    .setHeight.equalToConstant(48)
-            }
-        return comp
-    }()
-
-    lazy var passwordText: CustomText = {
-        let label = CustomText()
-            .setText("Senha")
-            .setConstraints { build in
-                build
-                    .setTop.equalTo(emailTextField.get, .bottom, 24)
-                    .setLeading.setTrailing.equalTo(emailCustomText.get)
-            }
-        return label
-    }()
-    
-    lazy var passwordTextField: TextFieldPasswordBuilder = {
-        let comp = TextFieldPasswordBuilder(paddingRightImage: 8)
-            .setBackgroundColor(hexColor: "#ffffff")
-            .setPadding(8)
-            .setPlaceHolder("Digite sua senha")
-            .setKeyboard({ buid in
-                buid
-                    .setKeyboardType(.default)
-                    .setReturnKeyType(.done)
-            })
-            .setBorder({ build in
-                build
-                    .setCornerRadius(8)
-            })
-            .setConstraints { build in
-                build
-                    .setTop.equalTo(passwordText.get, .bottom, 16)
-                    .setLeading.setTrailing.equalTo(emailTextField.get)
-                    .setHeight.equalToConstant(48)
+                    .setTop.equalTo(emailLoginView.get, .bottom, 24)
+                    .setLeading.setTrailing.equalTo(emailLoginView.get)
+                    .setHeight.equalToConstant(80)
             }
         return comp
     }()
@@ -121,8 +73,8 @@ class LoginView: UIView {
         let comp = CustomSwitchSecondary()
             .setConstraints { build in
                 build
-                    .setTop.equalTo(passwordTextField.get, .bottom, 24)
-                    .setLeading.equalTo(passwordTextField.get, .leading)
+                    .setTop.equalTo(passwordLoginView.get, .bottom, 24)
+                    .setLeading.equalTo(passwordLoginView.get, .leading)
             }
         return comp
     }()
@@ -177,10 +129,8 @@ class LoginView: UIView {
     private func addElements() {
         backgroundView.add(insideTo: self)
         signInCustomTextTitle.add(insideTo: self)
-        emailCustomText.add(insideTo: self)
-        emailTextField.add(insideTo: self)
-        passwordText.add(insideTo: self)
-        passwordTextField.add(insideTo: self)
+        emailLoginView.add(insideTo: self)
+        passwordLoginView.add(insideTo: self)
         rememberSwitch.add(insideTo: self)
         rememberText.add(insideTo: self)
         signInButtom.add(insideTo: self)
@@ -190,10 +140,8 @@ class LoginView: UIView {
     private func configConstraints() {
         backgroundView.applyConstraint()
         signInCustomTextTitle.applyConstraint()
-        emailCustomText.applyConstraint()
-        emailTextField.applyConstraint()
-        passwordText.applyConstraint()
-        passwordTextField.applyConstraint()
+        emailLoginView.applyConstraint()
+        passwordLoginView.applyConstraint()
         rememberSwitch.applyConstraint()
         rememberText.applyConstraint()
         signInButtom.applyConstraint()
