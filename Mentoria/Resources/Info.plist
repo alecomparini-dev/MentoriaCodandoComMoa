@@ -4,10 +4,10 @@
 <dict>
 	<key>ENV</key>
 	<dict>
-		<key>DEFAULT_THEME</key>
-		<string>${DEFAULT_THEME}</string>
 		<key>API_BASE_URL</key>
 		<string>${API_BASE_URL}</string>
+		<key>DEFAULT_THEME</key>
+		<string>${DEFAULT_THEME}</string>
 		<key>UID_FIREBASE</key>
 		<string>${UID_FIREBASE}</string>
 	</dict>
