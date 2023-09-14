@@ -36,8 +36,6 @@ class PasswordLoginTextFieldView: ViewBuilder {
     lazy var passwordTextField: TextFieldPasswordBuilder = {
         let comp = TextFieldPasswordBuilder(paddingRightImage: 8)
             .setBackgroundColor(hexColor: "#ffffff")
-            .setTextColor(color: .black)
-            .setPlaceHolderColor(color: UIColor.systemGray)
             .setPadding(8)
             .setPlaceHolder("Digite sua senha")
             .setKeyboard({ buid in

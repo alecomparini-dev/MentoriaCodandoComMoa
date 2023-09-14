@@ -36,10 +36,8 @@ class EmailLoginTextFieldView: ViewBuilder {
     lazy var emailTextField: TextFieldImageBuilder = {
         let personImg = ImageViewBuilder(systemName: "person")
         let comp = TextFieldImageBuilder("Digite seu e-mail")
-            .setBackgroundColor(hexColor: "#ffffff")
-            .setTextColor(color: .black)
-            .setPlaceHolderColor(color: UIColor.systemGray)
             .setImage(personImg, .right, 8)
+            .setBackgroundColor(hexColor: "#ffffff")
             .setPadding(8)
             .setKeyboard({ build in
                 build

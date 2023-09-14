@@ -50,6 +50,7 @@ class SignUpView: UIView {
         let img = ImageViewBuilder(systemName: "chevron.backward")
         let btn = ButtonImageBuilder()
             .setImageButton(img)
+            .setImageWeight(.bold)
             .setImageColor(hexColor: "#ffffff")
             .setConstraints { build in
                 build
