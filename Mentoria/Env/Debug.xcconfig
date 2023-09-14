@@ -9,4 +9,4 @@
 //MY ENVIRONMENT VARIABLES
 API_BASE_URL = http:/$()/mentoria.codandocommoa.com.br
 UID_FIREBASE = MentoriaAlessandro
-DEFAULT_THEME = 1
+DEFAULT_THEME = 3

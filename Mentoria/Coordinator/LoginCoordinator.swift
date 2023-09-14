@@ -15,7 +15,7 @@ class LoginCoordinator: Coordinator {
     
     func start() {
         childCoordinator = self
-        var controller = LoginViewController()
+        var controller = LoginViewControllerFactory.make()
         controller = navigationController.pushViewController(controller)
         controller.coordinator = self
     }

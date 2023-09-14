@@ -20,6 +20,8 @@
 		028B28A12AA75EAE008E4A7E /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 028B28A02AA75EAE008E4A7E /* Environment.swift */; };
 		028B28A42AA75F8C008E4A7E /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 028B28A32AA75F8C008E4A7E /* Release.xcconfig */; };
 		028B28BC2AA76EEC008E4A7E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 028B28BB2AA76EEC008E4A7E /* Constants.swift */; };
+		02995B4B2AB34BBA00615FDC /* LoginViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02995B4A2AB34BBA00615FDC /* LoginViewControllerFactory.swift */; };
+		02995B502AB352CC00615FDC /* EmailValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02995B4F2AB352CC00615FDC /* EmailValidator.swift */; };
 		02F528DB2AAAA62100AC3119 /* ProfileSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 02F528DA2AAAA62100AC3119 /* ProfileSDK */; };
 /* End PBXBuildFile section */
 
@@ -41,6 +43,8 @@
 		028B28A22AA75F52008E4A7E /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		028B28A32AA75F8C008E4A7E /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		028B28BB2AA76EEC008E4A7E /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		02995B4A2AB34BBA00615FDC /* LoginViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewControllerFactory.swift; sourceTree = "<group>"; };
+		02995B4F2AB352CC00615FDC /* EmailValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailValidator.swift; sourceTree = "<group>"; };
 		02E2C39E2AA0FFD30040A2C8 /* MentoriaCodandoComMoa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MentoriaCodandoComMoa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -64,6 +68,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		020924742AB33927008F8DC8 /* Validators */ = {
+			isa = PBXGroup;
+			children = (
+				02995B4E2AB352BA00615FDC /* EmailValidator */,
+			);
+			path = Validators;
+			sourceTree = "<group>";
+		};
 		0212ECA62AA10254001C1BCF /* Packages */ = {
 			isa = PBXGroup;
 			children = (
@@ -73,15 +85,17 @@
 			name = Packages;
 			sourceTree = "<group>";
 		};
-		0212ECAD2AA10867001C1BCF /* Main */ = {
+		0212ECAD2AA10867001C1BCF /* Mentoria */ = {
 			isa = PBXGroup;
 			children = (
+				02995B4C2AB34BCB00615FDC /* Factories */,
+				020924742AB33927008F8DC8 /* Validators */,
 				026682CC2AA7D5E900EE70EC /* Coordinator */,
 				028B28B92AA76ECF008E4A7E /* Handler */,
 				028B289F2AA75E9D008E4A7E /* Env */,
 				0212ECD42AA10CE7001C1BCF /* Resources */,
 			);
-			path = Main;
+			path = Mentoria;
 			sourceTree = "<group>";
 		};
 		0212ECC02AA1087D001C1BCF /* Frameworks */ = {
@@ -157,11 +171,35 @@
 			path = Constants;
 			sourceTree = "<group>";
 		};
+		02995B4C2AB34BCB00615FDC /* Factories */ = {
+			isa = PBXGroup;
+			children = (
+				02995B4D2AB34C1300615FDC /* ViewControllerFactories */,
+			);
+			path = Factories;
+			sourceTree = "<group>";
+		};
+		02995B4D2AB34C1300615FDC /* ViewControllerFactories */ = {
+			isa = PBXGroup;
+			children = (
+				02995B4A2AB34BBA00615FDC /* LoginViewControllerFactory.swift */,
+			);
+			path = ViewControllerFactories;
+			sourceTree = "<group>";
+		};
+		02995B4E2AB352BA00615FDC /* EmailValidator */ = {
+			isa = PBXGroup;
+			children = (
+				02995B4F2AB352CC00615FDC /* EmailValidator.swift */,
+			);
+			path = EmailValidator;
+			sourceTree = "<group>";
+		};
 		02E2C3942AA0FFD30040A2C8 = {
 			isa = PBXGroup;
 			children = (
 				0212ECA62AA10254001C1BCF /* Packages */,
-				0212ECAD2AA10867001C1BCF /* Main */,
+				0212ECAD2AA10867001C1BCF /* Mentoria */,
 				02E2C39F2AA0FFD30040A2C8 /* Products */,
 				0212ECC02AA1087D001C1BCF /* Frameworks */,
 			);
@@ -243,6 +281,7 @@
 					};
 					02E2C39D2AA0FFD30040A2C8 = {
 						CreatedOnToolsVersion = 14.3.1;
+						LastSwiftMigration = 1430;
 					};
 				};
 			};
@@ -295,9 +334,11 @@
 				026682D12AA7D62600EE70EC /* Coordinator.swift in Sources */,
 				026682D62AA7D75F00EE70EC /* LoginCoordinator.swift in Sources */,
 				028B28A12AA75EAE008E4A7E /* Environment.swift in Sources */,
+				02995B4B2AB34BBA00615FDC /* LoginViewControllerFactory.swift in Sources */,
 				020924732AB3228D008F8DC8 /* SignUpCoordinator.swift in Sources */,
 				0212ECB12AA10867001C1BCF /* SceneDelegate.swift in Sources */,
 				026682D42AA7D69D00EE70EC /* NavigationController.swift in Sources */,
+				02995B502AB352CC00615FDC /* EmailValidator.swift in Sources */,
 				028B28BC2AA76EEC008E4A7E /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -333,7 +374,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 2HCBZJR5K3;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Main/Resources/Info.plist;
+				INFOPLIST_FILE = Mentoria/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
@@ -363,7 +404,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 2HCBZJR5K3;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Main/Resources/Info.plist;
+				INFOPLIST_FILE = Mentoria/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
@@ -506,6 +547,7 @@
 		02E2C3A62AA0FFD30040A2C8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -530,6 +572,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -537,6 +580,7 @@
 		02E2C3A72AA0FFD30040A2C8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
