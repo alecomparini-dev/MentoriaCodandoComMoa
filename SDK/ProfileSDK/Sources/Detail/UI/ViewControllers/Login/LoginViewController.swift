@@ -55,7 +55,7 @@ public final class LoginViewController: UIViewController {
 //  MARK: - EXTENSION - LoginViewDelegate
 extension LoginViewController: LoginViewDelegate {
     
-    func buttonTapped() {
+    func signUpTapped() {
         coordinator?.gotoHome()
     }
     
