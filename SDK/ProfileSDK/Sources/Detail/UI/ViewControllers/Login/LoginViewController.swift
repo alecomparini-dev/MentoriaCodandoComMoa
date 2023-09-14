@@ -8,6 +8,7 @@
 import UIKit
 import CustomComponentsSDK
 import DSMMain
+import ProfilePresenters
 
 
 public protocol LoginViewControllerCoordinator: AnyObject {
@@ -17,6 +18,17 @@ public protocol LoginViewControllerCoordinator: AnyObject {
 
 public final class LoginViewController: UIViewController {
     public weak var coordinator: LoginViewControllerCoordinator?
+    
+    private let loginPresenter: LoginPresenter
+    
+    public init(loginPresenter: LoginPresenter) {
+        self.loginPresenter = loginPresenter
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     lazy var screen: LoginView = {
         let view = LoginView()
