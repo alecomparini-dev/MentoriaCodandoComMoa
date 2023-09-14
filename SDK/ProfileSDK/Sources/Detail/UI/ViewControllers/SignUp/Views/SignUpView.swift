@@ -84,8 +84,8 @@ class SignUpView: UIView {
             .setKeyboard({ build in
                 build
                     .setKeyboardType(.emailAddress)
-                    .setDoneButton { textField in
-                        print("OK")
+                    .setReturnKeyType(.continue) { [weak self] textField in
+                        self?.passwordTextField.setFocus()
                     }
             })
             .setBorder({ build in
@@ -120,6 +120,7 @@ class SignUpView: UIView {
             .setKeyboard({ buid in
                 buid
                     .setKeyboardType(.default)
+                    .setReturnKeyType(.continue)
             })
             .setBorder({ build in
                 build
