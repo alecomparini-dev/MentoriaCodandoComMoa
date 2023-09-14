@@ -12,6 +12,7 @@ import DSMMain
 
 public protocol LoginViewControllerCoordinator: AnyObject {
     func gotoHome()
+    func gotoLogin()
 }
 
 public final class LoginViewController: UIViewController {
@@ -55,8 +56,12 @@ public final class LoginViewController: UIViewController {
 //  MARK: - EXTENSION - LoginViewDelegate
 extension LoginViewController: LoginViewDelegate {
     
-    func signUpTapped() {
+    func signInTapped() {
         coordinator?.gotoHome()
+    }
+    
+    func signUpTapped() {
+        coordinator?.gotoLogin()
     }
     
 }

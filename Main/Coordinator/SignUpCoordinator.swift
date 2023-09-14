@@ -1,10 +1,16 @@
-//  Created by Alessandro Comparini on 05/09/23.
 //
+//  SignUpCoordinator.swift
+//  Mentoria
+//
+//  Created by Alessandro Comparini on 14/09/23.
+//
+
+import Foundation
 
 import Foundation
 import ProfileUI
 
-class LoginCoordinator: Coordinator {
+class SignUpCoordinator: Coordinator {
     var childCoordinator: Coordinator?
     
     unowned let navigationController: NavigationController
@@ -15,7 +21,7 @@ class LoginCoordinator: Coordinator {
     
     func start() {
         childCoordinator = self
-        var controller = LoginViewController()
+        var controller = SignUpViewController()
         controller = navigationController.pushViewController(controller)
         controller.coordinator = self
     }
@@ -24,17 +30,13 @@ class LoginCoordinator: Coordinator {
 
 
 //  MARK: - EXTENSION LoginViewControllerCoordinator
-extension LoginCoordinator: LoginViewControllerCoordinator {
+extension SignUpCoordinator: SignUpViewControllerCoordinator {
+
     func gotoLogin() {
-        let coordinator = SignUpCoordinator(navigationController)
+        let coordinator = LoginCoordinator(navigationController)
         coordinator.start()
         childCoordinator = nil
     }
     
-    func gotoHome() {
-        let coordinator = HomeCoordinator(navigationController)
-        coordinator.start()
-        childCoordinator = nil
-    }
     
 }

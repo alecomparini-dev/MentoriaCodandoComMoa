@@ -1,3 +1,4 @@
+
 //  Created by Alessandro Comparini on 30/08/23.
 //
 
@@ -5,14 +6,12 @@ import UIKit
 import DSMComponent
 import CustomComponentsSDK
 
-
-protocol LoginViewDelegate: AnyObject {
-    func signUpTapped()
-    func signInTapped()
+protocol SignUpViewDelegate: AnyObject {
+    func backButtonTapped()
 }
 
-class LoginView: UIView {
-    weak var delegate: LoginViewDelegate?
+class SignUpView: UIView {
+    weak var delegate: SignUpViewDelegate?
     
     init() {
         super.init(frame: .zero)
@@ -23,10 +22,8 @@ class LoginView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-
     
 //  MARK: - LAZY AREA
-    
     lazy var backgroundView: CustomView = {
         let comp = CustomView()
             .setConstraints { build in
@@ -35,10 +32,10 @@ class LoginView: UIView {
             }
         return comp
     }()
-    
-    lazy var signInCustomTextTitle: CustomTextTitle = {
+
+    lazy var siginUpCustomTextTitle: CustomTextTitle = {
         let comp = CustomTextTitle()
-            .setText("Entrada")
+            .setText("Cadastro")
             .setTextAlignment(.center)
             .setConstraints { build in
                 build
@@ -48,13 +45,31 @@ class LoginView: UIView {
         return comp
     }()
     
+    lazy var backButton: ButtonImageBuilder = {
+        let img = ImageViewBuilder(systemName: "chevron.backward")
+        let btn = ButtonImageBuilder()
+            .setImageButton(img)
+            .setImageColor(hexColor: "#ffffff")
+            .setConstraints { build in
+                build
+                    .setLeading.equalToSafeArea(16)
+                    .setVerticalAlignmentY.equalTo(siginUpCustomTextTitle.get)
+                    .setHeight.setWidth.equalToConstant(40)
+            }
+        btn.get.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        return btn
+    }()
+    @objc private func backButtonTapped() {
+        delegate?.backButtonTapped()
+    }
+    
     lazy var emailCustomText: CustomText = {
         let comp = CustomText()
             .setText("Email:")
             .setConstraints { build in
                 build
-                    .setTop.equalTo(signInCustomTextTitle.get, .bottom, 56)
-                    .setLeading.setTrailing.equalTo(signInCustomTextTitle.get)
+                    .setTop.equalTo(siginUpCustomTextTitle.get, .bottom, 56)
+                    .setLeading.setTrailing.equalTo(siginUpCustomTextTitle.get)
             }
         return comp
     }()
@@ -68,7 +83,9 @@ class LoginView: UIView {
             .setKeyboard({ build in
                 build
                     .setKeyboardType(.emailAddress)
-                    .setReturnKeyType(.continue)
+                    .setDoneButton { textField in
+                        print("OK")
+                    }
             })
             .setBorder({ build in
                 build
@@ -77,7 +94,7 @@ class LoginView: UIView {
             .setConstraints { build in
                 build
                     .setTop.equalTo(emailCustomText.get, .bottom, 16)
-                    .setLeading.setTrailing.equalTo(signInCustomTextTitle.get)
+                    .setLeading.setTrailing.equalTo(siginUpCustomTextTitle.get)
                     .setHeight.equalToConstant(48)
             }
         return comp
@@ -102,7 +119,6 @@ class LoginView: UIView {
             .setKeyboard({ buid in
                 buid
                     .setKeyboardType(.default)
-                    .setReturnKeyType(.done)
             })
             .setBorder({ build in
                 build
@@ -117,87 +133,70 @@ class LoginView: UIView {
         return comp
     }()
     
-    lazy var rememberSwitch: CustomSwitchSecondary = {
-        let comp = CustomSwitchSecondary()
+    lazy var confirmationPasswordText: CustomText = {
+        let label = CustomText()
+            .setText("Confirmação Senha")
             .setConstraints { build in
                 build
                     .setTop.equalTo(passwordTextField.get, .bottom, 24)
-                    .setLeading.equalTo(passwordTextField.get, .leading)
-            }
-        return comp
-    }()
-
-    lazy var rememberText: CustomTextSecondary = {
-        let label = CustomTextSecondary()
-            .setText("Lembrar")
-            .setConstraints { build in
-                build
-                    .setLeading.equalTo(rememberSwitch.get, .trailing, 8)
-                    .setVerticalAlignmentY.equalTo(rememberSwitch.get)
+                    .setLeading.setTrailing.equalTo(emailCustomText.get)
             }
         return label
     }()
     
-    lazy var signInButtom: CustomButtonPrimary = {
-        let comp = CustomButtonPrimary("Entrar")
+    lazy var confirmationPasswordTextField: TextFieldPasswordBuilder = {
+        let comp = TextFieldPasswordBuilder(paddingRightImage: 8)
+            .setBackgroundColor(hexColor: "#ffffff")
+            .setPadding(8)
+            .setPlaceHolder("Confirmar senha")
+            .setKeyboard({ buid in
+                buid
+                    .setKeyboardType(.default)
+            })
+            .setBorder({ build in
+                build
+                    .setCornerRadius(8)
+            })
             .setConstraints { build in
                 build
-                    .setTop.equalTo(rememberSwitch.get, .bottom, 48)
-                    .setLeading.setTrailing.equalToSafeArea(44)
+                    .setTop.equalTo(confirmationPasswordText.get, .bottom, 16)
+                    .setLeading.setTrailing.equalTo(passwordTextField.get)
                     .setHeight.equalToConstant(48)
             }
-        comp.get.addTarget(self, action: #selector(signInTapped), for: .touchUpInside)
         return comp
     }()
-    @objc private func signInTapped() {
-        delegate?.signInTapped()
-    }
     
-    lazy var signUpButtom: CustomButtonSecondary = {
-        let comp = CustomButtonSecondary("Cadastra-se")
-            .setConstraints { build in
-                build
-                    .setTop.equalTo(signInButtom.get, .bottom, 16)
-                    .setLeading.setTrailing.setHeight.equalTo(signInButtom.get)
-            }
-        comp.get.addTarget(self, action: #selector(signUpTapped), for: .touchUpInside)
-        return comp
-    }()
-    @objc private func signUpTapped() {
-        delegate?.signUpTapped()
-    }
     
-
+    
 //  MARK: - PRIVATE AREA
-    public func configure() {
+    
+    private func configure() {
         addElements()
         configConstraints()
     }
     
     private func addElements() {
         backgroundView.add(insideTo: self)
-        signInCustomTextTitle.add(insideTo: self)
+        siginUpCustomTextTitle.add(insideTo: self)
+        backButton.add(insideTo: self)
         emailCustomText.add(insideTo: self)
         emailTextField.add(insideTo: self)
         passwordText.add(insideTo: self)
         passwordTextField.add(insideTo: self)
-        rememberSwitch.add(insideTo: self)
-        rememberText.add(insideTo: self)
-        signInButtom.add(insideTo: self)
-        signUpButtom.add(insideTo: self)
+        confirmationPasswordText.add(insideTo: self)
+        confirmationPasswordTextField.add(insideTo: self)
     }
     
     private func configConstraints() {
         backgroundView.applyConstraint()
-        signInCustomTextTitle.applyConstraint()
+        siginUpCustomTextTitle.applyConstraint()
+        backButton.applyConstraint()
         emailCustomText.applyConstraint()
         emailTextField.applyConstraint()
         passwordText.applyConstraint()
         passwordTextField.applyConstraint()
-        rememberSwitch.applyConstraint()
-        rememberText.applyConstraint()
-        signInButtom.applyConstraint()
-        signUpButtom.applyConstraint()
+        confirmationPasswordText.applyConstraint()
+        confirmationPasswordTextField.applyConstraint()
     }
     
     
