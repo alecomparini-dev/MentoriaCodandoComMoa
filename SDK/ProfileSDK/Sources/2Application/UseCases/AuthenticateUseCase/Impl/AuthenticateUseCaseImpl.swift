@@ -4,15 +4,14 @@
 import Foundation
 
 public class AuthenticateUseCaseImpl: AuthenticateUseCase {
-    
     private let authUseCaseGateway: AuthenticateUseCaseGateway
     
-    init(authUseCaseGateway: AuthenticateUseCaseGateway) {
+    public init(authUseCaseGateway: AuthenticateUseCaseGateway) {
         self.authUseCaseGateway = authUseCaseGateway
     }
     
-    public func auth() async throws {
-        try await authUseCaseGateway.auth()
+    public func emailPasswordAuth(email: String, password: String) async throws -> UserId {
+        return try await authUseCaseGateway.auth(email: email, password: password)
     }
     
     

@@ -4,5 +4,6 @@
 import Foundation
 
 public protocol AuthenticateUseCaseGateway {
-    func auth() async throws
+    typealias UserId = String
+    func auth(email: String, password: String) async throws -> UserId
 }
