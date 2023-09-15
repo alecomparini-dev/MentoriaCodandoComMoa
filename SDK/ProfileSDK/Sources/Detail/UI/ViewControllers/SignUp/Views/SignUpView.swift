@@ -56,7 +56,8 @@ class SignUpView: UIView {
                 build
                     .setLeading.equalToSafeArea(16)
                     .setVerticalAlignmentY.equalTo(siginUpCustomTextTitle.get)
-                    .setHeight.setWidth.equalToConstant(40)
+                    .setWidth.equalToConstant(30)
+                    .setHeight.equalToConstant(40)
             }
         btn.get.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         return btn
@@ -64,7 +65,6 @@ class SignUpView: UIView {
     @objc private func backButtonTapped() {
         delegate?.backButtonTapped()
     }
-    
     
     lazy var emailLoginView: EmailLoginTextFieldView = {
         let comp = EmailLoginTextFieldView()

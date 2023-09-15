@@ -14,5 +14,4 @@ public class AuthenticateUseCaseImpl: AuthenticateUseCase {
         return try await authUseCaseGateway.auth(email: email, password: password)
     }
     
-    
 }

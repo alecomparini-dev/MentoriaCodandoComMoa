@@ -13,6 +13,7 @@
 		0212ECB82AA10868001C1BCF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0212ECB72AA10868001C1BCF /* Assets.xcassets */; };
 		0212ECBB2AA10868001C1BCF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0212ECB92AA10868001C1BCF /* LaunchScreen.storyboard */; };
 		0234A6D42AA3C4AB00167636 /* HomeSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 0234A6D32AA3C4AB00167636 /* HomeSDK */; };
+		024E688E2AB4860A0044A521 /* SignUpViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024E688D2AB4860A0044A521 /* SignUpViewControllerFactory.swift */; };
 		026682D12AA7D62600EE70EC /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026682CF2AA7D62600EE70EC /* Coordinator.swift */; };
 		026682D42AA7D69D00EE70EC /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026682D32AA7D69D00EE70EC /* NavigationController.swift */; };
 		026682D62AA7D75F00EE70EC /* LoginCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026682D52AA7D75F00EE70EC /* LoginCoordinator.swift */; };
@@ -42,6 +43,7 @@
 		0212ECBA2AA10868001C1BCF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0212ECBC2AA10868001C1BCF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0212ECC72AA10A20001C1BCF /* HomeSDK */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = HomeSDK; path = SDK/HomeSDK; sourceTree = "<group>"; };
+		024E688D2AB4860A0044A521 /* SignUpViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewControllerFactory.swift; sourceTree = "<group>"; };
 		026682CF2AA7D62600EE70EC /* Coordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		026682D32AA7D69D00EE70EC /* NavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
 		026682D52AA7D75F00EE70EC /* LoginCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCoordinator.swift; sourceTree = "<group>"; };
@@ -132,6 +134,22 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		024E688B2AB485D70044A521 /* SignIn */ = {
+			isa = PBXGroup;
+			children = (
+				02995B4A2AB34BBA00615FDC /* LoginViewControllerFactory.swift */,
+			);
+			path = SignIn;
+			sourceTree = "<group>";
+		};
+		024E688C2AB485EB0044A521 /* SignUp */ = {
+			isa = PBXGroup;
+			children = (
+				024E688D2AB4860A0044A521 /* SignUpViewControllerFactory.swift */,
+			);
+			path = SignUp;
+			sourceTree = "<group>";
+		};
 		026682CC2AA7D5E900EE70EC /* Coordinator */ = {
 			isa = PBXGroup;
 			children = (
@@ -197,7 +215,8 @@
 		02995B4D2AB34C1300615FDC /* ViewControllerFactories */ = {
 			isa = PBXGroup;
 			children = (
-				02995B4A2AB34BBA00615FDC /* LoginViewControllerFactory.swift */,
+				024E688B2AB485D70044A521 /* SignIn */,
+				024E688C2AB485EB0044A521 /* SignUp */,
 			);
 			path = ViewControllerFactories;
 			sourceTree = "<group>";
@@ -391,6 +410,7 @@
 				026682D42AA7D69D00EE70EC /* NavigationController.swift in Sources */,
 				02995B502AB352CC00615FDC /* EmailValidator.swift in Sources */,
 				028B28BC2AA76EEC008E4A7E /* Constants.swift in Sources */,
+				024E688E2AB4860A0044A521 /* SignUpViewControllerFactory.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

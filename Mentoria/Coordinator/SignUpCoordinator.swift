@@ -21,7 +21,7 @@ class SignUpCoordinator: Coordinator {
     
     func start() {
         childCoordinator = self
-        var controller = SignUpViewController()
+        var controller = SignUpViewControllerFactory.make()
         controller = navigationController.pushViewController(controller)
         controller.coordinator = self
     }

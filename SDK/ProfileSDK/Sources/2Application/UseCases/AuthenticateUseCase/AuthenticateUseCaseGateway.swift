@@ -3,6 +3,7 @@
 
 import Foundation
 
+
 public protocol AuthenticateUseCaseGateway {
     typealias UserId = String
     func auth(email: String, password: String) async throws -> UserId

@@ -2,6 +2,7 @@
 //
 
 import UIKit
+import ProfilePresenters
 
 public protocol SignUpViewControllerCoordinator: AnyObject {
     func gotoLogin()
@@ -11,6 +12,17 @@ public protocol SignUpViewControllerCoordinator: AnyObject {
 
 public final class SignUpViewController: UIViewController {
     public weak var coordinator: SignUpViewControllerCoordinator?
+    
+    private var signUpPresenter: SignUpPresenter
+    
+    public init(signUpPresenter: SignUpPresenter) {
+        self.signUpPresenter = signUpPresenter
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     lazy var screen: SignUpView = {
         let view = SignUpView()
@@ -40,6 +52,7 @@ public final class SignUpViewController: UIViewController {
     
     private func configDelegate() {
         screen.delegate = self
+        signUpPresenter.outputDelegate = self
     }
 }
 
@@ -52,10 +65,29 @@ extension SignUpViewController: SignUpViewDelegate {
     }
 
     func signUpButtonTapped() {
-        coordinator?.gotoHome()
+        if let email = screen.emailLoginView.emailTextField.get.text,
+           let password = screen.passwordLoginView.passwordTextField.get.text {
+            signUpPresenter.createLogin(email: email, password: password)
+        }
+
     }
 
 }
 
 
+//  MARK: - EXTENSION -
+extension SignUpViewController: SignUpPresenterOutput {
+    
+    public func success(_ userId: String) {
+        coordinator?.gotoHome()
+    }
 
+    
+    public func error(_ error: String) {
+        let alert = UIAlertController(title: "Aviso", message: error, preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default)
+        alert.addAction(action)
+        present(alert, animated: true)
+    }
+    
+}

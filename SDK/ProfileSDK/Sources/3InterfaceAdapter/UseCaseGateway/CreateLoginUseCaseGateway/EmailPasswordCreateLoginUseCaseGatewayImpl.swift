@@ -1,4 +1,4 @@
-//  Created by Alessandro Comparini on 30/08/23.
+//  Created by Alessandro Comparini on 15/09/23.
 //
 
 import Foundation
@@ -6,24 +6,28 @@ import Foundation
 import ProfileUseCases
 
 
-public class EmailPasswordAuthenticateUseCaseGatewayImpl: AuthenticateUseCaseGateway {
+public class EmailPasswordCreateLoginUseCaseGatewayImpl: CreateLoginUseCaseGateway {
     private let authentication: AuthenticationEmailPassword
     
     public init(authentication: AuthenticationEmailPassword) {
         self.authentication = authentication
     }
     
-    public func auth(email: String, password: String) async throws -> UserId {
+    public func createLogin(email: String, password: String) async throws -> UserId {
+        
         return try await withCheckedThrowingContinuation { continuation in
-            authentication.auth(email: email, password: password) { userId, authError in
+
+            authentication.createAuth(email: email, password: password) { [weak self] userId, authError in
+                guard let self else {return}
                 if let authError {
                     continuation.resume(throwing: authError.code)
                     return
                 }
                 continuation.resume(returning: userId ?? "")
             }
+            
         }
-        
+    
     }
     
 }
