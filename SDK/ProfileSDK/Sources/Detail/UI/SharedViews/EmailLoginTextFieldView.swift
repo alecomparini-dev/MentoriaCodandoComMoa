@@ -37,6 +37,7 @@ class EmailLoginTextFieldView: ViewBuilder {
         let personImg = ImageViewBuilder(systemName: "person")
         let comp = TextFieldImageBuilder("Digite seu e-mail")
             .setImage(personImg, .right, 8)
+            .setAutoCapitalization(.none)
             .setBackgroundColor(hexColor: "#ffffff")
             .setPadding(8)
             .setKeyboard({ build in
