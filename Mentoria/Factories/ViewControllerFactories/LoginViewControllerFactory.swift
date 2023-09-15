@@ -8,11 +8,22 @@
 import Foundation
 import ProfileUI
 import ProfilePresenters
+import ProfileUseCases
+import ProfileUseCaseGateway
+import ProfileAuthentication
+
 
 class LoginViewControllerFactory {
 
     static func make() -> LoginViewController {
-        let loginPresenter = LoginPresenterImpl(validations: [] )
+        
+        let authentication = FirebaseEmailPasswordAuthentication()
+        
+        let authUseCaseGateway = EmailPasswordAuthenticateUseCaseGatewayImpl(authentication: authentication)
+        
+        let authUseCase = AuthenticateUseCaseImpl(authUseCaseGateway: authUseCaseGateway)
+        
+        let loginPresenter = LoginPresenterImpl(validations: [], authUseCase: authUseCase )
         return LoginViewController(loginPresenter: loginPresenter)
     }
     

@@ -19,7 +19,7 @@ public protocol LoginViewControllerCoordinator: AnyObject {
 public final class LoginViewController: UIViewController {
     public weak var coordinator: LoginViewControllerCoordinator?
     
-    private let loginPresenter: LoginPresenter
+    private var loginPresenter: LoginPresenter
     
     public init(loginPresenter: LoginPresenter) {
         self.loginPresenter = loginPresenter
@@ -59,6 +59,7 @@ public final class LoginViewController: UIViewController {
     
     private func configDelegate() {
         screen.delegate = self
+        loginPresenter.outputDelegate = self
     }
     
     
@@ -69,7 +70,13 @@ public final class LoginViewController: UIViewController {
 extension LoginViewController: LoginViewDelegate {
     
     func signInTapped() {
-        coordinator?.gotoHome()
+        if let email = screen.emailLoginView.emailTextField.get.text,
+           let password = screen.passwordLoginView.passwordTextField.get.text {
+            
+            loginPresenter.login(email: email, password: password)
+            
+        }
+        
     }
     
     func signUpTapped() {
@@ -79,3 +86,16 @@ extension LoginViewController: LoginViewDelegate {
 }
 
 
+
+//  MARK: - EXTENSION - LoginPresenterOutput
+extension LoginViewController: LoginPresenterOutput {
+    
+    public func successLogin(_ userId: String) {
+        coordinator?.gotoHome()
+    }
+
+    public func errorLogin(_ error: String) {
+        print(error)
+    }
+    
+}
