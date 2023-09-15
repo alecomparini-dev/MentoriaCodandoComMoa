@@ -7,8 +7,8 @@ import CustomComponentsSDK
 
 
 protocol LoginViewDelegate: AnyObject {
-    func signUpTapped()
     func signInTapped()
+    func signUpTapped()
 }
 
 class LoginView: UIView {

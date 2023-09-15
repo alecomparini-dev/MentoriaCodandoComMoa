@@ -72,11 +72,8 @@ extension LoginViewController: LoginViewDelegate {
     func signInTapped() {
         if let email = screen.emailLoginView.emailTextField.get.text,
            let password = screen.passwordLoginView.passwordTextField.get.text {
-            
             loginPresenter.login(email: email, password: password)
-            
-        }
-        
+        }        
     }
     
     func signUpTapped() {
@@ -90,12 +87,15 @@ extension LoginViewController: LoginViewDelegate {
 //  MARK: - EXTENSION - LoginPresenterOutput
 extension LoginViewController: LoginPresenterOutput {
     
-    public func successLogin(_ userId: String) {
+    public func success(_ userId: String) {
         coordinator?.gotoHome()
     }
 
-    public func errorLogin(_ error: String) {
-        print(error)
+    public func error(_ error: String) {
+        let alert = UIAlertController(title: "Aviso", message: error, preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default)
+        alert.addAction(action)
+        present(alert, animated: true)
     }
     
 }

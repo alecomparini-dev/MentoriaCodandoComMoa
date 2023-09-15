@@ -2,15 +2,17 @@
 //
 
 import Foundation
+
 import ProfileUseCases
+
 
 public protocol Validation {
     func validate() -> String?
 }
 
 public protocol LoginPresenterOutput: AnyObject {
-    func errorLogin(_ error: String)
-    func successLogin(_ userId: String)
+    func error(_ error: String)
+    func success(_ userId: String)
 }
 
 public class LoginPresenterImpl: LoginPresenter  {
@@ -25,15 +27,16 @@ public class LoginPresenterImpl: LoginPresenter  {
     }
     
     public func login(email: String, password: String) {
+        
         Task {
             do {
                 let userId = try await auth.emailPasswordAuth(email: email, password: password)
                 DispatchQueue.main.async { [weak self] in
-                    self?.outputDelegate?.successLogin(userId)
+                    self?.outputDelegate?.success(userId)
                 }
-            } catch let error {
+            } catch {
                 DispatchQueue.main.async { [weak self] in
-                    self?.outputDelegate?.errorLogin(error.localizedDescription)
+                    self?.outputDelegate?.error("Email ou Senha inválidos")
                 }
                 
             }
