@@ -58,7 +58,7 @@ public class SignUpPresenterImpl: SignUpPresenter  {
     private func makeErrorPasswordComplexity() -> String {
         let regexRulesFails = passwordComplexityValidator.getFailRules()
         
-        var msg = "A senha esta fora do padrão: acione \n"
+        var msg = "A senha esta fora do padrão: Adicione \n"
         regexRulesFails.forEach { fail in
             switch fail {
             case .minimumCharacterRequire:
