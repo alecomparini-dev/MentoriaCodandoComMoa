@@ -47,6 +47,7 @@
 		026682D32AA7D69D00EE70EC /* NavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
 		026682D52AA7D75F00EE70EC /* LoginCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCoordinator.swift; sourceTree = "<group>"; };
 		026682D72AA7D8A200EE70EC /* HomeCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
+		0281EC362AB8D49200D31407 /* ValidatorSDK */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = ValidatorSDK; path = SDK/ValidatorSDK; sourceTree = "<group>"; };
 		028B28A02AA75EAE008E4A7E /* Environment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		028B28A22AA75F52008E4A7E /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		028B28A32AA75F8C008E4A7E /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
@@ -87,6 +88,7 @@
 			children = (
 				0212ECA72AA10254001C1BCF /* ProfileSDK */,
 				0212ECC72AA10A20001C1BCF /* HomeSDK */,
+				0281EC362AB8D49200D31407 /* ValidatorSDK */,
 			);
 			name = Packages;
 			sourceTree = "<group>";

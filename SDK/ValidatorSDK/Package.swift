@@ -3,7 +3,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "ValidatorsSDK",
+    name: "ValidatorSDK",
     
     platforms: [
         .iOS(.v14),
@@ -11,7 +11,7 @@ let package = Package(
     ],
     
     products: [
-        .library(name: "ValidatorsSDK", targets: ["ValidatorBuilder"]),
+        .library(name: "ValidatorSDK", targets: ["ValidatorSDK"]),
     ],
     
     dependencies: [ ],
@@ -19,13 +19,12 @@ let package = Package(
 
     targets: [
         .target(
-            name: "ValidatorBuilder",
+            name: "ValidatorSDK",
             dependencies: [],
             path: "Sources/Validators"
         ),
         
-        .testTarget(name: "ValidatorsSDKTests", dependencies: []),
-    
+//        .testTarget(name: "ValidatorsSDKTests", dependencies: []),
     
     ]
 )

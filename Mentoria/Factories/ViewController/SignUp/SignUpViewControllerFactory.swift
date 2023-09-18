@@ -6,12 +6,12 @@
 //
 
 import Foundation
-import ProfileUI
+import ProfileAuthentication
 import ProfilePresenters
+import ProfileUI
 import ProfileUseCases
 import ProfileUseCaseGateway
-import ProfileAuthentication
-
+import ProfileValidators
 
 class SignUpViewControllerFactory {
 
@@ -23,7 +23,9 @@ static func make() -> SignUpViewController {
     
     let createLoginUseCase = CreateLoginUseCaseImpl(createLoginUseCaseGateway: createLoginUseCaseGateway)
     
-    let signUpPresenter = SignUpPresenterImpl(validations: [], createLoginUseCase: createLoginUseCase )
+    let passwordValidator = Validators()
+    
+    let signUpPresenter = SignUpPresenterImpl(createLoginUseCase: createLoginUseCase, passwordComplexityValidator: passwordValidator )
     
     return SignUpViewController(signUpPresenter: signUpPresenter)
 }

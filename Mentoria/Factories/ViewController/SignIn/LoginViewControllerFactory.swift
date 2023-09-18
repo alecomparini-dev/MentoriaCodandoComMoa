@@ -11,7 +11,7 @@ import ProfilePresenters
 import ProfileUseCases
 import ProfileUseCaseGateway
 import ProfileAuthentication
-
+import ProfileValidators
 
 class LoginViewControllerFactory {
 
@@ -23,7 +23,7 @@ class LoginViewControllerFactory {
         
         let authUseCase = AuthenticateUseCaseImpl(authUseCaseGateway: authUseCaseGateway)
         
-        let signInPresenter = SignInPresenterImpl(validations: [], authUseCase: authUseCase )
+        let signInPresenter = SignInPresenterImpl(authUseCase: authUseCase )
         
         return SignInViewController(signInPresenter: signInPresenter)
     }
