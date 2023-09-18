@@ -11,13 +11,14 @@ let package = Package(
     ],
     
     products: [
-        .library(name: "ProfileSDK", targets: [ "ProfilePresenters", "ProfileUseCaseGateway", "ProfileUI" , "ProfileAuthentication"] )
+        .library(name: "ProfileSDK", targets: [ "ProfilePresenters", "ProfileUseCaseGateway", "ProfileUI" , "ProfileAuthentication", "ProfileValidators"] )
     ],
     
     dependencies: [
         .package(url: "https://github.com/alecomparini-dev/NetworkSDK.git", branch: "develop"),
         .package(url: "https://github.com/alecomparini-dev/DesignerSystemSDK.git", branch: "develop"),
-        .package(url: "github.com/firebase/firebase-ios-sdk", .upToNextMajor(from: "10.0.0"))
+        .package(url: "github.com/firebase/firebase-ios-sdk", .upToNextMajor(from: "10.0.0")),
+        .package(name: "ValidatorSDK", path: "../SDK/ValidatorSDK")
     ],
     
 
@@ -68,6 +69,15 @@ let package = Package(
                 .product(name: "FirebaseAuth" , package: "firebase-ios-sdk")
             ],
             path: "Sources/Detail/Authentication"
+        ),
+    
+        .target(
+            name: "ProfileValidators",
+            dependencies: [
+                "ProfilePresenters",
+                .product(name: "ValidatorSDK", package: "ValidatorSDK")
+            ],
+            path: "Sources/Detail/Validators"
         ),
 
         

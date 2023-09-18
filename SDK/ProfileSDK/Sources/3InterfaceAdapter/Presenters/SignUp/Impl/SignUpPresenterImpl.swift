@@ -14,15 +14,21 @@ public protocol SignUpPresenterOutput: AnyObject {
 public class SignUpPresenterImpl: SignUpPresenter  {
     public weak var outputDelegate: SignUpPresenterOutput?
     
-    private let validations: [Validation]
     private let createLoginUseCase: CreateLoginUseCase
+    private let passwordComplexityValidator: PasswordComplexity
     
-    public init(validations: [Validation], createLoginUseCase: CreateLoginUseCase) {
-        self.validations = validations
+
+    public init(createLoginUseCase: CreateLoginUseCase, passwordComplexityValidator: PasswordComplexity) {
         self.createLoginUseCase = createLoginUseCase
+        self.passwordComplexityValidator = passwordComplexityValidator
     }
     
     public func createLogin(email: String, password: String) {
+        
+        if !passwordComplexityValidator.validate(password: password) {
+            outputDelegate?.error(makeErrorPasswordComplexity())
+            return
+        }
         
         Task {
             do {
@@ -43,12 +49,33 @@ public class SignUpPresenterImpl: SignUpPresenter  {
                     default:
                         errorMsg = "Erro ao criar usuário"
                     }
-                    
                     self?.outputDelegate?.error(errorMsg)
                 }
-                
             }
         }
+    }
+    
+    private func makeErrorPasswordComplexity() -> String {
+        let regexRulesFails = passwordComplexityValidator.getFailRules()
+        
+        var msg = "A senha esta fora do padrão: acione \n"
+        regexRulesFails.forEach { fail in
+            switch fail {
+            case .minimumCharacterRequire:
+                msg = msg + "\n" + "no mínimo 6 caracteres"
+            case .minimumUpperCase:
+                msg = msg + "\n" + "um caracter maiúsculo"
+            case .minimumLowerCase:
+                msg = msg + "\n" + "um caracter minúsculo"
+            case .minimumNumber:
+                msg = msg + "\n" + "um número"
+            case .leastOneSpecialCharacterRequire:
+                msg = msg + "\n" + "um caracter especial"
+            }
+        }
+        
+        return msg
+        
         
     }
     

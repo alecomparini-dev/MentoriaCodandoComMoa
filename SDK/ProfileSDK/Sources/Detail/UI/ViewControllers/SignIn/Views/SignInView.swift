@@ -6,13 +6,13 @@ import DSMComponent
 import CustomComponentsSDK
 
 
-protocol LoginViewDelegate: AnyObject {
+protocol SignInViewDelegate: AnyObject {
     func signInTapped()
     func signUpTapped()
 }
 
-class LoginView: UIView {
-    weak var delegate: LoginViewDelegate?
+class SignInView: UIView {
+    weak var delegate: SignInViewDelegate?
     
     init() {
         super.init(frame: .zero)
