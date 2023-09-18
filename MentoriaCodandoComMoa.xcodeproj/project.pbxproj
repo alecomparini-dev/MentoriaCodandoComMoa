@@ -207,18 +207,18 @@
 		02995B4C2AB34BCB00615FDC /* Factories */ = {
 			isa = PBXGroup;
 			children = (
-				02995B4D2AB34C1300615FDC /* ViewControllerFactories */,
+				02995B4D2AB34C1300615FDC /* ViewController */,
 			);
 			path = Factories;
 			sourceTree = "<group>";
 		};
-		02995B4D2AB34C1300615FDC /* ViewControllerFactories */ = {
+		02995B4D2AB34C1300615FDC /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
 				024E688B2AB485D70044A521 /* SignIn */,
 				024E688C2AB485EB0044A521 /* SignUp */,
 			);
-			path = ViewControllerFactories;
+			path = ViewController;
 			sourceTree = "<group>";
 		};
 		02995B4E2AB352BA00615FDC /* EmailValidator */ = {
