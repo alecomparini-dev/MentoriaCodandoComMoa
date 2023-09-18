@@ -3,10 +3,12 @@
 
 import Foundation
 
-public final class RequiredFieldValidation: Validator {
-    private let fieldName: String
+public final class RequiredFieldValidator: Validator {
+    private var fieldName: String = ""
     
-    public init(fieldName: String) {
+    public init() {}
+    
+    public func setFieldName(_ fieldName: String) {
         self.fieldName = fieldName
     }
     
