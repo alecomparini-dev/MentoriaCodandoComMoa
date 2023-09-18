@@ -22,7 +22,6 @@
 		028B28A42AA75F8C008E4A7E /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 028B28A32AA75F8C008E4A7E /* Release.xcconfig */; };
 		028B28BC2AA76EEC008E4A7E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 028B28BB2AA76EEC008E4A7E /* Constants.swift */; };
 		02995B4B2AB34BBA00615FDC /* LoginViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02995B4A2AB34BBA00615FDC /* LoginViewControllerFactory.swift */; };
-		02995B502AB352CC00615FDC /* EmailValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02995B4F2AB352CC00615FDC /* EmailValidator.swift */; };
 		02995B942AB39B6200615FDC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 02995B932AB39B6200615FDC /* GoogleService-Info.plist */; };
 		02995BA92AB3CECE00615FDC /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 02995BA82AB3CECE00615FDC /* FirebaseAnalytics */; };
 		02995BAB2AB3CECE00615FDC /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 02995BAA2AB3CECE00615FDC /* FirebaseAuth */; };
@@ -53,7 +52,6 @@
 		028B28A32AA75F8C008E4A7E /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		028B28BB2AA76EEC008E4A7E /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		02995B4A2AB34BBA00615FDC /* LoginViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewControllerFactory.swift; sourceTree = "<group>"; };
-		02995B4F2AB352CC00615FDC /* EmailValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailValidator.swift; sourceTree = "<group>"; };
 		02995B932AB39B6200615FDC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		02E2C39E2AA0FFD30040A2C8 /* MentoriaCodandoComMoa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MentoriaCodandoComMoa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -84,14 +82,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		020924742AB33927008F8DC8 /* Validators */ = {
-			isa = PBXGroup;
-			children = (
-				02995B4E2AB352BA00615FDC /* EmailValidator */,
-			);
-			path = Validators;
-			sourceTree = "<group>";
-		};
 		0212ECA62AA10254001C1BCF /* Packages */ = {
 			isa = PBXGroup;
 			children = (
@@ -105,7 +95,6 @@
 			isa = PBXGroup;
 			children = (
 				02995B4C2AB34BCB00615FDC /* Factories */,
-				020924742AB33927008F8DC8 /* Validators */,
 				026682CC2AA7D5E900EE70EC /* Coordinator */,
 				028B28B92AA76ECF008E4A7E /* Handler */,
 				028B289F2AA75E9D008E4A7E /* Env */,
@@ -219,14 +208,6 @@
 				024E688C2AB485EB0044A521 /* SignUp */,
 			);
 			path = ViewController;
-			sourceTree = "<group>";
-		};
-		02995B4E2AB352BA00615FDC /* EmailValidator */ = {
-			isa = PBXGroup;
-			children = (
-				02995B4F2AB352CC00615FDC /* EmailValidator.swift */,
-			);
-			path = EmailValidator;
 			sourceTree = "<group>";
 		};
 		02E2C3942AA0FFD30040A2C8 = {
@@ -408,7 +389,6 @@
 				020924732AB3228D008F8DC8 /* SignUpCoordinator.swift in Sources */,
 				0212ECB12AA10867001C1BCF /* SceneDelegate.swift in Sources */,
 				026682D42AA7D69D00EE70EC /* NavigationController.swift in Sources */,
-				02995B502AB352CC00615FDC /* EmailValidator.swift in Sources */,
 				028B28BC2AA76EEC008E4A7E /* Constants.swift in Sources */,
 				024E688E2AB4860A0044A521 /* SignUpViewControllerFactory.swift in Sources */,
 			);

@@ -24,7 +24,7 @@ class LoginCoordinator: Coordinator {
 
 
 //  MARK: - EXTENSION LoginViewControllerCoordinator
-extension LoginCoordinator: LoginViewControllerCoordinator {
+extension LoginCoordinator: SignInViewControllerCoordinator {
     func gotoLogin() {
         let coordinator = SignUpCoordinator(navigationController)
         coordinator.start()

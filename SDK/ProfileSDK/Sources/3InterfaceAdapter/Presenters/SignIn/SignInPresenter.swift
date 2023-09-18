@@ -4,7 +4,7 @@
 
 import Foundation
 
-public protocol LoginPresenter {
-    var outputDelegate: LoginPresenterOutput? { get set }
+public protocol SignInPresenter {
+    var outputDelegate: SignInPresenterOutput? { get set }
     func login(email: String, password: String)
 }

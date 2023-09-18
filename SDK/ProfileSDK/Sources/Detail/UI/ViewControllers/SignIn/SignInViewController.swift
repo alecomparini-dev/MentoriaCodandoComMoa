@@ -1,5 +1,5 @@
 //
-//  LoginViewController.swift
+//  SignInViewController.swift
 //  DetailLayer
 //
 //  Created by Alessandro Comparini on 30/08/23.
@@ -11,18 +11,18 @@ import DSMMain
 import ProfilePresenters
 
 
-public protocol LoginViewControllerCoordinator: AnyObject {
+public protocol SignInViewControllerCoordinator: AnyObject {
     func gotoHome()
     func gotoLogin()
 }
 
-public final class LoginViewController: UIViewController {
-    public weak var coordinator: LoginViewControllerCoordinator?
+public final class SignInViewController: UIViewController {
+    public weak var coordinator: SignInViewControllerCoordinator?
     
-    private var loginPresenter: LoginPresenter
+    private var signInPresenter: SignInPresenter
     
-    public init(loginPresenter: LoginPresenter) {
-        self.loginPresenter = loginPresenter
+    public init(signInPresenter: SignInPresenter) {
+        self.signInPresenter = signInPresenter
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -30,8 +30,8 @@ public final class LoginViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    lazy var screen: LoginView = {
-        let view = LoginView()
+    lazy var screen: SignInView = {
+        let view = SignInView()
         return view
     }()
     
@@ -59,7 +59,7 @@ public final class LoginViewController: UIViewController {
     
     private func configDelegate() {
         screen.delegate = self
-        loginPresenter.outputDelegate = self
+        signInPresenter.outputDelegate = self
     }
     
     
@@ -67,12 +67,12 @@ public final class LoginViewController: UIViewController {
 
 
 //  MARK: - EXTENSION - LoginViewDelegate
-extension LoginViewController: LoginViewDelegate {
+extension SignInViewController: SignInViewDelegate {
     
     func signInTapped() {
         if let email = screen.emailLoginView.emailTextField.get.text,
            let password = screen.passwordLoginView.passwordTextField.get.text {
-            loginPresenter.login(email: email, password: password)
+            signInPresenter.login(email: email, password: password)
         }        
     }
     
@@ -85,7 +85,7 @@ extension LoginViewController: LoginViewDelegate {
 
 
 //  MARK: - EXTENSION - LoginPresenterOutput
-extension LoginViewController: LoginPresenterOutput {
+extension SignInViewController: SignInPresenterOutput {
     
     public func success(_ userId: String) {
         coordinator?.gotoHome()

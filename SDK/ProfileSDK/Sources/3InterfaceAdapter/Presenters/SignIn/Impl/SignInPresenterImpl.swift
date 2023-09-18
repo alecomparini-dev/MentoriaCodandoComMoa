@@ -10,13 +10,13 @@ public protocol Validation {
     func validate() -> String?
 }
 
-public protocol LoginPresenterOutput: AnyObject {
+public protocol SignInPresenterOutput: AnyObject {
     func error(_ error: String)
     func success(_ userId: String)
 }
 
-public class LoginPresenterImpl: LoginPresenter  {
-    public weak var outputDelegate: LoginPresenterOutput?
+public class SignInPresenterImpl: SignInPresenter  {
+    public weak var outputDelegate: SignInPresenterOutput?
     
     private let validations: [Validation]
     private let auth: AuthenticateUseCase

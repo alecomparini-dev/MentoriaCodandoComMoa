@@ -4,5 +4,5 @@
 import Foundation
 
 public protocol Validation: AnyObject {
-    func validate() -> String?
+    func validate(data: [String: Any]) -> Bool
 }

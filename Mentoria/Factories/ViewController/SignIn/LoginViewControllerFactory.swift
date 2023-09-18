@@ -15,7 +15,7 @@ import ProfileAuthentication
 
 class LoginViewControllerFactory {
 
-    static func make() -> LoginViewController {
+    static func make() -> SignInViewController {
         
         let authentication = FirebaseEmailPasswordAuthentication()
         
@@ -23,8 +23,9 @@ class LoginViewControllerFactory {
         
         let authUseCase = AuthenticateUseCaseImpl(authUseCaseGateway: authUseCaseGateway)
         
-        let loginPresenter = LoginPresenterImpl(validations: [], authUseCase: authUseCase )
-        return LoginViewController(loginPresenter: loginPresenter)
+        let signInPresenter = SignInPresenterImpl(validations: [], authUseCase: authUseCase )
+        
+        return SignInViewController(signInPresenter: signInPresenter)
     }
     
 }
