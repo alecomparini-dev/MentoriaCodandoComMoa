@@ -13,7 +13,6 @@ public class FirebaseEmailPasswordAuthentication: AuthenticationEmailPassword {
         self.auth = auth
     }
     
-
     public func createAuth(email: String, password: String, completion: @escaping (UserId?, AuthenticationError?) -> Void) {
         auth.createUser(withEmail: email, password: password) { [weak self] result, error in
             guard let self else {return}
@@ -26,7 +25,6 @@ public class FirebaseEmailPasswordAuthentication: AuthenticationEmailPassword {
         }
     }
     
-    
     public func auth(email: String, password: String, completion: @escaping (UserId?, AuthenticationError?) -> Void) {
         auth.signIn(withEmail: email, password: password) { [weak self] result, error in
             guard let self else {return}
@@ -38,7 +36,6 @@ public class FirebaseEmailPasswordAuthentication: AuthenticationEmailPassword {
             completion(result?.user.uid, nil)
         }
     }
-
     
     public func getUserIDAuthenticated() -> UserId? {
         return auth.currentUser?.uid
