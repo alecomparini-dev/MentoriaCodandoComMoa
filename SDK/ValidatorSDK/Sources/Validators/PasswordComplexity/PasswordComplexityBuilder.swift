@@ -4,7 +4,8 @@
 import Foundation
 
 
-public class PasswordComplexityValidatorBuilder: PasswordComplexityValidator {
+public class PasswordComplexityBuilder: PasswordComplexity {
+
     private var passwordPattern = ""
 
     private var patternAdded: [RegexRules] = []
@@ -56,12 +57,14 @@ public class PasswordComplexityValidatorBuilder: PasswordComplexityValidator {
     }
     
     @discardableResult
-    public func setRequireAtLeastOneSpecialCharacter() -> Self {
-        let regexRule = RequireAtLeastOneSpecialCharacter()
-        patternAdded.append(regexRule)
+    public func setRequireAtLeastOneSpecialCharacter(_ required: Bool?) -> Self {
+        guard let required else { return self }
+        if required {
+            let regexRule = RequireAtLeastOneSpecialCharacter()
+            patternAdded.append(regexRule)
+        }
         return self
     }
-
     
     public func validate(password: String) -> Bool {
         patternAdded.forEach { regex in

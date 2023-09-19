@@ -15,19 +15,21 @@ import ProfileValidators
 
 class SignUpViewControllerFactory {
 
-static func make() -> SignUpViewController {
-    
-    let authentication = FirebaseEmailPasswordAuthentication()
-    
-    let createLoginUseCaseGateway = EmailPasswordCreateLoginUseCaseGatewayImpl(authentication: authentication)
-    
-    let createLoginUseCase = CreateLoginUseCaseImpl(createLoginUseCaseGateway: createLoginUseCaseGateway)
-    
-    let passwordValidator = Validators()
-    
-    let signUpPresenter = SignUpPresenterImpl(createLoginUseCase: createLoginUseCase, passwordComplexityValidator: passwordValidator )
-    
-    return SignUpViewController(signUpPresenter: signUpPresenter)
-}
+    static func make() -> SignUpViewController {
+        
+        let authentication = FirebaseEmailPasswordAuthentication()
+        
+        let createLoginUseCaseGateway = EmailPasswordCreateLoginUseCaseGatewayImpl(authentication: authentication)
+        
+        let createLoginUseCase = CreateLoginUseCaseImpl(createLoginUseCaseGateway: createLoginUseCaseGateway)
+        
+        let passwordComplexityRulesUseCase = PasswordComplexityRulesUseCaseImpl()
+        
+        let passwordValidator = Validators()
+        
+        let signUpPresenter = SignUpPresenterImpl(createLoginUseCase: createLoginUseCase, passwordComplexityRulesUseCase: passwordComplexityRulesUseCase, passwordComplexityValidator: passwordValidator )
+        
+        return SignUpViewController(signUpPresenter: signUpPresenter)
+    }
 
 }

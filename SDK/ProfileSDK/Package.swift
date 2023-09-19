@@ -24,11 +24,20 @@ let package = Package(
 
     targets: [
 
+//MARK: - DOMAIN
+        .target(
+            name: "ProfileDomain",
+            dependencies: [],
+            path: "Sources/1Domain/Domain"
+        ),
+        
 
-//MARK: - INTERFACE ADAPTER LAYER
+//MARK: - APPLICATION BUSINESS RULES
         .target(
             name: "ProfileUseCases",
-            dependencies: [],
+            dependencies: [
+                "ProfileDomain"
+            ],
             path: "Sources/2Application/UseCases"
         ),
 

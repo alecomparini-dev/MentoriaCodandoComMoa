@@ -2,9 +2,9 @@
 //
 
 import Foundation
+import ProfilePresenters
 
-
-public protocol PasswordComplexityValidator {
+public protocol PasswordComplexity {
     
     func getPasswordFail() -> [RegexRules]
     
@@ -21,7 +21,7 @@ public protocol PasswordComplexityValidator {
     func setMinimumNumber(_ minimum: Int) -> Self
     
     @discardableResult
-    func setRequireAtLeastOneSpecialCharacter() -> Self
+    func setRequireAtLeastOneSpecialCharacter(_ required: Bool?) -> Self 
 
     func validate(password: String) -> Bool
     
