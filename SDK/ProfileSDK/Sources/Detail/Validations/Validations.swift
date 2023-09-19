@@ -5,20 +5,23 @@ import Foundation
 import ProfilePresenters
 import ValidatorSDK
 
-public class Validators  {
-    private var passwordComplexity: PasswordComplexity?
+public class Validations  {
+    
+    private var passwordComplexity: PasswordComplexityValidator?
     
     public init() {}
 
 }
 
 
-//  MARK: - EXTENSION - PasswordComplexity
-extension Validators: PasswordComplexityValidator {
+
+//  MARK: - EXTENSION - PasswordComplexityValidation
+
+extension Validations: PasswordComplexityValidation {
     
-    public func validate(password: String, complexityRules: PasswordComplexityValidatorDTO.Input) -> Bool {
+    public func validate(password: String, complexityRules: PasswordComplexityValidationDTO.Input) -> Bool {
         
-        passwordComplexity = PasswordComplexityBuilder()
+        passwordComplexity = PasswordComplexityValidatorBuilder()
             .setMinimumCharacterRequire(complexityRules.minimumCharacterRequire)
             .setMinimumNumber(complexityRules.minimumNumber)
             .setMinimumLowerCase(complexityRules.minimumLowerCase)
@@ -28,19 +31,19 @@ extension Validators: PasswordComplexityValidator {
         return passwordComplexity?.validate(password: password) ?? false
     }
     
-    public func getFailRules() -> [PasswordComplexityValidatorDTO.Output.ComplexityPattern] {
+    public func getFailRules() -> [PasswordComplexityValidationDTO.Output.ComplexityPattern] {
         guard let passwordComplexity else { return [] }
         
         let failsRules: [RegexRules] = passwordComplexity.getPasswordFail()
         
-        let failsDTO: [PasswordComplexityValidatorDTO.Output.ComplexityPattern] = failsRules.map({ fail in
+        let failsDTO: [PasswordComplexityValidationDTO.Output.ComplexityPattern] = failsRules.map({ fail in
             return convertComplexity(fail) ?? .leastOneSpecialCharacterRequire
         })
         
         return failsDTO
     }
     
-    private func convertComplexity(_ regexRule: RegexRules) -> PasswordComplexityValidatorDTO.Output.ComplexityPattern? {
+    private func convertComplexity(_ regexRule: RegexRules) -> PasswordComplexityValidationDTO.Output.ComplexityPattern? {
         switch regexRule {
             case is MinimumCharacterRequire:
                 return .minimumCharacterRequire
@@ -63,4 +66,17 @@ extension Validators: PasswordComplexityValidator {
         
     }
 
+}
+
+
+extension Validations: EmailValidations {
+    
+    public func validate(email: String) -> Bool {
+            
+        let emailValidator = EmailValidator(fieldName: "email")
+        
+        return emailValidator.validate(data: ["email": email])
+    }
+    
+    
 }

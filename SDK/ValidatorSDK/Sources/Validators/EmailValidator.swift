@@ -5,14 +5,12 @@
 import Foundation
 
 public final class EmailValidator: Validator {
-    private let patter = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+    private let patter = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,}$"
     
-    private var fieldName: String = ""
+    private let fieldName: String
     
-    public init() {}
-    
-    public func setEmailFieldName(_ emailFieldName: String) {
-        self.fieldName = emailFieldName
+    public init(fieldName: String) {
+        self.fieldName = fieldName
     }
     
     public func validate(data: [String: Any]) -> Bool {

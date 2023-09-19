@@ -11,7 +11,7 @@ import ProfilePresenters
 import ProfileUI
 import ProfileUseCases
 import ProfileUseCaseGateway
-import ProfileValidators
+import ProfileValidations
 
 class SignUpViewControllerFactory {
 
@@ -25,9 +25,12 @@ class SignUpViewControllerFactory {
         
         let passwordComplexityRulesUseCase = PasswordComplexityRulesUseCaseImpl()
         
-        let passwordValidator = Validators()
+        let validation = Validations()
         
-        let signUpPresenter = SignUpPresenterImpl(createLoginUseCase: createLoginUseCase, passwordComplexityRulesUseCase: passwordComplexityRulesUseCase, passwordComplexityValidator: passwordValidator )
+        let signUpPresenter = SignUpPresenterImpl(createLoginUseCase: createLoginUseCase,
+                                                  passwordComplexityRulesUseCase: passwordComplexityRulesUseCase,
+                                                  passwordComplexityValidator: validation,
+                                                  emailValidator: validation )
         
         return SignUpViewController(signUpPresenter: signUpPresenter)
     }

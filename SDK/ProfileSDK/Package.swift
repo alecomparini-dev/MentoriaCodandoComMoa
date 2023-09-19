@@ -11,7 +11,7 @@ let package = Package(
     ],
     
     products: [
-        .library(name: "ProfileSDK", targets: [ "ProfilePresenters", "ProfileUseCaseGateway", "ProfileUI" , "ProfileAuthentication", "ProfileValidators"] )
+        .library(name: "ProfileSDK", targets: [ "ProfilePresenters", "ProfileUseCaseGateway", "ProfileUI" , "ProfileAuthentication", "ProfileValidations"] )
     ],
     
     dependencies: [
@@ -81,12 +81,12 @@ let package = Package(
         ),
     
         .target(
-            name: "ProfileValidators",
+            name: "ProfileValidations",
             dependencies: [
                 "ProfilePresenters",
                 .product(name: "ValidatorSDK", package: "ValidatorSDK")
             ],
-            path: "Sources/Detail/Validators"
+            path: "Sources/Detail/Validations"
         ),
 
         

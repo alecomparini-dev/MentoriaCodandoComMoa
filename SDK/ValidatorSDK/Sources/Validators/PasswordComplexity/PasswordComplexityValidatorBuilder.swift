@@ -4,7 +4,7 @@
 import Foundation
 
 
-public class PasswordComplexityBuilder: PasswordComplexity {
+public class PasswordComplexityValidatorBuilder: PasswordComplexityValidator {
 
     private var passwordPattern = ""
 

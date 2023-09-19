@@ -2,9 +2,8 @@
 //
 
 import Foundation
-import ProfilePresenters
 
-public protocol PasswordComplexity {
+public protocol PasswordComplexityValidator {
     
     func getPasswordFail() -> [RegexRules]
     

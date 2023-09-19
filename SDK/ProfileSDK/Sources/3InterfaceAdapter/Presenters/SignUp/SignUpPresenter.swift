@@ -6,5 +6,5 @@ import Foundation
 
 public protocol SignUpPresenter {
     var outputDelegate: SignUpPresenterOutput? { get set }
-    func createLogin(email: String, password: String)
+    func createLogin(email: String, password: String, passwordConfirmation: String)
 }
