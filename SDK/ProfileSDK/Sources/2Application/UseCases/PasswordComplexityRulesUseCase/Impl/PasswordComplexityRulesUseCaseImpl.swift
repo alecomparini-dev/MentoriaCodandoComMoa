@@ -8,9 +8,11 @@ import ProfileDomain
 
 public class PasswordComplexityRulesUseCaseImpl: PasswordComplexityRulesUseCase {
     
+    public init() {}
     
     public func recoverRules() -> PasswordComplexityRulesUseCaseDTO.Output {
-        return PasswordComplexityRulesUseCaseDTO.Output.init(passwordComplexityRules: PasswordComplexityRules())
+        let complexityRules =  PasswordComplexityRules()
+        return MapperPasswordComplexityRulesToDTO.mapper(complexityRules)
     }
     
     

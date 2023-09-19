@@ -6,7 +6,7 @@ import Foundation
 public class RequireAtLeastOneSpecialCharacter: RegexRules {
     public var regex: String
     
-    public init(regex: String = "(?=.*[!@#$&*])") {
+    public init(regex: String = "(?=.*[!@#$&%*(-)+=])") {
         self.regex = regex
     }
     

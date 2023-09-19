@@ -3,15 +3,8 @@
 
 import Foundation
 
-public enum ComplexityPattern: String {
-    case minimumCharacterRequire
-    case minimumUpperCase
-    case minimumLowerCase
-    case minimumNumber
-    case leastOneSpecialCharacterRequire
-}
 
 public protocol PasswordComplexityValidator {
-    func validate(password: String) -> Bool
-    func getFailRules() -> [ComplexityPattern]
+    func validate(password: String, complexityRules: PasswordComplexityValidatorDTO.Input) -> Bool
+    func getFailRules() -> [PasswordComplexityValidatorDTO.Output.ComplexityPattern]
 }

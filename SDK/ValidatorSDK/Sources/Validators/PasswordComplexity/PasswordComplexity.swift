@@ -2,7 +2,7 @@
 //
 
 import Foundation
-
+import ProfilePresenters
 
 public protocol PasswordComplexity {
     
@@ -21,7 +21,7 @@ public protocol PasswordComplexity {
     func setMinimumNumber(_ minimum: Int) -> Self
     
     @discardableResult
-    func setRequireAtLeastOneSpecialCharacter() -> Self
+    func setRequireAtLeastOneSpecialCharacter(_ required: Bool?) -> Self 
 
     func validate(password: String) -> Bool
     

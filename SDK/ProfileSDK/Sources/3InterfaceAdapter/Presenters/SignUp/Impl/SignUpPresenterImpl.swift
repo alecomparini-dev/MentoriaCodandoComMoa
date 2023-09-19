@@ -14,22 +14,42 @@ public protocol SignUpPresenterOutput: AnyObject {
 public class SignUpPresenterImpl: SignUpPresenter  {
     public weak var outputDelegate: SignUpPresenterOutput?
     
-    private let createLoginUseCase: CreateLoginUseCase
-    private let passwordComplexityValidator: PasswordComplexityValidator
+    private var complexityRules: PasswordComplexityValidatorDTO.Input?
     
+    private let createLoginUseCase: CreateLoginUseCase
+    private let passwordComplexityRulesUseCase: PasswordComplexityRulesUseCase
+    private let passwordComplexityValidator: PasswordComplexityValidator
 
-    public init(createLoginUseCase: CreateLoginUseCase, passwordComplexityValidator: PasswordComplexityValidator) {
+    public init(createLoginUseCase: CreateLoginUseCase, passwordComplexityRulesUseCase: PasswordComplexityRulesUseCase, passwordComplexityValidator: PasswordComplexityValidator) {
         self.createLoginUseCase = createLoginUseCase
+        self.passwordComplexityRulesUseCase = passwordComplexityRulesUseCase
         self.passwordComplexityValidator = passwordComplexityValidator
     }
     
     public func createLogin(email: String, password: String) {
-        
-        if !passwordComplexityValidator.validate(password: password) {
+        let complexityRules = makePasswordComplexityRulesInput()
+        self.complexityRules = complexityRules
+        if !passwordComplexityValidator.validate(password: password,
+                                                 complexityRules: complexityRules) {
             outputDelegate?.error(makeErrorPasswordComplexity())
             return
         }
         
+        createLoginAsync(email: email, password: password)
+    }
+    
+    private func makePasswordComplexityRulesInput() -> PasswordComplexityValidatorDTO.Input {
+        let passwordRules = passwordComplexityRulesUseCase.recoverRules()
+        
+        return PasswordComplexityValidatorDTO.Input(
+            minimumCharacterRequire: passwordRules.minimumCharacterRequire,
+            minimumNumber: passwordRules.minimumNumber,
+            minimumLowerCase: passwordRules.minimumLowerCase,
+            minimumUpperCase: passwordRules.minimumUpperCase,
+            leastOneSpecialCharacter: passwordRules.leastOneSpecialCharacter)
+    }
+
+    private func createLoginAsync(email: String, password: String) {
         Task {
             do {
                 let userId = try await createLoginUseCase.createLogin(email: email, password: password)
@@ -62,15 +82,17 @@ public class SignUpPresenterImpl: SignUpPresenter  {
         regexRulesFails.forEach { fail in
             switch fail {
             case .minimumCharacterRequire:
-                msg = msg + "\n" + "no mínimo 6 caracteres"
+                msg = msg + "\n" + "no mínimo \(complexityRules?.minimumCharacterRequire ?? 1) caracteres"
             case .minimumUpperCase:
-                msg = msg + "\n" + "um caracter maiúsculo"
+                msg = msg + "\n" + "\(complexityRules?.minimumUpperCase ?? 1) caracter maiúsculo"
             case .minimumLowerCase:
-                msg = msg + "\n" + "um caracter minúsculo"
+                msg = msg + "\n" + "\(complexityRules?.minimumLowerCase ?? 1 ) caracter minúsculo"
             case .minimumNumber:
-                msg = msg + "\n" + "um número"
+                msg = msg + "\n" + "\(complexityRules?.minimumNumber ?? 1) número"
             case .leastOneSpecialCharacterRequire:
-                msg = msg + "\n" + "um caracter especial"
+                if complexityRules?.leastOneSpecialCharacter ?? false {
+                    msg = msg + "\n" + "1 caracter especial"
+                }
             }
         }
         
