@@ -6,6 +6,7 @@ import ProfilePresenters
 import ValidatorSDK
 
 public class Validations  {
+    
     private var passwordComplexity: PasswordComplexityValidator?
     
     public init() {}
@@ -13,12 +14,14 @@ public class Validations  {
 }
 
 
-//  MARK: - EXTENSION - PasswordComplexity
-extension Validations: PasswordComplexityValidations {
+
+//  MARK: - EXTENSION - PasswordComplexityValidation
+
+extension Validations: PasswordComplexityValidation {
     
     public func validate(password: String, complexityRules: PasswordComplexityValidationDTO.Input) -> Bool {
         
-        passwordComplexity = PasswordComplexityBuilder()
+        passwordComplexity = PasswordComplexityValidatorBuilder()
             .setMinimumCharacterRequire(complexityRules.minimumCharacterRequire)
             .setMinimumNumber(complexityRules.minimumNumber)
             .setMinimumLowerCase(complexityRules.minimumLowerCase)
@@ -63,4 +66,17 @@ extension Validations: PasswordComplexityValidations {
         
     }
 
+}
+
+
+extension Validations: EmailValidations {
+    
+    public func validate(email: String) -> Bool {
+            
+        let emailValidator = EmailValidator(fieldName: "email")
+        
+        return emailValidator.validate(data: ["email": email])
+    }
+    
+    
 }

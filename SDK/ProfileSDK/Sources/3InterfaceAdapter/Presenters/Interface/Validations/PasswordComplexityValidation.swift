@@ -3,8 +3,7 @@
 
 import Foundation
 
-
-public protocol PasswordComplexityValidations {
+public protocol PasswordComplexityValidation {
     func validate(password: String, complexityRules: PasswordComplexityValidationDTO.Input) -> Bool
     func getFailRules() -> [PasswordComplexityValidationDTO.Output.ComplexityPattern]
 }

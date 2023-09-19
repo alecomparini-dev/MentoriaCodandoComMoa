@@ -18,26 +18,53 @@ public class SignUpPresenterImpl: SignUpPresenter  {
     
     private let createLoginUseCase: CreateLoginUseCase
     private let passwordComplexityRulesUseCase: PasswordComplexityRulesUseCase
-    private let passwordComplexityValidator: PasswordComplexityValidations
+    private let passwordComplexityValidator: PasswordComplexityValidation
+    private let emailValidator: EmailValidations
 
-    public init(createLoginUseCase: CreateLoginUseCase, passwordComplexityRulesUseCase: PasswordComplexityRulesUseCase, passwordComplexityValidator: PasswordComplexityValidations) {
+    public init(createLoginUseCase: CreateLoginUseCase,
+                passwordComplexityRulesUseCase: PasswordComplexityRulesUseCase,
+                passwordComplexityValidator: PasswordComplexityValidation,
+                emailValidator: EmailValidations) {
         self.createLoginUseCase = createLoginUseCase
         self.passwordComplexityRulesUseCase = passwordComplexityRulesUseCase
         self.passwordComplexityValidator = passwordComplexityValidator
+        self.emailValidator = emailValidator
     }
     
-    public func createLogin(email: String, password: String) {
-        let complexityRules = makePasswordComplexityRulesInput()
-        self.complexityRules = complexityRules
-        if !passwordComplexityValidator.validate(password: password,
-                                                 complexityRules: complexityRules) {
-            outputDelegate?.error(makeErrorPasswordComplexity())
+    
+    public func createLogin(email: String, password: String, passwordConfirmation: String) {
+        if let msg =  validations(email: email, password: password, passwordConfirmation: passwordConfirmation) {
+            outputDelegate?.error(msg)
             return
         }
-        
         createLoginAsync(email: email, password: password)
     }
     
+    private func validations(email: String, password: String, passwordConfirmation: String) -> String? {
+        var isValid: String?
+        isValid = isValidEmail(email: email)
+        if let msg = isValidPasswordComplexity(password: password) {
+            isValid = (isValid ?? "") + msg
+        }
+        return isValid
+    }
+    
+    private func isValidPasswordComplexity(password: String) -> String? {
+        let complexityRules = makePasswordComplexityRulesInput()
+        self.complexityRules = complexityRules
+        if !passwordComplexityValidator.validate(password: password, complexityRules: complexityRules) {
+            return makeErrorPasswordComplexity()
+        }
+        return nil
+    }
+    
+    private func isValidEmail(email: String) -> String? {
+        if !emailValidator.validate(email: email) {
+            return "\nO email está fora do padrão \n"
+        }
+        return nil
+    }
+
     private func makePasswordComplexityRulesInput() -> PasswordComplexityValidationDTO.Input {
         let passwordRules = passwordComplexityRulesUseCase.recoverRules()
         
@@ -74,11 +101,11 @@ public class SignUpPresenterImpl: SignUpPresenter  {
             }
         }
     }
-    
+
     private func makeErrorPasswordComplexity() -> String {
         let regexRulesFails = passwordComplexityValidator.getFailRules()
         
-        var msg = "A senha esta fora do padrão: Adicione \n"
+        var msg = "A senha está fora do padrão: Adicione"
         regexRulesFails.forEach { fail in
             switch fail {
             case .minimumCharacterRequire:
