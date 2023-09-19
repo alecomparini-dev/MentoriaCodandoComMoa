@@ -15,10 +15,10 @@ public class SignUpPresenterImpl: SignUpPresenter  {
     public weak var outputDelegate: SignUpPresenterOutput?
     
     private let createLoginUseCase: CreateLoginUseCase
-    private let passwordComplexityValidator: PasswordComplexity
+    private let passwordComplexityValidator: PasswordComplexityValidator
     
 
-    public init(createLoginUseCase: CreateLoginUseCase, passwordComplexityValidator: PasswordComplexity) {
+    public init(createLoginUseCase: CreateLoginUseCase, passwordComplexityValidator: PasswordComplexityValidator) {
         self.createLoginUseCase = createLoginUseCase
         self.passwordComplexityValidator = passwordComplexityValidator
     }

@@ -11,7 +11,7 @@ public enum ComplexityPattern: String {
     case leastOneSpecialCharacterRequire
 }
 
-public protocol PasswordComplexity {
+public protocol PasswordComplexityValidator {
     func validate(password: String) -> Bool
     func getFailRules() -> [ComplexityPattern]
 }
