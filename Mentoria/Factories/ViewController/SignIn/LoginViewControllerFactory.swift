@@ -11,7 +11,6 @@ import ProfilePresenters
 import ProfileUseCases
 import ProfileUseCaseGateway
 import ProfileAuthentication
-import ProfileValidators
 
 class LoginViewControllerFactory {
 

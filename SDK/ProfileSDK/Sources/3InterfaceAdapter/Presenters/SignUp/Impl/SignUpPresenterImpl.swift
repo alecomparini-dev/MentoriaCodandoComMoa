@@ -14,13 +14,13 @@ public protocol SignUpPresenterOutput: AnyObject {
 public class SignUpPresenterImpl: SignUpPresenter  {
     public weak var outputDelegate: SignUpPresenterOutput?
     
-    private var complexityRules: PasswordComplexityValidatorDTO.Input?
+    private var complexityRules: PasswordComplexityValidationDTO.Input?
     
     private let createLoginUseCase: CreateLoginUseCase
     private let passwordComplexityRulesUseCase: PasswordComplexityRulesUseCase
-    private let passwordComplexityValidator: PasswordComplexityValidator
+    private let passwordComplexityValidator: PasswordComplexityValidations
 
-    public init(createLoginUseCase: CreateLoginUseCase, passwordComplexityRulesUseCase: PasswordComplexityRulesUseCase, passwordComplexityValidator: PasswordComplexityValidator) {
+    public init(createLoginUseCase: CreateLoginUseCase, passwordComplexityRulesUseCase: PasswordComplexityRulesUseCase, passwordComplexityValidator: PasswordComplexityValidations) {
         self.createLoginUseCase = createLoginUseCase
         self.passwordComplexityRulesUseCase = passwordComplexityRulesUseCase
         self.passwordComplexityValidator = passwordComplexityValidator
@@ -38,10 +38,10 @@ public class SignUpPresenterImpl: SignUpPresenter  {
         createLoginAsync(email: email, password: password)
     }
     
-    private func makePasswordComplexityRulesInput() -> PasswordComplexityValidatorDTO.Input {
+    private func makePasswordComplexityRulesInput() -> PasswordComplexityValidationDTO.Input {
         let passwordRules = passwordComplexityRulesUseCase.recoverRules()
         
-        return PasswordComplexityValidatorDTO.Input(
+        return PasswordComplexityValidationDTO.Input(
             minimumCharacterRequire: passwordRules.minimumCharacterRequire,
             minimumNumber: passwordRules.minimumNumber,
             minimumLowerCase: passwordRules.minimumLowerCase,

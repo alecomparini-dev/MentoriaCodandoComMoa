@@ -3,7 +3,7 @@
 
 import Foundation
 
-public enum PasswordComplexityValidatorDTO {
+public enum PasswordComplexityValidationDTO {
     
     public struct Input {
         public let minimumCharacterRequire: Int

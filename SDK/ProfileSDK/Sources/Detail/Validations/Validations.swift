@@ -5,8 +5,8 @@ import Foundation
 import ProfilePresenters
 import ValidatorSDK
 
-public class Validators  {
-    private var passwordComplexity: PasswordComplexity?
+public class Validations  {
+    private var passwordComplexity: PasswordComplexityValidator?
     
     public init() {}
 
@@ -14,9 +14,9 @@ public class Validators  {
 
 
 //  MARK: - EXTENSION - PasswordComplexity
-extension Validators: PasswordComplexityValidator {
+extension Validations: PasswordComplexityValidations {
     
-    public func validate(password: String, complexityRules: PasswordComplexityValidatorDTO.Input) -> Bool {
+    public func validate(password: String, complexityRules: PasswordComplexityValidationDTO.Input) -> Bool {
         
         passwordComplexity = PasswordComplexityBuilder()
             .setMinimumCharacterRequire(complexityRules.minimumCharacterRequire)
@@ -28,19 +28,19 @@ extension Validators: PasswordComplexityValidator {
         return passwordComplexity?.validate(password: password) ?? false
     }
     
-    public func getFailRules() -> [PasswordComplexityValidatorDTO.Output.ComplexityPattern] {
+    public func getFailRules() -> [PasswordComplexityValidationDTO.Output.ComplexityPattern] {
         guard let passwordComplexity else { return [] }
         
         let failsRules: [RegexRules] = passwordComplexity.getPasswordFail()
         
-        let failsDTO: [PasswordComplexityValidatorDTO.Output.ComplexityPattern] = failsRules.map({ fail in
+        let failsDTO: [PasswordComplexityValidationDTO.Output.ComplexityPattern] = failsRules.map({ fail in
             return convertComplexity(fail) ?? .leastOneSpecialCharacterRequire
         })
         
         return failsDTO
     }
     
-    private func convertComplexity(_ regexRule: RegexRules) -> PasswordComplexityValidatorDTO.Output.ComplexityPattern? {
+    private func convertComplexity(_ regexRule: RegexRules) -> PasswordComplexityValidationDTO.Output.ComplexityPattern? {
         switch regexRule {
             case is MinimumCharacterRequire:
                 return .minimumCharacterRequire
