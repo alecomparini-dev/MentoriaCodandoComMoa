@@ -17,8 +17,7 @@ public class EmailPasswordCreateLoginUseCaseGatewayImpl: CreateLoginUseCaseGatew
         
         return try await withCheckedThrowingContinuation { continuation in
 
-            authentication.createAuth(email: email, password: password) { [weak self] userId, authError in
-                guard let self else {return}
+            authentication.createAuth(email: email, password: password) { userId, authError in
                 if let authError {
                     continuation.resume(throwing: authError.code)
                     return
