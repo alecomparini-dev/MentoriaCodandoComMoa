@@ -4,5 +4,7 @@
 import Foundation
 
 public protocol Validator {
-    func validate(data: [String: Any]) -> Bool
+    typealias FieldName = String
+    typealias FieldValue = String
+    func validate(fields: [FieldName: FieldValue] ) -> Bool
 }

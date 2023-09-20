@@ -13,6 +13,15 @@ public final class EmailValidator: Validator {
         self.fieldName = fieldName
     }
     
+    public func validate(fields: [FieldName: FieldValue]) -> Bool {
+        guard let email = fields[fieldName] else { return false }
+        
+        let range = NSRange(location: 0, length: email.utf16.count)
+        let regex = try! NSRegularExpression(pattern: patter)
+        return regex.firstMatch(in: email, options: [], range: range) != nil
+    }
+
+
     public func validate(data: [String: Any]) -> Bool {
         guard let email = data[fieldName] as? String else { return false }
         

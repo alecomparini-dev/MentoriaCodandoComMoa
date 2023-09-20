@@ -3,21 +3,19 @@
 
 import Foundation
 
-public final class RequiredFieldValidator: Validator {
-    private var fieldName: String = ""
+public final class RequiredFieldValidator {
+    public typealias FieldNameFails = String
+    private var fieldNames: [String] = []
     
-    public init() {}
-    
-    public func setFieldName(_ fieldName: String) {
-        self.fieldName = fieldName
+    public init(fieldNames: [String]) {
+        self.fieldNames = fieldNames
     }
     
-    public func validate(data: [String : Any]) -> Bool {
-        guard let fieldName = data[fieldName] as? String else { return false }
-        
-        if fieldName.isEmpty { return false }
-        
-        return true
+    
+    public func validate(fields: [String: String]) -> [FieldNameFails] {
+            
+                
+        return []
     }
     
 }

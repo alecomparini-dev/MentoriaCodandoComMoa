@@ -30,7 +30,7 @@ class SignUpViewControllerFactory {
         let signUpPresenter = SignUpPresenterImpl(createLoginUseCase: createLoginUseCase,
                                                   passwordComplexityRulesUseCase: passwordComplexityRulesUseCase,
                                                   passwordComplexityValidator: validation,
-                                                  emailValidator: validation )
+                                                  emailValidator: validation)
         
         return SignUpViewController(signUpPresenter: signUpPresenter)
     }

@@ -33,20 +33,64 @@ public class SignUpPresenterImpl: SignUpPresenter  {
     
     
     public func createLogin(email: String, password: String, passwordConfirmation: String) {
-        if let msg =  validations(email: email, password: password, passwordConfirmation: passwordConfirmation) {
-            outputDelegate?.error(msg)
+        if let msgInvalid = validations(email: email, password: password, passwordConfirmation: passwordConfirmation) {
+            outputDelegate?.error(msgInvalid)
             return
         }
         createLoginAsync(email: email, password: password)
     }
     
+    
+    
+//  MARK: - PRIVATE AREA
+    
     private func validations(email: String, password: String, passwordConfirmation: String) -> String? {
-        var isValid: String?
-        isValid = isValidEmail(email: email)
-        if let msg = isValidPasswordComplexity(password: password) {
-            isValid = (isValid ?? "") + msg
+        var failsMessage: String?
+        if let failMsg = isValidRequiredFields(email: email, password: password, passwordConfirmation: passwordConfirmation) {
+            return failMsg
         }
-        return isValid
+        
+        if let failMsg = isValidConfirmationPassword(password: password, passwordConfirmation: passwordConfirmation) {
+            return failMsg
+        }
+        
+        failsMessage = isValidEmail(email: email)
+        
+        if let failMsg = isValidPasswordComplexity(password: password) {
+            failsMessage = (failsMessage ?? "") + failMsg
+        }
+        
+        return failsMessage
+    }
+
+    private func isValidRequiredFields(email: String, password: String, passwordConfirmation: String) -> String? {
+        var fieldFails = [String]()
+        
+        if email.isEmpty {fieldFails.append("E-mail") }
+        
+        if password.isEmpty { fieldFails.append("Senha") }
+        
+        if passwordConfirmation.isEmpty { fieldFails.append("Confirmação senha")  }
+        
+        var failMsg: String?
+        if (fieldFails.count > 1) {
+            failMsg = "Os campos: \(fieldFails.description), devem estar preenchidos"
+        }
+        if (fieldFails.count == 1) {
+            failMsg = "O campo: \(fieldFails.description), deve estar preenchido"
+        }
+        
+        return failMsg
+    }
+    
+    private func isValidConfirmationPassword(password: String, passwordConfirmation: String) -> String? {
+        var failMsg: String?
+        
+        if password != passwordConfirmation {
+            failMsg = "A confirmação de senha não esta igual a senha cadastrada"
+        }
+        
+        return failMsg
     }
     
     private func isValidPasswordComplexity(password: String) -> String? {

@@ -14,13 +14,11 @@ public class Validations  {
 }
 
 
-
 //  MARK: - EXTENSION - PasswordComplexityValidation
 
 extension Validations: PasswordComplexityValidation {
     
     public func validate(password: String, complexityRules: PasswordComplexityValidationDTO.Input) -> Bool {
-        
         passwordComplexity = PasswordComplexityValidatorBuilder()
             .setMinimumCharacterRequire(complexityRules.minimumCharacterRequire)
             .setMinimumNumber(complexityRules.minimumNumber)
@@ -69,14 +67,27 @@ extension Validations: PasswordComplexityValidation {
 }
 
 
+//  MARK: - EXTENSION - EmailValidations
 extension Validations: EmailValidations {
     
     public func validate(email: String) -> Bool {
-            
         let emailValidator = EmailValidator(fieldName: "email")
         
         return emailValidator.validate(data: ["email": email])
     }
+}
+
+//  MARK: - EXTENSION - RequiredFieldsValidation
+extension Validations: RequiredFieldsValidation {
+    
+    
+    public func validate(fields: [FieldName : FieldValue]) -> [FieldNameFails] {
+        
+        return []
+    }
+    
+    
+    
     
     
 }
