@@ -67,7 +67,7 @@ extension SignUpViewController: SignUpViewDelegate {
     func signUpButtonTapped() {
         if let email = screen.emailLoginView.emailTextField.get.text,
            let password = screen.passwordLoginView.passwordTextField.get.text,
-           let passwordConfirmation = screen.confirmationPasswordText.get.text {
+           let passwordConfirmation = screen.confirmationPasswordTextField.get.text {
             signUpPresenter.createLogin(email: email, password: password, passwordConfirmation: passwordConfirmation)
         }
 

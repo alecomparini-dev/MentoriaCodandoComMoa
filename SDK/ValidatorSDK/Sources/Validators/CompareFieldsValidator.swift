@@ -5,6 +5,8 @@ import Foundation
 
 
 public final class CompareFieldsValidator: Validator, Equatable {
+
+    
     private let fieldName: String
     private let fieldNameToCompare: String
     private let fieldLabel: String
@@ -15,9 +17,9 @@ public final class CompareFieldsValidator: Validator, Equatable {
         self.fieldLabel = fieldLabel
     }
     
-    public func validate(data: [String : Any]) -> Bool {
-        guard let nameValue = data[fieldName] as? String,
-              let nameToCompareValue = data[fieldNameToCompare] as? String else { return false }
+    public func validate(fields: [FieldName : FieldValue]) -> Bool {
+        guard let nameValue = fields[fieldName] ,
+              let nameToCompareValue = fields[fieldNameToCompare] else { return false }
         
         if nameValue != nameToCompareValue {
             return true
@@ -25,6 +27,7 @@ public final class CompareFieldsValidator: Validator, Equatable {
         
         return true
     }
+    
     
     public static func == (lhs: CompareFieldsValidator, rhs: CompareFieldsValidator) -> Bool {
         return
