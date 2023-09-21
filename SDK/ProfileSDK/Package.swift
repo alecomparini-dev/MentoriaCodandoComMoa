@@ -18,8 +18,7 @@ let package = Package(
         .package(url: "https://github.com/alecomparini-dev/NetworkSDK.git", branch: "develop"),
         .package(url: "https://github.com/alecomparini-dev/DesignerSystemSDK.git", branch: "develop"),
         .package(url: "https://github.com/firebase/firebase-ios-sdk.git", .upToNextMajor(from: "10.0.0")),
-        .package(name: "ValidatorSDK", path: "../SDK/ValidatorSDK"),
-//        .package(name: "FirebaseAuth", path: "."),
+        .package(name: "ValidatorSDK", path: "../SDK/ValidatorSDK")
     ],
     
 
@@ -54,7 +53,7 @@ let package = Package(
             name: "ProfileUseCaseGateway",
             dependencies: [
                 "ProfileUseCases",
-                .product(name: "NetworkSDK" , package: "NetworkSDK")
+                .product(name: "NetworkSDKMain" , package: "NetworkSDK")
             ],
             path: "Sources/3InterfaceAdapter/UseCaseGateway"
         ),
@@ -77,7 +76,6 @@ let package = Package(
             dependencies: [
                 "ProfileUseCaseGateway",
                 .product(name: "FirebaseAuth" , package: "firebase-ios-sdk")
-//                .product(name: "FirebaseAuth" , package: "Firebase")
             ],
             path: "Sources/Detail/Authentication"
         ),
