@@ -15,7 +15,6 @@ let package = Package(
     ],
     
     dependencies: [
-        .package(url: "https://github.com/alecomparini-dev/NetworkSDK.git", branch: "develop"),
         .package(url: "https://github.com/alecomparini-dev/DesignerSystemSDK.git", branch: "develop")
     ],
     
@@ -33,7 +32,6 @@ let package = Package(
         .target(
             name: "HomeUseCaseGateway",
             dependencies: [
-                .product(name: "NetworkSDK" , package: "NetworkSDK")
             ],
             path: "Sources/3InterfaceAdapter/UseCaseGateway"
         ),

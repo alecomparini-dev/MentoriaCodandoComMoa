@@ -87,7 +87,7 @@ public class SignUpPresenterImpl: SignUpPresenter  {
         var failMsg: String?
         
         if password != passwordConfirmation {
-            failMsg = "A confirmação de senha não esta igual a senha cadastrada"
+            failMsg = "A confirmação de senha não está igual a senha cadastrada"
         }
         
         return failMsg
