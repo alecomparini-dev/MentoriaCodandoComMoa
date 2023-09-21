@@ -7,7 +7,7 @@
 
 import UIKit
 import CustomComponentsSDK
-import DSMMain
+import DesignerSystemSDKMain
 
 
 public final class TestThemeViewController: UIViewController {
@@ -87,14 +87,14 @@ public final class TestThemeViewController: UIViewController {
         }
     }
     
-    private func makeDSMMain() -> DSMMain {
+    private func makeDSMMain() -> DesignerSystemMain {
         let uIdFirebase = "CodandoComMoa"
 //        let uIdFirebase = Environment.variable
         let baseURL = "http://mentoria.codandocommoa.com.br"
         let path = "/Api/ThemeComponent/GetListaThemeComponent"
         let url = URL(string: "\(baseURL)\(path)")!
         
-        return DSMMain(
+        return DesignerSystemMain(
             url: url,
             queryParameters: [
                 "themeId" : "\(self.themeId)" ,

@@ -2,7 +2,7 @@
 //
 
 import UIKit
-import DSMComponent
+import DesignerSystemSDKComponent
 import CustomComponentsSDK
 
 

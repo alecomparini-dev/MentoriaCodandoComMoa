@@ -2,9 +2,8 @@
 //
 
 import UIKit
-import DSMComponent
 import CustomComponentsSDK
-
+import DesignerSystemSDKComponent
 
 class TestThemeView: UIView {
     

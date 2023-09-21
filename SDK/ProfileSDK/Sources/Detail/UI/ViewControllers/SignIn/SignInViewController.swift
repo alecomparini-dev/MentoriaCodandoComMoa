@@ -7,7 +7,7 @@
 
 import UIKit
 import CustomComponentsSDK
-import DSMMain
+import DesignerSystemSDKComponent
 import ProfilePresenters
 
 

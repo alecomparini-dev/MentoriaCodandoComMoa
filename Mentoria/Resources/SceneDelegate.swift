@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import DSMMain
+import DesignerSystemSDKMain
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -43,14 +43,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
     }
     
-    private func makeDSMMain() -> DSMMain {
+    private func makeDSMMain() -> DesignerSystemMain {
         let themeId = Environment.variable(.defaultTheme)
         let uIdFirebase = Environment.variable(.uIdFirebase)
         let baseURL = Environment.variable(.apiBaseUrl)
         let path = K.pathGetListComponent
         let url = URL(string: "\(baseURL)\(path)")!
         
-        return DSMMain(
+        return DesignerSystemMain(
             url: url,
             queryParameters: [
                 K.Strings.themeId : themeId ,

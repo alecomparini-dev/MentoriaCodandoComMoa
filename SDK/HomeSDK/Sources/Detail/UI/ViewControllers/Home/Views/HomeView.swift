@@ -3,7 +3,7 @@
 //
 
 import UIKit
-import DSMComponent
+import DesignerSystemSDKComponent
 import CustomComponentsSDK
 
 protocol HomeViewDelegate: AnyObject {
