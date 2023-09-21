@@ -18,7 +18,7 @@ let package = Package(
         .package(url: "https://github.com/alecomparini-dev/NetworkSDK.git", branch: "develop"),
         .package(url: "https://github.com/alecomparini-dev/DesignerSystemSDK.git", branch: "develop"),
         .package(url: "https://github.com/firebase/firebase-ios-sdk.git", .upToNextMajor(from: "10.0.0")),
-        .package(name: "ValidatorSDK", path: "../SDK/ValidatorSDK")
+        .package(name: "ValidatorSDK", path: "../SDK/ValidatorSDK"),
     ],
     
 
@@ -65,8 +65,8 @@ let package = Package(
             name: "ProfileUI",
             dependencies: [
                 "ProfilePresenters",
-                .product(name: "DSMComponent" , package: "DesignerSystemSDK"),
-                .product(name: "DSMMain" , package: "DesignerSystemSDK")
+                .product(name: "DesignerSystemSDKMain" , package: "DesignerSystemSDK"),
+                .product(name: "DesignerSystemSDKComponent" , package: "DesignerSystemSDK"),
             ],
             path: "Sources/Detail/UI"
         ),

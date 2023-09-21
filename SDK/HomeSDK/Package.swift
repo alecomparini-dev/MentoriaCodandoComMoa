@@ -37,15 +37,14 @@ let package = Package(
         ),
         
     
-        
 
         //  MARK: - DETAILS LAYER
         .target(
             name: "HomeUI",
             dependencies: [
                 "HomePresenters",
-                .product(name: "DSMComponent" , package: "DesignerSystemSDK"),
-                .product(name: "DSMMain" , package: "DesignerSystemSDK")
+                .product(name: "DesignerSystemSDKComponent" , package: "DesignerSystemSDK"),
+                .product(name: "DesignerSystemSDKMain" , package: "DesignerSystemSDK")
             ],
             path: "Sources/Detail/UI"
         ),
