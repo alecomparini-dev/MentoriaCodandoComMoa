@@ -15,17 +15,22 @@ public class SignInPresenterImpl: SignInPresenter  {
     public weak var outputDelegate: SignInPresenterOutput?
     
     private let authUseCase: AuthenticateUseCase
+    private let saveKeyChainEmailUseCase: SaveKeyChainRememberEmailUseCase
+//    private let delRememberEmail: DeleteKeyChainRememberEmailUseCase
     
-    
-    public init(authUseCase: AuthenticateUseCase) {
+    public init(authUseCase: AuthenticateUseCase,
+                saveKeyChainEmailUseCase: SaveKeyChainRememberEmailUseCase) {
         self.authUseCase = authUseCase
+        self.saveKeyChainEmailUseCase = saveKeyChainEmailUseCase
     }
     
     public func login(email: String, password: String) {
-        
         Task {
             do {
                 let userId = try await authUseCase.emailPasswordAuth(email: email, password: password)
+                
+                saveRememberEmail(email)
+                
                 DispatchQueue.main.async { [weak self] in
                     self?.outputDelegate?.success(userId)
                 }
@@ -35,6 +40,17 @@ public class SignInPresenterImpl: SignInPresenter  {
                 }
                 
             }
+        }
+        
+    }
+    
+    
+//  MARK: - PRIVATE AREA
+    private func saveRememberEmail(_ email: String) {
+        do {
+            try saveKeyChainEmailUseCase.save(email)
+        } catch let error {
+            print(error.localizedDescription)
         }
         
     }
