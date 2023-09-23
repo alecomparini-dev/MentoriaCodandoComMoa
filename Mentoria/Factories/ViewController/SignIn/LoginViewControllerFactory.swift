@@ -11,6 +11,10 @@ import ProfilePresenters
 import ProfileUseCases
 import ProfileUseCaseGateway
 import ProfileAuthentication
+import ProfileLocalStorage
+import LocalStorageSDKMain
+import LocalStorageDetails
+
 
 class LoginViewControllerFactory {
 
@@ -22,7 +26,17 @@ class LoginViewControllerFactory {
         
         let authUseCase = AuthenticateUseCaseImpl(authUseCaseGateway: authUseCaseGateway)
         
-        let signInPresenter = SignInPresenterImpl(authUseCase: authUseCase )
+        let keyChainProviderStrategy = KeyChainProvider(appName: "Mentoria", forKey: "email")
+//        let keyChainProviderStrategy = UserDefaultsProvider(forKey: "email")
+        
+        let localStorage = LocalStorage(storageProvider: keyChainProviderStrategy)
+        
+        let saveKeyChainEmailUseCaseGateway = SaveKeyChainRememberEmailUseCaseGatewayImpl(localStorageKeyChainProvider: localStorage)
+        
+        let saveKeyChainEmailUseCase = SaveKeyChainRememberEmailUseCaseImpl(saveRememberEmailGateway: saveKeyChainEmailUseCaseGateway)
+        
+        let signInPresenter = SignInPresenterImpl(authUseCase: authUseCase,
+                                                  saveKeyChainEmailUseCase: saveKeyChainEmailUseCase )
         
         return SignInViewController(signInPresenter: signInPresenter)
     }
