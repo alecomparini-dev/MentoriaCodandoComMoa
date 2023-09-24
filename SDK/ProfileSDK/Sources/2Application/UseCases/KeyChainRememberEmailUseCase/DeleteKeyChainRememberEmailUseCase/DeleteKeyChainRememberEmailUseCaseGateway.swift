@@ -2,3 +2,7 @@
 //
 
 import Foundation
+
+public protocol DeleteKeyChainRememberEmailUseCaseGateway {
+    func delete() throws
+}

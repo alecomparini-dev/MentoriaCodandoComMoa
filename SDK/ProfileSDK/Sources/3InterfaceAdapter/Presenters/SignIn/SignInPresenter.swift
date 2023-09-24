@@ -6,6 +6,6 @@ import Foundation
 
 public protocol SignInPresenter {
     var outputDelegate: SignInPresenterOutput? { get set }
-    func login(email: String, password: String)
+    func login(email: String, password: String, rememberPassword: Bool)
     func getEmailKeyChain() -> String?
 }

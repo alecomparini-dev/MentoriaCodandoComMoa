@@ -28,11 +28,20 @@ extension LocalStorage: InsertStorageProvider {
         return nil
     }
     
+}
+
+
+//  MARK: - EXTENSION - DeleteStorageProvider
+extension LocalStorage: DeleteStorageProvider {
+
+    public func delete<T>(_ object: T) throws {
+        try storageProvider.delete(object)
+    }
     
 }
 
 
-//  MARK: - EXTENSION - InsertStorageProvider
+//  MARK: - EXTENSION - FetchStorageProvider
 extension LocalStorage: FetchStorageProvider {
     public func fetch<T>() throws -> [T] {
         return []

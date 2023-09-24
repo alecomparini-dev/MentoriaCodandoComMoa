@@ -55,7 +55,11 @@ public final class SignInViewController: UIViewController {
     private func getEmailKeyChain() {
         if let email = signInPresenter.getEmailKeyChain() {
             screen.emailLoginView.emailTextField.get.text = email
+            screen.rememberSwitch.setIsOn(true)
+            return
         }
+        screen.emailLoginView.emailTextField.get.text = ""
+        screen.rememberSwitch.setIsOn(false)
     }
     
     
@@ -79,8 +83,9 @@ extension SignInViewController: SignInViewDelegate {
     func signInTapped() {
         if let email = screen.emailLoginView.emailTextField.get.text,
            let password = screen.passwordLoginView.passwordTextField.get.text {
-            signInPresenter.login(email: email, password: password)
-        }        
+            let rememberPassword = screen.rememberSwitch.get.isOn
+            signInPresenter.login(email: email, password: password, rememberPassword: rememberPassword)
+        }
     }
     
     func signUpTapped() {

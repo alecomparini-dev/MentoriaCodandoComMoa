@@ -20,15 +20,18 @@ public class SignUpPresenterImpl: SignUpPresenter  {
     private let passwordComplexityRulesUseCase: PasswordComplexityRulesUseCase
     private let passwordComplexityValidator: PasswordComplexityValidation
     private let emailValidator: EmailValidations
+    private let delKeyChainEmailUseCase: DeleteKeyChainRememberEmailUseCase
 
     public init(createLoginUseCase: CreateLoginUseCase,
                 passwordComplexityRulesUseCase: PasswordComplexityRulesUseCase,
                 passwordComplexityValidator: PasswordComplexityValidation,
-                emailValidator: EmailValidations) {
+                emailValidator: EmailValidations,
+                delKeyChainEmailUseCase: DeleteKeyChainRememberEmailUseCase ) {
         self.createLoginUseCase = createLoginUseCase
         self.passwordComplexityRulesUseCase = passwordComplexityRulesUseCase
         self.passwordComplexityValidator = passwordComplexityValidator
         self.emailValidator = emailValidator
+        self.delKeyChainEmailUseCase = delKeyChainEmailUseCase
     }
     
     
@@ -143,6 +146,8 @@ public class SignUpPresenterImpl: SignUpPresenter  {
                     self?.outputDelegate?.error(errorMsg)
                 }
             }
+            
+            try delKeyChainEmailUseCase.delete()
         }
     }
 
