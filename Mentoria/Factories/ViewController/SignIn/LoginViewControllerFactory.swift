@@ -39,9 +39,14 @@ class LoginViewControllerFactory {
         
         let getKeyChainEmailUseCase = GetKeyChainRememberEmailUseCaseImpl(getRememberEmailGateway: getKeyChainEmailUseCaseGateway)
         
+        let delKeyChainEmailUseCaseGateway = DeleteKeyChainRememberEmailUseCaseGatewayImpl(localStorageKeyChainProvider: localStorage)
+        
+        let delKeyChainEmailUseCase = DeleteKeyChainRememberEmailUseCaseImpl(delRememberEmailGateway: delKeyChainEmailUseCaseGateway)
+        
         let signInPresenter = SignInPresenterImpl(authUseCase: authUseCase,
                                                   saveKeyChainEmailUseCase: saveKeyChainEmailUseCase, 
-                                                  getKeyChainEmailUseCase: getKeyChainEmailUseCase )
+                                                  getKeyChainEmailUseCase: getKeyChainEmailUseCase, 
+                                                  delKeyChainEmailUseCase: delKeyChainEmailUseCase )
         
         return SignInViewController(signInPresenter: signInPresenter)
     }

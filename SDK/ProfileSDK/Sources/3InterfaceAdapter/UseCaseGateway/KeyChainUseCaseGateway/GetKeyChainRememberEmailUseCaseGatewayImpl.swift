@@ -2,6 +2,7 @@
 //
 
 import Foundation
+
 import ProfileUseCases
 
 public class GetKeyChainRememberEmailUseCaseGatewayImpl: GetKeyChainRememberEmailUseCaseGateway {

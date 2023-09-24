@@ -17,17 +17,16 @@ public class SignInPresenterImpl: SignInPresenter  {
     private let authUseCase: AuthenticateUseCase
     private let saveKeyChainEmailUseCase: SaveKeyChainRememberEmailUseCase
     private let getKeyChainEmailUseCase: GetKeyChainRememberEmailUseCase
-//    private let delKeyChainEmailUseCase: DeleteKeyChainRememberEmailUseCase
+    private let delKeyChainEmailUseCase: DeleteKeyChainRememberEmailUseCase
     
     public init(authUseCase: AuthenticateUseCase,
                 saveKeyChainEmailUseCase: SaveKeyChainRememberEmailUseCase,
-                getKeyChainEmailUseCase: GetKeyChainRememberEmailUseCase
-//                delKeyChainEmailUseCase: DeleteKeyChainRememberEmailUseCase
-    ) {
+                getKeyChainEmailUseCase: GetKeyChainRememberEmailUseCase,
+                delKeyChainEmailUseCase: DeleteKeyChainRememberEmailUseCase ) {
         self.authUseCase = authUseCase
         self.saveKeyChainEmailUseCase = saveKeyChainEmailUseCase
         self.getKeyChainEmailUseCase = getKeyChainEmailUseCase
-//        self.delKeyChainEmailUseCase = delKeyChainEmailUseCase
+        self.delKeyChainEmailUseCase = delKeyChainEmailUseCase
     }
 
     public func getEmailKeyChain() -> String? {
@@ -39,12 +38,16 @@ public class SignInPresenterImpl: SignInPresenter  {
         return nil
     }
     
-    public func login(email: String, password: String) {
+    public func login(email: String, password: String, rememberPassword: Bool = false) {
         Task {
             do {
                 let userId = try await authUseCase.emailPasswordAuth(email: email, password: password)
                 
-                saveRememberEmail(email)
+                try delKeyChainEmailUseCase.delete()
+                
+                if rememberPassword {
+                    saveRememberEmail(email)
+                }
                 
                 DispatchQueue.main.async { [weak self] in
                     self?.outputDelegate?.success(userId)
