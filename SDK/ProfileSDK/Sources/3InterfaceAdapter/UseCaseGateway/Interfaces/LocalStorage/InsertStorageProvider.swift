@@ -4,7 +4,6 @@
 import Foundation
 
 public protocol InsertStorageProvider {
-    
     @discardableResult
-    func insert<T>(_ object: T) throws -> T
+    func insert<T>(_ object: T) throws -> T?
 }

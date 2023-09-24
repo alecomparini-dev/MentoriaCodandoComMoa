@@ -49,6 +49,13 @@ public final class SignInViewController: UIViewController {
     
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        getEmailKeyChain()
+    }
+    
+    private func getEmailKeyChain() {
+        if let email = signInPresenter.getEmailKeyChain() {
+            screen.emailLoginView.emailTextField.get.text = email
+        }
     }
     
     
