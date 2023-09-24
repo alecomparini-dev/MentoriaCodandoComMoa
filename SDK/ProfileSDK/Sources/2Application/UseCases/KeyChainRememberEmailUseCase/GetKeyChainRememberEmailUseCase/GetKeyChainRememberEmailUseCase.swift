@@ -2,3 +2,7 @@
 //
 
 import Foundation
+
+public protocol GetKeyChainRememberEmailUseCase {
+    func getEmail() throws -> String?
+}

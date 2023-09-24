@@ -26,7 +26,7 @@ class LoginViewControllerFactory {
         
         let authUseCase = AuthenticateUseCaseImpl(authUseCaseGateway: authUseCaseGateway)
         
-        let keyChainProviderStrategy = KeyChainProvider(appName: "Mentoria", forKey: "email")
+        let keyChainProviderStrategy = KeyChainProvider(appName: "MentoriaCodandoComMoa", forKey: "email")
 //        let keyChainProviderStrategy = UserDefaultsProvider(forKey: "email")
         
         let localStorage = LocalStorage(storageProvider: keyChainProviderStrategy)
@@ -35,8 +35,13 @@ class LoginViewControllerFactory {
         
         let saveKeyChainEmailUseCase = SaveKeyChainRememberEmailUseCaseImpl(saveRememberEmailGateway: saveKeyChainEmailUseCaseGateway)
         
+        let getKeyChainEmailUseCaseGateway = GetKeyChainRememberEmailUseCaseGatewayImpl(localStorageKeyChainProvider: localStorage)
+        
+        let getKeyChainEmailUseCase = GetKeyChainRememberEmailUseCaseImpl(getRememberEmailGateway: getKeyChainEmailUseCaseGateway)
+        
         let signInPresenter = SignInPresenterImpl(authUseCase: authUseCase,
-                                                  saveKeyChainEmailUseCase: saveKeyChainEmailUseCase )
+                                                  saveKeyChainEmailUseCase: saveKeyChainEmailUseCase, 
+                                                  getKeyChainEmailUseCase: getKeyChainEmailUseCase )
         
         return SignInViewController(signInPresenter: signInPresenter)
     }

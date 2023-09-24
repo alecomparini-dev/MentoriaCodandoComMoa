@@ -16,12 +16,27 @@ public class SignInPresenterImpl: SignInPresenter  {
     
     private let authUseCase: AuthenticateUseCase
     private let saveKeyChainEmailUseCase: SaveKeyChainRememberEmailUseCase
-//    private let delRememberEmail: DeleteKeyChainRememberEmailUseCase
+    private let getKeyChainEmailUseCase: GetKeyChainRememberEmailUseCase
+//    private let delKeyChainEmailUseCase: DeleteKeyChainRememberEmailUseCase
     
     public init(authUseCase: AuthenticateUseCase,
-                saveKeyChainEmailUseCase: SaveKeyChainRememberEmailUseCase) {
+                saveKeyChainEmailUseCase: SaveKeyChainRememberEmailUseCase,
+                getKeyChainEmailUseCase: GetKeyChainRememberEmailUseCase
+//                delKeyChainEmailUseCase: DeleteKeyChainRememberEmailUseCase
+    ) {
         self.authUseCase = authUseCase
         self.saveKeyChainEmailUseCase = saveKeyChainEmailUseCase
+        self.getKeyChainEmailUseCase = getKeyChainEmailUseCase
+//        self.delKeyChainEmailUseCase = delKeyChainEmailUseCase
+    }
+
+    public func getEmailKeyChain() -> String? {
+        do {
+            return try getKeyChainEmailUseCase.getEmail()
+        } catch let error {
+            print(error)
+        }
+        return nil
     }
     
     public func login(email: String, password: String) {
