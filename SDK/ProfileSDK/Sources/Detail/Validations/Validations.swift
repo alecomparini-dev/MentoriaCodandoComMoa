@@ -76,18 +76,3 @@ extension Validations: EmailValidations {
         return emailValidator.validate(data: ["email": email])
     }
 }
-
-//  MARK: - EXTENSION - RequiredFieldsValidation
-extension Validations: RequiredFieldsValidation {
-    
-    
-    public func validate(fields: [FieldName : FieldValue]) -> [FieldNameFails] {
-        
-        return []
-    }
-    
-    
-    
-    
-    
-}
