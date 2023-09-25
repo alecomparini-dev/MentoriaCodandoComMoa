@@ -12,6 +12,7 @@ import ProfileUseCases
 import ProfileUseCaseGateway
 import ProfileAuthentication
 import ProfileLocalStorage
+import ProfileValidations
 import LocalStorageSDKMain
 import LocalStorageDetails
 
@@ -43,10 +44,13 @@ class LoginViewControllerFactory {
         
         let delKeyChainEmailUseCase = DeleteKeyChainRememberEmailUseCaseImpl(delRememberEmailGateway: delKeyChainEmailUseCaseGateway)
         
+        let validation = Validations()
+        
         let signInPresenter = SignInPresenterImpl(authUseCase: authUseCase,
                                                   saveKeyChainEmailUseCase: saveKeyChainEmailUseCase, 
                                                   getKeyChainEmailUseCase: getKeyChainEmailUseCase, 
-                                                  delKeyChainEmailUseCase: delKeyChainEmailUseCase )
+                                                  delKeyChainEmailUseCase: delKeyChainEmailUseCase, 
+                                                  emailValidator: validation )
         
         return SignInViewController(signInPresenter: signInPresenter)
     }
