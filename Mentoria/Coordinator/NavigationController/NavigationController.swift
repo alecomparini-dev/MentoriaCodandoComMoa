@@ -33,6 +33,7 @@ public final class NavigationController: UINavigationController {
     private func setup() {
         navigationBar.barStyle = .black
         navigationBar.isHidden = true
+        navigationController?.isNavigationBarHidden = true
     }
     
 }
