@@ -35,15 +35,15 @@ class HomeView: UIView {
     
     lazy var menuSandwich: ImageViewBuilder = {
         let comp = ImageViewBuilder(systemName: "line.3.horizontal")
-            .setContentMode(.scaleAspectFit)
-//            .setBackgroundColor(color: .red)
+            .setContentMode(.scaleToFill)
             .setTintColor(hexColor: "#FFFFFF")
             .setSize(24)
             .setConstraints { build in
                 build
-                    .setTop.equalToSafeArea(42)
+                    .setTop.equalToSafeArea(24)
                     .setLeading.equalToSafeArea(16)
-                    .setSize.equalToConstant(40)
+                    .setWidth.equalToConstant(35)
+                    .setHeight.equalToConstant(40)
             }
         return comp
     }()
