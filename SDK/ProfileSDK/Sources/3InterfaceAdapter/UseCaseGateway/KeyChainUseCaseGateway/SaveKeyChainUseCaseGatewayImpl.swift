@@ -1,10 +1,10 @@
-//  Created by Alessandro Comparini on 22/09/23.
+//  Created by Alessandro Comparini on 29/09/23.
 //
 
 import Foundation
 import ProfileUseCases
 
-public class SaveKeyChainRememberEmailUseCaseGatewayImpl: SaveKeyChainRememberEmailUseCaseGateway {
+public class SaveKeyChainUseCaseGatewayImpl: SaveKeyChainUseCaseGateway {
     
     private let localStorageKeyChainProvider: InsertStorageProvider
     
@@ -12,8 +12,8 @@ public class SaveKeyChainRememberEmailUseCaseGatewayImpl: SaveKeyChainRememberEm
         self.localStorageKeyChainProvider = localStorageKeyChainProvider
     }
     
-    public func save(_ email: String) throws {
-        try localStorageKeyChainProvider.insert(email)
+    public func save(_ value: String) throws {
+        try localStorageKeyChainProvider.insert(value)
     }
     
     

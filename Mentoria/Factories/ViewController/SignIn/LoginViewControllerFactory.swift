@@ -32,9 +32,9 @@ class LoginViewControllerFactory {
         
         let localStorage = LocalStorage(storageProvider: keyChainProviderStrategy)
         
-        let saveKeyChainEmailUseCaseGateway = SaveKeyChainRememberEmailUseCaseGatewayImpl(localStorageKeyChainProvider: localStorage)
+        let saveKeyChainGateway = SaveKeyChainUseCaseGatewayImpl(localStorageKeyChainProvider: localStorage)
         
-        let saveKeyChainEmailUseCase = SaveKeyChainRememberEmailUseCaseImpl(saveRememberEmailGateway: saveKeyChainEmailUseCaseGateway)
+        let saveKeyChainEmailUseCase = SaveKeyChainRememberEmailUseCaseImpl(saveKeyChainGateway: saveKeyChainGateway)
         
         let getKeyChainEmailUseCaseGateway = GetKeyChainRememberEmailUseCaseGatewayImpl(localStorageKeyChainProvider: localStorage)
         

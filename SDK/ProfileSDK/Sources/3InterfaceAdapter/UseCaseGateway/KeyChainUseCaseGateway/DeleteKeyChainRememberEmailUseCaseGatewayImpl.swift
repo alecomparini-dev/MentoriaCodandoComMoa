@@ -5,7 +5,7 @@ import Foundation
 
 import ProfileUseCases
 
-public class DeleteKeyChainRememberEmailUseCaseGatewayImpl: DeleteKeyChainRememberEmailUseCaseGateway {
+public class DeleteKeyChainRememberEmailUseCaseGatewayImpl: DeleteKeyChainUseCaseGateway {
     
     private let localStorageKeyChainProvider: DeleteStorageProvider
     
@@ -13,8 +13,7 @@ public class DeleteKeyChainRememberEmailUseCaseGatewayImpl: DeleteKeyChainRememb
         self.localStorageKeyChainProvider = localStorageKeyChainProvider
     }
     
-    public func delete() throws {
-        try localStorageKeyChainProvider.delete("email")
+    public func delete(_ id: String) throws {
+        try localStorageKeyChainProvider.delete(id)
     }
-    
 }

@@ -5,14 +5,14 @@ import Foundation
 
 public class SaveKeyChainRememberEmailUseCaseImpl: SaveKeyChainRememberEmailUseCase {
     
-    private let saveRememberEmailGateway: SaveKeyChainRememberEmailUseCaseGateway
+    private let saveKeyChainGateway: SaveKeyChainUseCaseGateway
     
-    public init(saveRememberEmailGateway: SaveKeyChainRememberEmailUseCaseGateway) {
-        self.saveRememberEmailGateway = saveRememberEmailGateway
+    public init(saveKeyChainGateway: SaveKeyChainUseCaseGateway) {
+        self.saveKeyChainGateway = saveKeyChainGateway
     }
     
     public func save(_ email: String) throws {
-        try saveRememberEmailGateway.save(email)
+        try saveKeyChainGateway.save(email)
     }
     
 }

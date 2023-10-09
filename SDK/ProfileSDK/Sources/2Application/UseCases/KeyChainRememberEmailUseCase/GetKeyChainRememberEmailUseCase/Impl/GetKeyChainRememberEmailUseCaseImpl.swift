@@ -5,14 +5,14 @@ import Foundation
 
 public class GetKeyChainRememberEmailUseCaseImpl: GetKeyChainRememberEmailUseCase {
     
-    private let getRememberEmailGateway: GetKeyChainRememberEmailUseCaseGateway
+    private let getRememberEmailGateway: GetKeyChainUseCaseGateway
     
-    public init(getRememberEmailGateway: GetKeyChainRememberEmailUseCaseGateway) {
+    public init(getRememberEmailGateway: GetKeyChainUseCaseGateway) {
         self.getRememberEmailGateway = getRememberEmailGateway
     }
     
     public func getEmail() throws -> String? {
-        return try getRememberEmailGateway.getEmail()
+        return try getRememberEmailGateway.get("email")
     }
     
 }
