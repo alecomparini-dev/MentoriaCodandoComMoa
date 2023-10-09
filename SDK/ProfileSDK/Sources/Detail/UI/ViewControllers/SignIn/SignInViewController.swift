@@ -1,7 +1,3 @@
-//
-//  SignInViewController.swift
-//  DetailLayer
-//
 //  Created by Alessandro Comparini on 30/08/23.
 //
 
@@ -39,7 +35,7 @@ public final class SignInViewController: UIViewController {
     //  MARK: - LIFE CYCLE
     
     public override func loadView() {
-        self.view = self.screen
+        self.view = screen
     }
     
     public override func viewDidLoad() {
@@ -50,16 +46,6 @@ public final class SignInViewController: UIViewController {
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         getEmailKeyChain()
-    }
-    
-    private func getEmailKeyChain() {
-        if let email = signInPresenter.getEmailKeyChain() {
-            screen.emailLoginView.emailTextField.get.text = email
-            screen.rememberSwitch.setIsOn(true)
-            return
-        }
-        screen.emailLoginView.emailTextField.get.text = ""
-        screen.rememberSwitch.setIsOn(false)
     }
     
     
@@ -73,6 +59,15 @@ public final class SignInViewController: UIViewController {
         signInPresenter.outputDelegate = self
     }
     
+    private func getEmailKeyChain() {
+        if let email = signInPresenter.getEmailKeyChain() {
+            screen.emailLoginView.emailTextField.get.text = email
+            screen.rememberSwitch.setIsOn(true)
+            return
+        }
+        screen.emailLoginView.emailTextField.get.text = ""
+        screen.rememberSwitch.setIsOn(false)
+    }
     
 }
 
