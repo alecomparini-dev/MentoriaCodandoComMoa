@@ -5,7 +5,7 @@ import Foundation
 
 import ProfileUseCases
 
-public class GetKeyChainRememberEmailUseCaseGatewayImpl: GetKeyChainRememberEmailUseCaseGateway {
+public class GetKeyChainRememberEmailUseCaseGatewayImpl: GetKeyChainUseCaseGateway {
     
     private let localStorageKeyChainProvider: FetchStorageProvider
     
@@ -13,9 +13,8 @@ public class GetKeyChainRememberEmailUseCaseGatewayImpl: GetKeyChainRememberEmai
         self.localStorageKeyChainProvider = localStorageKeyChainProvider
     }
     
-    public func getEmail() throws -> String? {
-        return try localStorageKeyChainProvider.fetchByID("email")
+    public func get(_ id: String) throws -> String? {
+        return try localStorageKeyChainProvider.fetchByID(id)
     }
-    
     
 }

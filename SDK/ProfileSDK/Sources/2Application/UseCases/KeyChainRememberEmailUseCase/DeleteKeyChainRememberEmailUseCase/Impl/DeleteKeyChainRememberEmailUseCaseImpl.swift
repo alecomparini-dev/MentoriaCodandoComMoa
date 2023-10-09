@@ -5,13 +5,13 @@ import Foundation
 
 public class DeleteKeyChainRememberEmailUseCaseImpl: DeleteKeyChainRememberEmailUseCase {
     
-    private let delRememberEmailGateway: DeleteKeyChainRememberEmailUseCaseGateway
+    private let delRememberEmailGateway: DeleteKeyChainUseCaseGateway
     
-    public init(delRememberEmailGateway: DeleteKeyChainRememberEmailUseCaseGateway) {
+    public init(delRememberEmailGateway: DeleteKeyChainUseCaseGateway) {
         self.delRememberEmailGateway = delRememberEmailGateway
     }
     
     public func delete() throws {
-        try delRememberEmailGateway.delete()
+        try delRememberEmailGateway.delete("email")
     }
 }
