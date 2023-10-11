@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Mentoria deseja acessar sua galeria de foto</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Mentoria deseja acessar sua câmera</string>
 	<key>ENV</key>
 	<dict>
 		<key>API_BASE_URL</key>

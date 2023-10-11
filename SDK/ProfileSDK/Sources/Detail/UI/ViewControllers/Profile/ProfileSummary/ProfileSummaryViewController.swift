@@ -6,9 +6,8 @@ import UIKit
 
 public final class ProfileSummaryViewController: UIViewController {
     
-    
     lazy var screen: ProfileSummaryView = {
-        let view = ProfileSummaryView()
+        let view = ProfileSummaryView(viewController: self)
         return view
     }()
 
