@@ -32,11 +32,27 @@ class ProfileSummaryView: UIView {
         return comp
     }()
     
+    lazy var perfilTextTitle: CustomTextTitle = {
+        let comp = CustomTextTitle()
+            .setText("Perfil")
+            .setTextAlignment(.center)
+            .setConstraints { build in
+                build
+                    .setTop.equalToSafeArea(24)
+                    .setLeading.setTrailing.equalToSafeArea(16)
+            }
+        return comp
+    }()
+    
+    
+    
+    
+    
     
     lazy var profilePictureView: ProfilePictureBuilder = {
         let comp = ProfilePictureBuilder(size: 112)
             .setBackgroundColor(hexColor: "#FFFFFF")
-            .setTintColor("#000000")
+            .setTintColor("#282a36")
             .setChooseSource(viewController: viewController, { build in
                 build
                     .setTitle("Escolha:")
@@ -45,7 +61,7 @@ class ProfileSummaryView: UIView {
             })
             .setConstraints { build in
                 build
-                    .setTop.equalToSafeArea(80)
+                    .setTop.equalTo(perfilTextTitle.get, .bottom, 24)
                     .setLeading.setTrailing.equalToSafeArea(24)
                     .setHeight.equalToConstant(120)
                     
@@ -53,7 +69,117 @@ class ProfileSummaryView: UIView {
         return comp
     }()
     
+    lazy var userNameText: CustomTextTitle = {
+        let comp = CustomTextTitle()
+            .setText("Marcelo Oliveira")
+            .setTextAlignment(.center)
+            .setConstraints { build in
+                build
+                    .setTop.equalTo(profilePictureView.get, .bottom, 16)
+                    .setLeading.setTrailing.equalToSafeArea(16)
+            }
+        return comp
+    }()
     
+    lazy var professionText: CustomText = {
+        let comp = CustomText()
+            .setText("Eletricista")
+            .setTextAlignment(.center)
+            .setConstraints { build in
+                build
+                    .setTop.equalTo(userNameText.get, .bottom, 4)
+                    .setLeading.setTrailing.equalToSafeArea(16)
+            }
+        return comp
+    }()
+    
+    lazy var cpfLabelText: CustomText = {
+        let comp = CustomText()
+            .setText("CPF")
+            .setConstraints { build in
+                build
+                    .setTop.equalTo(professionText.get, .bottom, 24)
+                    .setLeading.setTrailing.equalToSafeArea(16)
+            }
+        return comp
+    }()
+    
+    lazy var cpfTextField: TextFieldBuilder = {
+        let comp = TextFieldBuilder()
+            .setReadOnly(true)
+            .setBackgroundColor(hexColor: "#ffffff")
+            .setPadding(8)
+            .setText("625.003.820-00")
+            .setBorder({ build in
+                build
+                    .setCornerRadius(8)
+            })
+            .setConstraints { build in
+                build
+                    .setTop.equalTo(cpfLabelText.get, .bottom, 8)
+                    .setLeading.setTrailing.equalToSafeArea(16)
+                    .setHeight.equalToConstant(48)
+            }
+        return comp
+    }()
+    
+    lazy var dataOfBirthLabelText: CustomText = {
+        let comp = CustomText()
+            .setText("Data de nascimento")
+            .setConstraints { build in
+                build
+                    .setTop.equalTo(cpfTextField.get, .bottom, 24)
+                    .setLeading.setTrailing.equalTo(cpfLabelText.get)
+            }
+        return comp
+    }()
+    
+    lazy var dataOfBirthTextField: TextFieldBuilder = {
+        let comp = TextFieldBuilder()
+            .setReadOnly(true)
+            .setBackgroundColor(hexColor: "#ffffff")
+            .setPadding(8)
+            .setText("26/06/1980")
+            .setBorder({ build in
+                build
+                    .setCornerRadius(8)
+            })
+            .setConstraints { build in
+                build
+                    .setTop.equalTo(dataOfBirthLabelText.get, .bottom, 8)
+                    .setLeading.setTrailing.setHeight.equalTo(cpfTextField.get)
+            }
+        return comp
+    }()
+    
+    lazy var phoneNumberLabelText: CustomText = {
+        let comp = CustomText()
+            .setText("Telefone")
+            .setConstraints { build in
+                build
+                    .setTop.equalTo(dataOfBirthTextField.get, .bottom, 24)
+                    .setLeading.setTrailing.equalTo(cpfLabelText.get)
+            }
+        return comp
+    }()
+    
+    lazy var phoneNumberTextField: TextFieldBuilder = {
+        let comp = TextFieldBuilder()
+            .setReadOnly(true)
+            .setBackgroundColor(hexColor: "#ffffff")
+            .setPadding(8)
+            .setText("(53) 98262-0320")
+            .setBorder({ build in
+                build
+                    .setCornerRadius(8)
+            })
+            .setConstraints { build in
+                build
+                    .setTop.equalTo(phoneNumberLabelText.get, .bottom, 8)
+                    .setLeading.setTrailing.setHeight.equalTo(cpfTextField.get)
+            }
+        return comp
+    }()
     
     
 //  MARK: - PRIVATE AREA
@@ -65,11 +191,29 @@ class ProfileSummaryView: UIView {
     
     private func addElements() {
         backgroundView.add(insideTo: self)
+        perfilTextTitle.add(insideTo: self)
+        userNameText.add(insideTo: self)
+        professionText.add(insideTo: self)
         profilePictureView.add(insideTo: self)
+        cpfLabelText.add(insideTo: self)
+        cpfTextField.add(insideTo: self)
+        dataOfBirthLabelText.add(insideTo: self)
+        dataOfBirthTextField.add(insideTo: self)
+        phoneNumberLabelText.add(insideTo: self)
+        phoneNumberTextField.add(insideTo: self)
     }
     
     private func configConstraints() {
         backgroundView.applyConstraint()
+        perfilTextTitle.applyConstraint()
         profilePictureView.applyConstraint()
+        userNameText.applyConstraint()
+        professionText.applyConstraint()
+        cpfLabelText.applyConstraint()
+        cpfTextField.applyConstraint()
+        dataOfBirthLabelText.applyConstraint()
+        dataOfBirthTextField.applyConstraint()
+        phoneNumberLabelText.applyConstraint()
+        phoneNumberTextField.applyConstraint()
     }
 }
