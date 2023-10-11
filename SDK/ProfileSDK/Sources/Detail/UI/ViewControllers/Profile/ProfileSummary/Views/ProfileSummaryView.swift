@@ -39,7 +39,7 @@ class ProfileSummaryView: UIView {
             .setTintColor("#000000")
             .setChooseSource(viewController: viewController, { build in
                 build
-                    .setTitle(title: "Escolha:")
+                    .setTitle("Escolha:")
                     .setOpenCamera { _ in }
                     .setOpenGallery { _ in }
             })
