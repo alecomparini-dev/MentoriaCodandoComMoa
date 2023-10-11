@@ -13,6 +13,9 @@ class EmailLoginTextFieldView: ViewBuilder {
         configure()
     }
     
+    
+//  MARK: - LAZY AREA
+    
     lazy var backgroundView: ViewBuilder = {
         let comp = ViewBuilder()
             .setConstraints { build in

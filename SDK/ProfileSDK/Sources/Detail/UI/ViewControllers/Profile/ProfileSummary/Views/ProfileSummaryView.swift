@@ -4,10 +4,14 @@
 import UIKit
 
 import DesignerSystemSDKComponent
+import CustomComponentsSDK
 
 class ProfileSummaryView: UIView {
-
-    init() {
+    
+    private weak var viewController: UIViewController!
+    
+    init(viewController: UIViewController) {
+        self.viewController = viewController
         super.init(frame: .zero)
         configure()
     }
@@ -18,6 +22,7 @@ class ProfileSummaryView: UIView {
     
     
 //  MARK: - LAZY AREA
+    
     lazy var backgroundView: CustomView = {
         let comp = CustomView()
             .setConstraints { build in
@@ -26,6 +31,29 @@ class ProfileSummaryView: UIView {
             }
         return comp
     }()
+    
+    
+    lazy var profilePictureView: ProfilePictureBuilder = {
+        let comp = ProfilePictureBuilder(size: 112)
+            .setBackgroundColor(hexColor: "#FFFFFF")
+            .setTintColor("#000000")
+            .setChooseSource(viewController: viewController, { build in
+                build
+                    .setTitle(title: "Escolha:")
+                    .setOpenCamera { _ in }
+                    .setOpenGallery { _ in }
+            })
+            .setConstraints { build in
+                build
+                    .setTop.equalToSafeArea(80)
+                    .setLeading.setTrailing.equalToSafeArea(24)
+                    .setHeight.equalToConstant(120)
+                    
+            }
+        return comp
+    }()
+    
+    
     
     
 //  MARK: - PRIVATE AREA
@@ -37,9 +65,11 @@ class ProfileSummaryView: UIView {
     
     private func addElements() {
         backgroundView.add(insideTo: self)
+        profilePictureView.add(insideTo: self)
     }
     
     private func configConstraints() {
         backgroundView.applyConstraint()
+        profilePictureView.applyConstraint()
     }
 }
