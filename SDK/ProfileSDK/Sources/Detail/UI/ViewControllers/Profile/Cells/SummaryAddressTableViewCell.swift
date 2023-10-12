@@ -37,6 +37,7 @@ class SummaryAddressTableViewCell: UITableViewCell {
             .setInsertText("Rua 29 Quadra 11 Casa 12\n")
             .setInsertText("719092-831\n")
             .setInsertText("Brasília-DF")
+            .setTextColor(hexColor: "#282a36")
             .setSize(17)
             .setLineSpacing(10)
             .setReadOnly(true)

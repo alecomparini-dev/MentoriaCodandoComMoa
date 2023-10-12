@@ -36,6 +36,7 @@ class FieldOfWorkTableViewCell: UITableViewCell {
         let comp = TextFieldBuilder()
             .setReadOnly(true)
             .setBackgroundColor(hexColor: "#ffffff")
+            .setTextColor(hexColor: "#282a36")
             .setPadding(8)
             .setText("Eletricista")
             .setBorder({ build in

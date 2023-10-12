@@ -35,6 +35,7 @@ class DataOfBirthTableViewCell: UITableViewCell {
         let comp = TextFieldBuilder()
             .setReadOnly(true)
             .setBackgroundColor(hexColor: "#ffffff")
+            .setTextColor(hexColor: "#282a36")
             .setPadding(8)
             .setText("26/06/1980")
             .setBorder({ build in

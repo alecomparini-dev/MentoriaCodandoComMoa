@@ -20,8 +20,8 @@ class EditProfileButtonTableViewCell: UITableViewCell {
     
     
 //  MARK: - LAZY AREA
-    lazy var updateProfileButtom: CustomButtonPrimary = {
-        let comp = CustomButtonPrimary("Editar Perfil")
+    lazy var updateProfileButtom: CustomButtonSecondary = {
+        let comp = CustomButtonSecondary("Editar Perfil")
             .setConstraints { build in
                 build
                     .setHorizontalAlignmentX.equalToSafeArea

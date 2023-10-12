@@ -46,7 +46,7 @@ class ProfileSummaryView: UIView {
     lazy var tableViewScroll: TableViewBuilder = {
         let comp = TableViewBuilder()
             .setShowsScroll(false, .both)
-            .setSeparatorStyle(.singleLine)
+            .setSeparatorStyle(.none)
             .setBackgroundColor(color: .clear)
             .setRegisterCell(ProfilePictureTableViewCell.self)
             .setRegisterCell(CPFTableViewCell.self)
