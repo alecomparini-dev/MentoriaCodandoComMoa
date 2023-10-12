@@ -53,7 +53,7 @@ public final class ProfileSummaryViewController: UIViewController {
                 return 180
                 
             case .editProfileButton:
-                return 280
+                return 260
                 
             default:
                 return 105

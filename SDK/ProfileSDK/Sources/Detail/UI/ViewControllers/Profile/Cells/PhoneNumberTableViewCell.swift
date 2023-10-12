@@ -36,6 +36,7 @@ class PhoneNumberTableViewCell: UITableViewCell {
         let comp = TextFieldBuilder()
             .setReadOnly(true)
             .setBackgroundColor(hexColor: "#ffffff")
+            .setTextColor(hexColor: "#282a36")
             .setPadding(8)
             .setText("(53) 98262-0320")
             .setBorder({ build in
