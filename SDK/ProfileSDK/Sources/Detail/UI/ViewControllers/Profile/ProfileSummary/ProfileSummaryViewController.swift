@@ -13,11 +13,11 @@ public final class ProfileSummaryViewController: UIViewController {
         case phoneNumber = 3
         case fieldOfWork = 4
         case summaryAddress = 5
-        case updateProfileButton = 6
+        case editProfileButton = 6
     }
     
     lazy var screen: ProfileSummaryView = {
-        let view = ProfileSummaryView(viewController: self)
+        let view = ProfileSummaryView()
         return view
     }()
 
@@ -50,17 +50,91 @@ public final class ProfileSummaryViewController: UIViewController {
                 return 220
                 
             case .summaryAddress:
-                return 210
-                
-            case .updateProfileButton:
                 return 180
                 
+            case .editProfileButton:
+                return 280
+                
             default:
-                return 100
+                return 105
         }
         
     }
     
+    private func getTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
+        
+        switch TypeCells(rawValue: indexPath.row ) {
+            
+            case .cpf:
+                return getCPFTableViewCell(tableView, indexPath)
+        
+            case .dataOfBirth:
+                return getDataOfBirthTableViewCell(tableView, indexPath)
+            
+            case .profilePicture:
+                return getProfilePictureTableViewCell(tableView, indexPath)
+
+            case .phoneNumber:
+                return getPhoneNumberTableViewCell(tableView, indexPath)
+            
+            case .fieldOfWork:
+                return getFieldOfWorkTableViewCell(tableView, indexPath)
+            
+            case .summaryAddress:
+                return getSummaryAddressTableViewCell(tableView, indexPath)
+            
+            case .editProfileButton:
+                return getEditProfileButtonTableViewCell(tableView, indexPath)
+                
+            default:
+                let cell = UITableViewCell()
+                cell.backgroundColor = .clear
+                return cell
+        }
+        
+    }
+    
+    private func getProfilePictureTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: ProfilePictureTableViewCell.identifier, for: indexPath) as? ProfilePictureTableViewCell
+        cell?.setupCell(self)
+        return cell ?? UITableViewCell()
+    }
+    
+    private func getCPFTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: CPFTableViewCell.identifier, for: indexPath) as? CPFTableViewCell
+        cell?.setupCell()
+        return cell ?? UITableViewCell()
+    }
+    
+    private func getDataOfBirthTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: DataOfBirthTableViewCell.identifier, for: indexPath) as? DataOfBirthTableViewCell
+        cell?.setupCell()
+        return cell ?? UITableViewCell()
+    }
+    
+    private func getPhoneNumberTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: PhoneNumberTableViewCell.identifier, for: indexPath) as? PhoneNumberTableViewCell
+        cell?.setupCell()
+        return cell ?? UITableViewCell()
+    }
+    
+    private func getFieldOfWorkTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: FieldOfWorkTableViewCell.identifier, for: indexPath) as? FieldOfWorkTableViewCell
+        cell?.setupCell()
+        return cell ?? UITableViewCell()
+    }
+
+    private func getSummaryAddressTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: SummaryAddressTableViewCell.identifier, for: indexPath) as? SummaryAddressTableViewCell
+        cell?.setupCell()
+        return cell ?? UITableViewCell()
+    }
+    
+    private func getEditProfileButtonTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: EditProfileButtonTableViewCell.identifier, for: indexPath) as? EditProfileButtonTableViewCell
+        cell?.setupCell()
+        return cell ?? UITableViewCell()
+    }
 }
 
 
@@ -83,10 +157,11 @@ extension ProfileSummaryViewController: UITableViewDataSource {
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = UITableViewCell()
+        let cell = getTableViewCell(tableView, indexPath)
         
-//        cell.selectionStyle = .none
-        cell.backgroundColor = .red.withAlphaComponent(0.3)
+        cell.selectionStyle = .none
+        
+        cell.backgroundColor = .clear
         
         return cell
     }
