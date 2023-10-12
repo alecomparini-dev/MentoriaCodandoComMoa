@@ -10,8 +10,7 @@ class ProfileSummaryView: UIView {
     
     private weak var viewController: UIViewController!
     
-    init(viewController: UIViewController) {
-        self.viewController = viewController
+    init() {
         super.init(frame: .zero)
         configure()
     }
@@ -32,28 +31,37 @@ class ProfileSummaryView: UIView {
         return comp
     }()
     
-    
-    lazy var profilePictureView: ProfilePictureBuilder = {
-        let comp = ProfilePictureBuilder(size: 112)
-            .setBackgroundColor(hexColor: "#FFFFFF")
-            .setTintColor("#000000")
-            .setChooseSource(viewController: viewController, { build in
-                build
-                    .setTitle("Escolha:")
-                    .setOpenCamera { _ in }
-                    .setOpenGallery { _ in }
-            })
+    lazy var perfilTextTitle: CustomTextTitle = {
+        let comp = CustomTextTitle()
+            .setText("Perfil")
+            .setTextAlignment(.center)
             .setConstraints { build in
                 build
-                    .setTop.equalToSafeArea(80)
-                    .setLeading.setTrailing.equalToSafeArea(24)
-                    .setHeight.equalToConstant(120)
-                    
+                    .setTop.equalToSafeArea(24)
+                    .setLeading.setTrailing.equalToSafeArea(16)
             }
         return comp
     }()
     
-    
+    lazy var tableViewScroll: TableViewBuilder = {
+        let comp = TableViewBuilder()
+            .setShowsScroll(false, .both)
+            .setSeparatorStyle(.singleLine)
+            .setBackgroundColor(color: .clear)
+            .setRegisterCell(ProfilePictureTableViewCell.self)
+            .setRegisterCell(CPFTableViewCell.self)
+            .setRegisterCell(DataOfBirthTableViewCell.self)
+            .setRegisterCell(PhoneNumberTableViewCell.self)
+            .setRegisterCell(FieldOfWorkTableViewCell.self)
+            .setRegisterCell(SummaryAddressTableViewCell.self)
+            .setRegisterCell(EditProfileButtonTableViewCell.self)
+            .setConstraints { build in
+                build
+                    .setTop.equalTo(perfilTextTitle.get, .bottom, 16)
+                    .setPinBottom.equalToSafeArea
+            }
+        return comp
+    }()
     
     
 //  MARK: - PRIVATE AREA
@@ -65,11 +73,13 @@ class ProfileSummaryView: UIView {
     
     private func addElements() {
         backgroundView.add(insideTo: self)
-        profilePictureView.add(insideTo: self)
+        perfilTextTitle.add(insideTo: self)
+        tableViewScroll.add(insideTo: self)
     }
     
     private func configConstraints() {
         backgroundView.applyConstraint()
-        profilePictureView.applyConstraint()
+        perfilTextTitle.applyConstraint()
+        tableViewScroll.applyConstraint()
     }
 }
