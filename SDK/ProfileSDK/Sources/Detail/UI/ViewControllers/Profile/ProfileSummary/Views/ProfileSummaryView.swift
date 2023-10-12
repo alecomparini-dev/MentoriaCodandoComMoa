@@ -45,7 +45,17 @@ class ProfileSummaryView: UIView {
     }()
     
     
-    
+    lazy var tableViewScroll: TableViewBuilder = {
+        let comp = TableViewBuilder()
+            .setShowsScroll(false, .both)
+            .setSeparatorStyle(.none)
+            .setConstraints { build in
+                build
+                    .setTop.equalTo(perfilTextTitle.get, .bottom, 16)
+                    .setPinBottom.equalToSafeArea
+            }
+        return comp
+    }()
     
     
     
@@ -152,6 +162,7 @@ class ProfileSummaryView: UIView {
         return comp
     }()
     
+    
     lazy var phoneNumberLabelText: CustomText = {
         let comp = CustomText()
             .setText("Telefone")
@@ -182,6 +193,37 @@ class ProfileSummaryView: UIView {
     }()
     
     
+    
+    lazy var fieldOfWorkLabelText: CustomText = {
+        let comp = CustomText()
+            .setText("Ramo de atuação")
+            .setConstraints { build in
+                build
+                    .setTop.equalTo(phoneNumberTextField.get, .bottom, 24)
+                    .setLeading.setTrailing.equalTo(cpfLabelText.get)
+            }
+        return comp
+    }()
+    
+    lazy var fieldOfWorkTextField: TextFieldBuilder = {
+        let comp = TextFieldBuilder()
+            .setReadOnly(true)
+            .setBackgroundColor(hexColor: "#ffffff")
+            .setPadding(8)
+            .setText("Eletricista")
+            .setBorder({ build in
+                build
+                    .setCornerRadius(8)
+            })
+            .setConstraints { build in
+                build
+                    .setTop.equalTo(fieldOfWorkLabelText.get, .bottom, 8)
+                    .setLeading.setTrailing.setHeight.equalTo(cpfTextField.get)
+            }
+        return comp
+    }()
+    
+    
 //  MARK: - PRIVATE AREA
     
     private func configure() {
@@ -192,6 +234,9 @@ class ProfileSummaryView: UIView {
     private func addElements() {
         backgroundView.add(insideTo: self)
         perfilTextTitle.add(insideTo: self)
+        
+        tableViewScroll.add(insideTo: self)
+        
         userNameText.add(insideTo: self)
         professionText.add(insideTo: self)
         profilePictureView.add(insideTo: self)
@@ -201,11 +246,16 @@ class ProfileSummaryView: UIView {
         dataOfBirthTextField.add(insideTo: self)
         phoneNumberLabelText.add(insideTo: self)
         phoneNumberTextField.add(insideTo: self)
+        fieldOfWorkLabelText.add(insideTo: self)
+        fieldOfWorkTextField.add(insideTo: self)
     }
     
     private func configConstraints() {
         backgroundView.applyConstraint()
         perfilTextTitle.applyConstraint()
+        
+        tableViewScroll.applyConstraint()
+        
         profilePictureView.applyConstraint()
         userNameText.applyConstraint()
         professionText.applyConstraint()
@@ -215,5 +265,7 @@ class ProfileSummaryView: UIView {
         dataOfBirthTextField.applyConstraint()
         phoneNumberLabelText.applyConstraint()
         phoneNumberTextField.applyConstraint()
+        fieldOfWorkLabelText.applyConstraint()
+        fieldOfWorkTextField.applyConstraint()
     }
 }
