@@ -32,7 +32,7 @@ extension LoginCoordinator: SignInViewControllerCoordinator {
     }
     
     func gotoHome() {
-        let coordinator = HomeCoordinator(navigationController)
+        let coordinator = HomeTabBarCoordinator(navigationController)
         coordinator.start()
         coordinator.selectedTabBarItem(1)
         childCoordinator = nil

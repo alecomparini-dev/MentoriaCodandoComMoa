@@ -6,8 +6,13 @@ import UIKit
 import DesignerSystemSDKComponent
 import CustomComponentsSDK
 
+protocol ProfileRegistrationStep1ViewDelegate: AnyObject {
+    func backButtonTapped()
+}
+
+
 class ProfileRegistrationStep1View: UIView {
-    
+    weak var delegate: ProfileRegistrationStep1ViewDelegate?
     
     init() {
         super.init(frame: .zero)
@@ -32,28 +37,32 @@ class ProfileRegistrationStep1View: UIView {
     
     lazy var backButton: ButtonImageBuilder = {
         let img = ImageViewBuilder(systemName: "chevron.backward")
-            .setTintColor(hexColor: "#ffffff")
             .setContentMode(.center)
         let comp = ButtonImageBuilder()
             .setImageButton(img)
+            .setImageColor(hexColor: "#ffffff")
             .setConstraints { build in
                 build
                     .setTop.equalToSafeArea(24)
                     .setLeading.equalToSafeArea(16)
                     .setSize.equalToConstant(35)
             }
+        comp.get.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         return comp
     }()
+    @objc private func backButtonTapped() {
+        delegate?.backButtonTapped()
+    }
     
-    lazy var stepTextTitle: CustomTextTitle = {
-        let comp = CustomTextTitle()
+    lazy var stepTextTitle: CustomText = {
+        let comp = CustomText()
             .setText("Etapa 1 de 2")
+            .setSize(24)
             .setTextAlignment(.center)
             .setConstraints { build in
                 build
                     .setVerticalAlignmentY.equalTo(backButton.get)
-                    .setLeading.equalTo(backButton.get, .trailing)
-                    .setTrailing.equalToSafeArea(16)
+                    .setLeading.setTrailing.equalToSafeArea(16)
             }
         return comp
     }()
@@ -68,10 +77,10 @@ class ProfileRegistrationStep1View: UIView {
             .setRegisterCell(DataOfBirthTableViewCell.self)
             .setRegisterCell(PhoneNumberTableViewCell.self)
             .setRegisterCell(FieldOfWorkTableViewCell.self)
-            .setRegisterCell(SummaryAddressTableViewCell.self)
+            .setRegisterCell(ContinueRegistrationProfileButtonTableViewCell.self)
             .setConstraints { build in
                 build
-                    .setTop.equalTo(stepTextTitle.get, .bottom, 16)
+                    .setTop.equalTo(backButton.get, .bottom, 36)
                     .setPinBottom.equalToSafeArea
             }
         return comp
@@ -88,11 +97,13 @@ class ProfileRegistrationStep1View: UIView {
     private func addElements() {
         backgroundView.add(insideTo: self)
         stepTextTitle.add(insideTo: self)
+        backButton.add(insideTo: self)
         tableViewIdentification.add(insideTo: self)
     }
     
     private func configConstraints() {
         backgroundView.applyConstraint()
+        backButton.applyConstraint()
         stepTextTitle.applyConstraint()
         tableViewIdentification.applyConstraint()
     }

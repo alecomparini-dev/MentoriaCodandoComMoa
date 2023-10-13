@@ -2,16 +2,18 @@
 //
 
 import Foundation
+import UIKit
 
 import HomeUI
 import ProfileUI
 import CustomComponentsSDK
 
-class HomeCoordinator: Coordinator {
+class HomeTabBarCoordinator: Coordinator {
     var childCoordinator: Coordinator?
-    unowned let navigationController: NavigationController
     
-    private var homeTabBarControllers: HomeTabBar?
+    unowned var navigationController: NavigationController
+    
+    private weak var homeTabBarControllers: HomeTabBar?
     
     required init(_ navigationController: NavigationController) {
         self.navigationController = navigationController
@@ -21,18 +23,22 @@ class HomeCoordinator: Coordinator {
         childCoordinator = self
         
         let profileSummaryController = ProfileSummaryViewController()
+        profileSummaryController.coordinator = self
         
         let profileSummaryTabItem = TabBarItems(viewController: profileSummaryController, image: ImageViewBuilder(systemName: "person"), title: "Perfil")
         
         let homeController = TabBarItems(viewController: HomeViewController(), image: ImageViewBuilder(systemName: "wrench.and.screwdriver.fill"), title: "Seu Serviço")
-        let item3 = TabBarItems(viewController: HomeViewController(), image: ImageViewBuilder(systemName: "calendar"), title: "Agenda")
         
-        homeTabBarControllers = HomeTabBar(items: [profileSummaryTabItem, homeController, item3])
+        let item3 = TabBarItems(viewController: UIViewController(), image: ImageViewBuilder(systemName: "calendar"), title: "Agenda")
         
-        if let currentScene = CurrentWindow.get, let homeTabBarControllers {
-            currentScene.rootViewController = homeTabBarControllers.tabBar.get
+        let homeTabBar = HomeTabBar(items: [profileSummaryTabItem, homeController, item3])
+        
+        if let currentScene = CurrentWindow.get {
+            currentScene.rootViewController = homeTabBar.tabBar.get
         }
         
+        homeTabBarControllers = homeTabBar
+                
     }
     
     func selectedTabBarItem(_ index: Int) {
@@ -43,3 +49,20 @@ class HomeCoordinator: Coordinator {
     
 }
 
+
+extension HomeTabBarCoordinator: ProfileSummaryViewControllerCoordinator {
+    func gotoProfileRegistrationStep1() {
+        let nav = NavigationController()
+        
+        if let currentScene = CurrentWindow.get {
+            currentScene.rootViewController = nav
+        }
+        
+        let coordinator = ProfileRegistrationStep1Coordinator(nav)
+        coordinator.start()
+        childCoordinator = nil
+        homeTabBarControllers = nil
+    }
+    
+    
+}

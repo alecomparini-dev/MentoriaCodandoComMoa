@@ -6,9 +6,10 @@ import UIKit
 import DesignerSystemSDKComponent
 import CustomComponentsSDK
 
-class ProfileSummaryView: UIView {
+
+public class ProfileSummaryView: UIView {
     
-    init() {
+    public init() {
         super.init(frame: .zero)
         configure()
     }
@@ -41,7 +42,7 @@ class ProfileSummaryView: UIView {
         return comp
     }()
     
-    lazy var tableViewScroll: TableViewBuilder = {
+    public lazy var tableViewScroll: TableViewBuilder = {
         let comp = TableViewBuilder()
             .setShowsScroll(false, .both)
             .setSeparatorStyle(.none)

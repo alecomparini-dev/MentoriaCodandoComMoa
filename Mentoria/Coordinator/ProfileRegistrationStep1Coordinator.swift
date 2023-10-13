@@ -17,7 +17,21 @@ class ProfileRegistrationStep1Coordinator: Coordinator {
         childCoordinator = self
         var controller = ProfileRegistrationStep1ViewController()
         controller = navigationController.pushViewController(controller)
-//        controller.coordinator = self
+        controller.coordinator = self
     }
 
+}
+
+
+
+//  MARK: - EXTENSION LoginViewControllerCoordinator
+extension ProfileRegistrationStep1Coordinator: ProfileRegistrationStep1ViewControllerCoordinator {
+    
+    func gotoHomeTabBar() {
+        let coodinator = HomeTabBarCoordinator(navigationController)
+        coodinator.start()
+        coodinator.selectedTabBarItem(0)
+        childCoordinator = nil
+    }
+        
 }

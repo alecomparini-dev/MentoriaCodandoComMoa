@@ -33,7 +33,6 @@ class DataOfBirthTableViewCell: UITableViewCell {
     
     lazy var dataOfBirthTextField: TextFieldBuilder = {
         let comp = TextFieldBuilder()
-            .setReadOnly(true)
             .setBackgroundColor(hexColor: "#ffffff")
             .setTextColor(hexColor: "#282a36")
             .setPadding(8)

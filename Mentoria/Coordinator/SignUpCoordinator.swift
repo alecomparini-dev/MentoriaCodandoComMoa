@@ -37,7 +37,7 @@ extension SignUpCoordinator: SignUpViewControllerCoordinator {
     }
 
     func gotoHome() {
-        let coordinator = HomeCoordinator(navigationController)
+        let coordinator = HomeTabBarCoordinator(navigationController)
         coordinator.start()
         childCoordinator = nil
     }
