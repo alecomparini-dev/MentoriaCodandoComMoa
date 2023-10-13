@@ -6,8 +6,14 @@ import UIKit
 import CustomComponentsSDK
 import DesignerSystemSDKComponent
 
+protocol ContinueRegistrationProfileButtonTableViewCellDelegate: AnyObject {
+    func continueRegistrationTapped()
+}
+
 class ContinueRegistrationProfileButtonTableViewCell: UITableViewCell {
     static let identifier = String(describing: ContinueRegistrationProfileButtonTableViewCell.self)
+    
+    weak var delegate: ContinueRegistrationProfileButtonTableViewCellDelegate?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -33,7 +39,7 @@ class ContinueRegistrationProfileButtonTableViewCell: UITableViewCell {
         return comp
     }()
     @objc private func continueRegistrationTapped() {
-        
+        delegate?.continueRegistrationTapped()
     }
     
     

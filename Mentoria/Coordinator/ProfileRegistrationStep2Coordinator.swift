@@ -4,7 +4,7 @@
 import Foundation
 import ProfileUI
 
-class ProfileRegistrationStep1Coordinator: Coordinator {
+class ProfileRegistrationStep2Coordinator: Coordinator {
     var childCoordinator: Coordinator?
     
     unowned let navigationController: NavigationController
@@ -15,7 +15,7 @@ class ProfileRegistrationStep1Coordinator: Coordinator {
     
     func start() {
         childCoordinator = self
-        var controller = ProfileRegistrationStep1ViewController()
+        var controller = ProfileRegistrationStep2ViewController()
         controller = navigationController.pushViewController(controller)
         controller.coordinator = self
     }
@@ -25,7 +25,13 @@ class ProfileRegistrationStep1Coordinator: Coordinator {
 
 
 //  MARK: - EXTENSION LoginViewControllerCoordinator
-extension ProfileRegistrationStep1Coordinator: ProfileRegistrationStep1ViewControllerCoordinator {
+extension ProfileRegistrationStep2Coordinator: ProfileRegistrationStep2ViewControllerCoordinator {
+
+    func gotoProfileRegistrationStep1() {
+        let coordinator = ProfileRegistrationStep1Coordinator(navigationController)
+        coordinator.start()
+        childCoordinator = nil
+    }
     
     func gotoProfileHomeTabBar() {
         let coodinator = HomeTabBarCoordinator(navigationController)
@@ -34,11 +40,5 @@ extension ProfileRegistrationStep1Coordinator: ProfileRegistrationStep1ViewContr
         childCoordinator = nil
     }
     
-    func gotoProfileRegistrationStep2() {
-        let coordinator = ProfileRegistrationStep2Coordinator(navigationController)
-        coordinator.start()
-        childCoordinator = nil
-
-    }
         
 }
