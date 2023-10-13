@@ -6,14 +6,8 @@ import UIKit
 import CustomComponentsSDK
 import DesignerSystemSDKComponent
 
-public protocol EditProfileButtonTableViewCellDelegate: AnyObject {
-    func editProfileTapped()
-}
-
-
-class EditProfileButtonTableViewCell: UITableViewCell {
-    static let identifier = String(describing: EditProfileButtonTableViewCell.self)
-    weak var delegate: EditProfileButtonTableViewCellDelegate?
+class ContinueRegistrationProfileButtonTableViewCell: UITableViewCell {
+    static let identifier = String(describing: ContinueRegistrationProfileButtonTableViewCell.self)
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -26,8 +20,8 @@ class EditProfileButtonTableViewCell: UITableViewCell {
     
     
 //  MARK: - LAZY AREA
-    lazy var updateProfileButtom: CustomButtonSecondary = {
-        let comp = CustomButtonSecondary("Editar Perfil")
+    lazy var continueRegistrationButtom: CustomButtonPrimary = {
+        let comp = CustomButtonPrimary("Continuar")
             .setConstraints { build in
                 build
                     .setHorizontalAlignmentX.equalToSafeArea
@@ -35,14 +29,19 @@ class EditProfileButtonTableViewCell: UITableViewCell {
                     .setLeading.setTrailing.equalToSafeArea(44)
                     .setHeight.equalToConstant(48)
             }
-        comp.get.addTarget(self, action: #selector(editProfileTapped), for: .touchUpInside)
+        comp.get.addTarget(self, action: #selector(continueRegistrationTapped), for: .touchUpInside)
         return comp
     }()
-    @objc private func editProfileTapped() {
-        delegate?.editProfileTapped()
+    @objc private func continueRegistrationTapped() {
+        
     }
     
     
+//  MARK: - SETUP CELL
+    public func setupCell() {
+        
+    }
+        
         
 //  MARK: - PRIVATE AREA
     
@@ -52,11 +51,11 @@ class EditProfileButtonTableViewCell: UITableViewCell {
     }
     
     private func addElements() {
-        updateProfileButtom.add(insideTo: self.contentView)
+        continueRegistrationButtom.add(insideTo: self.contentView)
     }
     
     private func configConstraints() {
-        updateProfileButtom.applyConstraint()
+        continueRegistrationButtom.applyConstraint()
     }
     
 }

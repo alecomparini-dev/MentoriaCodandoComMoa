@@ -1,14 +1,12 @@
 //  Created by Alessandro Comparini on 12/10/23.
 //
-
-
 import UIKit
 
 import CustomComponentsSDK
 import DesignerSystemSDKComponent
 
-class CPFTableViewCell: UITableViewCell {
-    static let identifier = String(describing: CPFTableViewCell.self)
+class NameTableViewCell: UITableViewCell {
+    static let identifier = String(describing: NameTableViewCell.self)
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -22,9 +20,9 @@ class CPFTableViewCell: UITableViewCell {
     
 //  MARK: - LAZY AREA
     
-    lazy var cpfLabelText: CustomText = {
+    lazy var nameLabelText: CustomText = {
         let comp = CustomText()
-            .setText("CPF")
+            .setText("Nome Completo")
             .setConstraints { build in
                 build
                     .setTop.equalToSafeArea(8)
@@ -33,20 +31,18 @@ class CPFTableViewCell: UITableViewCell {
         return comp
     }()
     
-    lazy var cpfTextField: TextFieldBuilder = {
+    lazy var nameTextField: TextFieldBuilder = {
         let comp = TextFieldBuilder()
-            .setReadOnly(true)
             .setBackgroundColor(hexColor: "#ffffff")
             .setTextColor(hexColor: "#282a36")
             .setPadding(8)
-            .setText("625.003.820-00")
             .setBorder({ build in
                 build
                     .setCornerRadius(8)
             })
             .setConstraints { build in
                 build
-                    .setTop.equalTo(cpfLabelText.get, .bottom, 8)
+                    .setTop.equalTo(nameLabelText.get, .bottom, 8)
                     .setLeading.setTrailing.equalToSafeArea(24)
                     .setHeight.equalToConstant(48)
             }
@@ -68,13 +64,14 @@ class CPFTableViewCell: UITableViewCell {
     }
     
     private func addElements() {
-        cpfLabelText.add(insideTo: self.contentView)
-        cpfTextField.add(insideTo: self.contentView)
+        nameLabelText.add(insideTo: self.contentView)
+        nameTextField.add(insideTo: self.contentView)
     }
     
     private func configConstraints() {
-        cpfLabelText.applyConstraint()
-        cpfTextField.applyConstraint()
+        nameLabelText.applyConstraint()
+        nameTextField.applyConstraint()
     }
     
 }
+

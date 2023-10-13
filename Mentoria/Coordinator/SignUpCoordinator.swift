@@ -7,7 +7,6 @@
 
 import Foundation
 
-import Foundation
 import ProfileUI
 
 class SignUpCoordinator: Coordinator {
