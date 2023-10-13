@@ -22,23 +22,17 @@ class HomeTabBarCoordinator: Coordinator {
     func start() {
         childCoordinator = self
         
-        let profileSummaryController = ProfileSummaryViewController()
-        profileSummaryController.coordinator = self
+        let profileSummaryTabBarItem = createProfileSummaryTabBarItem()
+        let homeTabBarItem = createHomeTabBarItem()
+        let scheduleTabBarItem = scheduleTabBarItem()
         
-        let profileSummaryTabItem = TabBarItems(viewController: profileSummaryController, image: ImageViewBuilder(systemName: "person"), title: "Perfil")
-        
-        let homeController = TabBarItems(viewController: HomeViewController(), image: ImageViewBuilder(systemName: "wrench.and.screwdriver.fill"), title: "Seu Serviço")
-        
-        let item3 = TabBarItems(viewController: UIViewController(), image: ImageViewBuilder(systemName: "calendar"), title: "Agenda")
-        
-        let homeTabBar = HomeTabBar(items: [profileSummaryTabItem, homeController, item3])
+        let homeTabBar = HomeTabBar(items: [profileSummaryTabBarItem, homeTabBarItem, scheduleTabBarItem])
         
         if let currentScene = CurrentWindow.get {
             currentScene.rootViewController = homeTabBar.tabBar.get
         }
         
         homeTabBarControllers = homeTabBar
-                
     }
     
     func selectedTabBarItem(_ index: Int) {
@@ -47,10 +41,30 @@ class HomeTabBarCoordinator: Coordinator {
         }
     }
     
+    
+//  MARK: - PRIVATE AREA
+    private func createProfileSummaryTabBarItem() -> TabBarItems {
+        let profileSummaryController = ProfileSummaryViewController()
+        profileSummaryController.coordinator = self
+        return TabBarItems(viewController: profileSummaryController, image: ImageViewBuilder(systemName: "person"), title: "Perfil")
+    }
+    
+    private func createHomeTabBarItem() -> TabBarItems {
+        return TabBarItems(viewController: HomeViewController(), image: ImageViewBuilder(systemName: "wrench.and.screwdriver.fill"), title: "Seu Serviço")
+    }
+
+    private func scheduleTabBarItem() -> TabBarItems {
+        return TabBarItems(viewController: HomeViewController(), image: ImageViewBuilder(systemName: "calendar"), title: "Agenda")
+    }
+
+    
 }
 
 
+//  MARK: - EXTENSION - ProfileSummaryViewControllerCoordinator
+
 extension HomeTabBarCoordinator: ProfileSummaryViewControllerCoordinator {
+    
     func gotoProfileRegistrationStep1() {
         let nav = NavigationController()
         
