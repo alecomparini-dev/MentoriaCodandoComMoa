@@ -3,7 +3,13 @@
 
 import UIKit
 
+public protocol ProfileRegistrationStep1ViewControllerCoordinator: AnyObject {
+    func gotoHomeTabBar()
+}
+
+
 public final class ProfileRegistrationStep1ViewController: UIViewController {
+    public weak var coordinator: ProfileRegistrationStep1ViewControllerCoordinator?
     
     private enum TypeCells: Int {
         case name = 0
@@ -39,6 +45,7 @@ public final class ProfileRegistrationStep1ViewController: UIViewController {
     private func configDelegate() {
         screen.tableViewIdentification.setDelegate(delegate: self)
         screen.tableViewIdentification.setDataSource(dataSource: self)
+        screen.delegate = self
     }
     
     private func getTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
@@ -121,6 +128,15 @@ public final class ProfileRegistrationStep1ViewController: UIViewController {
     
 }
 
+
+//  MARK: - EXTENSION TABLEVIEW DELEGATE
+extension ProfileRegistrationStep1ViewController: ProfileRegistrationStep1ViewDelegate {
+    
+    func backButtonTapped() {
+        coordinator?.gotoHomeTabBar()
+    }
+    
+}
 
 
 //  MARK: - EXTENSION TABLEVIEW DELEGATE

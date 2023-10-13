@@ -3,8 +3,12 @@
 
 import UIKit
 
+public protocol ProfileSummaryViewControllerCoordinator: AnyObject {
+    func gotoProfileRegistrationStep1()
+}
 
 public final class ProfileSummaryViewController: UIViewController {
+    public weak var coordinator: ProfileSummaryViewControllerCoordinator?
     
     private enum TypeCells: Int {
         case profilePicture = 0
@@ -16,7 +20,7 @@ public final class ProfileSummaryViewController: UIViewController {
         case editProfileButton = 6
     }
     
-    lazy var screen: ProfileSummaryView = {
+    public lazy var screen: ProfileSummaryView = {
         let view = ProfileSummaryView()
         return view
     }()
@@ -103,18 +107,21 @@ public final class ProfileSummaryViewController: UIViewController {
     private func getCPFTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CPFTableViewCell.identifier, for: indexPath) as? CPFTableViewCell
         cell?.setupCell()
+        cell?.cpfTextField.setReadOnly(true)
         return cell ?? UITableViewCell()
     }
     
     private func getDataOfBirthTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: DataOfBirthTableViewCell.identifier, for: indexPath) as? DataOfBirthTableViewCell
         cell?.setupCell()
+        cell?.dataOfBirthTextField.setReadOnly(true)
         return cell ?? UITableViewCell()
     }
     
     private func getPhoneNumberTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: PhoneNumberTableViewCell.identifier, for: indexPath) as? PhoneNumberTableViewCell
         cell?.setupCell()
+        cell?.phoneNumberTextField.setReadOnly(true)
         return cell ?? UITableViewCell()
     }
     
@@ -127,6 +134,7 @@ public final class ProfileSummaryViewController: UIViewController {
     private func getSummaryAddressTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SummaryAddressTableViewCell.identifier, for: indexPath) as? SummaryAddressTableViewCell
         cell?.setupCell()
+        cell?.summaryAddressTextView.setReadOnly(true)
         return cell ?? UITableViewCell()
     }
     
@@ -171,7 +179,8 @@ extension ProfileSummaryViewController: UITableViewDataSource {
 extension ProfileSummaryViewController: EditProfileButtonTableViewCellDelegate {
     
     public func editProfileTapped() {
-        
+        coordinator?.gotoProfileRegistrationStep1()
     }
     
 }
+
