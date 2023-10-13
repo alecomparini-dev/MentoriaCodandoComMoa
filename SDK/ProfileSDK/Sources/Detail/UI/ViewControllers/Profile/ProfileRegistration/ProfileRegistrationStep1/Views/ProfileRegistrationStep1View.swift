@@ -1,4 +1,4 @@
-//  Created by Alessandro Comparini on 09/10/23.
+//  Created by Alessandro Comparini on 13/10/23.
 //
 
 import UIKit
@@ -6,7 +6,8 @@ import UIKit
 import DesignerSystemSDKComponent
 import CustomComponentsSDK
 
-class ProfileSummaryView: UIView {
+class ProfileRegistrationStep1View: UIView {
+    
     
     init() {
         super.init(frame: .zero)
@@ -29,38 +30,53 @@ class ProfileSummaryView: UIView {
         return comp
     }()
     
-    lazy var perfilTextTitle: CustomTextTitle = {
-        let comp = CustomTextTitle()
-            .setText("Perfil")
-            .setTextAlignment(.center)
+    lazy var backButton: ButtonImageBuilder = {
+        let img = ImageViewBuilder(systemName: "chevron.backward")
+            .setTintColor(hexColor: "#ffffff")
+            .setContentMode(.center)
+        let comp = ButtonImageBuilder()
+            .setImageButton(img)
             .setConstraints { build in
                 build
                     .setTop.equalToSafeArea(24)
-                    .setLeading.setTrailing.equalToSafeArea(16)
+                    .setLeading.equalToSafeArea(16)
+                    .setSize.equalToConstant(35)
             }
         return comp
     }()
     
-    lazy var tableViewScroll: TableViewBuilder = {
+    lazy var stepTextTitle: CustomTextTitle = {
+        let comp = CustomTextTitle()
+            .setText("Etapa 1 de 2")
+            .setTextAlignment(.center)
+            .setConstraints { build in
+                build
+                    .setVerticalAlignmentY.equalTo(backButton.get)
+                    .setLeading.equalTo(backButton.get, .trailing)
+                    .setTrailing.equalToSafeArea(16)
+            }
+        return comp
+    }()
+    
+    lazy var tableViewIdentification: TableViewBuilder = {
         let comp = TableViewBuilder()
             .setShowsScroll(false, .both)
             .setSeparatorStyle(.none)
             .setBackgroundColor(color: .clear)
-            .setRegisterCell(ProfilePictureTableViewCell.self)
+            .setRegisterCell(NameTableViewCell.self)
             .setRegisterCell(CPFTableViewCell.self)
             .setRegisterCell(DataOfBirthTableViewCell.self)
             .setRegisterCell(PhoneNumberTableViewCell.self)
             .setRegisterCell(FieldOfWorkTableViewCell.self)
             .setRegisterCell(SummaryAddressTableViewCell.self)
-            .setRegisterCell(EditProfileButtonTableViewCell.self)
             .setConstraints { build in
                 build
-                    .setTop.equalTo(perfilTextTitle.get, .bottom, 16)
+                    .setTop.equalTo(stepTextTitle.get, .bottom, 16)
                     .setPinBottom.equalToSafeArea
             }
         return comp
     }()
-    
+ 
     
 //  MARK: - PRIVATE AREA
     
@@ -71,13 +87,13 @@ class ProfileSummaryView: UIView {
     
     private func addElements() {
         backgroundView.add(insideTo: self)
-        perfilTextTitle.add(insideTo: self)
-        tableViewScroll.add(insideTo: self)
+        stepTextTitle.add(insideTo: self)
+        tableViewIdentification.add(insideTo: self)
     }
     
     private func configConstraints() {
         backgroundView.applyConstraint()
-        perfilTextTitle.applyConstraint()
-        tableViewScroll.applyConstraint()
+        stepTextTitle.applyConstraint()
+        tableViewIdentification.applyConstraint()
     }
 }

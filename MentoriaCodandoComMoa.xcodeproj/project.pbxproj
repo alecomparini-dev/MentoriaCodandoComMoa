@@ -13,6 +13,7 @@
 		0212ECB82AA10868001C1BCF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0212ECB72AA10868001C1BCF /* Assets.xcassets */; };
 		0212ECBB2AA10868001C1BCF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0212ECB92AA10868001C1BCF /* LaunchScreen.storyboard */; };
 		0234A6D42AA3C4AB00167636 /* HomeSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 0234A6D32AA3C4AB00167636 /* HomeSDK */; };
+		024340822AD9872B00110844 /* ProfileRegistrationStep1Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024340812AD9872B00110844 /* ProfileRegistrationStep1Coordinator.swift */; };
 		024E688E2AB4860A0044A521 /* SignUpViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024E688D2AB4860A0044A521 /* SignUpViewControllerFactory.swift */; };
 		026682D12AA7D62600EE70EC /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026682CF2AA7D62600EE70EC /* Coordinator.swift */; };
 		026682D42AA7D69D00EE70EC /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026682D32AA7D69D00EE70EC /* NavigationController.swift */; };
@@ -36,6 +37,7 @@
 		0212ECBA2AA10868001C1BCF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0212ECBC2AA10868001C1BCF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0212ECC72AA10A20001C1BCF /* HomeSDK */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = HomeSDK; path = SDK/HomeSDK; sourceTree = "<group>"; };
+		024340812AD9872B00110844 /* ProfileRegistrationStep1Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRegistrationStep1Coordinator.swift; sourceTree = "<group>"; };
 		024E688D2AB4860A0044A521 /* SignUpViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewControllerFactory.swift; sourceTree = "<group>"; };
 		026682CF2AA7D62600EE70EC /* Coordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		026682D32AA7D69D00EE70EC /* NavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
@@ -134,6 +136,7 @@
 			children = (
 				026682D22AA7D68700EE70EC /* NavigationController */,
 				026682CD2AA7D62600EE70EC /* Protocol */,
+				024340812AD9872B00110844 /* ProfileRegistrationStep1Coordinator.swift */,
 				026682D52AA7D75F00EE70EC /* LoginCoordinator.swift */,
 				020924722AB3228D008F8DC8 /* SignUpCoordinator.swift */,
 				026682D72AA7D8A200EE70EC /* HomeTabBarCoordinator.swift */,
@@ -368,6 +371,7 @@
 				026682D12AA7D62600EE70EC /* Coordinator.swift in Sources */,
 				026682D62AA7D75F00EE70EC /* LoginCoordinator.swift in Sources */,
 				028B28A12AA75EAE008E4A7E /* Environment.swift in Sources */,
+				024340822AD9872B00110844 /* ProfileRegistrationStep1Coordinator.swift in Sources */,
 				02995B4B2AB34BBA00615FDC /* LoginViewControllerFactory.swift in Sources */,
 				020924732AB3228D008F8DC8 /* SignUpCoordinator.swift in Sources */,
 				0212ECB12AA10867001C1BCF /* SceneDelegate.swift in Sources */,
