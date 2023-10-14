@@ -4,9 +4,9 @@
 import UIKit
 
 public protocol ProfileRegistrationStep1ViewControllerCoordinator: AnyObject {
-    func gotoHomeTabBar()
+    func gotoProfileHomeTabBar()
+    func gotoProfileRegistrationStep2()
 }
-
 
 public final class ProfileRegistrationStep1ViewController: UIViewController {
     public weak var coordinator: ProfileRegistrationStep1ViewControllerCoordinator?
@@ -26,7 +26,7 @@ public final class ProfileRegistrationStep1ViewController: UIViewController {
     }()
     
     
-    //  MARK: - LIFE CYCLE
+//  MARK: - LIFE CYCLE
     
     public override func loadView() {
         self.view = screen
@@ -36,6 +36,7 @@ public final class ProfileRegistrationStep1ViewController: UIViewController {
         super.viewDidLoad()
         configure()
     }
+    
     
 //  MARK: - PRIVATE AREA
     private func configure() {
@@ -111,6 +112,7 @@ public final class ProfileRegistrationStep1ViewController: UIViewController {
     private func getContinueRegistrationProfileButtonTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ContinueRegistrationProfileButtonTableViewCell.identifier, for: indexPath) as? ContinueRegistrationProfileButtonTableViewCell
         cell?.setupCell()
+        cell?.delegate = self
         return cell ?? UITableViewCell()
     }
     
@@ -133,7 +135,17 @@ public final class ProfileRegistrationStep1ViewController: UIViewController {
 extension ProfileRegistrationStep1ViewController: ProfileRegistrationStep1ViewDelegate {
     
     func backButtonTapped() {
-        coordinator?.gotoHomeTabBar()
+        coordinator?.gotoProfileHomeTabBar()
+    }
+    
+}
+
+
+//  MARK: - EXTENSION TABLEVIEW DELEGATE
+extension ProfileRegistrationStep1ViewController: ContinueRegistrationProfileButtonTableViewCellDelegate {
+
+    func continueRegistrationTapped() {
+        coordinator?.gotoProfileRegistrationStep2()
     }
     
 }
@@ -157,7 +169,6 @@ extension ProfileRegistrationStep1ViewController: UITableViewDataSource {
     
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let cell = getTableViewCell(tableView, indexPath)
         
         cell.selectionStyle = .none
@@ -167,6 +178,4 @@ extension ProfileRegistrationStep1ViewController: UITableViewDataSource {
         return cell
     }
     
-    
 }
-
