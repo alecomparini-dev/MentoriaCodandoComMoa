@@ -37,7 +37,6 @@ class FieldOfWorkTableViewCell: UITableViewCell {
             .setBackgroundColor(hexColor: "#ffffff")
             .setTextColor(hexColor: "#282a36")
             .setPadding(8)
-            .setText("Eletricista")
             .setBorder({ build in
                 build
                     .setCornerRadius(8)
