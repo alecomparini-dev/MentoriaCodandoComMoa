@@ -36,9 +36,10 @@ public final class ProfileRegistrationStep2ViewController: UIViewController {
     }
     
     private func configDelegate() {
+        screen.tableViewAddress.setDelegate(delegate: self)
+        screen.tableViewAddress.setDataSource(dataSource: self)
         screen.delegate = self
     }
-    
     
 }
 
@@ -48,6 +49,39 @@ extension ProfileRegistrationStep2ViewController: ProfileRegistrationStep2ViewDe
     
     func backButtonTapped() {
         coordinator?.gotoProfileRegistrationStep1()
+    }
+    
+}
+
+//  MARK: - EXTENSION TABLEVIEW DELEGATE
+extension ProfileRegistrationStep2ViewController: UITableViewDelegate {
+
+    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 840
+    }
+}
+
+
+//  MARK: - EXTENSION TABLEVIEW DATASOURCE
+extension ProfileRegistrationStep2ViewController: UITableViewDataSource {
+    
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: AddressTableViewCell.identifier, for: indexPath) as? AddressTableViewCell
+        
+        cell?.setupCell()
+        
+        cell?.selectionStyle = .none
+        
+        cell?.backgroundColor = .clear
+        
+        return cell ?? UITableViewCell()
+        
     }
     
 }

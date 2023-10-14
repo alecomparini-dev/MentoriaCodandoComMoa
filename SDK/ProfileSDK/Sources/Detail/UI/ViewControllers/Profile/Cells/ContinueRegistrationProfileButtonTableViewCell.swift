@@ -26,8 +26,8 @@ class ContinueRegistrationProfileButtonTableViewCell: UITableViewCell {
     
     
 //  MARK: - LAZY AREA
-    lazy var continueRegistrationButtom: CustomButtonPrimary = {
-        let comp = CustomButtonPrimary("Continuar")
+    lazy var continueRegistrationButtom: CustomButtonSecondary = {
+        let comp = CustomButtonSecondary("Continuar")
             .setConstraints { build in
                 build
                     .setHorizontalAlignmentX.equalToSafeArea

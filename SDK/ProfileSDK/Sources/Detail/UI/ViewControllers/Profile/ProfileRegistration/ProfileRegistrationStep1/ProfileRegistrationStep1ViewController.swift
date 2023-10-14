@@ -26,7 +26,7 @@ public final class ProfileRegistrationStep1ViewController: UIViewController {
     }()
     
     
-    //  MARK: - LIFE CYCLE
+//  MARK: - LIFE CYCLE
     
     public override func loadView() {
         self.view = screen
@@ -36,6 +36,7 @@ public final class ProfileRegistrationStep1ViewController: UIViewController {
         super.viewDidLoad()
         configure()
     }
+    
     
 //  MARK: - PRIVATE AREA
     private func configure() {
@@ -168,7 +169,6 @@ extension ProfileRegistrationStep1ViewController: UITableViewDataSource {
     
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let cell = getTableViewCell(tableView, indexPath)
         
         cell.selectionStyle = .none
@@ -178,6 +178,4 @@ extension ProfileRegistrationStep1ViewController: UITableViewDataSource {
         return cell
     }
     
-    
 }
-

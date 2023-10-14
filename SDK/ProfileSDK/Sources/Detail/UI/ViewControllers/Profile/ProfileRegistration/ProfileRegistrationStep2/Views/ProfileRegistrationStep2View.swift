@@ -67,12 +67,12 @@ class ProfileRegistrationStep2View: UIView {
         return comp
     }()
     
-    lazy var tableViewIdentification: TableViewBuilder = {
+    lazy var tableViewAddress: TableViewBuilder = {
         let comp = TableViewBuilder()
             .setShowsScroll(false, .both)
             .setSeparatorStyle(.none)
             .setBackgroundColor(color: .clear)
-//            .setRegisterCell(ContinueRegistrationProfileButtonTableViewCell.self)
+            .setRegisterCell(AddressTableViewCell.self)
             .setConstraints { build in
                 build
                     .setTop.equalTo(backButton.get, .bottom, 36)
@@ -93,14 +93,14 @@ class ProfileRegistrationStep2View: UIView {
         backgroundView.add(insideTo: self)
         stepTextTitle.add(insideTo: self)
         backButton.add(insideTo: self)
-        tableViewIdentification.add(insideTo: self)
+        tableViewAddress.add(insideTo: self)
     }
     
     private func configConstraints() {
         backgroundView.applyConstraint()
         backButton.applyConstraint()
         stepTextTitle.applyConstraint()
-        tableViewIdentification.applyConstraint()
+        tableViewAddress.applyConstraint()
     }
     
 }
