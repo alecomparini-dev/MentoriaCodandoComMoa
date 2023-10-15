@@ -38,6 +38,10 @@ class CPFTableViewCell: UITableViewCell {
             .setBackgroundColor(hexColor: "#ffffff")
             .setTextColor(hexColor: "#282a36")
             .setPadding(8)
+            .setKeyboard({ build in
+                build
+                    .setKeyboardType(.numberPad)
+            })
             .setBorder({ build in
                 build
                     .setCornerRadius(8)

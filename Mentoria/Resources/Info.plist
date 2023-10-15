@@ -8,6 +8,8 @@
 	<string>Mentoria deseja acessar sua câmera</string>
 	<key>ENV</key>
 	<dict>
+		<key>API_BASE_CEP</key>
+		<string>$(API_BASE_CEP)</string>
 		<key>API_BASE_URL</key>
 		<string>${API_BASE_URL}</string>
 		<key>DEFAULT_THEME</key>

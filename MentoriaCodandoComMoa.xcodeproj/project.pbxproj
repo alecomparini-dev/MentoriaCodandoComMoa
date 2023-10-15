@@ -12,8 +12,10 @@
 		0212ECB12AA10867001C1BCF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0212ECB02AA10867001C1BCF /* SceneDelegate.swift */; };
 		0212ECB82AA10868001C1BCF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0212ECB72AA10868001C1BCF /* Assets.xcassets */; };
 		0212ECBB2AA10868001C1BCF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0212ECB92AA10868001C1BCF /* LaunchScreen.storyboard */; };
-		0234A6D42AA3C4AB00167636 /* HomeSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 0234A6D32AA3C4AB00167636 /* HomeSDK */; };
 		024340822AD9872B00110844 /* ProfileRegistrationStep1Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024340812AD9872B00110844 /* ProfileRegistrationStep1Coordinator.swift */; };
+		024BC97E2ADAEB6500E9EEDC /* ProfileRegistrationStep2Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024BC97D2ADAEB6500E9EEDC /* ProfileRegistrationStep2Factory.swift */; };
+		024BC9802ADAEF6900E9EEDC /* HomeSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 024BC97F2ADAEF6900E9EEDC /* HomeSDK */; };
+		024BC9822ADAEF6900E9EEDC /* ProfileSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 024BC9812ADAEF6900E9EEDC /* ProfileSDK */; };
 		024E688E2AB4860A0044A521 /* SignUpViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024E688D2AB4860A0044A521 /* SignUpViewControllerFactory.swift */; };
 		026682D12AA7D62600EE70EC /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026682CF2AA7D62600EE70EC /* Coordinator.swift */; };
 		026682D42AA7D69D00EE70EC /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026682D32AA7D69D00EE70EC /* NavigationController.swift */; };
@@ -25,7 +27,6 @@
 		028B28BC2AA76EEC008E4A7E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 028B28BB2AA76EEC008E4A7E /* Constants.swift */; };
 		02995B4B2AB34BBA00615FDC /* LoginViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02995B4A2AB34BBA00615FDC /* LoginViewControllerFactory.swift */; };
 		02995B942AB39B6200615FDC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 02995B932AB39B6200615FDC /* GoogleService-Info.plist */; };
-		02F528DB2AAAA62100AC3119 /* ProfileSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 02F528DA2AAAA62100AC3119 /* ProfileSDK */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,7 @@
 		0212ECBC2AA10868001C1BCF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0212ECC72AA10A20001C1BCF /* HomeSDK */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = HomeSDK; path = SDK/HomeSDK; sourceTree = "<group>"; };
 		024340812AD9872B00110844 /* ProfileRegistrationStep1Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRegistrationStep1Coordinator.swift; sourceTree = "<group>"; };
+		024BC97D2ADAEB6500E9EEDC /* ProfileRegistrationStep2Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRegistrationStep2Factory.swift; sourceTree = "<group>"; };
 		024E688D2AB4860A0044A521 /* SignUpViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewControllerFactory.swift; sourceTree = "<group>"; };
 		026682CF2AA7D62600EE70EC /* Coordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		026682D32AA7D69D00EE70EC /* NavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
@@ -60,8 +62,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0234A6D42AA3C4AB00167636 /* HomeSDK in Frameworks */,
-				02F528DB2AAAA62100AC3119 /* ProfileSDK in Frameworks */,
+				024BC9802ADAEF6900E9EEDC /* HomeSDK in Frameworks */,
+				024BC9822ADAEF6900E9EEDC /* ProfileSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -115,6 +117,22 @@
 				02995B932AB39B6200615FDC /* GoogleService-Info.plist */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		024BC97B2ADAEB0900E9EEDC /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				024BC97C2ADAEB1100E9EEDC /* ProfileRegistrationStep2 */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		024BC97C2ADAEB1100E9EEDC /* ProfileRegistrationStep2 */ = {
+			isa = PBXGroup;
+			children = (
+				024BC97D2ADAEB6500E9EEDC /* ProfileRegistrationStep2Factory.swift */,
+			);
+			path = ProfileRegistrationStep2;
 			sourceTree = "<group>";
 		};
 		024E688B2AB485D70044A521 /* SignIn */ = {
@@ -200,6 +218,7 @@
 		02995B4D2AB34C1300615FDC /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				024BC97B2ADAEB0900E9EEDC /* Profile */,
 				024E688B2AB485D70044A521 /* SignIn */,
 				024E688C2AB485EB0044A521 /* SignUp */,
 			);
@@ -253,8 +272,8 @@
 			);
 			name = Mentoria;
 			packageProductDependencies = (
-				0234A6D32AA3C4AB00167636 /* HomeSDK */,
-				02F528DA2AAAA62100AC3119 /* ProfileSDK */,
+				024BC97F2ADAEF6900E9EEDC /* HomeSDK */,
+				024BC9812ADAEF6900E9EEDC /* ProfileSDK */,
 			);
 			productName = Main;
 			productReference = 0212ECAC2AA10867001C1BCF /* Mentoria.app */;
@@ -373,6 +392,7 @@
 				0212ECAF2AA10867001C1BCF /* AppDelegate.swift in Sources */,
 				026682D12AA7D62600EE70EC /* Coordinator.swift in Sources */,
 				026682D62AA7D75F00EE70EC /* LoginCoordinator.swift in Sources */,
+				024BC97E2ADAEB6500E9EEDC /* ProfileRegistrationStep2Factory.swift in Sources */,
 				028B28A12AA75EAE008E4A7E /* Environment.swift in Sources */,
 				024340822AD9872B00110844 /* ProfileRegistrationStep1Coordinator.swift in Sources */,
 				02995B4B2AB34BBA00615FDC /* LoginViewControllerFactory.swift in Sources */,
@@ -685,11 +705,11 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		0234A6D32AA3C4AB00167636 /* HomeSDK */ = {
+		024BC97F2ADAEF6900E9EEDC /* HomeSDK */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = HomeSDK;
 		};
-		02F528DA2AAAA62100AC3119 /* ProfileSDK */ = {
+		024BC9812ADAEF6900E9EEDC /* ProfileSDK */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ProfileSDK;
 		};

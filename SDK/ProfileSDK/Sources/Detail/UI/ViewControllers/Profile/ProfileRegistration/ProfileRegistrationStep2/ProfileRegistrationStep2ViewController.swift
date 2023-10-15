@@ -3,6 +3,9 @@
 
 import UIKit
 
+import CustomComponentsSDK
+import ProfilePresenters
+
 public protocol ProfileRegistrationStep2ViewControllerCoordinator: AnyObject {
     func gotoProfileRegistrationStep1()
     func gotoProfileHomeTabBar()
@@ -12,6 +15,22 @@ public protocol ProfileRegistrationStep2ViewControllerCoordinator: AnyObject {
 public final class ProfileRegistrationStep2ViewController: UIViewController {
 
     public weak var coordinator: ProfileRegistrationStep2ViewControllerCoordinator?
+    
+    private weak var addressCell: AddressTableViewCell?
+    
+    private var profileStep2Presenter: ProfileRegistrationStep2Presenter
+    
+    
+//  MARK: - INITIALIZERS
+    
+    public init(profileStep2Presenter: ProfileRegistrationStep2Presenter) {
+        self.profileStep2Presenter = profileStep2Presenter
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     lazy var screen: ProfileRegistrationStep2View = {
         let view = ProfileRegistrationStep2View()
@@ -30,6 +49,7 @@ public final class ProfileRegistrationStep2ViewController: UIViewController {
         configure()
     }
     
+    
 //  MARK: - PRIVATE AREA
     private func configure() {
         configDelegate()
@@ -39,12 +59,13 @@ public final class ProfileRegistrationStep2ViewController: UIViewController {
         screen.tableViewAddress.setDelegate(delegate: self)
         screen.tableViewAddress.setDataSource(dataSource: self)
         screen.delegate = self
+        profileStep2Presenter.outputDelegate = self
     }
     
 }
 
 
-//  MARK: - EXTENSION TABLEVIEW DELEGATE
+//  MARK: - EXTENSION - ProfileRegistrationStep2ViewDelegate
 extension ProfileRegistrationStep2ViewController: ProfileRegistrationStep2ViewDelegate {
     
     func backButtonTapped() {
@@ -52,6 +73,24 @@ extension ProfileRegistrationStep2ViewController: ProfileRegistrationStep2ViewDe
     }
     
 }
+
+
+//  MARK: - EXTENSION - ProfileRegistrationStep2PresenterOutput
+extension ProfileRegistrationStep2ViewController: ProfileRegistrationStep2PresenterOutput {
+    
+    public func error(_ error: String) {
+        print(error)
+    }
+    
+    public func searchCEPSuccess(_ cepDTO: CEPDTO) {
+        addressCell?.streetTextField.get.text = cepDTO.street
+        addressCell?.neighborhoodTextField.get.text = cepDTO.neighborhood
+        addressCell?.cityTextField.get.text = cepDTO.city
+        addressCell?.stateTextField.get.text = cepDTO.stateShortname
+    }
+    
+}
+
 
 //  MARK: - EXTENSION TABLEVIEW DELEGATE
 extension ProfileRegistrationStep2ViewController: UITableViewDelegate {
@@ -72,16 +111,31 @@ extension ProfileRegistrationStep2ViewController: UITableViewDataSource {
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: AddressTableViewCell.identifier, for: indexPath) as? AddressTableViewCell
+        addressCell = tableView.dequeueReusableCell(withIdentifier: AddressTableViewCell.identifier, for: indexPath) as? AddressTableViewCell
         
-        cell?.setupCell()
+        addressCell?.delegate = self
         
-        cell?.selectionStyle = .none
+        addressCell?.selectionStyle = .none
         
-        cell?.backgroundColor = .clear
+        addressCell?.backgroundColor = .clear
         
-        return cell ?? UITableViewCell()
+        return addressCell ?? UITableViewCell()
         
     }
+    
+}
+
+
+//  MARK: - EXTENSION - AddressTableViewCellDelegate
+extension ProfileRegistrationStep2ViewController: AddressTableViewCellDelegate {
+    func confirmationTapped() {
+        
+    }
+    
+    func searchCEPTapped(_ textField: TextFieldBuilder?, _ cep: String) {
+        textField?.get.resignFirstResponder()
+        profileStep2Presenter.searchCep(cep)
+    }
+
     
 }

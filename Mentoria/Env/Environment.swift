@@ -9,6 +9,7 @@ public class Environment {
     
     public enum Variables: String {
         case apiBaseUrl = "API_BASE_URL"
+        case apiBaseCEP = "API_BASE_CEP"
         case uIdFirebase = "UID_FIREBASE"
         case defaultTheme = "DEFAULT_THEME"
     }
