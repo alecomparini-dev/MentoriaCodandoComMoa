@@ -7,8 +7,18 @@ import UIKit
 import CustomComponentsSDK
 import DesignerSystemSDKComponent
 
+protocol AddressTableViewCellDelegate: AnyObject {
+    func confirmationTapped()
+    func searchCEPTapped(_ textField: TextFieldBuilder? ,_ cep: String)
+}
+
 class AddressTableViewCell: UITableViewCell {
     static let identifier = String(describing: AddressTableViewCell.self)
+    
+    weak var delegate: AddressTableViewCellDelegate?
+    
+
+//  MARK: - INITIALIZERS
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -35,16 +45,18 @@ class AddressTableViewCell: UITableViewCell {
     
     lazy var CEPTextField: TextFieldImageBuilder = {
         let img = ImageViewBuilder(systemName: "magnifyingglass")
+            .setSize(24)
         let comp = TextFieldImageBuilder()
-            .setKeyboard({ build in
-                build
-                    .setKeyboardType(.numberPad)
-            })
             .setImage(img, .right, 8)
             .setBackgroundColor(hexColor: "#ffffff")
             .setTextColor(hexColor: "#282a36")
             .setPadding(8)
             .setPlaceHolder("Pesquisar CEP")
+            .setKeyboard({ build in
+                build
+                    .setKeyboardType(.numberPad)
+                    .setClearButton()
+            })
             .setBorder({ build in
                 build
                     .setCornerRadius(8)
@@ -55,10 +67,19 @@ class AddressTableViewCell: UITableViewCell {
                     .setLeading.setTrailing.equalToSafeArea(24)
                     .setHeight.equalToConstant(48)
             }
+            .setActions(imagePosition: .right) { build in
+                build
+                    .setTap { [weak self] _, _  in
+                        self?.delegate?.searchCEPTapped (
+                            self?.CEPTextField,
+                            self?.CEPTextField.get.text ?? "")
+                    }
+            }
         return comp
     }()
     
     
+    //  MARK: - STREET
     lazy var streetLabelText: CustomText = {
         let comp = CustomText()
             .setText("Rua")
@@ -88,6 +109,7 @@ class AddressTableViewCell: UITableViewCell {
     }()
     
     
+    //  MARK: - NUMBER
     lazy var numberLabelText: CustomText = {
         let comp = CustomText()
             .setText("Número")
@@ -101,13 +123,13 @@ class AddressTableViewCell: UITableViewCell {
     
     lazy var numberTextField: TextFieldBuilder = {
         let comp = TextFieldBuilder()
+            .setBackgroundColor(hexColor: "#ffffff")
+            .setTextColor(hexColor: "#282a36")
+            .setPadding(8)
             .setKeyboard({ build in
                 build
                     .setKeyboardType(.numberPad)
             })
-            .setBackgroundColor(hexColor: "#ffffff")
-            .setTextColor(hexColor: "#282a36")
-            .setPadding(8)
             .setBorder({ build in
                 build
                     .setCornerRadius(8)
@@ -121,6 +143,7 @@ class AddressTableViewCell: UITableViewCell {
     }()
 
     
+    //  MARK: - NEIGHBORHOOD
     lazy var neighborhoodLabelText: CustomText = {
         let comp = CustomText()
             .setText("Bairro")
@@ -150,6 +173,7 @@ class AddressTableViewCell: UITableViewCell {
     }()
     
     
+    //  MARK: - CITY
     lazy var cityLabelText: CustomText = {
         let comp = CustomText()
             .setText("Cidade")
@@ -178,6 +202,8 @@ class AddressTableViewCell: UITableViewCell {
         return comp
     }()
     
+    
+    //  MARK: - STATE
     lazy var stateLabelText: CustomText = {
         let comp = CustomText()
             .setText("Estado")
@@ -207,6 +233,7 @@ class AddressTableViewCell: UITableViewCell {
     }()
     
     
+    //  MARK: - BUTTOM CONFIRMATION
     lazy var confirmationButtom: CustomButtonPrimary = {
         let comp = CustomButtonPrimary("Confirmar")
             .setConstraints { build in
@@ -219,7 +246,7 @@ class AddressTableViewCell: UITableViewCell {
         return comp
     }()
     @objc private func confirmationTapped() {
-        
+        delegate?.confirmationTapped()
     }
     
     

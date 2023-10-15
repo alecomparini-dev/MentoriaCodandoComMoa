@@ -11,7 +11,7 @@ let package = Package(
     ],
     
     products: [
-        .library(name: "ProfileSDK", targets: [ "ProfilePresenters", "ProfileUseCaseGateway", "ProfileUI" , "ProfileAuthentication", "ProfileValidations", "ProfileLocalStorage"] )
+        .library(name: "ProfileSDK", targets: [ "ProfilePresenters", "ProfileUseCaseGateway", "ProfileUI" , "ProfileAuthentication", "ProfileValidations", "ProfileLocalStorage", "ProfileNetwork"] )
     ],
     
     dependencies: [
@@ -53,8 +53,7 @@ let package = Package(
         .target(
             name: "ProfileUseCaseGateway",
             dependencies: [
-                "ProfileUseCases",
-                .product(name: "NetworkSDKMain" , package: "NetworkSDK")
+                "ProfileUseCases"
             ],
             path: "Sources/3InterfaceAdapter/UseCaseGateway"
         ),
@@ -90,6 +89,17 @@ let package = Package(
             ],
             path: "Sources/Detail/LocalStorage"
         ),
+
+        
+        .target(
+            name: "ProfileNetwork",
+            dependencies: [
+                "ProfileUseCaseGateway",
+                .product(name: "NetworkSDKMain" , package: "NetworkSDK")
+            ],
+            path: "Sources/Detail/Network"
+        ),
+        
 
         
         .target(

@@ -8,5 +8,6 @@
 
 //MY ENVIRONMENT VARIABLES
 API_BASE_URL = http:/$()/mentoria.codandocommoa.com.br
+API_BASE_CEP = https:/$()/brasilaberto.com/api/v1/zipcode
 UID_FIREBASE = MentoriaAlessandro
 DEFAULT_THEME = 3
