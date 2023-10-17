@@ -3,6 +3,7 @@
 
 import Foundation
 import ProfileUseCases
+import ValidatorSDK
 
 public protocol ProfileRegistrationStep2PresenterOutput: AnyObject {
     func error(_ error: String)

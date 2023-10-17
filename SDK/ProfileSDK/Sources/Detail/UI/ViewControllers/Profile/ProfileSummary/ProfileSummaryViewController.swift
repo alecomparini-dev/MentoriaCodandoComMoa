@@ -112,9 +112,9 @@ public final class ProfileSummaryViewController: UIViewController {
     }
     
     private func getDataOfBirthTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: DataOfBirthTableViewCell.identifier, for: indexPath) as? DataOfBirthTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: DateOfBirthTableViewCell.identifier, for: indexPath) as? DateOfBirthTableViewCell
         cell?.setupCell()
-        cell?.dataOfBirthTextField.setReadOnly(true)
+        cell?.dateOfBirthTextField.setReadOnly(true)
         return cell ?? UITableViewCell()
     }
     

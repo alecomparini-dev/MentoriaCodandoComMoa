@@ -15,7 +15,7 @@ class ProfileRegistrationStep1Coordinator: Coordinator {
     
     func start() {
         childCoordinator = self
-        var controller = ProfileRegistrationStep1ViewController()
+        var controller = ProfileRegistrationStep1Factory.make()
         controller = navigationController.pushViewController(controller)
         controller.coordinator = self
     }

@@ -40,6 +40,7 @@ class NameTableViewCell: UITableViewCell {
                 build
                     .setCornerRadius(8)
             })
+            .setAutoCapitalization(.words)
             .setConstraints { build in
                 build
                     .setTop.equalTo(nameLabelText.get, .bottom, 8)

@@ -49,11 +49,8 @@ public class SignUpPresenterImpl: SignUpPresenter  {
     
     private func validations(email: String, password: String, passwordConfirmation: String) -> String? {
         var failsMessage: String?
+
         if let failMsg = isValidRequiredFields(email: email, password: password, passwordConfirmation: passwordConfirmation) {
-            return failMsg
-        }
-        
-        if let failMsg = isValidConfirmationPassword(password: password, passwordConfirmation: passwordConfirmation) {
             return failMsg
         }
         
@@ -62,7 +59,12 @@ public class SignUpPresenterImpl: SignUpPresenter  {
         if let failMsg = isValidPasswordComplexity(password: password) {
             failsMessage = (failsMessage ?? "") + failMsg
         }
-        
+
+        if let failMsg = isValidConfirmationPassword(password: password, passwordConfirmation: passwordConfirmation) {
+//            return failMsg
+            failsMessage = (failsMessage ?? "") + failMsg
+        }
+
         return failsMessage
     }
 

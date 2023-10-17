@@ -14,6 +14,8 @@ protocol ProfileRegistrationStep2ViewDelegate: AnyObject {
 class ProfileRegistrationStep2View: UIView {
     weak var delegate: ProfileRegistrationStep2ViewDelegate?
     
+    public var constraintsBottom: NSLayoutConstraint!
+    
     init() {
         super.init(frame: .zero)
         configure()
@@ -76,7 +78,7 @@ class ProfileRegistrationStep2View: UIView {
             .setConstraints { build in
                 build
                     .setTop.equalTo(backButton.get, .bottom, 36)
-                    .setPinBottom.equalToSafeArea
+                    .setLeading.setTrailing.equalToSafeArea
             }
         return comp
     }()
@@ -100,7 +102,18 @@ class ProfileRegistrationStep2View: UIView {
         backgroundView.applyConstraint()
         backButton.applyConstraint()
         stepTextTitle.applyConstraint()
-        tableViewAddress.applyConstraint()
+        configTableViewAddressConstraints()
     }
     
+    private func configTableViewAddressConstraints() {
+        tableViewAddress.applyConstraint()
+        self.constraintsBottom = NSLayoutConstraint(item: self.tableViewAddress.get,
+                                                    attribute: .bottom,
+                                                    relatedBy: .equal,
+                                                    toItem: self.safeAreaLayoutGuide,
+                                                    attribute: .bottom,
+                                                    multiplier: 1,
+                                                    constant: 0)
+        self.constraintsBottom.isActive = true
+    }
 }
