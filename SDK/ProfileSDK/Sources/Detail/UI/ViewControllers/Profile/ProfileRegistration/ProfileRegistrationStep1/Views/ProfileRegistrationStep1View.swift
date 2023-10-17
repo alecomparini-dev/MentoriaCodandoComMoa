@@ -6,6 +6,8 @@ import UIKit
 import DesignerSystemSDKComponent
 import CustomComponentsSDK
 
+import ProfilePresenters
+
 protocol ProfileRegistrationStep1ViewDelegate: AnyObject {
     func backButtonTapped()
 }
@@ -13,6 +15,8 @@ protocol ProfileRegistrationStep1ViewDelegate: AnyObject {
 
 class ProfileRegistrationStep1View: UIView {
     weak var delegate: ProfileRegistrationStep1ViewDelegate?
+    
+    public var constraintsBottom: NSLayoutConstraint!
     
     init() {
         super.init(frame: .zero)
@@ -74,14 +78,14 @@ class ProfileRegistrationStep1View: UIView {
             .setBackgroundColor(color: .clear)
             .setRegisterCell(NameTableViewCell.self)
             .setRegisterCell(CPFTableViewCell.self)
-            .setRegisterCell(DataOfBirthTableViewCell.self)
+            .setRegisterCell(DateOfBirthTableViewCell.self)
             .setRegisterCell(PhoneNumberTableViewCell.self)
             .setRegisterCell(FieldOfWorkTableViewCell.self)
             .setRegisterCell(ContinueRegistrationProfileButtonTableViewCell.self)
             .setConstraints { build in
                 build
                     .setTop.equalTo(backButton.get, .bottom, 36)
-                    .setPinBottom.equalToSafeArea
+                    .setLeading.setTrailing.equalToSafeArea
             }
         return comp
     }()
@@ -105,6 +109,18 @@ class ProfileRegistrationStep1View: UIView {
         backgroundView.applyConstraint()
         backButton.applyConstraint()
         stepTextTitle.applyConstraint()
+        configTableViewIdentificationConstraints()
+    }
+    
+    private func configTableViewIdentificationConstraints() {
         tableViewIdentification.applyConstraint()
+        self.constraintsBottom = NSLayoutConstraint(item: self.tableViewIdentification.get,
+                                                    attribute: .bottom,
+                                                    relatedBy: .equal,
+                                                    toItem: self.safeAreaLayoutGuide,
+                                                    attribute: .bottom,
+                                                    multiplier: 1,
+                                                    constant: 0)
+        self.constraintsBottom.isActive = true
     }
 }

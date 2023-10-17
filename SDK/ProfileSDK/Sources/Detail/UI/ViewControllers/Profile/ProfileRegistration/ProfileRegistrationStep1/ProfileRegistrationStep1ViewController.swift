@@ -3,6 +3,8 @@
 
 import UIKit
 
+import ProfilePresenters
+
 public protocol ProfileRegistrationStep1ViewControllerCoordinator: AnyObject {
     func gotoProfileHomeTabBar()
     func gotoProfileRegistrationStep2()
@@ -20,10 +22,30 @@ public final class ProfileRegistrationStep1ViewController: UIViewController {
         case continueRegistrationButton = 5
     }
     
+    private var fieldsCell: [String: UITableViewCell] = [:]
+    
+    private var constantBottom: CGFloat?
+    private var profileStep1Presenter: ProfileRegistrationStep1Presenter
+
+    
+//  MARK: - INITIALIZERS
+    public init(profileStep1Presenter: ProfileRegistrationStep1Presenter) {
+        self.profileStep1Presenter = profileStep1Presenter
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     lazy var screen: ProfileRegistrationStep1View = {
         let view = ProfileRegistrationStep1View()
         return view
     }()
+    
+    deinit {
+        unregisterKeyboardNotifications()
+    }
     
     
 //  MARK: - LIFE CYCLE
@@ -41,12 +63,14 @@ public final class ProfileRegistrationStep1ViewController: UIViewController {
 //  MARK: - PRIVATE AREA
     private func configure() {
         configDelegate()
+        registerKeyboardNotifications()
     }
     
     private func configDelegate() {
         screen.tableViewIdentification.setDelegate(delegate: self)
         screen.tableViewIdentification.setDataSource(dataSource: self)
         screen.delegate = self
+        profileStep1Presenter.outputDelegate = self
     }
     
     private func getTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
@@ -88,11 +112,14 @@ public final class ProfileRegistrationStep1ViewController: UIViewController {
     private func getCPFTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CPFTableViewCell.identifier, for: indexPath) as? CPFTableViewCell
         cell?.setupCell()
+        if let cell {
+            fieldsCell.updateValue(cell, forKey: "CPFCell")
+        }
         return cell ?? UITableViewCell()
     }
     
     private func getDataOfBirthTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: DataOfBirthTableViewCell.identifier, for: indexPath) as? DataOfBirthTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: DateOfBirthTableViewCell.identifier, for: indexPath) as? DateOfBirthTableViewCell
         cell?.setupCell()
         return cell ?? UITableViewCell()
     }
@@ -128,6 +155,38 @@ public final class ProfileRegistrationStep1ViewController: UIViewController {
         
     }
     
+    private func registerKeyboardNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        guard let userInfo = notification.userInfo,
+            let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
+        
+        if constantBottom == nil {
+            self.constantBottom = (screen.tableViewIdentification.get.bounds.height - keyboardFrame.origin.y) + 75
+        }
+        repositionTableViewShowKeyboardAnimation()
+        
+    }
+    
+    private func repositionTableViewShowKeyboardAnimation() {
+        UIView.animate(withDuration: 0.3, delay: 0 , options: .curveEaseInOut, animations: { [weak self] in
+            guard let self else {return}
+            if let constantBottom {
+                screen.constraintsBottom.constant = -constantBottom
+            }
+        })
+    }
+    
+    @objc private func keyboardWillHide() {
+        screen.constraintsBottom.constant = 0
+    }
+
+    private func unregisterKeyboardNotifications() {
+        NotificationCenter.default.removeObserver(self)
+    }
 }
 
 
@@ -145,7 +204,11 @@ extension ProfileRegistrationStep1ViewController: ProfileRegistrationStep1ViewDe
 extension ProfileRegistrationStep1ViewController: ContinueRegistrationProfileButtonTableViewCellDelegate {
 
     func continueRegistrationTapped() {
-        coordinator?.gotoProfileRegistrationStep2()
+        let cpf = fieldsCell["CPFCell"] as! CPFTableViewCell
+        profileStep1Presenter.continueRegistrationStep2(
+            ProfileRegistrationStep1DTO(cpf: cpf.cpfTextField.get.text ?? "")
+        )
+//        coordinator?.gotoProfileRegistrationStep2()
     }
     
 }
@@ -156,6 +219,12 @@ extension ProfileRegistrationStep1ViewController: UITableViewDelegate {
 
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return calculateHeightForRowAt(indexPath.row)
+    }
+    
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let indexPath = tableView.indexPathForSelectedRow {
+            tableView.scrollToRow(at: indexPath, at: .middle, animated: true)
+        }
     }
 }
 
@@ -177,5 +246,19 @@ extension ProfileRegistrationStep1ViewController: UITableViewDataSource {
         
         return cell
     }
+    
+}
+
+
+//  MARK: - EXTENSION - ProfileRegistrationStep1PresenterOutput
+extension ProfileRegistrationStep1ViewController: ProfileRegistrationStep1PresenterOutput {
+    public func error(_ error: String) {
+        print(error)
+    }
+    
+    public func success(_ cepDTO: ProfilePresenters.CEPDTO) {
+        print("SUCESSOOOO")
+    }
+    
     
 }

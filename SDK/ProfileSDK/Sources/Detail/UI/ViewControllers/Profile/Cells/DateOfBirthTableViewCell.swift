@@ -6,8 +6,8 @@ import UIKit
 import CustomComponentsSDK
 import DesignerSystemSDKComponent
 
-class DataOfBirthTableViewCell: UITableViewCell {
-    static let identifier = String(describing: DataOfBirthTableViewCell.self)
+class DateOfBirthTableViewCell: UITableViewCell {
+    static let identifier = String(describing: DateOfBirthTableViewCell.self)
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -20,7 +20,7 @@ class DataOfBirthTableViewCell: UITableViewCell {
 
     
 //  MARK: - LAZY AREA
-    lazy var dataOfBirthLabelText: CustomText = {
+    lazy var dateOfBirthLabelText: CustomText = {
         let comp = CustomText()
             .setText("Data de nascimento")
             .setConstraints { build in
@@ -31,8 +31,9 @@ class DataOfBirthTableViewCell: UITableViewCell {
         return comp
     }()
     
-    lazy var dataOfBirthTextField: TextFieldBuilder = {
+    lazy var dateOfBirthTextField: TextFieldBuilder = {
         let comp = TextFieldBuilder()
+            .setPlaceHolder("dd/mm/aaaa")
             .setBackgroundColor(hexColor: "#ffffff")
             .setTextColor(hexColor: "#282a36")
             .setPadding(8)
@@ -40,9 +41,18 @@ class DataOfBirthTableViewCell: UITableViewCell {
                 build
                     .setCornerRadius(8)
             })
+            .setMask({ build in
+                build
+                    .setDateMask()
+            })
+            .setKeyboard({ build in
+                build
+                    .setKeyboardType(.numberPad)
+                    .setClearButton()
+            })
             .setConstraints { build in
                 build
-                    .setTop.equalTo(dataOfBirthLabelText.get, .bottom, 8)
+                    .setTop.equalTo(dateOfBirthLabelText.get, .bottom, 8)
                     .setLeading.setTrailing.equalToSafeArea(24)
                     .setHeight.equalToConstant(48)
             }
@@ -64,13 +74,13 @@ class DataOfBirthTableViewCell: UITableViewCell {
     }
     
     private func addElements() {
-        dataOfBirthLabelText.add(insideTo: self.contentView)
-        dataOfBirthTextField.add(insideTo: self.contentView)
+        dateOfBirthLabelText.add(insideTo: self.contentView)
+        dateOfBirthTextField.add(insideTo: self.contentView)
     }
     
     private func configConstraints() {
-        dataOfBirthLabelText.applyConstraint()
-        dataOfBirthTextField.applyConstraint()
+        dateOfBirthLabelText.applyConstraint()
+        dateOfBirthTextField.applyConstraint()
     }
     
 }

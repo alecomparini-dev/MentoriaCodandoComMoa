@@ -13,13 +13,13 @@ public protocol ProfileRegistrationStep2ViewControllerCoordinator: AnyObject {
 
 
 public final class ProfileRegistrationStep2ViewController: UIViewController {
-
     public weak var coordinator: ProfileRegistrationStep2ViewControllerCoordinator?
     
     private weak var addressCell: AddressTableViewCell?
     
     private var profileStep2Presenter: ProfileRegistrationStep2Presenter
     
+    private var constantBottom: CGFloat?
     
 //  MARK: - INITIALIZERS
     
@@ -37,6 +37,10 @@ public final class ProfileRegistrationStep2ViewController: UIViewController {
         return view
     }()
     
+    deinit {
+        unregisterKeyboardNotifications()
+    }
+    
     
     //  MARK: - LIFE CYCLE
     
@@ -53,6 +57,7 @@ public final class ProfileRegistrationStep2ViewController: UIViewController {
 //  MARK: - PRIVATE AREA
     private func configure() {
         configDelegate()
+        registerKeyboardNotifications()
     }
     
     private func configDelegate() {
@@ -62,6 +67,38 @@ public final class ProfileRegistrationStep2ViewController: UIViewController {
         profileStep2Presenter.outputDelegate = self
     }
     
+    private func registerKeyboardNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        guard let userInfo = notification.userInfo,
+            let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
+        
+        if constantBottom == nil {
+            self.constantBottom = (screen.tableViewAddress.get.bounds.height - keyboardFrame.origin.y) + 75
+        }
+        repositionTableViewShowKeyboardAnimation()
+        
+    }
+    
+    private func repositionTableViewShowKeyboardAnimation() {
+        UIView.animate(withDuration: 0.3, delay: 0 , options: .curveEaseInOut, animations: { [weak self] in
+            guard let self else {return}
+            if let constantBottom {
+                screen.constraintsBottom.constant = -constantBottom
+            }
+        })
+    }
+    
+    @objc private func keyboardWillHide() {
+        screen.constraintsBottom.constant = 0
+    }
+
+    private func unregisterKeyboardNotifications() {
+        NotificationCenter.default.removeObserver(self)
+    }
 }
 
 
@@ -107,7 +144,6 @@ extension ProfileRegistrationStep2ViewController: UITableViewDataSource {
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
-    
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         

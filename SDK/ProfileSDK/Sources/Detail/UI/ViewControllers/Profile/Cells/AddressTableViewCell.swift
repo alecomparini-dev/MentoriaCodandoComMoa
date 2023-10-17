@@ -57,6 +57,10 @@ class AddressTableViewCell: UITableViewCell {
                     .setKeyboardType(.numberPad)
                     .setClearButton()
             })
+            .setMask({ build in
+                build
+                    .setCEPMask()
+            })
             .setBorder({ build in
                 build
                     .setCornerRadius(8)
@@ -220,9 +224,14 @@ class AddressTableViewCell: UITableViewCell {
             .setBackgroundColor(hexColor: "#ffffff")
             .setTextColor(hexColor: "#282a36")
             .setPadding(8)
+            .setAutoCapitalization(.allCharacters)
             .setBorder({ build in
                 build
                     .setCornerRadius(8)
+            })
+            .setMask({ build in
+                build
+                    .setCustomMask("**")
             })
             .setConstraints { build in
                 build

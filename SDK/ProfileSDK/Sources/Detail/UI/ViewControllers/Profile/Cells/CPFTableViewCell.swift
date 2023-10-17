@@ -46,6 +46,10 @@ class CPFTableViewCell: UITableViewCell {
                 build
                     .setCornerRadius(8)
             })
+            .setMask({ build in
+                build
+                    .setCPFMask()
+            })
             .setConstraints { build in
                 build
                     .setTop.equalTo(cpfLabelText.get, .bottom, 8)

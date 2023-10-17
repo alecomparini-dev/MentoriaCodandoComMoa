@@ -49,7 +49,7 @@ public class ProfileSummaryView: UIView {
             .setBackgroundColor(color: .clear)
             .setRegisterCell(ProfilePictureTableViewCell.self)
             .setRegisterCell(CPFTableViewCell.self)
-            .setRegisterCell(DataOfBirthTableViewCell.self)
+            .setRegisterCell(DateOfBirthTableViewCell.self)
             .setRegisterCell(PhoneNumberTableViewCell.self)
             .setRegisterCell(FieldOfWorkTableViewCell.self)
             .setRegisterCell(SummaryAddressTableViewCell.self)

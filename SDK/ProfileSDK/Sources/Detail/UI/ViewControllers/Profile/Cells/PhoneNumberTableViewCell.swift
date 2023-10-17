@@ -34,12 +34,22 @@ class PhoneNumberTableViewCell: UITableViewCell {
     
     lazy var phoneNumberTextField: TextFieldBuilder = {
         let comp = TextFieldBuilder()
+            .setPlaceHolder("(xx) xxxxx-xxxx")
             .setBackgroundColor(hexColor: "#ffffff")
             .setTextColor(hexColor: "#282a36")
             .setPadding(8)
             .setBorder({ build in
                 build
                     .setCornerRadius(8)
+            })
+            .setMask({ build in
+                build
+                    .setCellPhoneNumberMask()
+            })
+            .setKeyboard({ build in
+                build
+                    .setKeyboardType(.numberPad)
+                    .setClearButton()
             })
             .setConstraints { build in
                 build

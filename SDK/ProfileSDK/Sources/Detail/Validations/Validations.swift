@@ -71,8 +71,20 @@ extension Validations: PasswordComplexityValidation {
 extension Validations: EmailValidations {
     
     public func validate(email: String) -> Bool {
-        let emailValidator = EmailValidator(fieldName: "email")
-        
-        return emailValidator.validate(data: ["email": email])
+        let emailValidator = EmailValidator()
+        return emailValidator.validate(data: email)
     }
+    
+}
+
+
+
+//  MARK: - EXTENSION - CPFValidations
+extension Validations: CPFValidations {
+    
+    public func validate(cpf: String) -> Bool {
+        let cpfValidator = CPFValidator()
+        return cpfValidator.validate(cpf: cpf)
+    }
+    
 }
