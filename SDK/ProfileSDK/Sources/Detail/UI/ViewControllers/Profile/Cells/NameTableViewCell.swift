@@ -5,8 +5,14 @@ import UIKit
 import CustomComponentsSDK
 import DesignerSystemSDKComponent
 
+
+protocol NameTableViewCellDelegate: AnyObject {
+    func nameTextFieldShouldChangeCharactersIn()
+}
+
 class NameTableViewCell: UITableViewCell {
     static let identifier = String(describing: NameTableViewCell.self)
+    weak var delegate: NameTableViewCellDelegate?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -26,7 +32,17 @@ class NameTableViewCell: UITableViewCell {
             .setConstraints { build in
                 build
                     .setTop.equalToSafeArea(8)
-                    .setLeading.setTrailing.equalToSafeArea(24)
+                    .setLeading.equalToSafeArea(24)
+            }
+        return comp
+    }()
+    
+    lazy var fieldRequired: FieldRequiredCustomTextSecondary = {
+        let comp = FieldRequiredCustomTextSecondary()
+            .setConstraints { build in
+                build
+                    .setVerticalAlignmentY.equalTo(nameLabelText.get)
+                    .setLeading.equalTo(nameLabelText.get, .trailing, 4)
             }
         return comp
     }()
@@ -62,17 +78,43 @@ class NameTableViewCell: UITableViewCell {
     private func configure() {
         addElements()
         configConstraints()
+        configDelegate()
     }
     
     private func addElements() {
         nameLabelText.add(insideTo: self.contentView)
         nameTextField.add(insideTo: self.contentView)
+        fieldRequired.add(insideTo: self.contentView)
     }
     
     private func configConstraints() {
         nameLabelText.applyConstraint()
         nameTextField.applyConstraint()
+        fieldRequired.applyConstraint()
+    }
+    
+    private func configDelegate() {
+        nameTextField.setDelegate(self)
     }
     
 }
+
+
+//  MARK: - EXTENSTION - UITextFieldDelegate
+
+extension NameTableViewCell: UITextFieldDelegate {
+        
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        delegate?.nameTextFieldShouldChangeCharactersIn()
+        return true
+    }
+    
+    
+}
+
 

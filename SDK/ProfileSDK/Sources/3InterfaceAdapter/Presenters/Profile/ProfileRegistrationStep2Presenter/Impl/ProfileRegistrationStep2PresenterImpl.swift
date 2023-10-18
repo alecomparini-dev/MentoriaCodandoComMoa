@@ -6,11 +6,11 @@ import ProfileUseCases
 import ValidatorSDK
 
 public protocol ProfileRegistrationStep2PresenterOutput: AnyObject {
-    func error(_ error: String)
-    func searchCEPSuccess(_ cepDTO: CEPDTO)
+    func searchCEP(success: CEPDTO?, error: String?)
 }
 
 public class ProfileRegistrationStep2PresenterImpl: ProfileRegistrationStep2Presenter {
+    
     public weak var outputDelegate: ProfileRegistrationStep2PresenterOutput?
     
     private let searchCEPUseCase: SearchCEPUseCase
@@ -18,30 +18,44 @@ public class ProfileRegistrationStep2PresenterImpl: ProfileRegistrationStep2Pres
     public init(searchCEPUseCase: SearchCEPUseCase) {
         self.searchCEPUseCase = searchCEPUseCase
     }
-
+    
     public func searchCep(_ cep: String) {
         Task {
             do {
                 let cepDTO = try await searchCEPUseCase.get(cep)
                 
+                let cep = CEPDTO( CEP: cepDTO?.CEP,
+                                  street: cepDTO?.street,
+                                  neighborhood: cepDTO?.neighborhood,
+                                  city: cepDTO?.city,
+                                  stateShortname: cepDTO?.stateShortname)
+                
+                if cep.city == nil || (cep.city ?? "") == "" {
+                    DispatchQueue.main.async { [weak self] in
+                        self?.outputDelegate?.searchCEP(success: nil, error: "CEP não Localizado")
+                    }
+                    return
+                }
+                
                 DispatchQueue.main.async { [weak self] in
-                    self?.outputDelegate?.searchCEPSuccess(CEPDTO(
-                        CEP: cepDTO?.CEP,
-                        street: cepDTO?.street,
-                        neighborhood: cepDTO?.neighborhood,
-                        city: cepDTO?.city,
-                        stateShortname: cepDTO?.stateShortname)
+                    self?.outputDelegate?.searchCEP(
+                        success: cep,
+                        error: nil
                     )
                 }
                 
-            } catch let error {
+            } catch {
                 DispatchQueue.main.async { [weak self] in
-                    self?.outputDelegate?.error(error.localizedDescription)
+                    self?.outputDelegate?.searchCEP(success: nil, error: "CEP inválido ou não localizado")
                 }
                 
             }
         }
     }
-    
+
+    public func createProfile(_ profileDTO: ProfilePresenterDTO) {
+        
+    }
+
     
 }

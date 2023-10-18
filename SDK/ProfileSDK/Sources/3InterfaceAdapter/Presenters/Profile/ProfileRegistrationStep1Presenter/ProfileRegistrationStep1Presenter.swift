@@ -5,5 +5,5 @@ import Foundation
 
 public protocol ProfileRegistrationStep1Presenter {
     var outputDelegate: ProfileRegistrationStep1PresenterOutput? { get set }
-    func continueRegistrationStep2(_ profileRegistrationStep1DTO: ProfileRegistrationStep1DTO )
+    func continueRegistrationStep2(_ profilePresenterDTO: ProfilePresenterDTO )
 }

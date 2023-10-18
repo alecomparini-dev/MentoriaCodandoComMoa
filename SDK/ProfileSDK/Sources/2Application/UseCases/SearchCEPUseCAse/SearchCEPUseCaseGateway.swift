@@ -4,5 +4,5 @@
 import Foundation
 
 public protocol SearchCEPUseCaseGateway {
-    func get(_ cep: Int) async throws -> SearchCEPUseCaseDTO.Output?
+    func get(_ cep: String) async throws -> SearchCEPUseCaseDTO.Output?
 }

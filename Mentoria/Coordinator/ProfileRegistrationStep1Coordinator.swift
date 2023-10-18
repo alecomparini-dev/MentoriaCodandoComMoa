@@ -3,6 +3,7 @@
 
 import Foundation
 import ProfileUI
+import ProfilePresenters
 
 class ProfileRegistrationStep1Coordinator: Coordinator {
     var childCoordinator: Coordinator?
@@ -34,11 +35,11 @@ extension ProfileRegistrationStep1Coordinator: ProfileRegistrationStep1ViewContr
         childCoordinator = nil
     }
     
-    func gotoProfileRegistrationStep2() {
+    func gotoProfileRegistrationStep2(_ profilePresenterDTO: ProfilePresenterDTO) {
         let coordinator = ProfileRegistrationStep2Coordinator(navigationController)
+        coordinator.dataTransfer = profilePresenterDTO
         coordinator.start()
         childCoordinator = nil
-
     }
         
 }

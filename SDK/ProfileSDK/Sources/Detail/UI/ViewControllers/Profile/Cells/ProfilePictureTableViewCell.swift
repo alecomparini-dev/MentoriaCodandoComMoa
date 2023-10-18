@@ -5,6 +5,7 @@ import UIKit
 
 import CustomComponentsSDK
 import DesignerSystemSDKComponent
+import ProfilePresenters
 
 class ProfilePictureTableViewCell: UITableViewCell {
     static let identifier = String(describing: ProfilePictureTableViewCell.self)
@@ -20,8 +21,12 @@ class ProfilePictureTableViewCell: UITableViewCell {
     
     
 //  MARK: - SETUP CELL
-    public func setupCell(_ viewController: UIViewController) {
+    public func setupCell(_ viewController: UIViewController, profilePresenterDTO: ProfilePresenterDTO) {
         configProfilePicture(viewController)
+        userNameText.setText(profilePresenterDTO.name)
+        if let imageProfile = profilePresenterDTO.imageProfile {
+            profilePictureView.setImagePicture(imageProfile)
+        }
     }
     
     

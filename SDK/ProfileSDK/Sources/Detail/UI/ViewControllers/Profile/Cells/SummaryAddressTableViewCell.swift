@@ -5,6 +5,7 @@ import UIKit
 
 import CustomComponentsSDK
 import DesignerSystemSDKComponent
+import ProfilePresenters
 
 class SummaryAddressTableViewCell: UITableViewCell {
     static let identifier = String(describing: SummaryAddressTableViewCell.self)
@@ -34,9 +35,6 @@ class SummaryAddressTableViewCell: UITableViewCell {
     
     lazy var summaryAddressTextView: TextViewBuilder = {
         let comp = TextViewBuilder()
-            .setInsertText("Rua 29 Quadra 11 Casa 12\n")
-            .setInsertText("719092-831\n")
-            .setInsertText("Brasília-DF")
             .setTextColor(hexColor: "#282a36")
             .setSize(17)
             .setLineSpacing(10)
@@ -58,7 +56,12 @@ class SummaryAddressTableViewCell: UITableViewCell {
 
     
 //  MARK: - SETUP CELL
-    public func setupCell() {
+    public func setupCell(_ profilePresenterDTO: ProfilePresenterDTO) {
+        summaryAddressTextView.setInsertText((profilePresenterDTO.address?.street ?? "") + "\n")
+        summaryAddressTextView.setInsertText((profilePresenterDTO.address?.cep ?? "") + "\n")
+        if let city = profilePresenterDTO.address?.city, let state = profilePresenterDTO.address?.state {
+            summaryAddressTextView.setInsertText( city + "-" + state)
+        }
         
     }
     

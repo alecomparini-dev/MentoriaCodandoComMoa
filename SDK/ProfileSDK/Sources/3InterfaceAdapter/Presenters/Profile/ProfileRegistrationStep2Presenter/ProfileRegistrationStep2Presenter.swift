@@ -6,4 +6,5 @@ import Foundation
 public protocol ProfileRegistrationStep2Presenter {
     var outputDelegate: ProfileRegistrationStep2PresenterOutput? { get set }
     func searchCep(_ cep: String)
+    func createProfile(_ profileDTO: ProfilePresenterDTO)
 }

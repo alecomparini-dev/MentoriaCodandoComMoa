@@ -4,13 +4,13 @@
 
 import Foundation
 
-public final class EmailValidator: Validator {
+public final class EmailValidator {
     
     private let patter = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,}$"
     
     public init(){}
     
-    public func validate(data email: Any) -> Bool {
+    public func validate(email: Any) -> Bool {
         guard let email = email as? String else { return false }
         
         let range = NSRange(location: 0, length: email.utf16.count)

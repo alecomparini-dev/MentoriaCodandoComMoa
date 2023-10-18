@@ -6,6 +6,7 @@ import UIKit
 
 import CustomComponentsSDK
 import DesignerSystemSDKComponent
+import ProfilePresenters
 
 protocol AddressTableViewCellDelegate: AnyObject {
     func confirmationTapped()
@@ -43,7 +44,7 @@ class AddressTableViewCell: UITableViewCell {
         return comp
     }()
     
-    lazy var CEPTextField: TextFieldImageBuilder = {
+    lazy var searchCEPTextField: TextFieldImageBuilder = {
         let img = ImageViewBuilder(systemName: "magnifyingglass")
             .setSize(24)
         let comp = TextFieldImageBuilder()
@@ -55,7 +56,6 @@ class AddressTableViewCell: UITableViewCell {
             .setKeyboard({ build in
                 build
                     .setKeyboardType(.numberPad)
-                    .setClearButton()
             })
             .setMask({ build in
                 build
@@ -75,9 +75,23 @@ class AddressTableViewCell: UITableViewCell {
                 build
                     .setTap { [weak self] _, _  in
                         self?.delegate?.searchCEPTapped (
-                            self?.CEPTextField,
-                            self?.CEPTextField.get.text ?? "")
+                            self?.searchCEPTextField,
+                            self?.searchCEPTextField.get.text ?? "")
                     }
+            }
+        return comp
+    }()
+    
+    lazy var loading: LoadingBuilder = {
+        let comp = LoadingBuilder()
+            .setBackgroundColor(color: searchCEPTextField.get.backgroundColor)
+            .setColor(color: UIColor.HEX("#000000", 0.8))
+            .setHidesWhenStopped(true)
+            .setConstraints { build in
+                build
+                    .setVerticalAlignmentY.equalTo(searchCEPTextField.get)
+                    .setTrailing.equalTo(searchCEPTextField.get, .trailing, -4 )
+                    .setHeight.setWidth.equalToConstant(35)
             }
         return comp
     }()
@@ -89,15 +103,16 @@ class AddressTableViewCell: UITableViewCell {
             .setText("Rua")
             .setConstraints { build in
                 build
-                    .setTop.equalTo(CEPTextField.get, .bottom, 24)
-                    .setLeading.setTrailing.equalTo(CEPTextField.get)
+                    .setTop.equalTo(searchCEPTextField.get, .bottom, 24)
+                    .setLeading.setTrailing.equalTo(searchCEPTextField.get)
             }
         return comp
     }()
     
     lazy var streetTextField: TextFieldBuilder = {
         let comp = TextFieldBuilder()
-            .setBackgroundColor(hexColor: "#ffffff")
+            .setReadOnly(true)
+            .setBackgroundColor(hexColor: "#cccccc")
             .setTextColor(hexColor: "#282a36")
             .setPadding(8)
             .setBorder({ build in
@@ -107,7 +122,7 @@ class AddressTableViewCell: UITableViewCell {
             .setConstraints { build in
                 build
                     .setTop.equalTo(streetLabelText.get, .bottom, 8)
-                    .setLeading.setTrailing.setHeight.equalTo(CEPTextField.get)
+                    .setLeading.setTrailing.setHeight.equalTo(searchCEPTextField.get)
             }
         return comp
     }()
@@ -120,7 +135,7 @@ class AddressTableViewCell: UITableViewCell {
             .setConstraints { build in
                 build
                     .setTop.equalTo(streetTextField.get, .bottom, 24)
-                    .setLeading.setTrailing.equalTo(CEPTextField.get)
+                    .setLeading.setTrailing.equalTo(searchCEPTextField.get)
             }
         return comp
     }()
@@ -141,7 +156,7 @@ class AddressTableViewCell: UITableViewCell {
             .setConstraints { build in
                 build
                     .setTop.equalTo(numberLabelText.get, .bottom, 8)
-                    .setLeading.setTrailing.setHeight.equalTo(CEPTextField.get)
+                    .setLeading.setTrailing.setHeight.equalTo(searchCEPTextField.get)
             }
         return comp
     }()
@@ -154,14 +169,15 @@ class AddressTableViewCell: UITableViewCell {
             .setConstraints { build in
                 build
                     .setTop.equalTo(numberTextField.get, .bottom, 24)
-                    .setLeading.setTrailing.equalTo(CEPTextField.get)
+                    .setLeading.setTrailing.equalTo(searchCEPTextField.get)
             }
         return comp
     }()
     
     lazy var neighborhoodTextField: TextFieldBuilder = {
         let comp = TextFieldBuilder()
-            .setBackgroundColor(hexColor: "#ffffff")
+            .setReadOnly(true)
+            .setBackgroundColor(hexColor: "#cccccc")
             .setTextColor(hexColor: "#282a36")
             .setPadding(8)
             .setBorder({ build in
@@ -171,7 +187,7 @@ class AddressTableViewCell: UITableViewCell {
             .setConstraints { build in
                 build
                     .setTop.equalTo(neighborhoodLabelText.get, .bottom, 8)
-                    .setLeading.setTrailing.setHeight.equalTo(CEPTextField.get)
+                    .setLeading.setTrailing.setHeight.equalTo(searchCEPTextField.get)
             }
         return comp
     }()
@@ -184,14 +200,15 @@ class AddressTableViewCell: UITableViewCell {
             .setConstraints { build in
                 build
                     .setTop.equalTo(neighborhoodTextField.get, .bottom, 24)
-                    .setLeading.setTrailing.equalTo(CEPTextField.get)
+                    .setLeading.setTrailing.equalTo(searchCEPTextField.get)
             }
         return comp
     }()
     
     lazy var cityTextField: TextFieldBuilder = {
         let comp = TextFieldBuilder()
-            .setBackgroundColor(hexColor: "#ffffff")
+            .setReadOnly(true)
+            .setBackgroundColor(hexColor: "#cccccc")
             .setTextColor(hexColor: "#282a36")
             .setPadding(8)
             .setBorder({ build in
@@ -201,7 +218,7 @@ class AddressTableViewCell: UITableViewCell {
             .setConstraints { build in
                 build
                     .setTop.equalTo(cityLabelText.get, .bottom, 8)
-                    .setLeading.setTrailing.setHeight.equalTo(CEPTextField.get)
+                    .setLeading.setTrailing.setHeight.equalTo(searchCEPTextField.get)
             }
         return comp
     }()
@@ -214,14 +231,15 @@ class AddressTableViewCell: UITableViewCell {
             .setConstraints { build in
                 build
                     .setTop.equalTo(cityTextField.get, .bottom, 24)
-                    .setLeading.setTrailing.equalTo(CEPTextField.get)
+                    .setLeading.setTrailing.equalTo(searchCEPTextField.get)
             }
         return comp
     }()
     
     lazy var stateTextField: TextFieldBuilder = {
         let comp = TextFieldBuilder()
-            .setBackgroundColor(hexColor: "#ffffff")
+            .setReadOnly(true)
+            .setBackgroundColor(hexColor: "#cccccc")
             .setTextColor(hexColor: "#282a36")
             .setPadding(8)
             .setAutoCapitalization(.allCharacters)
@@ -236,7 +254,7 @@ class AddressTableViewCell: UITableViewCell {
             .setConstraints { build in
                 build
                     .setTop.equalTo(stateLabelText.get, .bottom, 8)
-                    .setLeading.setTrailing.setHeight.equalTo(CEPTextField.get)
+                    .setLeading.setTrailing.setHeight.equalTo(searchCEPTextField.get)
             }
         return comp
     }()
@@ -260,8 +278,10 @@ class AddressTableViewCell: UITableViewCell {
     
     
 //  MARK: - SETUP CELL
-    public func setupCell() {
-        
+    public func setupCell(_ profilePresenterDTO: ProfilePresenterDTO) {
+        cityTextField.setText(profilePresenterDTO.name)
+        searchCEPTextField.setText(profilePresenterDTO.cellPhoneNumber)
+        neighborhoodTextField.setText(profilePresenterDTO.fieldOfWork)
     }
     
     
@@ -274,7 +294,7 @@ class AddressTableViewCell: UITableViewCell {
     
     private func addElements() {
         CEPLabelText.add(insideTo: self.contentView)
-        CEPTextField.add(insideTo: self.contentView)
+        searchCEPTextField.add(insideTo: self.contentView)
         streetLabelText.add(insideTo: self.contentView)
         streetTextField.add(insideTo: self.contentView)
         numberLabelText.add(insideTo: self.contentView)
@@ -286,11 +306,12 @@ class AddressTableViewCell: UITableViewCell {
         stateLabelText.add(insideTo: self.contentView)
         stateTextField.add(insideTo: self.contentView)
         confirmationButtom.add(insideTo: self.contentView)
+        loading.add(insideTo: self.contentView)
     }
     
     private func configConstraints() {
         CEPLabelText.applyConstraint()
-        CEPTextField.applyConstraint()
+        searchCEPTextField.applyConstraint()
         streetLabelText.applyConstraint()
         streetTextField.applyConstraint()
         numberLabelText.applyConstraint()
@@ -302,6 +323,7 @@ class AddressTableViewCell: UITableViewCell {
         stateLabelText.applyConstraint()
         stateTextField.applyConstraint()
         confirmationButtom.applyConstraint()
+        loading.applyConstraint()
     }
     
     

@@ -14,11 +14,12 @@ public protocol ProfileRegistrationStep2ViewControllerCoordinator: AnyObject {
 
 public final class ProfileRegistrationStep2ViewController: UIViewController {
     public weak var coordinator: ProfileRegistrationStep2ViewControllerCoordinator?
-    
     private weak var addressCell: AddressTableViewCell?
     
-    private var profileStep2Presenter: ProfileRegistrationStep2Presenter
+    public var dataTransfer: Any?
     
+    private var profilePresenterDTO: ProfilePresenterDTO = ProfilePresenterDTO()
+    private var profileStep2Presenter: ProfileRegistrationStep2Presenter
     private var constantBottom: CGFloat?
     
 //  MARK: - INITIALIZERS
@@ -52,6 +53,9 @@ public final class ProfileRegistrationStep2ViewController: UIViewController {
         super.viewDidLoad()
         configure()
     }
+
+    
+    
     
     
 //  MARK: - PRIVATE AREA
@@ -115,16 +119,25 @@ extension ProfileRegistrationStep2ViewController: ProfileRegistrationStep2ViewDe
 //  MARK: - EXTENSION - ProfileRegistrationStep2PresenterOutput
 extension ProfileRegistrationStep2ViewController: ProfileRegistrationStep2PresenterOutput {
     
-    public func error(_ error: String) {
-        print(error)
+    public func searchCEP(success: CEPDTO?, error: String?) {
+        if let cepDTO = success {
+            addressCell?.streetTextField.get.text = cepDTO.street
+            addressCell?.neighborhoodTextField.get.text = cepDTO.neighborhood
+            addressCell?.cityTextField.get.text = cepDTO.city
+            addressCell?.stateTextField.get.text = cepDTO.stateShortname
+        }
+        
+        if let error {
+            let alert = UIAlertController(title: "Aviso", message: error , preferredStyle: .alert)
+            let action = UIAlertAction(title: "OK", style: .default)
+            alert.addAction(action)
+            present(alert, animated: true)
+        }
+        
+        addressCell?.loading.setStopAnimating()
     }
     
-    public func searchCEPSuccess(_ cepDTO: CEPDTO) {
-        addressCell?.streetTextField.get.text = cepDTO.street
-        addressCell?.neighborhoodTextField.get.text = cepDTO.neighborhood
-        addressCell?.cityTextField.get.text = cepDTO.city
-        addressCell?.stateTextField.get.text = cepDTO.stateShortname
-    }
+    
     
 }
 
@@ -155,6 +168,8 @@ extension ProfileRegistrationStep2ViewController: UITableViewDataSource {
         
         addressCell?.backgroundColor = .clear
         
+        addressCell?.setupCell(dataTransfer as? ProfilePresenterDTO ?? ProfilePresenterDTO())
+        
         return addressCell ?? UITableViewCell()
         
     }
@@ -171,6 +186,7 @@ extension ProfileRegistrationStep2ViewController: AddressTableViewCellDelegate {
     func searchCEPTapped(_ textField: TextFieldBuilder?, _ cep: String) {
         textField?.get.resignFirstResponder()
         profileStep2Presenter.searchCep(cep)
+        addressCell?.loading.setStartAnimating()
     }
 
     
