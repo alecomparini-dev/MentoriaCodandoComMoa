@@ -11,13 +11,17 @@ import ProfilePresenters
 protocol AddressTableViewCellDelegate: AnyObject {
     func confirmationTapped()
     func searchCEPTapped(_ textField: TextFieldBuilder? ,_ cep: String)
+    func textFieldShouldChangeCharactersIn(_ fieldRequired: AddressTableViewCell.FieldRequired, range: NSRange, string: String)
 }
 
 class AddressTableViewCell: UITableViewCell {
     static let identifier = String(describing: AddressTableViewCell.self)
-    
     weak var delegate: AddressTableViewCellDelegate?
     
+    enum FieldRequired {
+        case searchCEP
+        case number
+    }
 
 //  MARK: - INITIALIZERS
     
@@ -39,7 +43,18 @@ class AddressTableViewCell: UITableViewCell {
             .setConstraints { build in
                 build
                     .setTop.equalToSafeArea(8)
-                    .setLeading.setTrailing.equalToSafeArea(24)
+                    .setLeading.equalToSafeArea(24)
+            }
+        return comp
+    }()
+    
+    lazy var CEPFieldRequired: FieldRequiredCustomTextSecondary = {
+        let comp = FieldRequiredCustomTextSecondary()
+            .setHidden(false)
+            .setConstraints { build in
+                build
+                    .setVerticalAlignmentY.equalTo(CEPLabelText.get)
+                    .setLeading.equalTo(CEPLabelText.get, .trailing, 4)
             }
         return comp
     }()
@@ -135,7 +150,18 @@ class AddressTableViewCell: UITableViewCell {
             .setConstraints { build in
                 build
                     .setTop.equalTo(streetTextField.get, .bottom, 24)
-                    .setLeading.setTrailing.equalTo(searchCEPTextField.get)
+                    .setLeading.equalTo(searchCEPTextField.get, .leading)
+            }
+        return comp
+    }()
+    
+    lazy var numberFieldRequired: FieldRequiredCustomTextSecondary = {
+        let comp = FieldRequiredCustomTextSecondary()
+            .setHidden(false)
+            .setConstraints { build in
+                build
+                    .setVerticalAlignmentY.equalTo(numberLabelText.get)
+                    .setLeading.equalTo(numberLabelText.get, .trailing, 4)
             }
         return comp
     }()
@@ -290,14 +316,17 @@ class AddressTableViewCell: UITableViewCell {
     private func configure() {
         addElements()
         configConstraints()
+        configDelegate()
     }
     
     private func addElements() {
         CEPLabelText.add(insideTo: self.contentView)
+        CEPFieldRequired.add(insideTo: self.contentView)
         searchCEPTextField.add(insideTo: self.contentView)
         streetLabelText.add(insideTo: self.contentView)
         streetTextField.add(insideTo: self.contentView)
         numberLabelText.add(insideTo: self.contentView)
+        numberFieldRequired.add(insideTo: self.contentView)
         numberTextField.add(insideTo: self.contentView)
         neighborhoodLabelText.add(insideTo: self.contentView)
         neighborhoodTextField.add(insideTo: self.contentView)
@@ -311,10 +340,12 @@ class AddressTableViewCell: UITableViewCell {
     
     private func configConstraints() {
         CEPLabelText.applyConstraint()
+        CEPFieldRequired.applyConstraint()
         searchCEPTextField.applyConstraint()
         streetLabelText.applyConstraint()
         streetTextField.applyConstraint()
         numberLabelText.applyConstraint()
+        numberFieldRequired.applyConstraint()
         numberTextField.applyConstraint()
         neighborhoodLabelText.applyConstraint()
         neighborhoodTextField.applyConstraint()
@@ -326,5 +357,38 @@ class AddressTableViewCell: UITableViewCell {
         loading.applyConstraint()
     }
     
+    private func configDelegate() {
+        searchCEPTextField.setDelegate(self)
+        numberTextField.setDelegate(self)
+    }
+
+    
     
 }
+
+
+//  MARK: - EXTENSTION - UITextFieldDelegate
+
+extension AddressTableViewCell: UITextFieldDelegate {
+    
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if searchCEPTextField.get.isFirstResponder {
+            delegate?.textFieldShouldChangeCharactersIn(FieldRequired.searchCEP, range: range, string: string)
+            return false
+        }
+        
+        if numberTextField.get.isFirstResponder {
+            delegate?.textFieldShouldChangeCharactersIn(FieldRequired.number, range: range, string: string)
+        }
+        
+        return true
+        
+    }
+}
+

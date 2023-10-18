@@ -4,6 +4,7 @@
 import UIKit
 
 import CustomComponentsSDK
+import DesignerSystemSDKComponent
 import ProfilePresenters
 
 public protocol ProfileRegistrationStep2ViewControllerCoordinator: AnyObject {
@@ -17,6 +18,8 @@ public final class ProfileRegistrationStep2ViewController: UIViewController {
     private weak var addressCell: AddressTableViewCell?
     
     public var dataTransfer: Any?
+    
+    private let cepMask: MaskBuilder = MaskBuilder().setCEPMask()
     
     private var profilePresenterDTO: ProfilePresenterDTO = ProfilePresenterDTO()
     private var profileStep2Presenter: ProfileRegistrationStep2Presenter
@@ -103,6 +106,19 @@ public final class ProfileRegistrationStep2ViewController: UIViewController {
     private func unregisterKeyboardNotifications() {
         NotificationCenter.default.removeObserver(self)
     }
+    
+    private func resetFields() {
+        addressCell?.streetTextField.setText("")
+        addressCell?.neighborhoodTextField.setText("")
+        addressCell?.cityTextField.setText("")
+        addressCell?.stateTextField.setText("")
+    }
+    
+    private func setHiddenFieldRequired(_ requiredLabel: FieldRequiredCustomTextSecondary?, _ flag: Bool) {
+        if let requiredLabel {
+            requiredLabel.setHidden(flag)
+        }
+    }
 }
 
 
@@ -132,6 +148,7 @@ extension ProfileRegistrationStep2ViewController: ProfileRegistrationStep2Presen
             let action = UIAlertAction(title: "OK", style: .default)
             alert.addAction(action)
             present(alert, animated: true)
+            resetFields()
         }
         
         addressCell?.loading.setStopAnimating()
@@ -179,6 +196,7 @@ extension ProfileRegistrationStep2ViewController: UITableViewDataSource {
 
 //  MARK: - EXTENSION - AddressTableViewCellDelegate
 extension ProfileRegistrationStep2ViewController: AddressTableViewCellDelegate {
+
     func confirmationTapped() {
         
     }
@@ -187,6 +205,20 @@ extension ProfileRegistrationStep2ViewController: AddressTableViewCellDelegate {
         textField?.get.resignFirstResponder()
         profileStep2Presenter.searchCep(cep)
         addressCell?.loading.setStartAnimating()
+    }
+
+    func textFieldShouldChangeCharactersIn(_ fieldRequired: AddressTableViewCell.FieldRequired, range: NSRange, string: String) {
+        
+        switch fieldRequired {
+            case .searchCEP:
+                setHiddenFieldRequired(addressCell?.CEPFieldRequired, true)
+                addressCell?.searchCEPTextField.get.text = cepMask.get.formatStringWithRange(range: range, string: string)
+                resetFields()
+            
+            case .number:
+                setHiddenFieldRequired(addressCell?.numberFieldRequired, true)
+        }
+        
     }
 
     
