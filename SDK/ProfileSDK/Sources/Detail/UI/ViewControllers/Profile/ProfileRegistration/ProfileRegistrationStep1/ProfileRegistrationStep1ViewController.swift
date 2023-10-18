@@ -119,7 +119,7 @@ public final class ProfileRegistrationStep1ViewController: UIViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: NameTableViewCell.identifier, for: indexPath) as? NameTableViewCell
         cell?.delegate = self
         setCell(cell, key: TypeCells.name)
-        cell?.nameTextField.setText("CARALHOOO")
+        cell?.nameTextField.setText("NOMMMEEEEEEE")
         return cell ?? UITableViewCell()
     }
 
@@ -127,6 +127,7 @@ public final class ProfileRegistrationStep1ViewController: UIViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: CPFTableViewCell.identifier, for: indexPath) as? CPFTableViewCell
         cell?.delegate = self
         setCell(cell, key: TypeCells.cpf)
+        cell?.cpfTextField.setText("047.810.386-70")
         return cell ?? UITableViewCell()
     }
     
@@ -134,6 +135,7 @@ public final class ProfileRegistrationStep1ViewController: UIViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: DateOfBirthTableViewCell.identifier, for: indexPath) as? DateOfBirthTableViewCell
         cell?.delegate = self
         setCell(cell, key: TypeCells.dateOfBirth)
+        cell?.dateOfBirthTextField.setText("11/11/1111")
         return cell ?? UITableViewCell()
     }
     
@@ -141,6 +143,7 @@ public final class ProfileRegistrationStep1ViewController: UIViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: PhoneNumberTableViewCell.identifier, for: indexPath) as? PhoneNumberTableViewCell
         cell?.delegate = self
         setCell(cell, key: TypeCells.phoneNumber)
+        cell?.phoneNumberTextField.setText("(11) 11111-1111")
         return cell ?? UITableViewCell()
     }
     
@@ -148,6 +151,7 @@ public final class ProfileRegistrationStep1ViewController: UIViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: FieldOfWorkTableViewCell.identifier, for: indexPath) as? FieldOfWorkTableViewCell
         cell?.delegate = self
         setCell(cell, key: TypeCells.fieldOfWork)
+        cell?.fieldOfWorkTextField.setText("654654654654")
         return cell ?? UITableViewCell()
     }
     
