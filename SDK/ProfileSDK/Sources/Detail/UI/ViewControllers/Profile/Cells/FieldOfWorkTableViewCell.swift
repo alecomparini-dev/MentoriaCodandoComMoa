@@ -5,9 +5,16 @@ import UIKit
 
 import CustomComponentsSDK
 import DesignerSystemSDKComponent
+import ProfilePresenters
+
+protocol FieldOfWorkTableViewCellDelegate: AnyObject {
+    func fieldOfWorkTextFieldShouldBeginEditing()
+    func fieldOfWorkTextFieldShouldChangeCharactersIn()
+}
 
 class FieldOfWorkTableViewCell: UITableViewCell {
     static let identifier = String(describing: FieldOfWorkTableViewCell.self)
+    weak var delegate: FieldOfWorkTableViewCellDelegate?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -27,7 +34,17 @@ class FieldOfWorkTableViewCell: UITableViewCell {
             .setConstraints { build in
                 build
                     .setTop.equalToSafeArea(8)
-                    .setLeading.setTrailing.equalToSafeArea(24)
+                    .setLeading.equalToSafeArea(24)
+            }
+        return comp
+    }()
+    
+    lazy var fieldRequired: FieldRequiredCustomTextSecondary = {
+        let comp = FieldRequiredCustomTextSecondary()
+            .setConstraints { build in
+                build
+                    .setVerticalAlignmentY.equalTo(fieldOfWorkLabelText.get)
+                    .setLeading.equalTo(fieldOfWorkLabelText.get, .trailing, 4)
             }
         return comp
     }()
@@ -52,8 +69,8 @@ class FieldOfWorkTableViewCell: UITableViewCell {
     
 
 //  MARK: - SETUP CELL
-    public func setupCell() {
-        
+    public func setupCell(_ profilePresenterDTO: ProfilePresenterDTO) {
+        fieldOfWorkTextField.setText(profilePresenterDTO.fieldOfWork)
     }
     
     
@@ -62,15 +79,44 @@ class FieldOfWorkTableViewCell: UITableViewCell {
     private func configure() {
         addElements()
         configConstraints()
+        configDelegate()
     }
     
     private func addElements() {
         fieldOfWorkLabelText.add(insideTo: self.contentView)
         fieldOfWorkTextField.add(insideTo: self.contentView)
+        fieldRequired.add(insideTo: self.contentView)
     }
     
     private func configConstraints() {
         fieldOfWorkLabelText.applyConstraint()
         fieldOfWorkTextField.applyConstraint()
+        fieldRequired.applyConstraint()
+    }
+    
+    private func configDelegate() {
+        fieldOfWorkTextField.setDelegate(self)
     }
 }
+
+//  MARK: - EXTENSTION - UITextFieldDelegate
+
+extension FieldOfWorkTableViewCell: UITextFieldDelegate {
+        
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        delegate?.fieldOfWorkTextFieldShouldBeginEditing()
+        return true
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        delegate?.fieldOfWorkTextFieldShouldChangeCharactersIn()
+        return true
+    }
+    
+}
+

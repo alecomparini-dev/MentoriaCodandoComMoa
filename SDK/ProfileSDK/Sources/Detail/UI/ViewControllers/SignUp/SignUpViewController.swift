@@ -83,7 +83,6 @@ extension SignUpViewController: SignUpPresenterOutput {
         coordinator?.gotoHome()
     }
 
-    
     public func error(_ error: String) {
         let alert = UIAlertController(title: "Aviso", message: error, preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default)

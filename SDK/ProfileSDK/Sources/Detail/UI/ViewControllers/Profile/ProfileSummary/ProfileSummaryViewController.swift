@@ -3,6 +3,8 @@
 
 import UIKit
 
+import ProfilePresenters
+
 public protocol ProfileSummaryViewControllerCoordinator: AnyObject {
     func gotoProfileRegistrationStep1()
 }
@@ -13,12 +15,28 @@ public final class ProfileSummaryViewController: UIViewController {
     private enum TypeCells: Int {
         case profilePicture = 0
         case cpf = 1
-        case dataOfBirth = 2
+        case dateOfBirth = 2
         case phoneNumber = 3
         case fieldOfWork = 4
         case summaryAddress = 5
         case editProfileButton = 6
     }
+    
+    public var dataTransfer: Any?
+    
+    private var fieldsCell: [TypeCells: UITableViewCell] = [:]
+    private var profilePresenterDTO: ProfilePresenterDTO = ProfilePresenterDTO(
+        imageProfile: nil,
+        name: "Alessandro Comparini",
+        cpf: "047.810.386-70",
+        dateOfBirth: "06/05/1980",
+        cellPhoneNumber: "(34) 99107-6987",
+        fieldOfWork: "DEV IOS",
+        address: ProfileAddressPresenterDTO.init(cep: "38400-440",
+                                                 street: "Rua Francisco Sales", number: "1228", neighborhood: "Osvaldo", city: "Uberlândia", state: "MG"))
+    
+    
+//  MARK: - INITIALIZERS
     
     public lazy var screen: ProfileSummaryView = {
         let view = ProfileSummaryView()
@@ -72,7 +90,7 @@ public final class ProfileSummaryViewController: UIViewController {
             case .cpf:
                 return getCPFTableViewCell(tableView, indexPath)
         
-            case .dataOfBirth:
+            case .dateOfBirth:
                 return getDataOfBirthTableViewCell(tableView, indexPath)
             
             case .profilePicture:
@@ -100,40 +118,45 @@ public final class ProfileSummaryViewController: UIViewController {
     
     private func getProfilePictureTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ProfilePictureTableViewCell.identifier, for: indexPath) as? ProfilePictureTableViewCell
-        cell?.setupCell(self)
+        cell?.setupCell(self, profilePresenterDTO: profilePresenterDTO)
         return cell ?? UITableViewCell()
     }
     
     private func getCPFTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CPFTableViewCell.identifier, for: indexPath) as? CPFTableViewCell
-        cell?.setupCell()
+        cell?.setupCell(profilePresenterDTO)
         cell?.cpfTextField.setReadOnly(true)
+        setCell(cell, key: TypeCells.cpf)
         return cell ?? UITableViewCell()
     }
     
     private func getDataOfBirthTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: DateOfBirthTableViewCell.identifier, for: indexPath) as? DateOfBirthTableViewCell
-        cell?.setupCell()
+        cell?.setupCell(profilePresenterDTO)
         cell?.dateOfBirthTextField.setReadOnly(true)
+        setCell(cell, key: TypeCells.dateOfBirth)
         return cell ?? UITableViewCell()
     }
     
     private func getPhoneNumberTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: PhoneNumberTableViewCell.identifier, for: indexPath) as? PhoneNumberTableViewCell
-        cell?.setupCell()
+        cell?.setupCell(profilePresenterDTO)
         cell?.phoneNumberTextField.setReadOnly(true)
+        setCell(cell, key: TypeCells.phoneNumber)
         return cell ?? UITableViewCell()
     }
     
     private func getFieldOfWorkTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: FieldOfWorkTableViewCell.identifier, for: indexPath) as? FieldOfWorkTableViewCell
-        cell?.setupCell()
+        cell?.setupCell(profilePresenterDTO)
+        cell?.fieldOfWorkTextField.setReadOnly(true)
+        setCell(cell, key: TypeCells.fieldOfWork)
         return cell ?? UITableViewCell()
     }
 
     private func getSummaryAddressTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SummaryAddressTableViewCell.identifier, for: indexPath) as? SummaryAddressTableViewCell
-        cell?.setupCell()
+        cell?.setupCell(profilePresenterDTO)
         cell?.summaryAddressTextView.setReadOnly(true)
         return cell ?? UITableViewCell()
     }
@@ -143,6 +166,13 @@ public final class ProfileSummaryViewController: UIViewController {
         cell?.delegate = self
         return cell ?? UITableViewCell()
     }
+    
+    private func setCell(_ cell: UITableViewCell?, key: TypeCells) {
+        if let cell {
+            fieldsCell.updateValue(cell, forKey: key)
+        }
+    }
+
 }
 
 

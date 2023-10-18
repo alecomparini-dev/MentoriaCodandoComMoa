@@ -13,9 +13,9 @@ public class SearchCEPUseCaseImpl: SearchCEPUseCase {
     
     public func get(_ cep: String) async throws -> SearchCEPUseCaseDTO.Output? {
         
-        guard let cep = Int(cep.replacingOccurrences(of: "-", with: "")) else {return nil}
+        let cepWithOutMask = cep.replacingOccurrences(of: "-", with: "")
         
-        return try await searchCEPGateway.get(cep)
+        return try await searchCEPGateway.get(cepWithOutMask)
     }
     
 }

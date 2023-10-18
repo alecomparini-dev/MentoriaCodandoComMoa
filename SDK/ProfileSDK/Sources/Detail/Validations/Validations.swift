@@ -72,7 +72,7 @@ extension Validations: EmailValidations {
     
     public func validate(email: String) -> Bool {
         let emailValidator = EmailValidator()
-        return emailValidator.validate(data: email)
+        return emailValidator.validate(email: email)
     }
     
 }

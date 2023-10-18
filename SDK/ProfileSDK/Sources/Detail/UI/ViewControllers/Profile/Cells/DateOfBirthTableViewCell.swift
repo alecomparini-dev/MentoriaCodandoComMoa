@@ -5,9 +5,17 @@ import UIKit
 
 import CustomComponentsSDK
 import DesignerSystemSDKComponent
+import ProfilePresenters
+
+protocol DateOfBirthTableViewCellDelegate: AnyObject {
+    func dateOfBirthTextFieldShouldBeginEditing()
+    func dateOfBirthTextFieldShouldChangeCharactersIn(_ textField: UITextField, range: NSRange, string: String)
+}
+
 
 class DateOfBirthTableViewCell: UITableViewCell {
     static let identifier = String(describing: DateOfBirthTableViewCell.self)
+    weak var delegate: DateOfBirthTableViewCellDelegate?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -26,7 +34,17 @@ class DateOfBirthTableViewCell: UITableViewCell {
             .setConstraints { build in
                 build
                     .setTop.equalToSafeArea(8)
-                    .setLeading.setTrailing.equalToSafeArea(24)
+                    .setLeading.equalToSafeArea(24)
+            }
+        return comp
+    }()
+    
+    lazy var fieldRequired: FieldRequiredCustomTextSecondary = {
+        let comp = FieldRequiredCustomTextSecondary()
+            .setConstraints { build in
+                build
+                    .setVerticalAlignmentY.equalTo(dateOfBirthLabelText.get)
+                    .setLeading.equalTo(dateOfBirthLabelText.get, .trailing, 4)
             }
         return comp
     }()
@@ -41,14 +59,9 @@ class DateOfBirthTableViewCell: UITableViewCell {
                 build
                     .setCornerRadius(8)
             })
-            .setMask({ build in
-                build
-                    .setDateMask()
-            })
             .setKeyboard({ build in
                 build
                     .setKeyboardType(.numberPad)
-                    .setClearButton()
             })
             .setConstraints { build in
                 build
@@ -61,8 +74,8 @@ class DateOfBirthTableViewCell: UITableViewCell {
     
     
 //  MARK: - SETUP CELL
-    public func setupCell() {
-        
+    public func setupCell(_ profilePresenterDTO: ProfilePresenterDTO) {
+        dateOfBirthTextField.setText(profilePresenterDTO.dateOfBirth)
     }
     
     
@@ -71,16 +84,44 @@ class DateOfBirthTableViewCell: UITableViewCell {
     private func configure() {
         addElements()
         configConstraints()
+        configDelegate()
     }
     
     private func addElements() {
         dateOfBirthLabelText.add(insideTo: self.contentView)
         dateOfBirthTextField.add(insideTo: self.contentView)
+        fieldRequired.add(insideTo: self.contentView)
     }
     
     private func configConstraints() {
         dateOfBirthLabelText.applyConstraint()
         dateOfBirthTextField.applyConstraint()
+        fieldRequired.applyConstraint()
     }
     
+    private func configDelegate() {
+        dateOfBirthTextField.setDelegate(self)
+    }
+
+    
+}
+
+//  MARK: - EXTENSTION - UITextFieldDelegate
+
+extension DateOfBirthTableViewCell: UITextFieldDelegate {
+    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        delegate?.dateOfBirthTextFieldShouldBeginEditing()
+        return true
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        delegate?.dateOfBirthTextFieldShouldChangeCharactersIn(textField, range: range, string: string)
+        return false
+    }
 }

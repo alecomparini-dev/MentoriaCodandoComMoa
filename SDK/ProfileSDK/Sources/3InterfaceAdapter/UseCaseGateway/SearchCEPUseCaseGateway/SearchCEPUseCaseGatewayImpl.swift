@@ -19,15 +19,16 @@ public class SearchCEPUseCaseGatewayImpl: SearchCEPUseCaseGateway {
         self.queryParameters = queryParameters
     }
     
-    public func get(_ cep: Int) async throws -> SearchCEPUseCaseDTO.Output? {
+    public func get(_ cep: String) async throws -> SearchCEPUseCaseDTO.Output? {
         
-        guard let urlRequest = URL(string: url.description + "/\(cep)") else {return nil}
+        guard let urlRequest = URL(string: url.description.replacingOccurrences(of: "id_cep", with: "\(cep)") ) else {return nil}
         
         let data = try await httpGet.get(url: urlRequest, headers: headers, queryParameters: queryParameters)
         
         guard let data else {return nil}
         
-        let cepCodable: CEPCodable = try JSONDecoder().decode(CEPCodable.self, from: data)
+//        let cepCodable: CEPCodable = try JSONDecoder().decode(CEPCodable.self, from: data)
+        let cepCodable: ViaCEPCodable = try JSONDecoder().decode(ViaCEPCodable.self, from: data)
         
         return cepCodable.mapperToDTO()
     }
