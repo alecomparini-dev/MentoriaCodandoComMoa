@@ -2,8 +2,8 @@
 //
 
 import Foundation
-import ProfileUseCaseGateway
 import FirebaseAuth
+import ProfileUseCaseGateway
 
 public class FirebaseEmailPasswordAuthentication: AuthenticationEmailPassword {
 
@@ -37,9 +37,6 @@ public class FirebaseEmailPasswordAuthentication: AuthenticationEmailPassword {
         }
     }
     
-    public func getUserIDAuthenticated() -> UserId? {
-        return auth.currentUser?.uid
-    }
     
     
 //  MARK: - PRIVATE AREA

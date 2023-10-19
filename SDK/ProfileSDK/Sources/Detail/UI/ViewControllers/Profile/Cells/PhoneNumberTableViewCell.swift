@@ -32,6 +32,10 @@ class PhoneNumberTableViewCell: UITableViewCell {
     lazy var phoneNumberLabelText: CustomText = {
         let comp = CustomText()
             .setText("Telefone")
+            .setSkeleton { build in
+                build
+                    .showSkeleton(.gradientAnimated)
+            }
             .setConstraints { build in
                 build
                     .setTop.equalToSafeArea(8)
@@ -64,6 +68,10 @@ class PhoneNumberTableViewCell: UITableViewCell {
                 build
                     .setKeyboardType(.numberPad)
             })
+            .setSkeleton { build in
+                build
+                    .showSkeleton(.gradientAnimated)
+            }
             .setConstraints { build in
                 build
                     .setTop.equalTo(phoneNumberLabelText.get, .bottom, 8)

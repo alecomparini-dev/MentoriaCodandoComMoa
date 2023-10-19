@@ -24,7 +24,7 @@ class SignUpViewControllerFactory {
         
         let authentication = FirebaseEmailPasswordAuthentication()
         
-        let createLoginUseCaseGateway = EmailPasswordCreateLoginUseCaseGatewayImpl(authentication: authentication)
+        let createLoginUseCaseGateway = EmailPasswordCreateLoginUseCaseGatewayImpl(authenticator: authentication)
         
         let createLoginUseCase = CreateLoginUseCaseImpl(createLoginUseCaseGateway: createLoginUseCaseGateway)
         

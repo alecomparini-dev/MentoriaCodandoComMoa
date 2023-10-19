@@ -9,4 +9,5 @@ public enum AuthenticationDomainError: Error {
     case emailInvalid
     case passwordInvalid
     case userOrPasswordInvalid
+    case userNotAuthenticated
 }

@@ -31,6 +31,10 @@ class DateOfBirthTableViewCell: UITableViewCell {
     lazy var dateOfBirthLabelText: CustomText = {
         let comp = CustomText()
             .setText("Data de nascimento")
+            .setSkeleton({ build in
+                build
+                    .showSkeleton(.gradientAnimated)
+            })
             .setConstraints { build in
                 build
                     .setTop.equalToSafeArea(8)
@@ -62,6 +66,10 @@ class DateOfBirthTableViewCell: UITableViewCell {
             .setKeyboard({ build in
                 build
                     .setKeyboardType(.numberPad)
+            })
+            .setSkeleton({ build in
+                build
+                    .showSkeleton(.gradientAnimated)
             })
             .setConstraints { build in
                 build

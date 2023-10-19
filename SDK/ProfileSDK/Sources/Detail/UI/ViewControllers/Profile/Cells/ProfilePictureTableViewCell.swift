@@ -48,6 +48,10 @@ class ProfilePictureTableViewCell: UITableViewCell {
         let comp = CustomTextTitle()
             .setText("Marcelo Oliveira")
             .setTextAlignment(.center)
+            .setSkeleton { build in
+                build
+                    .showSkeleton(.gradientAnimated)
+            }
             .setConstraints { build in
                 build
                     .setTop.equalTo(profilePictureView.get, .bottom, 16)
@@ -60,6 +64,10 @@ class ProfilePictureTableViewCell: UITableViewCell {
         let comp = CustomText()
             .setText("Eletricista")
             .setTextAlignment(.center)
+            .setSkeleton { build in
+                build
+                    .showSkeleton(.gradientAnimated)
+            }
             .setConstraints { build in
                 build
                     .setTop.equalTo(userNameText.get, .bottom, 4)

@@ -25,6 +25,10 @@ class SummaryAddressTableViewCell: UITableViewCell {
     lazy var summaryAddressText: CustomText = {
         let comp = CustomText()
             .setText("Endereço")
+            .setSkeleton { build in
+                build
+                    .showSkeleton(.gradientAnimated)
+            }
             .setConstraints { build in
                 build
                     .setTop.equalToSafeArea(8)
@@ -45,6 +49,10 @@ class SummaryAddressTableViewCell: UITableViewCell {
                 build
                     .setCornerRadius(8)
             })
+            .setSkeleton { build in
+                build
+                    .showSkeleton(.gradientAnimated)
+            }
             .setConstraints { build in
                 build
                     .setTop.equalTo(summaryAddressText.get, .bottom, 8)

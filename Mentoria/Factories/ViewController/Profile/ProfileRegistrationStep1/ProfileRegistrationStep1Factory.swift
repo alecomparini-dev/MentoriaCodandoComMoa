@@ -1,7 +1,3 @@
-//
-//  ProfileRegistrationStep1Factory.swift
-//  Mentoria
-//
 //  Created by Alessandro Comparini on 16/10/23.
 //
 

@@ -22,6 +22,8 @@ public final class ProfileSummaryViewController: UIViewController {
         case editProfileButton = 6
     }
     
+    private var profileSummaryPresenter: ProfileSummaryPresenter
+    
     public var dataTransfer: Any?
     
     private var fieldsCell: [TypeCells: UITableViewCell] = [:]
@@ -37,6 +39,15 @@ public final class ProfileSummaryViewController: UIViewController {
     
     
 //  MARK: - INITIALIZERS
+    
+    public init(profileSummaryPresenter: ProfileSummaryPresenter) {
+        self.profileSummaryPresenter = profileSummaryPresenter
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     public lazy var screen: ProfileSummaryView = {
         let view = ProfileSummaryView()
@@ -55,6 +66,15 @@ public final class ProfileSummaryViewController: UIViewController {
         configure()
     }
     
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        getUserAuthenticated()
+    }
+    
+    private func getUserAuthenticated() {
+        profileSummaryPresenter.getUserAuthenticated()
+    }
+    
     
 //  MARK: - PRIVATE AREA
     private func configure() {
@@ -62,10 +82,19 @@ public final class ProfileSummaryViewController: UIViewController {
     }
     
     private func configDelegate() {
+        configTableViewDelegate()
+        configProfileSymmaryOutPutDelegate()
+    }
+        
+    private func configProfileSymmaryOutPutDelegate() {
+        profileSummaryPresenter.outputDelegate = self
+    }
+    
+    private func configTableViewDelegate() {
         screen.tableViewScroll.setDelegate(delegate: self)
         screen.tableViewScroll.setDataSource(dataSource: self)
     }
-        
+    
     private func calculateHeightForRowAt(_ index: Int) -> CGFloat {
         switch TypeCells(rawValue: index) {
             case .profilePicture:
@@ -116,67 +145,69 @@ public final class ProfileSummaryViewController: UIViewController {
         
     }
     
+    private func configSkeleton() {
+        
+    }
+    
     private func getProfilePictureTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ProfilePictureTableViewCell.identifier, for: indexPath) as? ProfilePictureTableViewCell
-        cell?.setupCell(self, profilePresenterDTO: profilePresenterDTO)
-        return cell ?? UITableViewCell()
+        let cell = ProfilePictureTableViewCell()
+        cell.setupCell(self, profilePresenterDTO: profilePresenterDTO)
+        return cell
     }
     
     private func getCPFTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: CPFTableViewCell.identifier, for: indexPath) as? CPFTableViewCell
-        cell?.setupCell(profilePresenterDTO)
-        cell?.cpfTextField.setReadOnly(true)
+        let cell = CPFTableViewCell()
+        cell.setupCell(profilePresenterDTO)
+        cell.cpfTextField.setReadOnly(true)
         setCell(cell, key: TypeCells.cpf)
-        return cell ?? UITableViewCell()
+        return cell
     }
     
     private func getDataOfBirthTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: DateOfBirthTableViewCell.identifier, for: indexPath) as? DateOfBirthTableViewCell
-        cell?.setupCell(profilePresenterDTO)
-        cell?.dateOfBirthTextField.setReadOnly(true)
+        let cell = DateOfBirthTableViewCell()
+        cell.setupCell(profilePresenterDTO)
+        cell.dateOfBirthTextField.setReadOnly(true)
         setCell(cell, key: TypeCells.dateOfBirth)
-        return cell ?? UITableViewCell()
+        return cell
     }
     
     private func getPhoneNumberTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: PhoneNumberTableViewCell.identifier, for: indexPath) as? PhoneNumberTableViewCell
-        cell?.setupCell(profilePresenterDTO)
-        cell?.phoneNumberTextField.setReadOnly(true)
+        let cell = PhoneNumberTableViewCell()
+        cell.setupCell(profilePresenterDTO)
+        cell.phoneNumberTextField.setReadOnly(true)
         setCell(cell, key: TypeCells.phoneNumber)
-        return cell ?? UITableViewCell()
+        return cell
     }
     
     private func getFieldOfWorkTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: FieldOfWorkTableViewCell.identifier, for: indexPath) as? FieldOfWorkTableViewCell
-        cell?.setupCell(profilePresenterDTO)
-        cell?.fieldOfWorkTextField.setReadOnly(true)
+        let cell = FieldOfWorkTableViewCell()
+        cell.setupCell(profilePresenterDTO)
+        cell.fieldOfWorkTextField.setReadOnly(true)
         setCell(cell, key: TypeCells.fieldOfWork)
-        return cell ?? UITableViewCell()
+        return cell
     }
 
     private func getSummaryAddressTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: SummaryAddressTableViewCell.identifier, for: indexPath) as? SummaryAddressTableViewCell
-        cell?.setupCell(profilePresenterDTO)
-        cell?.summaryAddressTextView.setReadOnly(true)
-        return cell ?? UITableViewCell()
+        let cell = SummaryAddressTableViewCell()
+        cell.setupCell(profilePresenterDTO)
+        cell.summaryAddressTextView.setReadOnly(true)
+        return cell
     }
     
     private func getEditProfileButtonTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: EditProfileButtonTableViewCell.identifier, for: indexPath) as? EditProfileButtonTableViewCell
-        cell?.delegate = self
-        return cell ?? UITableViewCell()
+        let cell = EditProfileButtonTableViewCell()
+        cell.delegate = self
+        return cell
     }
     
-    private func setCell(_ cell: UITableViewCell?, key: TypeCells) {
-        if let cell {
-            fieldsCell.updateValue(cell, forKey: key)
-        }
+    private func setCell(_ cell: UITableViewCell, key: TypeCells) {
+        fieldsCell.updateValue(cell, forKey: key)
     }
 
 }
 
 
-//  MARK: - EXTENSION TABLEVIEW DELEGATE
+//  MARK: - EXTENSION - UITableViewDelegate
 extension ProfileSummaryViewController: UITableViewDelegate {
 
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -185,7 +216,7 @@ extension ProfileSummaryViewController: UITableViewDelegate {
 }
 
 
-//  MARK: - EXTENSION TABLEVIEW DATASOURCE
+//  MARK: - EXTENSION - UITableViewDataSource
 extension ProfileSummaryViewController: UITableViewDataSource {
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -205,7 +236,7 @@ extension ProfileSummaryViewController: UITableViewDataSource {
     
 }
 
-//  MARK: - EXTENSION TABLEVIEW DELEGATE
+//  MARK: - EXTENSION - EditProfileButtonTableViewCellDelegate
 extension ProfileSummaryViewController: EditProfileButtonTableViewCellDelegate {
     
     public func editProfileTapped() {
@@ -213,4 +244,20 @@ extension ProfileSummaryViewController: EditProfileButtonTableViewCellDelegate {
     }
     
 }
+
+
+//  MARK: - EXTENSION - ProfileSummaryPresenterOutput
+extension ProfileSummaryViewController: ProfileSummaryPresenterOutput {
+    
+    public func getUserAuthenticated(success: ProfilePresenters.ProfilePresenterDTO?, error: String?) {
+        print(success ?? "")
+        screen.tableViewScroll.get.reloadData()
+    }
+    
+    public func getUserProfile(success: ProfilePresenters.ProfilePresenterDTO?, error: String?) {
+        
+    }
+    
+}
+
 
