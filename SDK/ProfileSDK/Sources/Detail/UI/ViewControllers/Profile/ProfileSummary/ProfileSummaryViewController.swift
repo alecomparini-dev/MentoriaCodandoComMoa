@@ -27,15 +27,7 @@ public final class ProfileSummaryViewController: UIViewController {
     public var dataTransfer: Any?
     
     private var fieldsCell: [TypeCells: UITableViewCell] = [:]
-    private var profilePresenterDTO: ProfilePresenterDTO = ProfilePresenterDTO(
-        imageProfile: nil,
-        name: "Alessandro Comparini",
-        cpf: "047.810.386-70",
-        dateOfBirth: "06/05/1980",
-        cellPhoneNumber: "(34) 99107-6987",
-        fieldOfWork: "DEV IOS",
-        address: ProfileAddressPresenterDTO.init(cep: "38400-440",
-                                                 street: "Rua Francisco Sales", number: "1228", neighborhood: "Osvaldo", city: "Uberlândia", state: "MG"))
+    private var profilePresenterDTO: ProfilePresenterDTO?
     
     
 //  MARK: - INITIALIZERS
@@ -68,7 +60,6 @@ public final class ProfileSummaryViewController: UIViewController {
     
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        getUserAuthenticated()
     }
     
     private func getUserAuthenticated() {
@@ -79,6 +70,7 @@ public final class ProfileSummaryViewController: UIViewController {
 //  MARK: - PRIVATE AREA
     private func configure() {
         configDelegate()
+        getUserAuthenticated()
     }
     
     private func configDelegate() {
@@ -144,7 +136,6 @@ public final class ProfileSummaryViewController: UIViewController {
         }
         
     }
-    
     
     private func getProfilePictureTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ProfilePictureTableViewCell.identifier, for: indexPath) as? ProfilePictureTableViewCell
@@ -248,12 +239,22 @@ extension ProfileSummaryViewController: EditProfileButtonTableViewCellDelegate {
 //  MARK: - EXTENSION - ProfileSummaryPresenterOutput
 extension ProfileSummaryViewController: ProfileSummaryPresenterOutput {
     
-    public func getUserAuthenticated(success: ProfilePresenters.ProfilePresenterDTO?, error: String?) {
-        print(success ?? "")
+    public func getUserAuthenticated(success: ProfilePresenterDTO?, error: String?) {
         screen.tableViewScroll.get.reloadData()
+        if let userIDAuth = success?.userIDAuth {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 10, execute: {
+                self.profileSummaryPresenter.getProfile(userIDAuth)
+            })
+            
+        }
+        
     }
     
-    public func getUserProfile(success: ProfilePresenters.ProfilePresenterDTO?, error: String?) {
+    public func getUserProfile(success: ProfilePresenterDTO?, error: String?) {
+        self.profilePresenterDTO = success
+        print(self.profilePresenterDTO ?? "")
+        
+        self.screen.tableViewScroll.get.reloadData()
         
     }
     

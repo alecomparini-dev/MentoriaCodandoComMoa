@@ -4,5 +4,5 @@
 import Foundation
 
 public protocol GetProfileUseCase {
-    func getProfile(_ userIDAuth: String) async throws
+    func getProfile(_ userIDAuth: String) async throws -> GetProfileUseCaseDTO.Output?
 }

@@ -21,8 +21,9 @@ class ProfilePictureTableViewCell: UITableViewCell {
     
     
 //  MARK: - SETUP CELL
-    public func setupCell(_ viewController: UIViewController, profilePresenterDTO: ProfilePresenterDTO) {
+    public func setupCell(_ viewController: UIViewController, profilePresenterDTO: ProfilePresenterDTO?) {
         configProfilePicture(viewController)
+        guard let profilePresenterDTO else {return}
         userNameText.setText(profilePresenterDTO.name)
         if let imageProfile = profilePresenterDTO.imageProfile {
             profilePictureView.setImagePicture(imageProfile)

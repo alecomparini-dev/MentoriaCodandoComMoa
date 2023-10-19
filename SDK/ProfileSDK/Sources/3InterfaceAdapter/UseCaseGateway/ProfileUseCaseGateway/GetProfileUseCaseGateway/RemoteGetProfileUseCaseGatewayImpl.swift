@@ -25,6 +25,7 @@ public class RemoteGetProfileUseCaseGatewayImpl: GetProfileUseCaseGateway {
     
     public func getProfile(_ userIDAuth: String)  async throws -> ProfileUseCaseModel? {
         var query: [String: String] = self.queryParameters
+        
         query.updateValue(userIDAuth, forKey: "uIdFirebase")
         
         let data = try await httpGet.get(
@@ -36,7 +37,11 @@ public class RemoteGetProfileUseCaseGatewayImpl: GetProfileUseCaseGateway {
         
         let profileCodable: ProfileCodable = try JSONDecoder().decode(ProfileCodable.self, from: data)
         
-        return profileCodable.mapperToProfileUseCaseModel()
+        var profileMapper = profileCodable.mapperToProfileUseCaseModel()
+        
+        profileMapper.userIDAuth = userIDAuth
+        
+        return profileMapper
     }
     
     

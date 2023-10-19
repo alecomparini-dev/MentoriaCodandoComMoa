@@ -11,8 +11,12 @@ public struct ProfileAddressPresenterDTO {
     public var city: String?
     public var state: String?
     
-    public init(cep: String? = nil, street: String? = nil, number: String? = nil,
-                neighborhood: String? = nil, city: String? = nil, state: String? = nil) {
+    public init(cep: String? = nil, 
+                street: String? = nil,
+                number: String? = nil,
+                neighborhood: String? = nil, 
+                city: String? = nil, 
+                state: String? = nil) {
         self.cep = cep
         self.street = street
         self.number = number

@@ -102,6 +102,11 @@ class SignInView: UIView {
         return comp
     }()
     @objc private func signInTapped() {
+        signInButtom.setShowLoadingIndicator { build in
+            build
+                .setColor(hexColor: "#282a36")
+                .setHideWhenStopped(true)
+        }
         delegate?.signInTapped()
     }
     
