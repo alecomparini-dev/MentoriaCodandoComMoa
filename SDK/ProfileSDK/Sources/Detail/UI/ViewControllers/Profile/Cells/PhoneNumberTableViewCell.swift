@@ -32,10 +32,6 @@ class PhoneNumberTableViewCell: UITableViewCell {
     lazy var phoneNumberLabelText: CustomText = {
         let comp = CustomText()
             .setText("Telefone")
-            .setSkeleton { build in
-                build
-                    .showSkeleton(.gradientAnimated)
-            }
             .setConstraints { build in
                 build
                     .setTop.equalToSafeArea(8)
@@ -68,10 +64,6 @@ class PhoneNumberTableViewCell: UITableViewCell {
                 build
                     .setKeyboardType(.numberPad)
             })
-            .setSkeleton { build in
-                build
-                    .showSkeleton(.gradientAnimated)
-            }
             .setConstraints { build in
                 build
                     .setTop.equalTo(phoneNumberLabelText.get, .bottom, 8)
@@ -85,7 +77,19 @@ class PhoneNumberTableViewCell: UITableViewCell {
 //  MARK: - SETUP CELL
     public func setupCell(_ profilePresenterDTO: ProfilePresenterDTO?) {
         guard let profilePresenterDTO else {return}
+        resetSkeleton()
         phoneNumberTextField.setText(profilePresenterDTO.cellPhoneNumber)
+    }
+    
+    
+//  MARK: - PUBLIC AREA
+    public func configSkeleton() {
+        phoneNumberLabelText.setSkeleton { build in
+            build.showSkeleton(.gradientAnimated)
+        }
+        phoneNumberTextField.setSkeleton { build in
+            build.showSkeleton(.gradientAnimated)
+        }
     }
     
     
@@ -112,8 +116,12 @@ class PhoneNumberTableViewCell: UITableViewCell {
     private func configDelegate() {
         phoneNumberTextField.setDelegate(self)
     }
-
     
+    private func resetSkeleton() {
+        phoneNumberLabelText.get.hideSkeleton()
+        phoneNumberTextField.get.hideSkeleton()
+    }
+
 }
 
 //  MARK: - EXTENSTION - UITextFieldDelegate

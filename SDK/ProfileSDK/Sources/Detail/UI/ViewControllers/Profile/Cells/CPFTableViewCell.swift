@@ -33,10 +33,6 @@ class CPFTableViewCell: UITableViewCell {
     lazy var cpfLabelText: CustomText = {
         let comp = CustomText()
             .setText("CPF")
-            .setSkeleton({ build in
-                build
-                    .showSkeleton(.gradientAnimated)
-            })
             .setConstraints { build in
                 build
                     .setTop.equalToSafeArea(8)
@@ -68,10 +64,6 @@ class CPFTableViewCell: UITableViewCell {
                 build
                     .setCornerRadius(8)
             })
-            .setSkeleton({ build in
-                build
-                    .showSkeleton(.gradientAnimated)
-            })
             .setConstraints { build in
                 build
                     .setTop.equalTo(cpfLabelText.get, .bottom, 8)
@@ -85,9 +77,20 @@ class CPFTableViewCell: UITableViewCell {
 //  MARK: - SETUP CELL
     public func setupCell(_ profilePresenterDTO: ProfilePresenterDTO?) {
         guard let profilePresenterDTO else {return}
+        resetSkeleton()
         cpfTextField.setText(profilePresenterDTO.cpf)
     }
+
     
+//  MARK: - PUBLIC AREA
+    public func configSkeleton() {
+        cpfLabelText.setSkeleton { build in
+            build.showSkeleton(.gradientAnimated)
+        }
+        cpfTextField.setSkeleton { build in
+            build.showSkeleton(.gradientAnimated)
+        }
+    }
     
 //  MARK: - PRIVATE AREA
     
@@ -95,7 +98,6 @@ class CPFTableViewCell: UITableViewCell {
         addElements()
         configConstraints()
         configDelegate()
-        configSkeleton()
     }
     
     private func addElements() {
@@ -113,9 +115,14 @@ class CPFTableViewCell: UITableViewCell {
     private func configDelegate() {
         cpfTextField.setDelegate(self)
     }
+    
+    private func resetSkeleton() {
+        cpfLabelText.get.hideSkeleton()
+        cpfTextField.get.hideSkeleton()
+    }
 
     
-    private func configSkeleton() {
+//    private func configSkeleton() {
 //        cpfTextField.get.isSkeletonable = true
 //        cpfTextField.get.showAnimatedGradientSkeleton()
 //        cpfLabelText.get.isSkeletonable = true
@@ -144,8 +151,7 @@ class CPFTableViewCell: UITableViewCell {
 //        UIView.animate(withDuration: 1.5, delay: 0, options: [.curveLinear, .repeat], animations: { [self] in
 //            skeletonLayer.frame.origin.x = 250
 //        }, completion: nil)
-        
-    }
+//    }
 
 }
 

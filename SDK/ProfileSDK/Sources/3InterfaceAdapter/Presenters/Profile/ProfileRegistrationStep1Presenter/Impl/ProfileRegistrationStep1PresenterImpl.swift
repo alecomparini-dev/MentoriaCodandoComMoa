@@ -23,9 +23,11 @@ public class ProfileRegistrationStep1PresenterImpl: ProfileRegistrationStep1Pres
     public weak var outputDelegate: ProfileRegistrationStep1PresenterOutput?
     
     private let cpfValidator: CPFValidations
+    private let masks: [TypeMasks: Masks]
     
-    public init(cpfValidator: CPFValidations) {
+    public init(cpfValidator: CPFValidations, masks: [TypeMasks: Masks]) {
         self.cpfValidator = cpfValidator
+        self.masks = masks
     }
     
     public func continueRegistrationStep2(_ profilePresenterDTO: ProfilePresenterDTO) {

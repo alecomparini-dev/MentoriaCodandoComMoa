@@ -24,8 +24,6 @@ public final class ProfileSummaryViewController: UIViewController {
     
     private var profileSummaryPresenter: ProfileSummaryPresenter
     
-    public var dataTransfer: Any?
-    
     private var fieldsCell: [TypeCells: UITableViewCell] = [:]
     private var profilePresenterDTO: ProfilePresenterDTO?
     
@@ -47,6 +45,15 @@ public final class ProfileSummaryViewController: UIViewController {
     }()
 
     
+//  MARK: - DATA TRANSFER
+    
+    public func setDataTransfer(_ data: Any?) {
+        if let profilePresenterDTO = data as? ProfilePresenterDTO {
+            self.profilePresenterDTO = profilePresenterDTO
+        }
+    }
+    
+    
 //  MARK: - LIFE CYCLE
 
     public override func loadView() {
@@ -55,6 +62,9 @@ public final class ProfileSummaryViewController: UIViewController {
 
     public override func viewDidLoad() {
         super.viewDidLoad()
+        
+//        profilePresenterDTO = ProfilePresenterDTO(userIDAuth: "Ac75MOSIPBWKzzByq4Ix6G9jp7S2", cpf: "57788810029")
+        
         configure()
     }
     
@@ -62,7 +72,15 @@ public final class ProfileSummaryViewController: UIViewController {
         super.viewWillAppear(animated)
     }
     
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if let profilePresenterDTO, profilePresenterDTO.userIDAuth != nil {
+            return screen.tableViewScroll.get.reloadData()
+        }
+    }
+    
     private func getUserAuthenticated() {
+        if let profilePresenterDTO, profilePresenterDTO.userIDAuth != nil {return}
         profileSummaryPresenter.getUserAuthenticated()
     }
     
@@ -139,12 +157,14 @@ public final class ProfileSummaryViewController: UIViewController {
     
     private func getProfilePictureTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ProfilePictureTableViewCell.identifier, for: indexPath) as? ProfilePictureTableViewCell
+        cell?.configSkeleton()
         cell?.setupCell(self, profilePresenterDTO: profilePresenterDTO)
         return cell ?? UITableViewCell()
     }
     
     private func getCPFTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CPFTableViewCell.identifier, for: indexPath) as? CPFTableViewCell
+        cell?.configSkeleton()
         cell?.setupCell(profilePresenterDTO)
         cell?.cpfTextField.setReadOnly(true)
         setCell(cell, key: TypeCells.cpf)
@@ -153,6 +173,7 @@ public final class ProfileSummaryViewController: UIViewController {
     
     private func getDataOfBirthTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: DateOfBirthTableViewCell.identifier, for: indexPath) as? DateOfBirthTableViewCell
+        cell?.configSkeleton()
         cell?.setupCell(profilePresenterDTO)
         cell?.dateOfBirthTextField.setReadOnly(true)
         setCell(cell, key: TypeCells.dateOfBirth)
@@ -161,6 +182,7 @@ public final class ProfileSummaryViewController: UIViewController {
     
     private func getPhoneNumberTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: PhoneNumberTableViewCell.identifier, for: indexPath) as? PhoneNumberTableViewCell
+        cell?.configSkeleton()
         cell?.setupCell(profilePresenterDTO)
         cell?.phoneNumberTextField.setReadOnly(true)
         setCell(cell, key: TypeCells.phoneNumber)
@@ -169,6 +191,7 @@ public final class ProfileSummaryViewController: UIViewController {
     
     private func getFieldOfWorkTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: FieldOfWorkTableViewCell.identifier, for: indexPath) as? FieldOfWorkTableViewCell
+        cell?.configSkeleton()
         cell?.setupCell(profilePresenterDTO)
         cell?.fieldOfWorkTextField.setReadOnly(true)
         setCell(cell, key: TypeCells.fieldOfWork)
@@ -177,6 +200,7 @@ public final class ProfileSummaryViewController: UIViewController {
 
     private func getSummaryAddressTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SummaryAddressTableViewCell.identifier, for: indexPath) as? SummaryAddressTableViewCell
+        cell?.configSkeleton()
         cell?.setupCell(profilePresenterDTO)
         cell?.summaryAddressTextView.setReadOnly(true)
         return cell ?? UITableViewCell()
@@ -241,21 +265,15 @@ extension ProfileSummaryViewController: ProfileSummaryPresenterOutput {
     
     public func getUserAuthenticated(success: ProfilePresenterDTO?, error: String?) {
         screen.tableViewScroll.get.reloadData()
+        print(success ?? "")
         if let userIDAuth = success?.userIDAuth {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 10, execute: {
-                self.profileSummaryPresenter.getProfile(userIDAuth)
-            })
-            
-        }
-        
+            self.profileSummaryPresenter.getProfile(userIDAuth)
+        }   
     }
     
     public func getUserProfile(success: ProfilePresenterDTO?, error: String?) {
-        self.profilePresenterDTO = success
-        print(self.profilePresenterDTO ?? "")
-        
-        self.screen.tableViewScroll.get.reloadData()
-        
+        profilePresenterDTO = success
+        screen.tableViewScroll.get.reloadData()
     }
     
 }

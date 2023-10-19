@@ -25,10 +25,6 @@ class SummaryAddressTableViewCell: UITableViewCell {
     lazy var summaryAddressText: CustomText = {
         let comp = CustomText()
             .setText("Endereço")
-            .setSkeleton { build in
-                build
-                    .showSkeleton(.gradientAnimated)
-            }
             .setConstraints { build in
                 build
                     .setTop.equalToSafeArea(8)
@@ -49,10 +45,6 @@ class SummaryAddressTableViewCell: UITableViewCell {
                 build
                     .setCornerRadius(8)
             })
-            .setSkeleton { build in
-                build
-                    .showSkeleton(.gradientAnimated)
-            }
             .setConstraints { build in
                 build
                     .setTop.equalTo(summaryAddressText.get, .bottom, 8)
@@ -66,6 +58,7 @@ class SummaryAddressTableViewCell: UITableViewCell {
 //  MARK: - SETUP CELL
     public func setupCell(_ profilePresenterDTO: ProfilePresenterDTO?) {
         guard let profilePresenterDTO else {return}
+        resetSkeleton()
         summaryAddressTextView.setInsertText((profilePresenterDTO.address?.street ?? "") + "\n")
         summaryAddressTextView.setInsertText((profilePresenterDTO.address?.cep ?? "") + "\n")
         if let city = profilePresenterDTO.address?.city, let state = profilePresenterDTO.address?.state {
@@ -75,8 +68,18 @@ class SummaryAddressTableViewCell: UITableViewCell {
     }
     
     
-//  MARK: - PRIVATE AREA
+//  MARK: - PUBLIC AREA
+    public func configSkeleton() {
+        summaryAddressText.setSkeleton { build in
+            build.showSkeleton(.gradientAnimated)
+        }
+        summaryAddressTextView.setSkeleton { build in
+            build.showSkeleton(.gradientAnimated)
+        }
+    }
     
+    
+//  MARK: - PRIVATE AREA
     private func configure() {
         addElements()
         configConstraints()
@@ -92,4 +95,9 @@ class SummaryAddressTableViewCell: UITableViewCell {
         summaryAddressTextView.applyConstraint()
     }
     
+    private func resetSkeleton() {
+        summaryAddressText.get.hideSkeleton()
+        summaryAddressTextView.get.hideSkeleton()
+    }
+
 }

@@ -14,6 +14,8 @@ class ProfileSummaryFactory {
 
     static func make() -> ProfileSummaryViewController {
         
+        let masks: [TypeMasks: Masks] = makeMasks()
+        
         let network = Network()
         
         let url = makeURL()
@@ -28,7 +30,7 @@ class ProfileSummaryFactory {
         
         let getUserAuthUseCase = GetUserAuthenticatedUseCaseImpl(getUserAuthenticatedGateway: getUserAuthUseCaseGateway)
         
-        let profileSummaryPresenter = ProfileSummaryPresenterImpl(getUserAuthUseCase: getUserAuthUseCase, getProfileUseCase: getProfileUseCase)
+        let profileSummaryPresenter = ProfileSummaryPresenterImpl(getUserAuthUseCase: getUserAuthUseCase, getProfileUseCase: getProfileUseCase, masks: masks)
         
         return ProfileSummaryViewController(profileSummaryPresenter: profileSummaryPresenter)
         
@@ -38,6 +40,14 @@ class ProfileSummaryFactory {
         let baseURL = Environment.variable(.apiBaseUrl)
         let path = K.pathGetListProfile
         return URL(string: "\(baseURL)\(path)")!
+    }
+    
+    static private func makeMasks() -> [TypeMasks: Masks] {
+        var masks: [TypeMasks: Masks] = [:]
+        masks.updateValue(CellPhoneMask(), forKey: TypeMasks.cellPhoneMask)
+        masks.updateValue(CPFMask(), forKey: TypeMasks.CPFMask)
+        masks.updateValue(CEPMask(), forKey: TypeMasks.CEPMask)
+        return masks
     }
     
 }

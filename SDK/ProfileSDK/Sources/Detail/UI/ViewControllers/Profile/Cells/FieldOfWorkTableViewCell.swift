@@ -31,10 +31,6 @@ class FieldOfWorkTableViewCell: UITableViewCell {
     lazy var fieldOfWorkLabelText: CustomText = {
         let comp = CustomText()
             .setText("Ramo de atuação")
-            .setSkeleton({ build in
-                build
-                    .showSkeleton(.gradientAnimated)
-            })
             .setConstraints { build in
                 build
                     .setTop.equalToSafeArea(8)
@@ -62,10 +58,6 @@ class FieldOfWorkTableViewCell: UITableViewCell {
                 build
                     .setCornerRadius(8)
             })
-            .setSkeleton({ build in
-                build
-                    .showSkeleton(.gradientAnimated)
-            })
             .setConstraints { build in
                 build
                     .setTop.equalTo(fieldOfWorkLabelText.get, .bottom, 8)
@@ -76,9 +68,21 @@ class FieldOfWorkTableViewCell: UITableViewCell {
     }()
     
 
+//  MARK: - PUBLIC AREA
+    public func configSkeleton() {
+        fieldOfWorkLabelText.setSkeleton { build in
+            build.showSkeleton(.gradientAnimated)
+        }
+        fieldOfWorkTextField.setSkeleton { build in
+            build.showSkeleton(.gradientAnimated)
+        }
+    }
+    
+    
 //  MARK: - SETUP CELL
     public func setupCell(_ profilePresenterDTO: ProfilePresenterDTO?) {
         guard let profilePresenterDTO else {return}
+        resetSkeleton()
         fieldOfWorkTextField.setText(profilePresenterDTO.fieldOfWork)
     }
     
@@ -105,6 +109,11 @@ class FieldOfWorkTableViewCell: UITableViewCell {
     
     private func configDelegate() {
         fieldOfWorkTextField.setDelegate(self)
+    }
+    
+    private func resetSkeleton() {
+        fieldOfWorkLabelText.get.hideSkeleton()
+        fieldOfWorkTextField.get.hideSkeleton()
     }
 }
 

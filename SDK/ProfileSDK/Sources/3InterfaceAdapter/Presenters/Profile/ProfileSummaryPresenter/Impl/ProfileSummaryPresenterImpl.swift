@@ -2,8 +2,8 @@
 //
 
 import Foundation
-import ProfileUseCases
 
+import ProfileUseCases
 
 public protocol ProfileSummaryPresenterOutput: AnyObject {
     func getUserAuthenticated(success: ProfilePresenterDTO?, error: String?)
@@ -16,10 +16,12 @@ public class ProfileSummaryPresenterImpl: ProfileSummaryPresenter {
     
     private let getUserAuthUseCase: GetUserAuthenticatedUseCase
     private let getProfileUseCase: GetProfileUseCase
+    private let masks: [TypeMasks: Masks]
     
-    public init(getUserAuthUseCase: GetUserAuthenticatedUseCase, getProfileUseCase: GetProfileUseCase) {
+    public init(getUserAuthUseCase: GetUserAuthenticatedUseCase, getProfileUseCase: GetProfileUseCase, masks: [TypeMasks : Masks]) {
         self.getUserAuthUseCase = getUserAuthUseCase
         self.getProfileUseCase = getProfileUseCase
+        self.masks = masks
     }
     
     public func getUserAuthenticated() {
@@ -43,7 +45,19 @@ public class ProfileSummaryPresenterImpl: ProfileSummaryPresenter {
             do {
                 let getProfileUseCaseDTO: GetProfileUseCaseDTO.Output? = try await getProfileUseCase.getProfile(userIDAuth)
                 
-                let profilePresenterMapper = GetProfileUseCaseDTOToPresenter.mapper(getProfileUseCase: getProfileUseCaseDTO)
+                var profilePresenterMapper = GetProfileUseCaseDTOToPresenter.mapper(getProfileUseCase: getProfileUseCaseDTO)
+                
+                let cellPhoneMask = masks[TypeMasks.cellPhoneMask]
+                profilePresenterMapper.cellPhoneNumber = cellPhoneMask?.formatString(profilePresenterMapper.cellPhoneNumber)
+                
+                let CPFMask = masks[TypeMasks.CPFMask]
+                profilePresenterMapper.cpf = CPFMask?.formatString(profilePresenterMapper.cpf)
+                
+                profilePresenterMapper.dateOfBirth = configDateOfBirth(profilePresenterMapper.dateOfBirth)
+                
+                let CEPMask = masks[TypeMasks.CEPMask]
+                let cep = CEPMask?.formatString(profilePresenterMapper.address?.cep)
+                profilePresenterMapper.address?.cep = cep
                 
                 DispatchQueue.main.sync { [weak self] in
                     self?.outputDelegate?.getUserProfile(success: profilePresenterMapper, error: nil)
@@ -56,9 +70,20 @@ public class ProfileSummaryPresenterImpl: ProfileSummaryPresenter {
             }
         }
         
-        
-        
     }
-
+    
+    private func configDateOfBirth(_ date: String?) -> String? {
+        guard let date else {return nil}
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        
+        if let date = dateFormatter.date(from: date) {
+            let outputDateFormatter = DateFormatter()
+            outputDateFormatter.dateFormat = "dd/MM/yyyy"
+            return outputDateFormatter.string(from: date)
+        }
+        
+        return nil
+    }
     
 }

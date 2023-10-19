@@ -24,7 +24,9 @@ class ProfilePictureTableViewCell: UITableViewCell {
     public func setupCell(_ viewController: UIViewController, profilePresenterDTO: ProfilePresenterDTO?) {
         configProfilePicture(viewController)
         guard let profilePresenterDTO else {return}
+        resetSkeleton()
         userNameText.setText(profilePresenterDTO.name)
+        professionText.setText(profilePresenterDTO.fieldOfWork)
         if let imageProfile = profilePresenterDTO.imageProfile {
             profilePictureView.setImagePicture(imageProfile)
         }
@@ -47,12 +49,7 @@ class ProfilePictureTableViewCell: UITableViewCell {
     
     lazy var userNameText: CustomTextTitle = {
         let comp = CustomTextTitle()
-            .setText("Marcelo Oliveira")
             .setTextAlignment(.center)
-            .setSkeleton { build in
-                build
-                    .showSkeleton(.gradientAnimated)
-            }
             .setConstraints { build in
                 build
                     .setTop.equalTo(profilePictureView.get, .bottom, 16)
@@ -63,12 +60,7 @@ class ProfilePictureTableViewCell: UITableViewCell {
     
     lazy var professionText: CustomText = {
         let comp = CustomText()
-            .setText("Eletricista")
             .setTextAlignment(.center)
-            .setSkeleton { build in
-                build
-                    .showSkeleton(.gradientAnimated)
-            }
             .setConstraints { build in
                 build
                     .setTop.equalTo(userNameText.get, .bottom, 4)
@@ -76,6 +68,17 @@ class ProfilePictureTableViewCell: UITableViewCell {
             }
         return comp
     }()
+    
+    
+//  MARK: - PUBLIC AREA
+    public func configSkeleton() {
+        userNameText.setSkeleton { build in
+            build.showSkeleton(.gradientAnimated)
+        }
+        professionText.setSkeleton { build in
+            build.showSkeleton(.gradientAnimated)
+        }
+    }
     
     
 //  MARK: - PRIVATE AREA
@@ -106,5 +109,11 @@ class ProfilePictureTableViewCell: UITableViewCell {
                     .setOpenGallery { _ in }
             })
     }
+    
+    private func resetSkeleton() {
+        userNameText.get.hideSkeleton()
+        professionText.get.hideSkeleton()
+    }
+    
     
 }
