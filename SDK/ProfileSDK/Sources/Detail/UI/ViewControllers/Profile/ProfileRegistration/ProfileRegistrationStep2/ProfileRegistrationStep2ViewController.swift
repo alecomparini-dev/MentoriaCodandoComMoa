@@ -17,13 +17,12 @@ public final class ProfileRegistrationStep2ViewController: UIViewController {
     public weak var coordinator: ProfileRegistrationStep2ViewControllerCoordinator?
     private weak var addressCell: AddressTableViewCell?
     
-    public var dataTransfer: Any?
-    
     private let cepMask: MaskBuilder = MaskBuilder().setCEPMask()
     
     private var profilePresenterDTO: ProfilePresenterDTO = ProfilePresenterDTO()
     private var profileStep2Presenter: ProfileRegistrationStep2Presenter
     private var constantBottom: CGFloat?
+    
     
 //  MARK: - INITIALIZERS
     
@@ -46,6 +45,14 @@ public final class ProfileRegistrationStep2ViewController: UIViewController {
     }
     
     
+//  MARK: - DATA TRANSFER
+    public func setDataTransfer(_ data: Any?) {
+        if let profilePresenterDTO = data as? ProfilePresenterDTO {
+            self.profilePresenterDTO = profilePresenterDTO
+        }
+    }
+    
+    
     //  MARK: - LIFE CYCLE
     
     public override func loadView() {
@@ -56,9 +63,6 @@ public final class ProfileRegistrationStep2ViewController: UIViewController {
         super.viewDidLoad()
         configure()
     }
-
-    
-    
     
     
 //  MARK: - PRIVATE AREA
@@ -87,7 +91,6 @@ public final class ProfileRegistrationStep2ViewController: UIViewController {
             self.constantBottom = (screen.tableViewAddress.get.bounds.height - keyboardFrame.origin.y) + 75
         }
         repositionTableViewShowKeyboardAnimation()
-        
     }
     
     private func repositionTableViewShowKeyboardAnimation() {
@@ -154,8 +157,6 @@ extension ProfileRegistrationStep2ViewController: ProfileRegistrationStep2Presen
         addressCell?.loading.setStopAnimating()
     }
     
-    
-    
 }
 
 
@@ -185,7 +186,7 @@ extension ProfileRegistrationStep2ViewController: UITableViewDataSource {
         
         addressCell?.backgroundColor = .clear
         
-        addressCell?.setupCell(dataTransfer as? ProfilePresenterDTO ?? ProfilePresenterDTO())
+        addressCell?.setupCell(profilePresenterDTO)
         
         return addressCell ?? UITableViewCell()
         
@@ -212,7 +213,7 @@ extension ProfileRegistrationStep2ViewController: AddressTableViewCellDelegate {
         switch fieldRequired {
             case .searchCEP:
                 setHiddenFieldRequired(addressCell?.CEPFieldRequired, true)
-                addressCell?.searchCEPTextField.get.text = cepMask.get.formatStringWithRange(range: range, string: string)
+                addressCell?.searchCEPTextField.get.text = cepMask.formatStringWithRange(range: range, string: string)
                 resetFields()
             
             case .number:

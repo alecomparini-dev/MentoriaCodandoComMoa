@@ -151,7 +151,7 @@ public final class ProfileRegistrationStep1ViewController: UIViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: FieldOfWorkTableViewCell.identifier, for: indexPath) as? FieldOfWorkTableViewCell
         cell?.delegate = self
         setCell(cell, key: TypeCells.fieldOfWork)
-        cell?.fieldOfWorkTextField.setText("654654654654")
+        cell?.fieldOfWorkTextField.setText("AREA DE TRABALHO")
         return cell ?? UITableViewCell()
     }
     
@@ -212,7 +212,7 @@ public final class ProfileRegistrationStep1ViewController: UIViewController {
     }
     
     private func setMaskOnTextField(mask: MaskBuilder, _ textField: UITextField, _ range: NSRange, _ string: String) {
-        textField.text = mask.get.formatStringWithRange(range: range, string: string)
+        textField.text = mask.formatStringWithRange(range: range, string: string)
     }
     
     private func setHiddenFieldRequiredName(_ flag: Bool) {

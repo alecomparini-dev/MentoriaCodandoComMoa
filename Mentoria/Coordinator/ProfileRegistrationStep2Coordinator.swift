@@ -18,7 +18,7 @@ class ProfileRegistrationStep2Coordinator: Coordinator {
     func start() {
         childCoordinator = self
         var controller = ProfileRegistrationStep2Factory.make()
-        controller.dataTransfer = self.dataTransfer
+        controller.setDataTransfer(self.dataTransfer)
         controller = navigationController.pushViewController(controller)
         controller.coordinator = self
     }

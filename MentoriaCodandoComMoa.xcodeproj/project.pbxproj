@@ -12,6 +12,10 @@
 		0212ECB12AA10867001C1BCF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0212ECB02AA10867001C1BCF /* SceneDelegate.swift */; };
 		0212ECB82AA10868001C1BCF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0212ECB72AA10868001C1BCF /* Assets.xcassets */; };
 		0212ECBB2AA10868001C1BCF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0212ECB92AA10868001C1BCF /* LaunchScreen.storyboard */; };
+		0220550A2AE1C8C900C076FC /* CellPhoneMask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022055092AE1C8C900C076FC /* CellPhoneMask.swift */; };
+		0220550D2AE1C93400C076FC /* CPFMask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0220550C2AE1C93400C076FC /* CPFMask.swift */; };
+		0220550E2AE1C93400C076FC /* DateMask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0220550B2AE1C93400C076FC /* DateMask.swift */; };
+		022055102AE1E48100C076FC /* CEPMask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0220550F2AE1E48100C076FC /* CEPMask.swift */; };
 		0239C4BD2ADDF1460016C0E4 /* ProfileRegistrationStep1Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0239C4BC2ADDF1460016C0E4 /* ProfileRegistrationStep1Factory.swift */; };
 		024340822AD9872B00110844 /* ProfileRegistrationStep1Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024340812AD9872B00110844 /* ProfileRegistrationStep1Coordinator.swift */; };
 		024BC97E2ADAEB6500E9EEDC /* ProfileRegistrationStep2Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024BC97D2ADAEB6500E9EEDC /* ProfileRegistrationStep2Factory.swift */; };
@@ -41,6 +45,10 @@
 		0212ECBA2AA10868001C1BCF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0212ECBC2AA10868001C1BCF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0212ECC72AA10A20001C1BCF /* HomeSDK */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = HomeSDK; path = SDK/HomeSDK; sourceTree = "<group>"; };
+		022055092AE1C8C900C076FC /* CellPhoneMask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellPhoneMask.swift; sourceTree = "<group>"; };
+		0220550B2AE1C93400C076FC /* DateMask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateMask.swift; sourceTree = "<group>"; };
+		0220550C2AE1C93400C076FC /* CPFMask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPFMask.swift; sourceTree = "<group>"; };
+		0220550F2AE1E48100C076FC /* CEPMask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CEPMask.swift; sourceTree = "<group>"; };
 		0239C4BC2ADDF1460016C0E4 /* ProfileRegistrationStep1Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRegistrationStep1Factory.swift; sourceTree = "<group>"; };
 		024340812AD9872B00110844 /* ProfileRegistrationStep1Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRegistrationStep1Coordinator.swift; sourceTree = "<group>"; };
 		024BC97D2ADAEB6500E9EEDC /* ProfileRegistrationStep2Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRegistrationStep2Factory.swift; sourceTree = "<group>"; };
@@ -94,6 +102,7 @@
 		0212ECAD2AA10867001C1BCF /* Mentoria */ = {
 			isa = PBXGroup;
 			children = (
+				022055082AE1B15C00C076FC /* Masks */,
 				02995B4C2AB34BCB00615FDC /* Factories */,
 				026682CC2AA7D5E900EE70EC /* Coordinator */,
 				028B28B92AA76ECF008E4A7E /* Handler */,
@@ -121,6 +130,17 @@
 				02995B932AB39B6200615FDC /* GoogleService-Info.plist */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		022055082AE1B15C00C076FC /* Masks */ = {
+			isa = PBXGroup;
+			children = (
+				0220550C2AE1C93400C076FC /* CPFMask.swift */,
+				0220550F2AE1E48100C076FC /* CEPMask.swift */,
+				0220550B2AE1C93400C076FC /* DateMask.swift */,
+				022055092AE1C8C900C076FC /* CellPhoneMask.swift */,
+			);
+			path = Masks;
 			sourceTree = "<group>";
 		};
 		0239C4BB2ADDF10E0016C0E4 /* ProfileRegistrationStep1 */ = {
@@ -410,12 +430,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				022055102AE1E48100C076FC /* CEPMask.swift in Sources */,
+				0220550A2AE1C8C900C076FC /* CellPhoneMask.swift in Sources */,
 				026682D82AA7D8A200EE70EC /* HomeTabBarCoordinator.swift in Sources */,
 				0212ECAF2AA10867001C1BCF /* AppDelegate.swift in Sources */,
 				026682D12AA7D62600EE70EC /* Coordinator.swift in Sources */,
 				026682D62AA7D75F00EE70EC /* LoginCoordinator.swift in Sources */,
+				0220550D2AE1C93400C076FC /* CPFMask.swift in Sources */,
 				024BC97E2ADAEB6500E9EEDC /* ProfileRegistrationStep2Factory.swift in Sources */,
 				028B28A12AA75EAE008E4A7E /* Environment.swift in Sources */,
+				0220550E2AE1C93400C076FC /* DateMask.swift in Sources */,
 				024340822AD9872B00110844 /* ProfileRegistrationStep1Coordinator.swift in Sources */,
 				02995B4B2AB34BBA00615FDC /* LoginViewControllerFactory.swift in Sources */,
 				020924732AB3228D008F8DC8 /* SignUpCoordinator.swift in Sources */,

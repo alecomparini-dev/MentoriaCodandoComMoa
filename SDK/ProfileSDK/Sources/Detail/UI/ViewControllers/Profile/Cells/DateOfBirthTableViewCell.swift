@@ -31,10 +31,6 @@ class DateOfBirthTableViewCell: UITableViewCell {
     lazy var dateOfBirthLabelText: CustomText = {
         let comp = CustomText()
             .setText("Data de nascimento")
-            .setSkeleton({ build in
-                build
-                    .showSkeleton(.gradientAnimated)
-            })
             .setConstraints { build in
                 build
                     .setTop.equalToSafeArea(8)
@@ -67,10 +63,6 @@ class DateOfBirthTableViewCell: UITableViewCell {
                 build
                     .setKeyboardType(.numberPad)
             })
-            .setSkeleton({ build in
-                build
-                    .showSkeleton(.gradientAnimated)
-            })
             .setConstraints { build in
                 build
                     .setTop.equalTo(dateOfBirthLabelText.get, .bottom, 8)
@@ -79,11 +71,23 @@ class DateOfBirthTableViewCell: UITableViewCell {
             }
         return comp
     }()
+
+    
+//  MARK: - PUBLIC AREA
+    public func configSkeleton() {
+        dateOfBirthLabelText.setSkeleton { build in
+            build.showSkeleton(.gradientAnimated)
+        }
+        dateOfBirthTextField.setSkeleton { build in
+            build.showSkeleton(.gradientAnimated)
+        }
+    }
     
     
 //  MARK: - SETUP CELL
     public func setupCell(_ profilePresenterDTO: ProfilePresenterDTO?) {
         guard let profilePresenterDTO else {return}
+        resetSkeleton()
         dateOfBirthTextField.setText(profilePresenterDTO.dateOfBirth)
     }
     
@@ -110,6 +114,11 @@ class DateOfBirthTableViewCell: UITableViewCell {
     
     private func configDelegate() {
         dateOfBirthTextField.setDelegate(self)
+    }
+    
+    private func resetSkeleton() {
+        dateOfBirthLabelText.get.hideSkeleton()
+        dateOfBirthTextField.get.hideSkeleton()
     }
 
     

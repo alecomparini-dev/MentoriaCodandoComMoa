@@ -100,7 +100,6 @@ let package = Package(
             path: "Sources/Detail/Network"
         ),
         
-
         
         .target(
             name: "ProfileValidations",
@@ -110,6 +109,14 @@ let package = Package(
             ],
             path: "Sources/Detail/Validations"
         ),
+        
+//        .target(
+//            name: "ProfileFrameworks",
+//            dependencies: [
+//                "ProfilePresenters",
+//            ],
+//            path: "Sources/Detail/Frameworks"
+//        ),
 
         
         
