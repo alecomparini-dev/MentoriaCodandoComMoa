@@ -17,7 +17,7 @@ class ProfileRegistrationStep2Factory {
         
         let url = URL(string: Environment.variable(Environment.Variables.apiBaseCEP))!
         
-        let searchUseCaseGateway = SearchCEPUseCaseGatewayImpl(httpGet: httpGet,
+        let searchUseCaseGateway = RemoteSearchCEPUseCaseGatewayImpl(httpGet: httpGet,
                                                                url: url ,
                                                                headers: [:],
                                                                queryParameters: [:])
