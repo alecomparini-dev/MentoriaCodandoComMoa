@@ -101,7 +101,7 @@ class AddressTableViewCell: UITableViewCell {
         let comp = LoadingBuilder()
             .setBackgroundColor(color: searchCEPTextField.get.backgroundColor)
             .setColor(color: UIColor.HEX("#000000", 0.8))
-            .setHidesWhenStopped(true)
+            .setHideWhenStopped(true)
             .setConstraints { build in
                 build
                     .setVerticalAlignmentY.equalTo(searchCEPTextField.get)

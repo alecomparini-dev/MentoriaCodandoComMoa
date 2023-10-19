@@ -15,9 +15,11 @@ public class ProfileSummaryPresenterImpl: ProfileSummaryPresenter {
     public weak var outputDelegate: ProfileSummaryPresenterOutput?
     
     private let getUserAuthUseCase: GetUserAuthenticatedUseCase
+    private let getProfileUseCase: GetProfileUseCase
     
-    public init(getUserAuthUseCase: GetUserAuthenticatedUseCase) {
+    public init(getUserAuthUseCase: GetUserAuthenticatedUseCase, getProfileUseCase: GetProfileUseCase) {
         self.getUserAuthUseCase = getUserAuthUseCase
+        self.getProfileUseCase = getProfileUseCase
     }
     
     public func getUserAuthenticated() {
@@ -36,6 +38,25 @@ public class ProfileSummaryPresenterImpl: ProfileSummaryPresenter {
     }
     
     public func getProfile(_ userIDAuth: String) {
+        
+        Task {
+            do {
+                let getProfileUseCaseDTO: GetProfileUseCaseDTO.Output? = try await getProfileUseCase.getProfile(userIDAuth)
+                
+                let profilePresenterMapper = GetProfileUseCaseDTOToPresenter.mapper(getProfileUseCase: getProfileUseCaseDTO)
+                
+                DispatchQueue.main.sync { [weak self] in
+                    self?.outputDelegate?.getUserProfile(success: profilePresenterMapper, error: nil)
+                }
+                
+            } catch let error {
+                DispatchQueue.main.sync { [weak self] in
+                    self?.outputDelegate?.getUserProfile(success: nil, error: error.localizedDescription)
+                }
+            }
+        }
+        
+        
         
     }
 

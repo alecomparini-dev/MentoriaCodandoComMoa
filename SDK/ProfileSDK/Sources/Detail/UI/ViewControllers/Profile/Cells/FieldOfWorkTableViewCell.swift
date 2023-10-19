@@ -77,7 +77,8 @@ class FieldOfWorkTableViewCell: UITableViewCell {
     
 
 //  MARK: - SETUP CELL
-    public func setupCell(_ profilePresenterDTO: ProfilePresenterDTO) {
+    public func setupCell(_ profilePresenterDTO: ProfilePresenterDTO?) {
+        guard let profilePresenterDTO else {return}
         fieldOfWorkTextField.setText(profilePresenterDTO.fieldOfWork)
     }
     

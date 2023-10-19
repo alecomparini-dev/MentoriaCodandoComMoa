@@ -83,7 +83,8 @@ class CPFTableViewCell: UITableViewCell {
     
     
 //  MARK: - SETUP CELL
-    public func setupCell(_ profilePresenterDTO: ProfilePresenterDTO) {
+    public func setupCell(_ profilePresenterDTO: ProfilePresenterDTO?) {
+        guard let profilePresenterDTO else {return}
         cpfTextField.setText(profilePresenterDTO.cpf)
     }
     

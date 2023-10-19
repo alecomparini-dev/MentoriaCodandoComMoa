@@ -83,7 +83,8 @@ class PhoneNumberTableViewCell: UITableViewCell {
         
     
 //  MARK: - SETUP CELL
-    public func setupCell(_ profilePresenterDTO: ProfilePresenterDTO) {
+    public func setupCell(_ profilePresenterDTO: ProfilePresenterDTO?) {
+        guard let profilePresenterDTO else {return}
         phoneNumberTextField.setText(profilePresenterDTO.cellPhoneNumber)
     }
     

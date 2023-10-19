@@ -64,7 +64,8 @@ class SummaryAddressTableViewCell: UITableViewCell {
 
     
 //  MARK: - SETUP CELL
-    public func setupCell(_ profilePresenterDTO: ProfilePresenterDTO) {
+    public func setupCell(_ profilePresenterDTO: ProfilePresenterDTO?) {
+        guard let profilePresenterDTO else {return}
         summaryAddressTextView.setInsertText((profilePresenterDTO.address?.street ?? "") + "\n")
         summaryAddressTextView.setInsertText((profilePresenterDTO.address?.cep ?? "") + "\n")
         if let city = profilePresenterDTO.address?.city, let state = profilePresenterDTO.address?.state {

@@ -5,7 +5,7 @@ import Foundation
 
 import ProfileUseCases
 
-public class SearchCEPUseCaseGatewayImpl: SearchCEPUseCaseGateway {
+public class RemoteSearchCEPUseCaseGatewayImpl: SearchCEPUseCaseGateway {
     
     private let httpGet: HTTPGet
     private let url: URL
@@ -27,7 +27,6 @@ public class SearchCEPUseCaseGatewayImpl: SearchCEPUseCaseGateway {
         
         guard let data else {return nil}
         
-//        let cepCodable: CEPCodable = try JSONDecoder().decode(CEPCodable.self, from: data)
         let cepCodable: ViaCEPCodable = try JSONDecoder().decode(ViaCEPCodable.self, from: data)
         
         return cepCodable.mapperToDTO()
