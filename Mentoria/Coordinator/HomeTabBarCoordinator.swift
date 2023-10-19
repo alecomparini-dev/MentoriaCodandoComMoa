@@ -44,7 +44,7 @@ class HomeTabBarCoordinator: Coordinator {
     
 //  MARK: - PRIVATE AREA
     private func createProfileSummaryTabBarItem() -> TabBarItems {
-        let profileSummaryController = ProfileSummaryViewController()
+        let profileSummaryController = ProfileSummaryFactory.make()
         profileSummaryController.coordinator = self
         return TabBarItems(viewController: profileSummaryController, image: ImageViewBuilder(systemName: "person"), title: "Perfil")
     }

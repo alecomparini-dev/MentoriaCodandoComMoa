@@ -18,8 +18,6 @@ class CPFTableViewCell: UITableViewCell {
     static let identifier = String(describing: CPFTableViewCell.self)
     weak var delegate: CPFTableViewCellDelegate?
     
-    
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configure()
@@ -35,6 +33,10 @@ class CPFTableViewCell: UITableViewCell {
     lazy var cpfLabelText: CustomText = {
         let comp = CustomText()
             .setText("CPF")
+            .setSkeleton({ build in
+                build
+                    .showSkeleton(.gradientAnimated)
+            })
             .setConstraints { build in
                 build
                     .setTop.equalToSafeArea(8)
@@ -66,6 +68,10 @@ class CPFTableViewCell: UITableViewCell {
                 build
                     .setCornerRadius(8)
             })
+            .setSkeleton({ build in
+                build
+                    .showSkeleton(.gradientAnimated)
+            })
             .setConstraints { build in
                 build
                     .setTop.equalTo(cpfLabelText.get, .bottom, 8)
@@ -88,6 +94,7 @@ class CPFTableViewCell: UITableViewCell {
         addElements()
         configConstraints()
         configDelegate()
+        configSkeleton()
     }
     
     private func addElements() {
@@ -106,6 +113,38 @@ class CPFTableViewCell: UITableViewCell {
         cpfTextField.setDelegate(self)
     }
 
+    
+    private func configSkeleton() {
+//        cpfTextField.get.isSkeletonable = true
+//        cpfTextField.get.showAnimatedGradientSkeleton()
+//        cpfLabelText.get.isSkeletonable = true
+//        cpfLabelText.get.showAnimatedGradientSkeleton()
+        
+//        
+//        let skeleton = ViewBuilder()
+//            .setBackgroundColor(color: .lightGray)
+//            .setConstraints { build in
+//                build
+//                    .setAlignmentCenterXY.equalToSafeArea
+//                    .setWidth.equalToConstant(250)
+//                    .setHeight.equalToConstant(50)
+//            }
+//        
+//        skeleton.add(insideTo: self.contentView)
+//        skeleton.applyConstraint()
+//        
+//        let skeletonLayer = UIView(frame: CGRect(origin: CGPoint(x: -50, y: 0), size: CGSize(width: 50, height: 50)))
+//        skeletonLayer.backgroundColor = UIColor.black.withAlphaComponent(0.05)
+//        skeletonLayer.clipsToBounds = true
+//        skeleton.get.layer.masksToBounds = true
+//        skeleton.get.addSubview(skeletonLayer)
+//        
+//        
+//        UIView.animate(withDuration: 1.5, delay: 0, options: [.curveLinear, .repeat], animations: { [self] in
+//            skeletonLayer.frame.origin.x = 250
+//        }, completion: nil)
+        
+    }
 
 }
 

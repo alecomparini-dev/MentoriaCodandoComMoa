@@ -11,5 +11,4 @@ public protocol AuthenticationEmailPassword {
     
     func auth(email: String, password: String, completion: @escaping (UserId?, AuthenticationError?) -> Void)
     
-    func getUserIDAuthenticated() -> UserId?
 }

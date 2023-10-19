@@ -7,17 +7,17 @@ import ProfileUseCases
 
 
 public class EmailPasswordCreateLoginUseCaseGatewayImpl: CreateLoginUseCaseGateway {
-    private let authentication: AuthenticationEmailPassword
+    private let authenticator: AuthenticationEmailPassword
     
-    public init(authentication: AuthenticationEmailPassword) {
-        self.authentication = authentication
+    public init(authenticator: AuthenticationEmailPassword) {
+        self.authenticator = authenticator
     }
     
     public func createLogin(email: String, password: String) async throws -> UserId {
         
         return try await withCheckedThrowingContinuation { continuation in
 
-            authentication.createAuth(email: email, password: password) { userId, authError in
+            authenticator.createAuth(email: email, password: password) { userId, authError in
                 if let authError {
                     continuation.resume(throwing: authError.code)
                     return

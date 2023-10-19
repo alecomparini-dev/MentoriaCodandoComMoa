@@ -4,6 +4,8 @@
 import Foundation
 
 public struct ProfilePresenterDTO {
+    public var userIDAuth: String?
+    public var userIDProfile: Int?
     public var imageProfile: Data?
     public var name: String?
     public var cpf: String?
@@ -12,9 +14,9 @@ public struct ProfilePresenterDTO {
     public var fieldOfWork: String?
     public var address: ProfileAddressPresenterDTO?
     
-    public init(imageProfile: Data? = nil, name: String? = nil, cpf: String? = nil, 
-                dateOfBirth: String? = nil, cellPhoneNumber: String? = nil,
-                fieldOfWork: String? = nil, address: ProfileAddressPresenterDTO? = nil) {
+    public init(userIDAuth: String? = nil, userIDProfile: Int? = nil, imageProfile: Data? = nil, name: String? = nil, cpf: String? = nil, dateOfBirth: String? = nil, cellPhoneNumber: String? = nil, fieldOfWork: String? = nil, address: ProfileAddressPresenterDTO? = nil) {
+        self.userIDAuth = userIDAuth
+        self.userIDProfile = userIDProfile
         self.imageProfile = imageProfile
         self.name = name
         self.cpf = cpf

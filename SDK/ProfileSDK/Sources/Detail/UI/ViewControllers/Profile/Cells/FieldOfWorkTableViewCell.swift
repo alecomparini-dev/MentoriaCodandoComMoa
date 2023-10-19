@@ -31,6 +31,10 @@ class FieldOfWorkTableViewCell: UITableViewCell {
     lazy var fieldOfWorkLabelText: CustomText = {
         let comp = CustomText()
             .setText("Ramo de atuação")
+            .setSkeleton({ build in
+                build
+                    .showSkeleton(.gradientAnimated)
+            })
             .setConstraints { build in
                 build
                     .setTop.equalToSafeArea(8)
@@ -57,6 +61,10 @@ class FieldOfWorkTableViewCell: UITableViewCell {
             .setBorder({ build in
                 build
                     .setCornerRadius(8)
+            })
+            .setSkeleton({ build in
+                build
+                    .showSkeleton(.gradientAnimated)
             })
             .setConstraints { build in
                 build
