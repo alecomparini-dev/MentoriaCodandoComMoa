@@ -70,6 +70,10 @@ class AddressTableViewCell: UITableViewCell {
             .setKeyboard({ build in
                 build
                     .setKeyboardType(.numberPad)
+                    .setDoneButton { [weak self] textField in
+                        self?.delegate?.searchCEPTapped (self?.searchCEPTextField.get,
+                                                         self?.searchCEPTextField.get.text ?? "")
+                    }
             })
             .setMask({ build in
                 build

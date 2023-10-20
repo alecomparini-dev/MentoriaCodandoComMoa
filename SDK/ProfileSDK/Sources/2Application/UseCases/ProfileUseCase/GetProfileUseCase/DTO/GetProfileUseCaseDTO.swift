@@ -8,7 +8,7 @@ public struct GetProfileUseCaseDTO {
     public struct Output {
         public var userIDAuth: String?
         public var userIDProfile: Int?
-        public var imageProfile: Data?
+        public var imageProfile: String?
         public var name: String?
         public var cpf: String?
         public var dateOfBirth: String?
@@ -24,7 +24,7 @@ public struct GetProfileUseCaseDTO {
         
         public init(userIDAuth: String? = nil,
                     userIDProfile: Int? = nil,
-                    imageProfile: Data? = nil,
+                    imageProfile: String? = nil,
                     name: String? = nil,
                     cpf: String? = nil,
                     dateOfBirth: String? = nil,

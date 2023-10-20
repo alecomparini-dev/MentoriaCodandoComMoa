@@ -63,10 +63,10 @@ public final class ProfileSummaryViewController: UIViewController {
     
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        return screen.tableViewScroll.get.reloadData()
-//        if let profilePresenterDTO, profilePresenterDTO.userIDAuth != nil {
-//            return screen.tableViewScroll.get.reloadData()
-//        }
+//        return screen.tableViewScroll.get.reloadData()
+        if let profilePresenterDTO, profilePresenterDTO.userIDAuth != nil {
+            return screen.tableViewScroll.get.reloadData()
+        }
     }
     
     private func getUserAuthenticated() {
@@ -156,7 +156,8 @@ public final class ProfileSummaryViewController: UIViewController {
     private func getProfilePictureTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ProfilePictureTableViewCell.identifier, for: indexPath) as? ProfilePictureTableViewCell
         cell?.configSkeleton()
-        cell?.setupCell(self, profilePresenterDTO: profilePresenterDTO)
+        let profileImageData = profileSummaryPresenter.getProfileImageData(profilePresenterDTO?.userIDAuth)
+        cell?.setupCell(self, profilePresenterDTO: profilePresenterDTO, profileImage: profileImageData)
         setCell(cell, key: TypeCells.profilePicture)
         cell?.delegate = self
         return cell ?? UITableViewCell()
@@ -286,9 +287,19 @@ extension ProfileSummaryViewController: ProfileSummaryPresenterOutput {
 
 //  MARK: - EXTENSION - ProfilePictureTableViewCellDelegate
 extension ProfileSummaryViewController: ProfilePictureTableViewCellDelegate {
+    
     func saveProfileImage(_ image: UIImage) {
-        print(image)
+        if let imageJPEGData = convertImageToJPEG(image), let userIDAuth = profilePresenterDTO?.userIDAuth {
+            profileSummaryPresenter.saveProfileImageData(userIDAuth, imageJPEGData)
+        }
+        
     }
+    
+    private func convertImageToJPEG(_ image: UIImage) -> Data? {
+        return image.jpegData(compressionQuality: 1)
+    }
+    
+    
     
 }
 

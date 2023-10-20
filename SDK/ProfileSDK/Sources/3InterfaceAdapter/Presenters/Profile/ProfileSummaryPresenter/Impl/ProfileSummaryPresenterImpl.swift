@@ -45,7 +45,7 @@ public class ProfileSummaryPresenterImpl: ProfileSummaryPresenter {
             do {
                 let getProfileUseCaseDTO: GetProfileUseCaseDTO.Output? = try await getProfileUseCase.getProfile(userIDAuth)
                 
-                var profilePresenterMapper = GetProfileUseCaseDTOToPresenter.mapper(getProfileUseCase: getProfileUseCaseDTO)
+                var profilePresenterMapper: ProfilePresenterDTO = GetProfileUseCaseDTOToPresenter.mapper(getProfileUseCase: getProfileUseCaseDTO)
                 
                 let cellPhoneMask = masks[TypeMasks.cellPhoneMask]
                 profilePresenterMapper.cellPhoneNumber = cellPhoneMask?.formatString(profilePresenterMapper.cellPhoneNumber)
@@ -72,6 +72,23 @@ public class ProfileSummaryPresenterImpl: ProfileSummaryPresenter {
         
     }
     
+    public func saveProfileImageData(_ userIDAuth: String?, _ imageData: Data) {
+        guard let userIDAuth else {return}
+        if let filename = getDocumentsDirectory()?.appendingPathComponent("\(userIDAuth).jpg") {
+            try? imageData.write(to: filename)
+        }
+    }
+    
+    public func getProfileImageData(_ userIDAuth: String?) -> Data? {
+        guard let userIDAuth else {return nil}
+        if let fileURL = getDocumentsDirectory()?.appendingPathComponent("\(userIDAuth).jpg") {
+            return try? Data(contentsOf: fileURL)
+        }
+        return nil
+    }
+    
+    
+//  MARK: - PRIVATE AREA
     private func configDateOfBirth(_ date: String?) -> String? {
         guard let date else {return nil}
         let dateFormatter = DateFormatter()
@@ -84,6 +101,10 @@ public class ProfileSummaryPresenterImpl: ProfileSummaryPresenter {
         }
         
         return nil
+    }
+    
+    private func getDocumentsDirectory() -> URL? {
+        return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
     }
     
 }

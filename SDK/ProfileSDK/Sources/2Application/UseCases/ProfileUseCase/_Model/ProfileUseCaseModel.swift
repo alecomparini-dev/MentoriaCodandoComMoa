@@ -7,7 +7,7 @@ public struct ProfileUseCaseModel {
     public var userIDAuth: String?
     public var userID: Int?
     public var name: String?
-    public var image: Data?
+    public var image: String?
     public var cpf: String?
     public var phone: String?
     public var fieldOfWork: String?
@@ -17,7 +17,7 @@ public struct ProfileUseCaseModel {
     public init(userIDAuth: String? = nil, 
                 userID: Int? = nil,
                 name: String? = nil,
-                image: Data? = nil,
+                image: String? = nil,
                 cpf: String? = nil,
                 phone: String? = nil,
                 fieldOfWork: String? = nil,
