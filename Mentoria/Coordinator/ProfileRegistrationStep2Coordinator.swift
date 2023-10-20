@@ -3,6 +3,7 @@
 
 import Foundation
 import ProfileUI
+import ProfilePresenters
 
 class ProfileRegistrationStep2Coordinator: Coordinator {
     var childCoordinator: Coordinator?
@@ -18,8 +19,8 @@ class ProfileRegistrationStep2Coordinator: Coordinator {
     func start() {
         childCoordinator = self
         var controller = ProfileRegistrationStep2Factory.make()
-        controller.setDataTransfer(self.dataTransfer)
         controller = navigationController.pushViewController(controller)
+        controller.setDataTransfer(dataTransfer)
         controller.coordinator = self
     }
 
@@ -30,8 +31,9 @@ class ProfileRegistrationStep2Coordinator: Coordinator {
 //  MARK: - EXTENSION LoginViewControllerCoordinator
 extension ProfileRegistrationStep2Coordinator: ProfileRegistrationStep2ViewControllerCoordinator {
 
-    func gotoProfileRegistrationStep1() {
+    func gotoProfileRegistrationStep1(_ profilePresenterDTO: ProfilePresenterDTO?) {
         let coordinator = ProfileRegistrationStep1Coordinator(navigationController)
+        coordinator.dataTransfer = profilePresenterDTO
         coordinator.start()
         childCoordinator = nil
     }

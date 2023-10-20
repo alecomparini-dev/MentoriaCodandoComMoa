@@ -8,7 +8,7 @@ import CustomComponentsSDK
 
 public protocol ProfileRegistrationStep1ViewControllerCoordinator: AnyObject {
     func gotoProfileHomeTabBar()
-    func gotoProfileRegistrationStep2(_ profilePresenterDTO: ProfilePresenterDTO)
+    func gotoProfileRegistrationStep2(_ profilePresenterDTO: ProfilePresenterDTO?)
 }
 
 public final class ProfileRegistrationStep1ViewController: UIViewController {
@@ -26,12 +26,9 @@ public final class ProfileRegistrationStep1ViewController: UIViewController {
     private struct Masks {
         static let cpfMask: MaskBuilder = MaskBuilder()
         static let dateOfBirthMask: MaskBuilder = MaskBuilder()
-        static let cellPhoneMask: MaskBuilder = MaskBuilder()
     }
-    
-    public var dataTransfer: Any?
-    
-    private var profilePresenterDTO: ProfilePresenterDTO = ProfilePresenterDTO()
+        
+    private var profilePresenterDTO: ProfilePresenterDTO?
     private var fieldsCell: [TypeCells: UITableViewCell] = [:]
     private var constantBottom: CGFloat?
     private var profileStep1Presenter: ProfileRegistrationStep1Presenter
@@ -60,7 +57,6 @@ public final class ProfileRegistrationStep1ViewController: UIViewController {
     
     
 //  MARK: - LIFE CYCLE
-    
     public override func loadView() {
         self.view = screen
     }
@@ -68,6 +64,14 @@ public final class ProfileRegistrationStep1ViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         configure()
+    }
+
+    
+//  MARK: - DATA TRANSFER
+    public func setDataTransfer(_ data: Any?) {
+        if let profile = data as? ProfilePresenterDTO {
+            self.profilePresenterDTO = profile
+        }
     }
     
     
@@ -114,44 +118,43 @@ public final class ProfileRegistrationStep1ViewController: UIViewController {
         
     }
     
-
     private func getNameTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: NameTableViewCell.identifier, for: indexPath) as? NameTableViewCell
         cell?.delegate = self
+        cell?.setupCell(profilePresenterDTO)
         setCell(cell, key: TypeCells.name)
-        cell?.nameTextField.setText("NOMMMEEEEEEE")
         return cell ?? UITableViewCell()
     }
 
     private func getCPFTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CPFTableViewCell.identifier, for: indexPath) as? CPFTableViewCell
         cell?.delegate = self
+        cell?.setupCell(profilePresenterDTO)
         setCell(cell, key: TypeCells.cpf)
-        cell?.cpfTextField.setText("047.810.386-70")
         return cell ?? UITableViewCell()
     }
     
     private func getDateOfBirthTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: DateOfBirthTableViewCell.identifier, for: indexPath) as? DateOfBirthTableViewCell
         cell?.delegate = self
+        cell?.setupCell(profilePresenterDTO)
         setCell(cell, key: TypeCells.dateOfBirth)
-        cell?.dateOfBirthTextField.setText("11/11/1111")
         return cell ?? UITableViewCell()
     }
     
     private func getPhoneNumberTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: PhoneNumberTableViewCell.identifier, for: indexPath) as? PhoneNumberTableViewCell
         cell?.delegate = self
+        cell?.setupCell(profilePresenterDTO)
         setCell(cell, key: TypeCells.phoneNumber)
-        cell?.phoneNumberTextField.setText("(11) 11111-1111")
         return cell ?? UITableViewCell()
     }
     
     private func getFieldOfWorkTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: FieldOfWorkTableViewCell.identifier, for: indexPath) as? FieldOfWorkTableViewCell
         cell?.delegate = self
+        cell?.setupCell(profilePresenterDTO)
         setCell(cell, key: TypeCells.fieldOfWork)
-        cell?.fieldOfWorkTextField.setText("AREA DE TRABALHO")
         return cell ?? UITableViewCell()
     }
     
@@ -273,11 +276,11 @@ extension ProfileRegistrationStep1ViewController: ContinueRegistrationProfileBut
         let phoneNumber = fieldsCell[.phoneNumber] as! PhoneNumberTableViewCell
         let fieldOfWork = fieldsCell[.fieldOfWork] as! FieldOfWorkTableViewCell
         
-        profilePresenterDTO.name = name.nameTextField.get.text
-        profilePresenterDTO.cpf = cpf.cpfTextField.get.text
-        profilePresenterDTO.dateOfBirth = dateOfBirth.dateOfBirthTextField.get.text
-        profilePresenterDTO.cellPhoneNumber = phoneNumber.phoneNumberTextField.get.text
-        profilePresenterDTO.fieldOfWork = fieldOfWork.fieldOfWorkTextField.get.text
+        profilePresenterDTO?.name = name.nameTextField.get.text
+        profilePresenterDTO?.cpf = cpf.cpfTextField.get.text
+        profilePresenterDTO?.dateOfBirth = dateOfBirth.dateOfBirthTextField.get.text
+        profilePresenterDTO?.cellPhoneNumber = phoneNumber.phoneNumberTextField.get.text
+        profilePresenterDTO?.fieldOfWork = fieldOfWork.fieldOfWorkTextField.get.text
         
         profileStep1Presenter.continueRegistrationStep2(profilePresenterDTO)
     }
@@ -299,8 +302,7 @@ extension ProfileRegistrationStep1ViewController: CPFTableViewCellDelegate {
     
     func cpfTextFieldShouldChangeCharactersIn(_ textField: UITextField, range: NSRange, string: String) {
         setHiddenFieldRequiredCPF(true)
-        let cpfMask = Masks.cpfMask.setCPFMask()
-        setMaskOnTextField(mask: cpfMask, textField, range, string)
+        textField.text = profileStep1Presenter.setMaskWithRange(.CPFMask, range, string)
         setScrollToRow(1)
     }
         
@@ -316,8 +318,7 @@ extension ProfileRegistrationStep1ViewController: DateOfBirthTableViewCellDelega
     
     func dateOfBirthTextFieldShouldChangeCharactersIn(_ textField: UITextField, range: NSRange, string: String) {
         setHiddenFieldRequiredDateOfBirth(true)
-        let dateOfBirthMask = Masks.dateOfBirthMask.setDateMask()
-        setMaskOnTextField(mask: dateOfBirthMask, textField, range, string)
+        textField.text = profileStep1Presenter.setMaskWithRange(.dateMask, range, string)
     }
     
 }
@@ -332,8 +333,7 @@ extension ProfileRegistrationStep1ViewController: PhoneNumberTableViewDelegate {
     
     func cellPhoneTextFieldShouldChangeCharactersIn(_ textField: UITextField, range: NSRange, string: String) {
         setHiddenFieldRequiredCellPhone(true)
-        let phoneMask = Masks.cellPhoneMask.setCellPhoneNumberMask()
-        setMaskOnTextField(mask: phoneMask, textField, range, string)
+        textField.text = profileStep1Presenter.setMaskWithRange(.cellPhoneMask, range, string)
         setScrollToRow(3)
     }
             

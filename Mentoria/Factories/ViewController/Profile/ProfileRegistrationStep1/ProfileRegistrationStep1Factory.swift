@@ -26,7 +26,7 @@ class ProfileRegistrationStep1Factory {
         var masks: [TypeMasks: Masks] = [:]
         masks.updateValue(CellPhoneMask(), forKey: TypeMasks.cellPhoneMask)
         masks.updateValue(CPFMask(), forKey: TypeMasks.CPFMask)
-        masks.updateValue(CEPMask(), forKey: TypeMasks.dateMask)
+        masks.updateValue(DateMask(), forKey: TypeMasks.dateMask)
         return masks
     }
     

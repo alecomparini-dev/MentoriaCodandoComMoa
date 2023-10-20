@@ -4,9 +4,10 @@
 import UIKit
 
 import ProfilePresenters
+import CustomComponentsSDK
 
 public protocol ProfileSummaryViewControllerCoordinator: AnyObject {
-    func gotoProfileRegistrationStep1()
+    func gotoProfileRegistrationStep1(_ profilePresenterDTO: ProfilePresenterDTO?)
 }
 
 public final class ProfileSummaryViewController: UIViewController {
@@ -45,15 +46,6 @@ public final class ProfileSummaryViewController: UIViewController {
     }()
 
     
-//  MARK: - DATA TRANSFER
-    
-    public func setDataTransfer(_ data: Any?) {
-        if let profilePresenterDTO = data as? ProfilePresenterDTO {
-            self.profilePresenterDTO = profilePresenterDTO
-        }
-    }
-    
-    
 //  MARK: - LIFE CYCLE
 
     public override func loadView() {
@@ -62,9 +54,6 @@ public final class ProfileSummaryViewController: UIViewController {
 
     public override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        profilePresenterDTO = ProfilePresenterDTO(userIDAuth: "Ac75MOSIPBWKzzByq4Ix6G9jp7S2", cpf: "57788810029")
-        
         configure()
     }
     
@@ -74,16 +63,25 @@ public final class ProfileSummaryViewController: UIViewController {
     
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if let profilePresenterDTO, profilePresenterDTO.userIDAuth != nil {
-            return screen.tableViewScroll.get.reloadData()
-        }
+        return screen.tableViewScroll.get.reloadData()
+//        if let profilePresenterDTO, profilePresenterDTO.userIDAuth != nil {
+//            return screen.tableViewScroll.get.reloadData()
+//        }
     }
     
     private func getUserAuthenticated() {
         if let profilePresenterDTO, profilePresenterDTO.userIDAuth != nil {return}
         profileSummaryPresenter.getUserAuthenticated()
     }
+
+//  MARK: - DATA TRANSFER
     
+    public func setDataTransfer(_ data: Any?) {
+        if let profilePresenterDTO = data as? ProfilePresenterDTO {
+            self.profilePresenterDTO = profilePresenterDTO
+        }
+    }
+
     
 //  MARK: - PRIVATE AREA
     private func configure() {
@@ -95,14 +93,14 @@ public final class ProfileSummaryViewController: UIViewController {
         configTableViewDelegate()
         configProfileSymmaryOutPutDelegate()
     }
-        
-    private func configProfileSymmaryOutPutDelegate() {
-        profileSummaryPresenter.outputDelegate = self
-    }
-    
+     
     private func configTableViewDelegate() {
         screen.tableViewScroll.setDelegate(delegate: self)
         screen.tableViewScroll.setDataSource(dataSource: self)
+    }
+    
+    private func configProfileSymmaryOutPutDelegate() {
+        profileSummaryPresenter.outputDelegate = self
     }
     
     private func calculateHeightForRowAt(_ index: Int) -> CGFloat {
@@ -159,6 +157,8 @@ public final class ProfileSummaryViewController: UIViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: ProfilePictureTableViewCell.identifier, for: indexPath) as? ProfilePictureTableViewCell
         cell?.configSkeleton()
         cell?.setupCell(self, profilePresenterDTO: profilePresenterDTO)
+        setCell(cell, key: TypeCells.profilePicture)
+        cell?.delegate = self
         return cell ?? UITableViewCell()
     }
     
@@ -203,6 +203,7 @@ public final class ProfileSummaryViewController: UIViewController {
         cell?.configSkeleton()
         cell?.setupCell(profilePresenterDTO)
         cell?.summaryAddressTextView.setReadOnly(true)
+        setCell(cell, key: TypeCells.summaryAddress)
         return cell ?? UITableViewCell()
     }
     
@@ -254,7 +255,7 @@ extension ProfileSummaryViewController: UITableViewDataSource {
 extension ProfileSummaryViewController: EditProfileButtonTableViewCellDelegate {
     
     public func editProfileTapped() {
-        coordinator?.gotoProfileRegistrationStep1()
+        coordinator?.gotoProfileRegistrationStep1(profilePresenterDTO)
     }
     
 }
@@ -267,8 +268,11 @@ extension ProfileSummaryViewController: ProfileSummaryPresenterOutput {
         screen.tableViewScroll.get.reloadData()
         print(success ?? "")
         if let userIDAuth = success?.userIDAuth {
-            self.profileSummaryPresenter.getProfile(userIDAuth)
-        }   
+            DispatchQueue.main.asyncAfter(deadline: .now() + 5, execute: {
+                self.profileSummaryPresenter.getProfile(userIDAuth)
+            })
+            
+        }
     }
     
     public func getUserProfile(success: ProfilePresenterDTO?, error: String?) {
@@ -278,4 +282,13 @@ extension ProfileSummaryViewController: ProfileSummaryPresenterOutput {
     
 }
 
+
+
+//  MARK: - EXTENSION - ProfilePictureTableViewCellDelegate
+extension ProfileSummaryViewController: ProfilePictureTableViewCellDelegate {
+    func saveProfileImage(_ image: UIImage) {
+        print(image)
+    }
+    
+}
 

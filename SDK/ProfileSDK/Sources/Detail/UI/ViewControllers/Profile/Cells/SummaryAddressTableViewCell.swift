@@ -59,6 +59,7 @@ class SummaryAddressTableViewCell: UITableViewCell {
     public func setupCell(_ profilePresenterDTO: ProfilePresenterDTO?) {
         guard let profilePresenterDTO else {return}
         resetSkeleton()
+        summaryAddressTextView.setClearText()
         summaryAddressTextView.setInsertText((profilePresenterDTO.address?.street ?? "") + "\n")
         summaryAddressTextView.setInsertText((profilePresenterDTO.address?.cep ?? "") + "\n")
         if let city = profilePresenterDTO.address?.city, let state = profilePresenterDTO.address?.state {
@@ -71,10 +72,12 @@ class SummaryAddressTableViewCell: UITableViewCell {
 //  MARK: - PUBLIC AREA
     public func configSkeleton() {
         summaryAddressText.setSkeleton { build in
-            build.showSkeleton(.gradientAnimated)
+            build
+                .showSkeleton(.gradientAnimated)
         }
         summaryAddressTextView.setSkeleton { build in
-            build.showSkeleton(.gradientAnimated)
+            build
+                .showSkeleton(.gradientAnimated)
         }
     }
     

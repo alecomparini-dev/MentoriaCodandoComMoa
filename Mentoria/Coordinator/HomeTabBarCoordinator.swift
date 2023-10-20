@@ -6,12 +6,13 @@ import UIKit
 
 import HomeUI
 import ProfileUI
+import ProfilePresenters
 import CustomComponentsSDK
 
 class HomeTabBarCoordinator: Coordinator {
     var childCoordinator: Coordinator?
-    
     unowned var navigationController: NavigationController
+    var dataTransfer: Any?
     
     private weak var homeTabBarControllers: HomeTabBar?
     
@@ -44,9 +45,12 @@ class HomeTabBarCoordinator: Coordinator {
     
 //  MARK: - PRIVATE AREA
     private func createProfileSummaryTabBarItem() -> TabBarItems {
+        
         let profileSummaryController = ProfileSummaryFactory.make()
         profileSummaryController.coordinator = self
+        
         return TabBarItems(viewController: profileSummaryController, image: ImageViewBuilder(systemName: "person"), title: "Perfil")
+        
     }
     
     private func createHomeTabBarItem() -> TabBarItems {
@@ -65,7 +69,7 @@ class HomeTabBarCoordinator: Coordinator {
 
 extension HomeTabBarCoordinator: ProfileSummaryViewControllerCoordinator {
     
-    func gotoProfileRegistrationStep1() {
+    func gotoProfileRegistrationStep1(_ profilePresenterDTO: ProfilePresenterDTO?) {
         let nav = NavigationController()
         
         if let currentScene = CurrentWindow.get {
@@ -73,6 +77,7 @@ extension HomeTabBarCoordinator: ProfileSummaryViewControllerCoordinator {
         }
         
         let coordinator = ProfileRegistrationStep1Coordinator(nav)
+        coordinator.dataTransfer = profilePresenterDTO
         coordinator.start()
         childCoordinator = nil
         homeTabBarControllers = nil
