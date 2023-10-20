@@ -3,24 +3,22 @@
 
 import Foundation
 
-
-public enum FieldsRequired {
-    case name
-    case CPF
-    case dateOfBirth
-    case cellPhoneNumber
-    case fieldOfWork
-}
-
-
 public protocol ProfileRegistrationStep1PresenterOutput: AnyObject {
     func error(_ error: String)
-    func validations(validationsError: String?, fieldsRequired: [FieldsRequired])
+    func validations(validationsError: String?, fieldsRequired: [ProfileRegistrationStep1PresenterImpl.FieldsRequired])
     func success()
 }
 
 public class ProfileRegistrationStep1PresenterImpl: ProfileRegistrationStep1Presenter {
     public weak var outputDelegate: ProfileRegistrationStep1PresenterOutput?
+    
+    public enum FieldsRequired {
+        case name
+        case CPF
+        case dateOfBirth
+        case cellPhoneNumber
+        case fieldOfWork
+    }
     
     private let cpfValidator: CPFValidations
     private let masks: [TypeMasks: Masks]
@@ -66,6 +64,7 @@ public class ProfileRegistrationStep1PresenterImpl: ProfileRegistrationStep1Pres
                 return masks[TypeMasks.CEPMask]
         }
     }
+    
 
 //  MARK: - PRIVATE AREA
     private func validations(_ profilePresenterDTO: ProfilePresenterDTO) -> Bool {

@@ -4,7 +4,7 @@
 import UIKit
 
 import ProfilePresenters
-import CustomComponentsSDK
+
 
 public protocol ProfileRegistrationStep1ViewControllerCoordinator: AnyObject {
     func gotoProfileHomeTabBar()
@@ -21,11 +21,6 @@ public final class ProfileRegistrationStep1ViewController: UIViewController {
         case phoneNumber = 3
         case fieldOfWork = 4
         case continueRegistrationButton = 5
-    }
-
-    private struct Masks {
-        static let cpfMask: MaskBuilder = MaskBuilder()
-        static let dateOfBirthMask: MaskBuilder = MaskBuilder()
     }
         
     private var profilePresenterDTO: ProfilePresenterDTO?
@@ -213,11 +208,7 @@ public final class ProfileRegistrationStep1ViewController: UIViewController {
     private func unregisterKeyboardNotifications() {
         NotificationCenter.default.removeObserver(self)
     }
-    
-    private func setMaskOnTextField(mask: MaskBuilder, _ textField: UITextField, _ range: NSRange, _ string: String) {
-        textField.text = mask.formatStringWithRange(range: range, string: string)
-    }
-    
+       
     private func setHiddenFieldRequiredName(_ flag: Bool) {
         if let cell = fieldsCell[.name] as? NameTableViewCell, cell.fieldRequired.get.isHidden != flag {
             cell.fieldRequired.setHidden(flag)
@@ -251,6 +242,28 @@ public final class ProfileRegistrationStep1ViewController: UIViewController {
     private func setScrollToRow(_ index: Int) {
         screen.tableViewIdentification.get.scrollToRow(at: IndexPath(row: index, section: 0), at: .middle, animated: true)
     }
+    
+    private func setFieldsRequired(fields: [ProfileRegistrationStep1PresenterImpl.FieldsRequired]) {
+        fields.forEach { field in
+            switch field {
+            case .name:
+                setHiddenFieldRequiredName(false)
+                
+            case .CPF:
+                setHiddenFieldRequiredCPF(false)
+                
+            case .dateOfBirth:
+                setHiddenFieldRequiredDateOfBirth(false)
+                
+            case .cellPhoneNumber:
+                setHiddenFieldRequiredCellPhone(false)
+                
+            case .fieldOfWork:
+                setHiddenFieldRequiredFieldOfWork(false)
+            }
+        }
+    }
+
 
 }
 
@@ -393,7 +406,7 @@ extension ProfileRegistrationStep1ViewController: UITableViewDataSource {
 //  MARK: - EXTENSION - ProfileRegistrationStep1PresenterOutput
 extension ProfileRegistrationStep1ViewController: ProfileRegistrationStep1PresenterOutput {
     
-    public func validations(validationsError: String?, fieldsRequired: [FieldsRequired]) {
+    public func validations(validationsError: String?, fieldsRequired: [ProfileRegistrationStep1PresenterImpl.FieldsRequired]) {
         if let validationsError {
             let alert = UIAlertController(title: "Aviso", message: validationsError, preferredStyle: .alert)
             let action = UIAlertAction(title: "OK", style: .default)
@@ -403,27 +416,6 @@ extension ProfileRegistrationStep1ViewController: ProfileRegistrationStep1Presen
         
         if !fieldsRequired.isEmpty {
             setFieldsRequired(fields: fieldsRequired)
-        }
-    }
-    
-    public func setFieldsRequired(fields: [FieldsRequired]) {
-        fields.forEach { field in
-            switch field {
-            case .name:
-                setHiddenFieldRequiredName(false)
-                
-            case .CPF:
-                setHiddenFieldRequiredCPF(false)
-                
-            case .dateOfBirth:
-                setHiddenFieldRequiredDateOfBirth(false)
-                
-            case .cellPhoneNumber:
-                setHiddenFieldRequiredCellPhone(false)
-                
-            case .fieldOfWork:
-                setHiddenFieldRequiredFieldOfWork(false)
-            }
         }
     }
     
