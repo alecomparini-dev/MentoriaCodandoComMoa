@@ -10,4 +10,8 @@ public protocol ProfileSummaryPresenter {
     
     func getProfile(_ userIDAuth: String)
     
+    func saveProfileImageData(_ userIDAuth: String?, _ imageData: Data)
+    
+    func getProfileImageData(_ userIDAuth: String?) -> Data?
+    
 }

@@ -81,7 +81,7 @@ extension ProfileCodable {
             userIDAuth: self.first?.uidFirebase ,
             userID: self.first?.id,
             name: self.first?.name,
-            image: convertBase64ToData(self.first?.image),
+            image: self.first?.image,
             cpf: self.first?.cpf,
             phone: self.first?.phone,
             fieldOfWork: self.first?.typeOfActivity,
@@ -95,13 +95,6 @@ extension ProfileCodable {
                 state: self.first?.state))
     }
     
-    private func convertBase64ToData(_ imageBase64: String?) -> Data? {
-        guard let imageBase64 else {return nil}
-        
-        guard let data = Data(base64Encoded: imageBase64) else { return nil }
-        
-        return data
-    }
     
 }
 

@@ -26,15 +26,14 @@ class ProfilePictureTableViewCell: UITableViewCell {
     
     
 //  MARK: - SETUP CELL
-    public func setupCell(_ viewController: UIViewController, profilePresenterDTO: ProfilePresenterDTO?) {
-        configProfilePicture(viewController)
+    public func setupCell(_ viewController: UIViewController, profilePresenterDTO: ProfilePresenterDTO?, profileImage: Data?) {
         guard let profilePresenterDTO else {return}
+        configProfilePicture(viewController)
         resetSkeleton()
-        
         userNameText.setText(profilePresenterDTO.name)
         professionText.setText(profilePresenterDTO.fieldOfWork)
-        if let imageProfile = profilePresenterDTO.imageProfile {
-            profilePictureView.setImagePicture(imageProfile)
+        if let profileImage {
+            profilePictureView.setImagePicture(profileImage)
         }
     }
     
@@ -118,7 +117,10 @@ class ProfilePictureTableViewCell: UITableViewCell {
             .setChooseSource(viewController: viewController, { build in
                 build
                     .setTitle("Escolha:")
-                    .setOpenCamera { _ in }
+                    .setOpenCamera { [weak self] image in
+                        guard let self, let image, let imageProfile = image.get.image else {return}
+                        delegate?.saveProfileImage(imageProfile)
+                    }
                     .setOpenGallery { [weak self] image in
                         guard let self, let image, let imageProfile = image.get.image else {return}
                         delegate?.saveProfileImage(imageProfile)
