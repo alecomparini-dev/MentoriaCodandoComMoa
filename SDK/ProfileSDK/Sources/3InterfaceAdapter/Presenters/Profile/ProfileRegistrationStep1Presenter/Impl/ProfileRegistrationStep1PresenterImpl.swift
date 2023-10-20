@@ -30,14 +30,43 @@ public class ProfileRegistrationStep1PresenterImpl: ProfileRegistrationStep1Pres
         self.masks = masks
     }
     
-    public func continueRegistrationStep2(_ profilePresenterDTO: ProfilePresenterDTO) {
+    
+//  MARK: - PUBLIC AREA
+    public func continueRegistrationStep2(_ profilePresenterDTO: ProfilePresenterDTO?) {
+        guard let profilePresenterDTO else {return}
         if !validations(profilePresenterDTO) {
             return
         }
         outputDelegate?.success()
     }
 
+    public func setMaskWithRange(_ typeMask: TypeMasks, _ range: NSRange, _ string: String) -> String? {
+        if let mask = getMask(typeMask) {
+            return mask.formatStringWithRange(range: range, string: string)
+        }
+        return nil
+    }
     
+    public func setMask(_ typeMask: TypeMasks, text: String) -> String? {
+        if let mask = getMask(typeMask) {
+            return mask.formatString(text)
+        }
+        return nil
+    }
+    
+    private func getMask(_ typeMask: TypeMasks) -> Masks? {
+        switch typeMask {
+            case .cellPhoneMask:
+                return masks[TypeMasks.cellPhoneMask]
+            case .CPFMask:
+                return masks[TypeMasks.CPFMask]
+            case .dateMask:
+                return masks[TypeMasks.dateMask]
+            case .CEPMask:
+                return masks[TypeMasks.CEPMask]
+        }
+    }
+
 //  MARK: - PRIVATE AREA
     private func validations(_ profilePresenterDTO: ProfilePresenterDTO) -> Bool {
         var failsMessage: String?

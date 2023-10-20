@@ -6,7 +6,6 @@ import UIKit
 
 import CustomComponentsSDK
 import DesignerSystemSDKComponent
-
 import ProfilePresenters
 
 protocol CPFTableViewCellDelegate: AnyObject {
@@ -85,12 +84,15 @@ class CPFTableViewCell: UITableViewCell {
 //  MARK: - PUBLIC AREA
     public func configSkeleton() {
         cpfLabelText.setSkeleton { build in
-            build.showSkeleton(.gradientAnimated)
+            build
+                .showSkeleton(.gradientAnimated)
         }
         cpfTextField.setSkeleton { build in
-            build.showSkeleton(.gradientAnimated)
+            build
+                .showSkeleton(.gradientAnimated)
         }
     }
+    
     
 //  MARK: - PRIVATE AREA
     

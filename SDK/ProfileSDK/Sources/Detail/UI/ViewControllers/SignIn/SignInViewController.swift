@@ -78,6 +78,11 @@ extension SignInViewController: SignInViewDelegate {
     func signInTapped() {
         if let email = screen.emailLoginView.emailTextField.get.text,
            let password = screen.passwordLoginView.passwordTextField.get.text {
+            screen.signInButtom.setShowLoadingIndicator { build in
+                build
+                    .setColor(hexColor: "#282a36")
+                    .setHideWhenStopped(true)
+            }
             let rememberPassword = screen.rememberSwitch.get.isOn
             signInPresenter.login(email: email, password: password, rememberPassword: rememberPassword)
         }
@@ -103,6 +108,7 @@ extension SignInViewController: SignInPresenterOutput {
         let action = UIAlertAction(title: "OK", style: .default)
         alert.addAction(action)
         present(alert, animated: true)
+        screen.signInButtom.setHideLoadingIndicator()
     }
     
 }

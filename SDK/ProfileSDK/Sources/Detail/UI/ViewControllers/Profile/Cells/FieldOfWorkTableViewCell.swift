@@ -71,10 +71,12 @@ class FieldOfWorkTableViewCell: UITableViewCell {
 //  MARK: - PUBLIC AREA
     public func configSkeleton() {
         fieldOfWorkLabelText.setSkeleton { build in
-            build.showSkeleton(.gradientAnimated)
+            build
+                .showSkeleton(.gradientAnimated)
         }
         fieldOfWorkTextField.setSkeleton { build in
-            build.showSkeleton(.gradientAnimated)
+            build
+                .showSkeleton(.gradientAnimated)
         }
     }
     

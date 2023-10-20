@@ -76,10 +76,12 @@ class DateOfBirthTableViewCell: UITableViewCell {
 //  MARK: - PUBLIC AREA
     public func configSkeleton() {
         dateOfBirthLabelText.setSkeleton { build in
-            build.showSkeleton(.gradientAnimated)
+            build
+                .showSkeleton(.gradientAnimated)
         }
         dateOfBirthTextField.setSkeleton { build in
-            build.showSkeleton(.gradientAnimated)
+            build
+                .showSkeleton(.gradientAnimated)
         }
     }
     

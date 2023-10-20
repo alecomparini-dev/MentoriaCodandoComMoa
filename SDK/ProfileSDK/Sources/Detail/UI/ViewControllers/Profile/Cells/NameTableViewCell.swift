@@ -4,6 +4,7 @@ import UIKit
 
 import CustomComponentsSDK
 import DesignerSystemSDKComponent
+import ProfilePresenters
 
 
 protocol NameTableViewCellDelegate: AnyObject {
@@ -68,8 +69,9 @@ class NameTableViewCell: UITableViewCell {
     
     
 //  MARK: - SETUP CELL
-    public func setupCell() {
-        
+    public func setupCell(_ profilePresenterDTO: ProfilePresenterDTO?) {
+        guard let profilePresenterDTO else {return}
+        nameTextField.setText(profilePresenterDTO.name)
     }
     
     

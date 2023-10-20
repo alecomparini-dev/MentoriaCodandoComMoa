@@ -50,7 +50,6 @@ class AddressTableViewCell: UITableViewCell {
     
     lazy var CEPFieldRequired: FieldRequiredCustomTextSecondary = {
         let comp = FieldRequiredCustomTextSecondary()
-            .setHidden(false)
             .setConstraints { build in
                 build
                     .setVerticalAlignmentY.equalTo(CEPLabelText.get)
@@ -157,7 +156,6 @@ class AddressTableViewCell: UITableViewCell {
     
     lazy var numberFieldRequired: FieldRequiredCustomTextSecondary = {
         let comp = FieldRequiredCustomTextSecondary()
-            .setHidden(false)
             .setConstraints { build in
                 build
                     .setVerticalAlignmentY.equalTo(numberLabelText.get)
@@ -304,10 +302,14 @@ class AddressTableViewCell: UITableViewCell {
     
     
 //  MARK: - SETUP CELL
-    public func setupCell(_ profilePresenterDTO: ProfilePresenterDTO) {
-        cityTextField.setText(profilePresenterDTO.name)
-        searchCEPTextField.setText(profilePresenterDTO.cellPhoneNumber)
-        neighborhoodTextField.setText(profilePresenterDTO.fieldOfWork)
+    public func setupCell(_ profilePresenterDTO: ProfilePresenterDTO?) {
+        guard let profilePresenterDTO else {return}
+        searchCEPTextField.setText(profilePresenterDTO.address?.cep)
+        streetTextField.setText(profilePresenterDTO.address?.street)
+        numberTextField.setText(profilePresenterDTO.address?.number)
+        neighborhoodTextField.setText(profilePresenterDTO.address?.neighborhood)
+        cityTextField.setText(profilePresenterDTO.address?.city)
+        stateTextField.setText(profilePresenterDTO.address?.state)
     }
     
     

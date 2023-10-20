@@ -7,8 +7,13 @@ import CustomComponentsSDK
 import DesignerSystemSDKComponent
 import ProfilePresenters
 
+protocol ProfilePictureTableViewCellDelegate: AnyObject {
+    func saveProfileImage(_ image: UIImage)
+}
+
 class ProfilePictureTableViewCell: UITableViewCell {
     static let identifier = String(describing: ProfilePictureTableViewCell.self)
+    weak var delegate: ProfilePictureTableViewCellDelegate?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -25,6 +30,7 @@ class ProfilePictureTableViewCell: UITableViewCell {
         configProfilePicture(viewController)
         guard let profilePresenterDTO else {return}
         resetSkeleton()
+        
         userNameText.setText(profilePresenterDTO.name)
         professionText.setText(profilePresenterDTO.fieldOfWork)
         if let imageProfile = profilePresenterDTO.imageProfile {
@@ -54,17 +60,20 @@ class ProfilePictureTableViewCell: UITableViewCell {
                 build
                     .setTop.equalTo(profilePictureView.get, .bottom, 16)
                     .setLeading.setTrailing.equalToSafeArea(16)
+                    .setHeight.equalToConstant(30)
             }
         return comp
     }()
     
-    lazy var professionText: CustomText = {
-        let comp = CustomText()
+    lazy var professionText: CustomTextSecondary = {
+        let comp = CustomTextSecondary()
+            .setSize(20)
             .setTextAlignment(.center)
             .setConstraints { build in
                 build
-                    .setTop.equalTo(userNameText.get, .bottom, 4)
+                    .setTop.equalTo(userNameText.get, .bottom, 8)
                     .setLeading.setTrailing.equalToSafeArea(16)
+                    .setHeight.equalToConstant(20)
             }
         return comp
     }()
@@ -72,11 +81,15 @@ class ProfilePictureTableViewCell: UITableViewCell {
     
 //  MARK: - PUBLIC AREA
     public func configSkeleton() {
+        profilePictureView.profileImage.setSkeleton { build in
+            build.showSkeleton(.gradientAnimated)
+        }
         userNameText.setSkeleton { build in
             build.showSkeleton(.gradientAnimated)
         }
         professionText.setSkeleton { build in
-            build.showSkeleton(.gradientAnimated)
+            build.setColorSkeleton(hexColor: "#aacff9")
+                .showSkeleton(.gradientAnimated)
         }
     }
     
@@ -106,11 +119,15 @@ class ProfilePictureTableViewCell: UITableViewCell {
                 build
                     .setTitle("Escolha:")
                     .setOpenCamera { _ in }
-                    .setOpenGallery { _ in }
+                    .setOpenGallery { [weak self] image in
+                        guard let self, let image, let imageProfile = image.get.image else {return}
+                        delegate?.saveProfileImage(imageProfile)
+                    }
             })
     }
     
     private func resetSkeleton() {
+        profilePictureView.profileImage.get.hideSkeleton()
         userNameText.get.hideSkeleton()
         professionText.get.hideSkeleton()
     }

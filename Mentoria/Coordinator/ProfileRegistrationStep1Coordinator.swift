@@ -10,6 +10,8 @@ class ProfileRegistrationStep1Coordinator: Coordinator {
     
     unowned let navigationController: NavigationController
     
+    var dataTransfer: Any?
+    
     required init(_ navigationController: NavigationController) {
         self.navigationController = navigationController
     }
@@ -18,6 +20,7 @@ class ProfileRegistrationStep1Coordinator: Coordinator {
         childCoordinator = self
         var controller = ProfileRegistrationStep1Factory.make()
         controller = navigationController.pushViewController(controller)
+        controller.setDataTransfer(dataTransfer)
         controller.coordinator = self
     }
 
@@ -35,7 +38,7 @@ extension ProfileRegistrationStep1Coordinator: ProfileRegistrationStep1ViewContr
         childCoordinator = nil
     }
     
-    func gotoProfileRegistrationStep2(_ profilePresenterDTO: ProfilePresenterDTO) {
+    func gotoProfileRegistrationStep2(_ profilePresenterDTO: ProfilePresenterDTO?) {
         let coordinator = ProfileRegistrationStep2Coordinator(navigationController)
         coordinator.dataTransfer = profilePresenterDTO
         coordinator.start()

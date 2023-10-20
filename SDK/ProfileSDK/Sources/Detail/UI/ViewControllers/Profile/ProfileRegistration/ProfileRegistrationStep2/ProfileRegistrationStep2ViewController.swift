@@ -8,7 +8,7 @@ import DesignerSystemSDKComponent
 import ProfilePresenters
 
 public protocol ProfileRegistrationStep2ViewControllerCoordinator: AnyObject {
-    func gotoProfileRegistrationStep1()
+    func gotoProfileRegistrationStep1(_ profilePresenterDTO: ProfilePresenterDTO?)
     func gotoProfileHomeTabBar()
 }
 
@@ -47,8 +47,8 @@ public final class ProfileRegistrationStep2ViewController: UIViewController {
     
 //  MARK: - DATA TRANSFER
     public func setDataTransfer(_ data: Any?) {
-        if let profilePresenterDTO = data as? ProfilePresenterDTO {
-            self.profilePresenterDTO = profilePresenterDTO
+        if let profile = data as? ProfilePresenterDTO {
+            self.profilePresenterDTO = profile
         }
     }
     
@@ -129,7 +129,13 @@ public final class ProfileRegistrationStep2ViewController: UIViewController {
 extension ProfileRegistrationStep2ViewController: ProfileRegistrationStep2ViewDelegate {
     
     func backButtonTapped() {
-        coordinator?.gotoProfileRegistrationStep1()
+        profilePresenterDTO.address?.cep = addressCell?.searchCEPTextField.get.text
+        profilePresenterDTO.address?.street = addressCell?.streetTextField.get.text
+        profilePresenterDTO.address?.number = addressCell?.numberTextField.get.text
+        profilePresenterDTO.address?.neighborhood = addressCell?.neighborhoodTextField.get.text
+        profilePresenterDTO.address?.city = addressCell?.cityTextField.get.text
+        profilePresenterDTO.address?.state = addressCell?.stateTextField.get.text
+        coordinator?.gotoProfileRegistrationStep1(profilePresenterDTO)
     }
     
 }

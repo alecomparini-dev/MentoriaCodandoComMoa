@@ -85,10 +85,12 @@ class PhoneNumberTableViewCell: UITableViewCell {
 //  MARK: - PUBLIC AREA
     public func configSkeleton() {
         phoneNumberLabelText.setSkeleton { build in
-            build.showSkeleton(.gradientAnimated)
+            build
+                .showSkeleton(.gradientAnimated)
         }
         phoneNumberTextField.setSkeleton { build in
-            build.showSkeleton(.gradientAnimated)
+            build
+                .showSkeleton(.gradientAnimated)
         }
     }
     
@@ -143,4 +145,5 @@ extension PhoneNumberTableViewCell: UITextFieldDelegate {
         delegate?.cellPhoneTextFieldShouldChangeCharactersIn(textField, range: range, string: string)
         return false
     }
+    
 }

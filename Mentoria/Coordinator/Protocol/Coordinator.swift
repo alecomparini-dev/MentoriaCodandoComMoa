@@ -11,7 +11,7 @@ protocol Coordinator: AnyObject {
     var childCoordinator: Coordinator? { get set }
     
     var navigationController: NavigationController { get }
-
+    
     init(_ navigationController: NavigationController)
     
     func start()
