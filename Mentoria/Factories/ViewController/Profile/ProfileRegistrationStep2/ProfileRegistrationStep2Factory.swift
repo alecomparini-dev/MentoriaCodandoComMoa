@@ -24,10 +24,11 @@ class ProfileRegistrationStep2Factory {
         
         let searchUseCase = SearchCEPUseCaseImpl(searchCEPGateway: searchUseCaseGateway)
         
-        let profileRegistrationStep2Presenter = ProfileRegistrationStep2PresenterImpl(searchCEPUseCase: searchUseCase)
+        let profileRegistrationStep2Presenter = ProfileRegistrationStep2PresenterImpl(searchCEPUseCase: searchUseCase, cepMask: CEPMask())
         
         return ProfileRegistrationStep2ViewController(profileStep2Presenter: profileRegistrationStep2Presenter)
         
     }
+    
     
 }

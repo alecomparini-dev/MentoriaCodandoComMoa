@@ -268,9 +268,9 @@ extension ProfileSummaryViewController: ProfileSummaryPresenterOutput {
         screen.tableViewScroll.get.reloadData()
         print(success ?? "")
         if let userIDAuth = success?.userIDAuth {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 5, execute: {
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 5, execute: {
                 self.profileSummaryPresenter.getProfile(userIDAuth)
-            })
+//            })
             
         }
     }

@@ -10,7 +10,7 @@ import ProfilePresenters
 
 protocol AddressTableViewCellDelegate: AnyObject {
     func confirmationTapped()
-    func searchCEPTapped(_ textField: TextFieldBuilder? ,_ cep: String)
+    func searchCEPTapped(_ textField: UITextField? , _ cep: String)
     func textFieldShouldChangeCharactersIn(_ fieldRequired: AddressTableViewCell.FieldRequired, range: NSRange, string: String)
 }
 
@@ -89,7 +89,7 @@ class AddressTableViewCell: UITableViewCell {
                 build
                     .setTap { [weak self] _, _  in
                         self?.delegate?.searchCEPTapped (
-                            self?.searchCEPTextField,
+                            self?.searchCEPTextField.get,
                             self?.searchCEPTextField.get.text ?? "")
                     }
             }
