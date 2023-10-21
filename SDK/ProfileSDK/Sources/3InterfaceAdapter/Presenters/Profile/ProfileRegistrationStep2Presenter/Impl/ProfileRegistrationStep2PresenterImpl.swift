@@ -19,10 +19,12 @@ public class ProfileRegistrationStep2PresenterImpl: ProfileRegistrationStep2Pres
         case street
     }
     
+    private let createProfile: CreateProfileUseCase
     private let searchCEPUseCase: SearchCEPUseCase
     private let cepMask: Masks
     
-    public init(searchCEPUseCase: SearchCEPUseCase, cepMask: Masks) {
+    public init(createProfile: CreateProfileUseCase, searchCEPUseCase: SearchCEPUseCase, cepMask: Masks) {
+        self.createProfile = createProfile
         self.searchCEPUseCase = searchCEPUseCase
         self.cepMask = cepMask
     }
@@ -65,6 +67,39 @@ public class ProfileRegistrationStep2PresenterImpl: ProfileRegistrationStep2Pres
         if !validations(profilePresenterDTO) {
             return
         }
+        
+        Task {
+            do {
+                let profile = try await createProfile.create(
+                    ProfileUseCaseDTO(
+                        userIDAuth: profilePresenterDTO.userIDAuth,
+                        userID: profilePresenterDTO.userIDProfile,
+                        name: profilePresenterDTO.name,
+                        image: profilePresenterDTO.imageProfile,
+                        cpf: profilePresenterDTO.cpf,
+                        phone: profilePresenterDTO.cellPhoneNumber,
+                        fieldOfWork: profilePresenterDTO.fieldOfWork,
+                        dateOfBirth: profilePresenterDTO.dateOfBirth,
+                        profileAddress: ProfileAddressUseCaseDTO(
+                            cep: profilePresenterDTO.address?.cep,
+                            street: profilePresenterDTO.address?.street,
+                            number: profilePresenterDTO.address?.number,
+                            neighborhood: profilePresenterDTO.address?.neighborhood,
+                            city: profilePresenterDTO.address?.city,
+                            state: profilePresenterDTO.address?.state)
+                    )
+                )
+                
+                print(profile ?? "")
+
+            } catch let error {
+                print(error.localizedDescription)
+            }
+        }
+        
+        
+        
+        
     }
     
     public func setCEPMaskWithRange(_ range: NSRange, _ string: String) -> String? {

@@ -7,22 +7,22 @@ import ProfileUseCases
 
 public struct GetProfileUseCaseDTOToPresenter {
     
-    static func mapper(getProfileUseCase: GetProfileUseCaseDTO.Output?) -> ProfilePresenterDTO {
+    static func mapper(profileUseCaseDTO: ProfileUseCaseDTO?) -> ProfilePresenterDTO {
         return ProfilePresenterDTO(
-            userIDAuth: getProfileUseCase?.userIDAuth,
-            userIDProfile: getProfileUseCase?.userIDProfile,
-            imageProfile: getProfileUseCase?.imageProfile,
-            name: getProfileUseCase?.name,
-            cpf: getProfileUseCase?.cpf,
-            dateOfBirth: getProfileUseCase?.dateOfBirth,
-            cellPhoneNumber: getProfileUseCase?.cellPhoneNumber,
-            fieldOfWork: getProfileUseCase?.fieldOfWork,
+            userIDAuth: profileUseCaseDTO?.userIDAuth,
+            userIDProfile: profileUseCaseDTO?.userID,
+            imageProfile: profileUseCaseDTO?.image,
+            name: profileUseCaseDTO?.name,
+            cpf: profileUseCaseDTO?.cpf,
+            dateOfBirth: profileUseCaseDTO?.dateOfBirth,
+            cellPhoneNumber: profileUseCaseDTO?.cellPhone,
+            fieldOfWork: profileUseCaseDTO?.fieldOfWork,
             address: ProfileAddressPresenterDTO(
-                cep: getProfileUseCase?.cep,
-                street: getProfileUseCase?.street,
-                number: getProfileUseCase?.number,
-                neighborhood: getProfileUseCase?.neighborhood,
-                city: getProfileUseCase?.city,
-                state: getProfileUseCase?.state))
+                cep: profileUseCaseDTO?.profileAddress?.cep,
+                street: profileUseCaseDTO?.profileAddress?.street,
+                number: profileUseCaseDTO?.profileAddress?.number,
+                neighborhood: profileUseCaseDTO?.profileAddress?.neighborhood,
+                city: profileUseCaseDTO?.profileAddress?.city,
+                state: profileUseCaseDTO?.profileAddress?.state))
     }
 }

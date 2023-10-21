@@ -3,7 +3,7 @@
 
 import Foundation
 
-public struct ProfileAddressUseCaseModel {
+public struct ProfileAddressUseCaseDTO {
     public var cep: String?
     public var street: String?
     public var number: String?

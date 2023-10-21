@@ -43,24 +43,24 @@ public class ProfileSummaryPresenterImpl: ProfileSummaryPresenter {
         
         Task {
             do {
-                let getProfileUseCaseDTO: GetProfileUseCaseDTO.Output? = try await getProfileUseCase.getProfile(userIDAuth)
+                let getProfileUseCaseDTO: ProfileUseCaseDTO? = try await getProfileUseCase.getProfile(userIDAuth)
                 
-                var profilePresenterMapper: ProfilePresenterDTO = GetProfileUseCaseDTOToPresenter.mapper(getProfileUseCase: getProfileUseCaseDTO)
+                var profilePresenter: ProfilePresenterDTO = GetProfileUseCaseDTOToPresenter.mapper(profileUseCaseDTO: getProfileUseCaseDTO)
                 
                 let cellPhoneMask = masks[TypeMasks.cellPhoneMask]
-                profilePresenterMapper.cellPhoneNumber = cellPhoneMask?.formatString(profilePresenterMapper.cellPhoneNumber)
+                profilePresenter.cellPhoneNumber = cellPhoneMask?.formatString(profilePresenter.cellPhoneNumber)
                 
                 let CPFMask = masks[TypeMasks.CPFMask]
-                profilePresenterMapper.cpf = CPFMask?.formatString(profilePresenterMapper.cpf)
+                profilePresenter.cpf = CPFMask?.formatString(profilePresenter.cpf)
                 
-                profilePresenterMapper.dateOfBirth = configDateOfBirth(profilePresenterMapper.dateOfBirth)
+                profilePresenter.dateOfBirth = configDateOfBirth(profilePresenter.dateOfBirth)
                 
                 let CEPMask = masks[TypeMasks.CEPMask]
-                let cep = CEPMask?.formatString(profilePresenterMapper.address?.cep)
-                profilePresenterMapper.address?.cep = cep
+                let cep = CEPMask?.formatString(profilePresenter.address?.cep)
+                profilePresenter.address?.cep = cep
                 
                 DispatchQueue.main.sync { [weak self] in
-                    self?.outputDelegate?.getUserProfile(success: profilePresenterMapper, error: nil)
+                    self?.outputDelegate?.getUserProfile(success: profilePresenter, error: nil)
                 }
                 
             } catch let error {

@@ -23,7 +23,7 @@ public class RemoteGetProfileUseCaseGatewayImpl: GetProfileUseCaseGateway {
     }
     
     
-    public func getProfile(_ userIDAuth: String)  async throws -> ProfileUseCaseModel? {
+    public func getProfile(_ userIDAuth: String) async throws -> ProfileUseCaseDTO? {
         var query: [String: String] = self.queryParameters
         
         query.updateValue(userIDAuth, forKey: "uIdFirebase")

@@ -4,5 +4,5 @@
 import Foundation
 
 public protocol GetProfileUseCaseGateway {
-    func getProfile(_ userIDAuth: String) async throws -> ProfileUseCaseModel?
+    func getProfile(_ userIDAuth: String) async throws -> ProfileUseCaseDTO?
 }

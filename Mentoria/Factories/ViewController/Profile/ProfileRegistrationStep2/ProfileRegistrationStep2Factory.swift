@@ -24,7 +24,19 @@ class ProfileRegistrationStep2Factory {
         
         let searchUseCase = SearchCEPUseCaseImpl(searchCEPGateway: searchUseCaseGateway)
         
-        let profileRegistrationStep2Presenter = ProfileRegistrationStep2PresenterImpl(searchCEPUseCase: searchUseCase, cepMask: CEPMask())
+        
+        let httpPost: HTTPPost = Network()
+        let baseURL = URL(string: Environment.variable(Environment.Variables.apiBaseUrl))!
+        
+        let createProfileUseCaseGateway = RemoteCreateProfileUseCaseGatewayImpl(
+            httpPost: httpPost,
+            url: baseURL,
+            headers: [:],
+            queryParameters: [:])
+        
+        let createProfileUseCase = CreateProfileUseCaseImpl(createProfileUseCaseGateway: createProfileUseCaseGateway)
+        
+        let profileRegistrationStep2Presenter = ProfileRegistrationStep2PresenterImpl(createProfile: createProfileUseCase, searchCEPUseCase: searchUseCase, cepMask: CEPMask())
         
         return ProfileRegistrationStep2ViewController(profileStep2Presenter: profileRegistrationStep2Presenter)
         
