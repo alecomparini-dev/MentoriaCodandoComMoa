@@ -19,8 +19,12 @@ class AddressTableViewCell: UITableViewCell {
     weak var delegate: AddressTableViewCellDelegate?
     
     enum FieldRequired {
-        case searchCEP
+        case cep
+        case street
         case number
+        case neighborhood
+        case city
+        case state
     }
 
 //  MARK: - INITIALIZERS
@@ -122,15 +126,24 @@ class AddressTableViewCell: UITableViewCell {
             .setConstraints { build in
                 build
                     .setTop.equalTo(searchCEPTextField.get, .bottom, 24)
-                    .setLeading.setTrailing.equalTo(searchCEPTextField.get)
+                    .setLeading.equalTo(CEPLabelText.get, .leading)
+            }
+        return comp
+    }()
+    
+    lazy var streetFieldRequired: FieldRequiredCustomTextSecondary = {
+        let comp = FieldRequiredCustomTextSecondary()
+            .setConstraints { build in
+                build
+                    .setVerticalAlignmentY.equalTo(streetLabelText.get)
+                    .setLeading.equalTo(streetLabelText.get, .trailing, 4)
             }
         return comp
     }()
     
     lazy var streetTextField: TextFieldBuilder = {
         let comp = TextFieldBuilder()
-            .setReadOnly(true)
-            .setBackgroundColor(hexColor: "#cccccc")
+            .setBackgroundColor(hexColor: "#ffffff")
             .setTextColor(hexColor: "#282a36")
             .setPadding(8)
             .setBorder({ build in
@@ -153,7 +166,7 @@ class AddressTableViewCell: UITableViewCell {
             .setConstraints { build in
                 build
                     .setTop.equalTo(streetTextField.get, .bottom, 24)
-                    .setLeading.equalTo(searchCEPTextField.get, .leading)
+                    .setLeading.equalTo(CEPLabelText.get, .leading)
             }
         return comp
     }()
@@ -197,15 +210,24 @@ class AddressTableViewCell: UITableViewCell {
             .setConstraints { build in
                 build
                     .setTop.equalTo(numberTextField.get, .bottom, 24)
-                    .setLeading.setTrailing.equalTo(searchCEPTextField.get)
+                    .setLeading.equalTo(CEPLabelText.get, .leading)
+            }
+        return comp
+    }()
+    
+    lazy var neighborhoodFieldRequired: FieldRequiredCustomTextSecondary = {
+        let comp = FieldRequiredCustomTextSecondary()
+            .setConstraints { build in
+                build
+                    .setVerticalAlignmentY.equalTo(neighborhoodLabelText.get)
+                    .setLeading.equalTo(neighborhoodLabelText.get, .trailing, 4)
             }
         return comp
     }()
     
     lazy var neighborhoodTextField: TextFieldBuilder = {
         let comp = TextFieldBuilder()
-            .setReadOnly(true)
-            .setBackgroundColor(hexColor: "#cccccc")
+            .setBackgroundColor(hexColor: "#ffffff")
             .setTextColor(hexColor: "#282a36")
             .setPadding(8)
             .setBorder({ build in
@@ -228,7 +250,17 @@ class AddressTableViewCell: UITableViewCell {
             .setConstraints { build in
                 build
                     .setTop.equalTo(neighborhoodTextField.get, .bottom, 24)
-                    .setLeading.setTrailing.equalTo(searchCEPTextField.get)
+                    .setLeading.equalTo(CEPLabelText.get, .leading)
+            }
+        return comp
+    }()
+    
+    lazy var cityFieldRequired: FieldRequiredCustomTextSecondary = {
+        let comp = FieldRequiredCustomTextSecondary()
+            .setConstraints { build in
+                build
+                    .setVerticalAlignmentY.equalTo(cityLabelText.get)
+                    .setLeading.equalTo(cityLabelText.get, .trailing, 4)
             }
         return comp
     }()
@@ -259,7 +291,17 @@ class AddressTableViewCell: UITableViewCell {
             .setConstraints { build in
                 build
                     .setTop.equalTo(cityTextField.get, .bottom, 24)
-                    .setLeading.setTrailing.equalTo(searchCEPTextField.get)
+                    .setLeading.equalTo(CEPLabelText.get, .leading)
+            }
+        return comp
+    }()
+
+    lazy var stateFieldRequired: FieldRequiredCustomTextSecondary = {
+        let comp = FieldRequiredCustomTextSecondary()
+            .setConstraints { build in
+                build
+                    .setVerticalAlignmentY.equalTo(stateLabelText.get)
+                    .setLeading.equalTo(stateLabelText.get, .trailing, 4)
             }
         return comp
     }()
@@ -327,12 +369,10 @@ class AddressTableViewCell: UITableViewCell {
     
     private func addElements() {
         CEPLabelText.add(insideTo: self.contentView)
-        CEPFieldRequired.add(insideTo: self.contentView)
         searchCEPTextField.add(insideTo: self.contentView)
         streetLabelText.add(insideTo: self.contentView)
         streetTextField.add(insideTo: self.contentView)
         numberLabelText.add(insideTo: self.contentView)
-        numberFieldRequired.add(insideTo: self.contentView)
         numberTextField.add(insideTo: self.contentView)
         neighborhoodLabelText.add(insideTo: self.contentView)
         neighborhoodTextField.add(insideTo: self.contentView)
@@ -342,16 +382,15 @@ class AddressTableViewCell: UITableViewCell {
         stateTextField.add(insideTo: self.contentView)
         confirmationButtom.add(insideTo: self.contentView)
         loading.add(insideTo: self.contentView)
+        addFieldsRequired()
     }
     
     private func configConstraints() {
         CEPLabelText.applyConstraint()
-        CEPFieldRequired.applyConstraint()
         searchCEPTextField.applyConstraint()
         streetLabelText.applyConstraint()
         streetTextField.applyConstraint()
         numberLabelText.applyConstraint()
-        numberFieldRequired.applyConstraint()
         numberTextField.applyConstraint()
         neighborhoodLabelText.applyConstraint()
         neighborhoodTextField.applyConstraint()
@@ -361,11 +400,34 @@ class AddressTableViewCell: UITableViewCell {
         stateTextField.applyConstraint()
         confirmationButtom.applyConstraint()
         loading.applyConstraint()
+        configConstraintsFieldsRequired()
     }
     
     private func configDelegate() {
         searchCEPTextField.setDelegate(self)
+        streetTextField.setDelegate(self)
         numberTextField.setDelegate(self)
+        neighborhoodTextField.setDelegate(self)
+        cityTextField.setDelegate(self)
+        stateTextField.setDelegate(self)
+    }
+    
+    private func addFieldsRequired() {
+        CEPFieldRequired.add(insideTo: self.contentView)
+        streetFieldRequired.add(insideTo: self.contentView)
+        numberFieldRequired.add(insideTo: self.contentView)
+        neighborhoodFieldRequired.add(insideTo: self.contentView)
+        cityFieldRequired.add(insideTo: self.contentView)
+        stateFieldRequired.add(insideTo: self.contentView)
+    }
+
+    private func configConstraintsFieldsRequired() {
+        CEPFieldRequired.applyConstraint()
+        numberFieldRequired.applyConstraint()
+        streetFieldRequired.applyConstraint()
+        neighborhoodFieldRequired.applyConstraint()
+        cityFieldRequired.applyConstraint()
+        stateFieldRequired.applyConstraint()
     }
 
     
@@ -385,12 +447,28 @@ extension AddressTableViewCell: UITextFieldDelegate {
     
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if searchCEPTextField.get.isFirstResponder {
-            delegate?.textFieldShouldChangeCharactersIn(FieldRequired.searchCEP, range: range, string: string)
+            delegate?.textFieldShouldChangeCharactersIn(FieldRequired.cep, range: range, string: string)
             return false
         }
         
         if numberTextField.get.isFirstResponder {
             delegate?.textFieldShouldChangeCharactersIn(FieldRequired.number, range: range, string: string)
+        }
+        
+        if streetTextField.get.isFirstResponder {
+            delegate?.textFieldShouldChangeCharactersIn(FieldRequired.street, range: range, string: string)
+        }
+        
+        if neighborhoodTextField.get.isFirstResponder {
+            delegate?.textFieldShouldChangeCharactersIn(FieldRequired.neighborhood, range: range, string: string)
+        }
+        
+        if cityTextField.get.isFirstResponder {
+            delegate?.textFieldShouldChangeCharactersIn(FieldRequired.city, range: range, string: string)
+        }
+        
+        if stateTextField.get.isFirstResponder {
+            delegate?.textFieldShouldChangeCharactersIn(FieldRequired.state, range: range, string: string)
         }
         
         return true

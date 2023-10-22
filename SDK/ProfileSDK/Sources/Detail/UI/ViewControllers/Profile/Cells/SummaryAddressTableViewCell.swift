@@ -59,13 +59,50 @@ class SummaryAddressTableViewCell: UITableViewCell {
     public func setupCell(_ profilePresenterDTO: ProfilePresenterDTO?) {
         guard let profilePresenterDTO else {return}
         resetSkeleton()
+        makeAddress(profilePresenterDTO)
+    }
+    
+    
+    private func makeAddress(_ profilePresenterDTO: ProfilePresenterDTO?) {
         summaryAddressTextView.setClearText()
-        summaryAddressTextView.setInsertText((profilePresenterDTO.address?.street ?? "") + "\n")
-        summaryAddressTextView.setInsertText((profilePresenterDTO.address?.cep ?? "") + "\n")
+        makeStreet(profilePresenterDTO)
+        makeCEP(profilePresenterDTO)
+        makeCity(profilePresenterDTO)
+    }
+    
+    private func makeStreet(_ profilePresenterDTO: ProfilePresenterDTO?) {
+        guard let address = profilePresenterDTO?.address else {return}
+        if let street =  address.street {
+            summaryAddressTextView.setInsertText(street)
+            summaryAddressTextView.setInsertText(", ")
+        }
+        if let number = address.number {
+            summaryAddressTextView.setInsertText(number)
+            summaryAddressTextView.setInsertText(" - ")
+        }
+        if let neighborhood = address.neighborhood {
+            summaryAddressTextView.setInsertText(neighborhood)
+        }
+        insertBreakLine()
+    }
+    
+    private func makeCEP(_ profilePresenterDTO: ProfilePresenterDTO?) {
+        guard let profilePresenterDTO else {return}
+        if let cep = profilePresenterDTO.address?.cep {
+            summaryAddressTextView.setInsertText(cep)
+            insertBreakLine()
+        }
+    }
+    
+    private func makeCity(_ profilePresenterDTO: ProfilePresenterDTO?) {
+        guard let profilePresenterDTO else {return}
         if let city = profilePresenterDTO.address?.city, let state = profilePresenterDTO.address?.state {
             summaryAddressTextView.setInsertText( city + "-" + state)
         }
-        
+    }
+    
+    private func insertBreakLine() {
+        summaryAddressTextView.setInsertText("\n")
     }
     
     

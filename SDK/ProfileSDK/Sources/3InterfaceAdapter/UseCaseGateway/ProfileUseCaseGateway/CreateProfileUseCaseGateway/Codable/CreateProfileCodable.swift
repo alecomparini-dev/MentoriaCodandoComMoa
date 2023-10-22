@@ -3,12 +3,7 @@
 
 import Foundation
 
-// This file was generated from JSON Schema using quicktype, do not modify it directly.
-// To parse the JSON, add this file to your project and do:
-//
-//   let createProfile = try? JSONDecoder().decode(CreateProfile.self, from: jsonData)
-
-import Foundation
+import ProfileUseCases
 
 // MARK: - CreateProfile
 public struct CreateProfileCodable: Codable {
@@ -27,6 +22,7 @@ public struct CreateProfileCodable: Codable {
         case exception = "Exception"
         case stackTrace = "StackTrace"
     }
+    
     public init(result: ResultCodable? = nil,
                 resultJSON: String? = nil,
                 isSucess: Bool? = nil,
@@ -42,3 +38,29 @@ public struct CreateProfileCodable: Codable {
     }
 }
 
+
+//  MARK: - EXTENSION - CreateProfileCodable
+
+extension CreateProfileCodable {
+    func mapperToProfileUseCaseDTO() -> ProfileUseCaseDTO {
+        return ProfileUseCaseDTO(
+            userIDAuth: self.result?.uidFirebase,
+            userID: self.result?.id,
+            name: self.result?.name,
+            image: self.result?.image,
+            cpf: self.result?.cpf,
+            phone: self.result?.phone,
+            fieldOfWork: self.result?.typeOfActivity,
+            dateOfBirth: self.result?.birthdate,
+            profileAddress: ProfileAddressUseCaseDTO(
+                cep: self.result?.cep,
+                street: self.result?.street,
+                number: self.result?.number,
+                neighborhood: self.result?.district,
+                city: self.result?.city,
+                state: self.result?.state
+            )
+        )
+    }
+    
+}

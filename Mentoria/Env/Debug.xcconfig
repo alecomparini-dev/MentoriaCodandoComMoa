@@ -7,8 +7,8 @@
 
 
 //MY ENVIRONMENT VARIABLES
-API_BASE_URL = http:/$()/mentoria.codandocommoa.com.br
-//API_BASE_CEP = https:/$()/brasilaberto.com/api/v1/zipcode
+API_BASE_URL = http:/$()/mentoria.codandocommoa.com.br/Api
 API_BASE_CEP = https:/$()/viacep.com.br/ws/id_cep/json
 UID_FIREBASE = MentoriaAlessandro
 DEFAULT_THEME = 3
+//API_BASE_CEP = https:/$()/brasilaberto.com/api/v1/zipcode

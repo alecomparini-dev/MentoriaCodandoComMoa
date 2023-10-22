@@ -7,7 +7,7 @@ import CustomComponentsSDK
 import ProfilePresenters
 
 public class CEPMask: Masks {
-    
+
     private let mask: MaskBuilder
     
     public init() {
@@ -23,6 +23,10 @@ public class CEPMask: Masks {
     public func formatStringWithRange(range: NSRange, string: String?) -> String {
         guard let string else {return ""}
         return mask.formatStringWithRange(range: range, string: string)
+    }
+    
+    public func cleanText(_ text: String) -> String {
+        return mask.cleanText(text)
     }
     
 }

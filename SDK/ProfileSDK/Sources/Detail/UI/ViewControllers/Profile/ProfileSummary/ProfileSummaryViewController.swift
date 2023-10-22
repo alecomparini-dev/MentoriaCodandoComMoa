@@ -107,7 +107,7 @@ public final class ProfileSummaryViewController: UIViewController {
                 return 220
                 
             case .summaryAddress:
-                return 180
+                return 190
                 
             case .editProfileButton:
                 return 260
@@ -270,7 +270,6 @@ extension ProfileSummaryViewController: ProfileSummaryPresenterOutput {
     }
     
     public func getUserProfile(success: ProfilePresenterDTO?, error: String?) {
-        print(success ?? "")
         profilePresenterDTO = success
         screen.tableViewScroll.get.reloadData()
     }

@@ -25,4 +25,8 @@ public final class CellPhoneMask: Masks {
         return mask.formatStringWithRange(range: range, string: string)
     }
     
+    public func cleanText(_ text: String) -> String {
+        return mask.cleanText(text)
+    }
+    
 }

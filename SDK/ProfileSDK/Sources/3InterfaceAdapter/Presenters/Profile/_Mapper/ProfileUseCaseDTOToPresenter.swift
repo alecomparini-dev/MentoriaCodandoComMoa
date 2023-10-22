@@ -5,7 +5,7 @@ import Foundation
 
 import ProfileUseCases
 
-public struct GetProfileUseCaseDTOToPresenter {
+public struct ProfileUseCaseDTOToPresenter {
     
     static func mapper(profileUseCaseDTO: ProfileUseCaseDTO?) -> ProfilePresenterDTO {
         return ProfilePresenterDTO(

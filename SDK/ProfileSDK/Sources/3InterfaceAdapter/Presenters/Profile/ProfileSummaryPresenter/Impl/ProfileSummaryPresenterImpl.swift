@@ -45,7 +45,7 @@ public class ProfileSummaryPresenterImpl: ProfileSummaryPresenter {
             do {
                 let getProfileUseCaseDTO: ProfileUseCaseDTO? = try await getProfileUseCase.getProfile(userIDAuth)
                 
-                var profilePresenter: ProfilePresenterDTO = GetProfileUseCaseDTOToPresenter.mapper(profileUseCaseDTO: getProfileUseCaseDTO)
+                var profilePresenter: ProfilePresenterDTO = ProfileUseCaseDTOToPresenter.mapper(profileUseCaseDTO: getProfileUseCaseDTO)
                 
                 let cellPhoneMask = masks[TypeMasks.cellPhoneMask]
                 profilePresenter.cellPhoneNumber = cellPhoneMask?.formatString(profilePresenter.cellPhoneNumber)

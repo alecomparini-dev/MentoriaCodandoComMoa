@@ -28,7 +28,7 @@ public class RemoteCreateProfileUseCaseGatewayImpl: CreateProfileUseCaseGateway 
         
         let createProfileData = try JSONEncoder().encode(createProfileCodable)
         
-        let bodyJson = try JSONSerialization.jsonObject(with: createProfileData, options: .fragmentsAllowed) as? [String: Any]
+        let bodyJson = try JSONSerialization.jsonObject(with: createProfileData, options: []) as? [String: Any]
         
         let data = try await httpPost.post(
             url: url,
@@ -39,11 +39,11 @@ public class RemoteCreateProfileUseCaseGatewayImpl: CreateProfileUseCaseGateway 
         
         guard let data else {return nil}
         
-        let profile: CreateProfileCodable = try JSONDecoder().decode(CreateProfileCodable.self, from: data)
+        let profileCodable: CreateProfileCodable = try JSONDecoder().decode(CreateProfileCodable.self, from: data)
         
-//        var profileMapper = createProfileCodable.mapperToProfileUseCaseModel()
+        let profileUseCaseDTO: ProfileUseCaseDTO = profileCodable.mapperToProfileUseCaseDTO()
                 
-        return nil
+        return profileUseCaseDTO
     }
     
     

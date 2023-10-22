@@ -13,4 +13,5 @@ public enum TypeMasks {
 public protocol Masks {
     func formatString(_ string: String?) -> String
     func formatStringWithRange(range: NSRange, string: String?) -> String
+    func cleanText(_ text: String) -> String
 }
