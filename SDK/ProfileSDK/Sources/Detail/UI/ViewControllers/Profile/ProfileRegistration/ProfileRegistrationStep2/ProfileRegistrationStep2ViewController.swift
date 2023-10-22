@@ -16,7 +16,7 @@ public final class ProfileRegistrationStep2ViewController: UIViewController {
     public weak var coordinator: ProfileRegistrationStep2ViewControllerCoordinator?
     private weak var addressCell: AddressTableViewCell?
     
-    private var profilePresenterDTO: ProfilePresenterDTO = ProfilePresenterDTO()
+    private var profilePresenterDTO: ProfilePresenterDTO?
     private var profileStep2Presenter: ProfileRegistrationStep2Presenter
     private var constantBottom: CGFloat?
     
@@ -112,6 +112,11 @@ public final class ProfileRegistrationStep2ViewController: UIViewController {
         addressCell?.neighborhoodTextField.setText("")
         addressCell?.cityTextField.setText("")
         addressCell?.stateTextField.setText("")
+        setHiddenFieldRequired(addressCell?.streetFieldRequired, true)
+        setHiddenFieldRequired(addressCell?.numberFieldRequired, true)
+        setHiddenFieldRequired(addressCell?.neighborhoodFieldRequired, true)
+        setHiddenFieldRequired(addressCell?.cityFieldRequired, true)
+        setHiddenFieldRequired(addressCell?.stateFieldRequired, true)
     }
     
     private func setHiddenFieldRequired(_ requiredLabel: FieldRequiredCustomTextSecondary?, _ flag: Bool) {
@@ -123,23 +128,38 @@ public final class ProfileRegistrationStep2ViewController: UIViewController {
     private func setFieldsRequired(fields: [ProfileRegistrationStep2PresenterImpl.FieldsRequired]) {
         fields.forEach { field in
             switch field {
-            case .cep:
-                setHiddenFieldRequired(addressCell?.CEPFieldRequired, false)
-            case .number:
-                setHiddenFieldRequired(addressCell?.numberFieldRequired, false)
-            case .street:
-                break
+                case .cep:
+                    setHiddenFieldRequired(addressCell?.CEPFieldRequired, false)
+                    screen.tableViewAddress.get.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+                    
+                case .street:
+                    setHiddenFieldRequired(addressCell?.streetFieldRequired, false)
+                    screen.tableViewAddress.get.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+                    
+                case .number:
+                    setHiddenFieldRequired(addressCell?.numberFieldRequired, false)
+                    screen.tableViewAddress.get.scrollToRow(at: IndexPath(row: 0, section: 0), at: .middle, animated: true)
+                
+                case .neighborhood:
+                    setHiddenFieldRequired(addressCell?.neighborhoodFieldRequired, false)
+                    
+                case .city:
+                    setHiddenFieldRequired(addressCell?.cityFieldRequired, false)
+                
+                case .state:
+                    setHiddenFieldRequired(addressCell?.stateFieldRequired, false)
+                    
             }
         }
     }
     
     private func updateProfilePresenterDTO() {
-        profilePresenterDTO.address?.cep = addressCell?.searchCEPTextField.get.text
-        profilePresenterDTO.address?.street = addressCell?.streetTextField.get.text
-        profilePresenterDTO.address?.number = addressCell?.numberTextField.get.text
-        profilePresenterDTO.address?.neighborhood = addressCell?.neighborhoodTextField.get.text
-        profilePresenterDTO.address?.city = addressCell?.cityTextField.get.text
-        profilePresenterDTO.address?.state = addressCell?.stateTextField.get.text
+        profilePresenterDTO?.address?.cep = addressCell?.searchCEPTextField.get.text
+        profilePresenterDTO?.address?.street = addressCell?.streetTextField.get.text
+        profilePresenterDTO?.address?.number = addressCell?.numberTextField.get.text
+        profilePresenterDTO?.address?.neighborhood = addressCell?.neighborhoodTextField.get.text
+        profilePresenterDTO?.address?.city = addressCell?.cityTextField.get.text
+        profilePresenterDTO?.address?.state = addressCell?.stateTextField.get.text
     }
     
 }
@@ -161,10 +181,26 @@ extension ProfileRegistrationStep2ViewController: ProfileRegistrationStep2Presen
     
     public func searchCEP(success: CEPDTO?, error: String?) {
         if let cepDTO = success {
-            addressCell?.streetTextField.get.text = cepDTO.street
-            addressCell?.neighborhoodTextField.get.text = cepDTO.neighborhood
-            addressCell?.cityTextField.get.text = cepDTO.city
-            addressCell?.stateTextField.get.text = cepDTO.stateShortname
+            if let street = cepDTO.street {
+                addressCell?.streetTextField.get.text = street
+                setHiddenFieldRequired(addressCell?.streetFieldRequired, true)
+            }
+            
+            if let neighborhood = cepDTO.neighborhood {
+                addressCell?.neighborhoodTextField.get.text = neighborhood
+                setHiddenFieldRequired(addressCell?.neighborhoodFieldRequired, true)
+            }
+            
+            if let city = cepDTO.city {
+                addressCell?.cityTextField.get.text = city
+                setHiddenFieldRequired(addressCell?.cityFieldRequired, true)
+            }
+            
+            if let stateShortname = cepDTO.stateShortname {
+                addressCell?.stateTextField.get.text = stateShortname
+                setHiddenFieldRequired(addressCell?.stateFieldRequired, true)
+            }
+            
         }
         
         if let error {
@@ -188,11 +224,20 @@ extension ProfileRegistrationStep2ViewController: ProfileRegistrationStep2Presen
         
         if !fieldsRequired.isEmpty {
             setFieldsRequired(fields: fieldsRequired)
-            if fieldsRequired.contains(where: { $0 == .cep}) {
-                screen.tableViewAddress.get.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
-            }
+            
         }
     }
+    
+    public func createProfile(success: ProfilePresenters.ProfilePresenterDTO?, error: String?) {
+        profilePresenterDTO = success
+        let alert = UIAlertController(title: "Sucesso", message: "Cadastro realizado com Sucesso!" , preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
+            self?.coordinator?.gotoProfileHomeTabBar()
+        }
+        alert.addAction(action)
+        present(alert, animated: true)
+    }
+
 
     
 }
@@ -238,7 +283,9 @@ extension ProfileRegistrationStep2ViewController: AddressTableViewCellDelegate {
 
     func confirmationTapped() {
         updateProfilePresenterDTO()
-        profileStep2Presenter.createProfile(profilePresenterDTO)
+        if let profilePresenterDTO {
+            profileStep2Presenter.createProfile(profilePresenterDTO)
+        }
     }
     
     func searchCEPTapped(_ textField: UITextField?, _ cep: String) {
@@ -249,13 +296,25 @@ extension ProfileRegistrationStep2ViewController: AddressTableViewCellDelegate {
 
     func textFieldShouldChangeCharactersIn(_ fieldRequired: AddressTableViewCell.FieldRequired, range: NSRange, string: String) {
         switch fieldRequired {
-            case .searchCEP:
+            case .cep:
                 setHiddenFieldRequired(addressCell?.CEPFieldRequired, true)
                 addressCell?.searchCEPTextField.get.text = profileStep2Presenter.setCEPMaskWithRange(range, string)
                 resetFields()
             
             case .number:
                 setHiddenFieldRequired(addressCell?.numberFieldRequired, true)
+            
+            case .street:
+                setHiddenFieldRequired(addressCell?.streetFieldRequired, true)
+            
+            case .neighborhood:
+                setHiddenFieldRequired(addressCell?.neighborhoodFieldRequired, true)
+            
+            case .city:
+                setHiddenFieldRequired(addressCell?.cityFieldRequired, true)
+            
+            case .state:
+                setHiddenFieldRequired(addressCell?.stateFieldRequired, true)
         }
         
     }

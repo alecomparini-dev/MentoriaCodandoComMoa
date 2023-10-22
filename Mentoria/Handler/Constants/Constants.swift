@@ -5,8 +5,9 @@ import Foundation
 
 
 struct K {
-    static let pathGetListComponent = "/Api/ThemeComponent/GetListaThemeComponent"
-    static let pathGetListProfile = "/Api/Profile/GetListaProfile"
+    static let pathGetListComponent = "/ThemeComponent/GetListaThemeComponent"
+    static let pathGetListProfile = "/Profile/GetListaProfile"
+    static let pathCreateProfile = "/Profile/PostProfile"
     
     struct Strings {
         static let themeId = "themeId"

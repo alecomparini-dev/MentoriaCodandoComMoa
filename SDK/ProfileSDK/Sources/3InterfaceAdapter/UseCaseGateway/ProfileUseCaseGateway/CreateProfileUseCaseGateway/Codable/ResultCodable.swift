@@ -1,13 +1,10 @@
-//  Created by Alessandro Comparini on 18/10/23.
+//  Created by Alessandro Comparini on 20/10/23.
 //
 
 import Foundation
 
-import ProfileUseCases
-
-public typealias ProfileCodable = [ProfileCodableElement]
-
-public struct ProfileCodableElement: Codable {
+// MARK: - Result
+public struct ResultCodable: Codable {
     public var name: String?
     public var image: String?
     public var phone: String?
@@ -50,7 +47,25 @@ public struct ProfileCodableElement: Codable {
         case isChanged = "IsChanged"
     }
 
-    public init(name: String? = nil, image: String? = nil, phone: String? = nil, cpf: String? = nil, typeOfActivity: String? = nil, birthdate: String? = nil, cep: String? = nil, street: String? = nil, number: String? = nil, district: String? = nil, city: String? = nil, state: String? = nil, id: Int? = nil, isInativo: Bool? = nil, creationDate: String? = nil, changeDate: String? = nil, uid: String? = nil, uidFirebase: String? = nil, isChanged: Bool? = nil) {
+    public init(name: String? = nil,
+                image: String? = nil,
+                phone: String? = nil,
+                cpf: String? = nil,
+                typeOfActivity: String? = nil,
+                birthdate: String? = nil,
+                cep: String? = nil,
+                street: String? = nil,
+                number: String? = nil,
+                district: String? = nil,
+                city: String? = nil,
+                state: String? = nil,
+                id: Int? = nil,
+                isInativo: Bool? = nil,
+                creationDate: String? = nil,
+                changeDate: String? = nil,
+                uid: String? = nil,
+                uidFirebase: String? = nil,
+                isChanged: Bool? = nil) {
         self.name = name
         self.image = image
         self.phone = phone
@@ -72,30 +87,3 @@ public struct ProfileCodableElement: Codable {
         self.isChanged = isChanged
     }
 }
-
-
-//  MARK: - EXTENSION
-extension ProfileCodable {
-    func mapperToProfileUseCaseModel() -> ProfileUseCaseDTO {
-        return ProfileUseCaseDTO(
-            userIDAuth: self.first?.uidFirebase ,
-            userID: self.first?.id,
-            name: self.first?.name,
-            image: self.first?.image,
-            cpf: self.first?.cpf,
-            phone: self.first?.phone,
-            fieldOfWork: self.first?.typeOfActivity,
-            dateOfBirth: self.first?.birthdate,
-            profileAddress: ProfileAddressUseCaseDTO(
-                cep: self.first?.cep,
-                street: self.first?.street,
-                number: self.first?.number,
-                neighborhood: self.first?.district,
-                city: self.first?.city,
-                state: self.first?.state))
-    }
-    
-    
-}
-
-

@@ -154,9 +154,9 @@
 		024BC97B2ADAEB0900E9EEDC /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				027239602AE04368009BA9A1 /* ProfileSummary */,
 				0239C4BB2ADDF10E0016C0E4 /* ProfileRegistrationStep1 */,
 				024BC97C2ADAEB1100E9EEDC /* ProfileRegistrationStep2 */,
+				027239602AE04368009BA9A1 /* ProfileSummary */,
 			);
 			path = Profile;
 			sourceTree = "<group>";

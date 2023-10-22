@@ -11,11 +11,8 @@ public class GetProfileUseCaseImpl: GetProfileUseCase {
         self.getProfileUseCaseGateway = getProfileUseCaseGateway
     }
     
-    public func getProfile(_ userIDAuth: String) async throws -> GetProfileUseCaseDTO.Output? {
-        
-        let profileUseCaseModel = try await getProfileUseCaseGateway.getProfile(userIDAuth)
-        
-        return ProfileUseCaseModelToOutputDTO.mapper(profileModel: profileUseCaseModel)
+    public func getProfile(_ userIDAuth: String) async throws -> ProfileUseCaseDTO? {
+        return try await getProfileUseCaseGateway.getProfile(userIDAuth)
     }
  
 }
