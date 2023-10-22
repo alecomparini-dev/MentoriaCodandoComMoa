@@ -209,6 +209,8 @@ public final class ProfileSummaryViewController: UIViewController {
     private func getEditProfileButtonTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: EditProfileButtonTableViewCell.identifier, for: indexPath) as? EditProfileButtonTableViewCell
         cell?.delegate = self
+        cell?.setupCell(profilePresenterDTO)
+        setCell(cell, key: TypeCells.editProfileButton)
         return cell ?? UITableViewCell()
     }
     
@@ -218,6 +220,12 @@ public final class ProfileSummaryViewController: UIViewController {
         }
     }
 
+    private func configScreenToNewProfile() {
+        screen.tableViewScroll.get.reloadData()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+            self.screen.tableViewScroll.get.selectRow(at: IndexPath(row: 6, section: 0), animated: true, scrollPosition: .top)
+        })
+    }
 }
 
 
@@ -267,11 +275,16 @@ extension ProfileSummaryViewController: ProfileSummaryPresenterOutput {
         if let userIDAuth = success?.userIDAuth {
             self.profileSummaryPresenter.getProfile(userIDAuth)
         }
+        
     }
     
     public func getUserProfile(success: ProfilePresenterDTO?, error: String?) {
         profilePresenterDTO = success
-        screen.tableViewScroll.get.reloadData()
+        if success?.userIDProfile != nil {
+            screen.tableViewScroll.get.reloadData()
+            return
+        }
+        configScreenToNewProfile()
     }
     
 }
