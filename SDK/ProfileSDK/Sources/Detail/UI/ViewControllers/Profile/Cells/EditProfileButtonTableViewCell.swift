@@ -5,6 +5,7 @@ import UIKit
 
 import CustomComponentsSDK
 import DesignerSystemSDKComponent
+import ProfilePresenters
 
 public protocol EditProfileButtonTableViewCellDelegate: AnyObject {
     func editProfileTapped()
@@ -43,6 +44,10 @@ class EditProfileButtonTableViewCell: UITableViewCell {
     }
     
     
+//  MARK: - SETUP CELL
+    public func setupCell(_ profilePresenterDTO: ProfilePresenterDTO?) {
+        configEditButton(profilePresenterDTO)
+    }
         
 //  MARK: - PRIVATE AREA
     
@@ -57,6 +62,11 @@ class EditProfileButtonTableViewCell: UITableViewCell {
     
     private func configConstraints() {
         updateProfileButtom.applyConstraint()
+    }
+    
+    private func configEditButton(_ profilePresenterDTO: ProfilePresenterDTO?) {
+        if profilePresenterDTO?.userIDProfile != nil { return }
+        updateProfileButtom.setTitle("Criar Perfil")
     }
     
 }

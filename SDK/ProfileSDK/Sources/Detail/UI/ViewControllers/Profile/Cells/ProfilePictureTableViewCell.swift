@@ -29,12 +29,26 @@ class ProfilePictureTableViewCell: UITableViewCell {
     public func setupCell(_ viewController: UIViewController, profilePresenterDTO: ProfilePresenterDTO?, profileImage: Data?) {
         guard let profilePresenterDTO else {return}
         configProfilePicture(viewController)
-        resetSkeleton()
-        userNameText.setText(profilePresenterDTO.name)
+        resetSkeleton(profilePresenterDTO)
+        configUserName(profilePresenterDTO.name)
         professionText.setText(profilePresenterDTO.fieldOfWork)
         if let profileImage {
             profilePictureView.setImagePicture(profileImage)
         }
+    }
+    
+    private func configUserName(_ userName: String?) {
+        guard let userName else {return}
+        let wordsName = userName.split(separator: " ")
+        var name = ""
+        if wordsName.count == 1 {
+            name = String(wordsName[0])
+        } else {
+            name = String(wordsName[0] + " " + (wordsName.last ?? ""))
+        }
+        
+        userNameText.setText(name)
+        
     }
     
     
@@ -128,8 +142,9 @@ class ProfilePictureTableViewCell: UITableViewCell {
             })
     }
     
-    private func resetSkeleton() {
+    private func resetSkeleton(_ profilePresenterDTO: ProfilePresenterDTO) {
         profilePictureView.profileImage.get.hideSkeleton()
+        if profilePresenterDTO.name == nil || profilePresenterDTO.name!.isEmpty {return}
         userNameText.get.hideSkeleton()
         professionText.get.hideSkeleton()
     }

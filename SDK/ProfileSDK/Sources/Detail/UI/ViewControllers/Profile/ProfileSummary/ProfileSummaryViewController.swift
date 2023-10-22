@@ -209,6 +209,8 @@ public final class ProfileSummaryViewController: UIViewController {
     private func getEditProfileButtonTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: EditProfileButtonTableViewCell.identifier, for: indexPath) as? EditProfileButtonTableViewCell
         cell?.delegate = self
+        cell?.setupCell(profilePresenterDTO)
+        setCell(cell, key: TypeCells.editProfileButton)
         return cell ?? UITableViewCell()
     }
     
@@ -218,6 +220,37 @@ public final class ProfileSummaryViewController: UIViewController {
         }
     }
 
+    private func configScreenToNewProfile() {
+        screen.tableViewScroll.get.reloadData()
+            
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+            self.screen.tableViewScroll.get.selectRow(at: IndexPath(row: 6, section: 0), animated: true, scrollPosition: .top)
+        })
+        
+        
+        
+//        UIView.animate(withDuration: 2) {
+////            self.screen.tableViewScroll.get.scrollToRow(at: IndexPath(row: 1, section: 0), at: .top, animated: true)
+//        }
+//        
+//        
+//        UIView.animate(withDuration: 2) {
+//            
+////            self.screen.tableViewScroll.get.scrollToNearestSelectedRow(at: .bottom, animated: true)
+////            self.screen.tableViewScroll.get.scrollToRow(at: indexPath, at: .top, animated: false)
+////            self.screen.tableViewScroll.get.scrollToRow(at: indexPath, at: .middle, animated: false)
+////            self.screen.tableViewScroll.get.scrollToRow(at: indexPath, at: .bottom, animated: false)
+//        }
+
+        
+//        UIView.animate(withDuration: 10, animations: { [weak self] in
+//            print("começou 3 segundos")
+////            self?.screen.tableViewScroll.get.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
+//        }, completion: { [weak self] _ in
+//            print("dps de 10s")
+//        })
+        
+    }
 }
 
 
@@ -267,11 +300,16 @@ extension ProfileSummaryViewController: ProfileSummaryPresenterOutput {
         if let userIDAuth = success?.userIDAuth {
             self.profileSummaryPresenter.getProfile(userIDAuth)
         }
+        
     }
     
     public func getUserProfile(success: ProfilePresenterDTO?, error: String?) {
         profilePresenterDTO = success
-        screen.tableViewScroll.get.reloadData()
+        if success?.userIDProfile != nil {
+            screen.tableViewScroll.get.reloadData()
+            return
+        }
+        configScreenToNewProfile()
     }
     
 }
