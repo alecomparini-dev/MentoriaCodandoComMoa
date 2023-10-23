@@ -7,15 +7,13 @@
 
 import Foundation
 
-import LocalStorageDetails
-import LocalStorageSDKMain
 import ProfileAuthentication
-import ProfileLocalStorage
 import ProfilePresenters
 import ProfileUI
 import ProfileUseCases
 import ProfileUseCaseGateway
 import ProfileValidations
+import LocalStorageDetails
 
 
 class SignUpViewControllerFactory {

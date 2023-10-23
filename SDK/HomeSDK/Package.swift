@@ -11,7 +11,7 @@ let package = Package(
     ],
     
     products: [
-        .library(name: "HomeSDK", targets: ["HomePresenters", "HomeUseCaseGateway", "HomeUI"]),
+        .library(name: "HomeSDK", targets: [ "HomeUseCaseGateway", "HomeUI"]),
     ],
     
     dependencies: [
@@ -21,17 +21,35 @@ let package = Package(
 
     targets: [
 
-        //MARK: - INTERFACE ADAPTER LAYER
-                
+//MARK: - DOMAIN
+//        .target(
+//            name: "HomeDomain",
+//            dependencies: [],
+//            path: "Sources/1Domain/Domain"
+//        ),
+        
+
+//MARK: - APPLICATION BUSINESS RULES
         .target(
-            name: "HomePresenters",
-            dependencies: [],
-            path: "Sources/3InterfaceAdapter/Presenters"
+            name: "HomeUseCases",
+            dependencies: [  ],
+            path: "Sources/2Application/UseCases"
         ),
+
+        
+        
+//MARK: - INTERFACE ADAPTER LAYER
+                
+//        .target(
+//            name: "HomePresenters",
+//            dependencies: [],
+//            path: "Sources/3InterfaceAdapter/Presenters"
+//        ),
         
         .target(
             name: "HomeUseCaseGateway",
             dependencies: [
+                "HomeUseCases"
             ],
             path: "Sources/3InterfaceAdapter/UseCaseGateway"
         ),
@@ -42,7 +60,7 @@ let package = Package(
         .target(
             name: "HomeUI",
             dependencies: [
-                "HomePresenters",
+//                "HomePresenters",
                 .product(name: "DesignerSystemSDKComponent" , package: "DesignerSystemSDK"),
                 .product(name: "DesignerSystemSDKMain" , package: "DesignerSystemSDK")
             ],
@@ -52,8 +70,7 @@ let package = Package(
                 
         
         //  MARK: - TESTS TARGETS AREA
-        .testTarget(name: "HomeSDKTests", dependencies: []),
-    
+//        .testTarget(name: "HomeSDKTests", dependencies: []),
     
     ]
 )

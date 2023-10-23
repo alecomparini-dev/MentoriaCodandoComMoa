@@ -16,11 +16,13 @@
 		0220550D2AE1C93400C076FC /* CPFMask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0220550C2AE1C93400C076FC /* CPFMask.swift */; };
 		0220550E2AE1C93400C076FC /* DateMask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0220550B2AE1C93400C076FC /* DateMask.swift */; };
 		022055102AE1E48100C076FC /* CEPMask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0220550F2AE1E48100C076FC /* CEPMask.swift */; };
+		022B87D92AE695AC0041B984 /* HomeSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 022B87D82AE695AC0041B984 /* HomeSDK */; };
+		022B87DB2AE695AC0041B984 /* ProfileSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 022B87DA2AE695AC0041B984 /* ProfileSDK */; };
+		022B87DD2AE698A30041B984 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022B87DC2AE698A30041B984 /* Network.swift */; };
+		022B87E42AE69A670041B984 /* LocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022B87E32AE69A660041B984 /* LocalStorage.swift */; };
 		0239C4BD2ADDF1460016C0E4 /* ProfileRegistrationStep1Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0239C4BC2ADDF1460016C0E4 /* ProfileRegistrationStep1Factory.swift */; };
 		024340822AD9872B00110844 /* ProfileRegistrationStep1Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024340812AD9872B00110844 /* ProfileRegistrationStep1Coordinator.swift */; };
 		024BC97E2ADAEB6500E9EEDC /* ProfileRegistrationStep2Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024BC97D2ADAEB6500E9EEDC /* ProfileRegistrationStep2Factory.swift */; };
-		024BC9802ADAEF6900E9EEDC /* HomeSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 024BC97F2ADAEF6900E9EEDC /* HomeSDK */; };
-		024BC9822ADAEF6900E9EEDC /* ProfileSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 024BC9812ADAEF6900E9EEDC /* ProfileSDK */; };
 		024E688E2AB4860A0044A521 /* SignUpViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024E688D2AB4860A0044A521 /* SignUpViewControllerFactory.swift */; };
 		026682D12AA7D62600EE70EC /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026682CF2AA7D62600EE70EC /* Coordinator.swift */; };
 		026682D42AA7D69D00EE70EC /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026682D32AA7D69D00EE70EC /* NavigationController.swift */; };
@@ -33,6 +35,8 @@
 		028B28BC2AA76EEC008E4A7E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 028B28BB2AA76EEC008E4A7E /* Constants.swift */; };
 		02995B4B2AB34BBA00615FDC /* LoginViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02995B4A2AB34BBA00615FDC /* LoginViewControllerFactory.swift */; };
 		02995B942AB39B6200615FDC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 02995B932AB39B6200615FDC /* GoogleService-Info.plist */; };
+		02B18F912AE6A4CF0063D655 /* LocalStorageSDKDetail in Frameworks */ = {isa = PBXBuildFile; productRef = 02B18F902AE6A4CF0063D655 /* LocalStorageSDKDetail */; };
+		02B18F932AE6A4CF0063D655 /* LocalStorageSDKMain in Frameworks */ = {isa = PBXBuildFile; productRef = 02B18F922AE6A4CF0063D655 /* LocalStorageSDKMain */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,6 +53,8 @@
 		0220550B2AE1C93400C076FC /* DateMask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateMask.swift; sourceTree = "<group>"; };
 		0220550C2AE1C93400C076FC /* CPFMask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPFMask.swift; sourceTree = "<group>"; };
 		0220550F2AE1E48100C076FC /* CEPMask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CEPMask.swift; sourceTree = "<group>"; };
+		022B87DC2AE698A30041B984 /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		022B87E32AE69A660041B984 /* LocalStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalStorage.swift; sourceTree = "<group>"; };
 		0239C4BC2ADDF1460016C0E4 /* ProfileRegistrationStep1Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRegistrationStep1Factory.swift; sourceTree = "<group>"; };
 		024340812AD9872B00110844 /* ProfileRegistrationStep1Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRegistrationStep1Coordinator.swift; sourceTree = "<group>"; };
 		024BC97D2ADAEB6500E9EEDC /* ProfileRegistrationStep2Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRegistrationStep2Factory.swift; sourceTree = "<group>"; };
@@ -74,8 +80,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				024BC9802ADAEF6900E9EEDC /* HomeSDK in Frameworks */,
-				024BC9822ADAEF6900E9EEDC /* ProfileSDK in Frameworks */,
+				02B18F912AE6A4CF0063D655 /* LocalStorageSDKDetail in Frameworks */,
+				022B87D92AE695AC0041B984 /* HomeSDK in Frameworks */,
+				02B18F932AE6A4CF0063D655 /* LocalStorageSDKMain in Frameworks */,
+				022B87DB2AE695AC0041B984 /* ProfileSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -102,6 +110,7 @@
 		0212ECAD2AA10867001C1BCF /* Mentoria */ = {
 			isa = PBXGroup;
 			children = (
+				022B87E12AE6993F0041B984 /* Infrastructure */,
 				022055082AE1B15C00C076FC /* Masks */,
 				02995B4C2AB34BCB00615FDC /* Factories */,
 				026682CC2AA7D5E900EE70EC /* Coordinator */,
@@ -141,6 +150,31 @@
 				022055092AE1C8C900C076FC /* CellPhoneMask.swift */,
 			);
 			path = Masks;
+			sourceTree = "<group>";
+		};
+		022B87D52AE691990041B984 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				022B87DC2AE698A30041B984 /* Network.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		022B87E12AE6993F0041B984 /* Infrastructure */ = {
+			isa = PBXGroup;
+			children = (
+				022B87E22AE69A660041B984 /* LocalStorage */,
+				022B87D52AE691990041B984 /* Network */,
+			);
+			path = Infrastructure;
+			sourceTree = "<group>";
+		};
+		022B87E22AE69A660041B984 /* LocalStorage */ = {
+			isa = PBXGroup;
+			children = (
+				022B87E32AE69A660041B984 /* LocalStorage.swift */,
+			);
+			path = LocalStorage;
 			sourceTree = "<group>";
 		};
 		0239C4BB2ADDF10E0016C0E4 /* ProfileRegistrationStep1 */ = {
@@ -314,8 +348,10 @@
 			);
 			name = Mentoria;
 			packageProductDependencies = (
-				024BC97F2ADAEF6900E9EEDC /* HomeSDK */,
-				024BC9812ADAEF6900E9EEDC /* ProfileSDK */,
+				022B87D82AE695AC0041B984 /* HomeSDK */,
+				022B87DA2AE695AC0041B984 /* ProfileSDK */,
+				02B18F902AE6A4CF0063D655 /* LocalStorageSDKDetail */,
+				02B18F922AE6A4CF0063D655 /* LocalStorageSDKMain */,
 			);
 			productName = Main;
 			productReference = 0212ECAC2AA10867001C1BCF /* Mentoria.app */;
@@ -370,6 +406,8 @@
 			);
 			mainGroup = 02E2C3942AA0FFD30040A2C8;
 			packageReferences = (
+				025AEA662AE69C81002A9CA4 /* XCRemoteSwiftPackageReference "NetworkSDK" */,
+				02B18F8B2AE6A3AA0063D655 /* XCRemoteSwiftPackageReference "LocalStorageSDK" */,
 			);
 			productRefGroup = 02E2C39F2AA0FFD30040A2C8 /* Products */;
 			projectDirPath = "";
@@ -435,11 +473,13 @@
 				026682D82AA7D8A200EE70EC /* HomeTabBarCoordinator.swift in Sources */,
 				0212ECAF2AA10867001C1BCF /* AppDelegate.swift in Sources */,
 				026682D12AA7D62600EE70EC /* Coordinator.swift in Sources */,
+				022B87DD2AE698A30041B984 /* Network.swift in Sources */,
 				026682D62AA7D75F00EE70EC /* LoginCoordinator.swift in Sources */,
 				0220550D2AE1C93400C076FC /* CPFMask.swift in Sources */,
 				024BC97E2ADAEB6500E9EEDC /* ProfileRegistrationStep2Factory.swift in Sources */,
 				028B28A12AA75EAE008E4A7E /* Environment.swift in Sources */,
 				0220550E2AE1C93400C076FC /* DateMask.swift in Sources */,
+				022B87E42AE69A670041B984 /* LocalStorage.swift in Sources */,
 				024340822AD9872B00110844 /* ProfileRegistrationStep1Coordinator.swift in Sources */,
 				02995B4B2AB34BBA00615FDC /* LoginViewControllerFactory.swift in Sources */,
 				020924732AB3228D008F8DC8 /* SignUpCoordinator.swift in Sources */,
@@ -752,14 +792,43 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		025AEA662AE69C81002A9CA4 /* XCRemoteSwiftPackageReference "NetworkSDK" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/alecomparini-dev/NetworkSDK.git";
+			requirement = {
+				branch = develop;
+				kind = branch;
+			};
+		};
+		02B18F8B2AE6A3AA0063D655 /* XCRemoteSwiftPackageReference "LocalStorageSDK" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/alecomparini-dev/LocalStorageSDK.git";
+			requirement = {
+				branch = develop;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
-		024BC97F2ADAEF6900E9EEDC /* HomeSDK */ = {
+		022B87D82AE695AC0041B984 /* HomeSDK */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = HomeSDK;
 		};
-		024BC9812ADAEF6900E9EEDC /* ProfileSDK */ = {
+		022B87DA2AE695AC0041B984 /* ProfileSDK */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ProfileSDK;
+		};
+		02B18F902AE6A4CF0063D655 /* LocalStorageSDKDetail */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 02B18F8B2AE6A3AA0063D655 /* XCRemoteSwiftPackageReference "LocalStorageSDK" */;
+			productName = LocalStorageSDKDetail;
+		};
+		02B18F922AE6A4CF0063D655 /* LocalStorageSDKMain */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 02B18F8B2AE6A3AA0063D655 /* XCRemoteSwiftPackageReference "LocalStorageSDK" */;
+			productName = LocalStorageSDKMain;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -2,12 +2,11 @@
 //
 
 import Foundation
+
 import ProfileUI
 import ProfilePresenters
 import ProfileUseCases
 import ProfileUseCaseGateway
-import ProfileNetwork
-
 
 class ProfileRegistrationStep2Factory {
     
