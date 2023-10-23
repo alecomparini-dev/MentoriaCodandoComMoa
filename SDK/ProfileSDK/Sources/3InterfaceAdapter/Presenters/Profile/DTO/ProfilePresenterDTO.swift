@@ -7,7 +7,6 @@ public struct ProfilePresenterDTO {
     public var userIDAuth: String?
     public var userIDProfile: Int?
     public var imageProfile: String?
-    public var imageDataProfile: Data?
     public var name: String?
     public var cpf: String?
     public var dateOfBirth: String?

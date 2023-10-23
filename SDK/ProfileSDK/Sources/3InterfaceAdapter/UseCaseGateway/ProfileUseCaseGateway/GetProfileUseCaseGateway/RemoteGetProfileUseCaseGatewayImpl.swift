@@ -36,8 +36,8 @@ public class RemoteGetProfileUseCaseGatewayImpl: GetProfileUseCaseGateway {
         guard let data else {return nil}
         
         let profileCodable: ProfileCodable = try JSONDecoder().decode(ProfileCodable.self, from: data)
-        
-        var profileMapper = profileCodable.mapperToProfileUseCaseModel()
+                
+        var profileMapper = profileCodable.mapperToProfileUseCaseDTO()
         
         profileMapper.userIDAuth = userIDAuth
         

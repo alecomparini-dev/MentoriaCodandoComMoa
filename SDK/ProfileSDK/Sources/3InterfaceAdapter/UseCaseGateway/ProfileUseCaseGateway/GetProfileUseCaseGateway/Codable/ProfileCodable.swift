@@ -50,7 +50,25 @@ public struct ProfileCodableElement: Codable {
         case isChanged = "IsChanged"
     }
 
-    public init(name: String? = nil, image: String? = nil, phone: String? = nil, cpf: String? = nil, typeOfActivity: String? = nil, birthdate: String? = nil, cep: String? = nil, street: String? = nil, number: String? = nil, district: String? = nil, city: String? = nil, state: String? = nil, id: Int? = nil, isInativo: Bool? = nil, creationDate: String? = nil, changeDate: String? = nil, uid: String? = nil, uidFirebase: String? = nil, isChanged: Bool? = nil) {
+    public init(name: String? = nil, 
+                image: String? = nil,
+                phone: String? = nil,
+                cpf: String? = nil,
+                typeOfActivity: String? = nil,
+                birthdate: String? = nil, 
+                cep: String? = nil,
+                street: String? = nil,
+                number: String? = nil,
+                district: String? = nil,
+                city: String? = nil, 
+                state: String? = nil,
+                id: Int? = nil, 
+                isInativo: Bool? = nil,
+                creationDate: String? = nil,
+                changeDate: String? = nil, 
+                uid: String? = nil,
+                uidFirebase: String? = nil,
+                isChanged: Bool? = nil) {
         self.name = name
         self.image = image
         self.phone = phone
@@ -76,7 +94,7 @@ public struct ProfileCodableElement: Codable {
 
 //  MARK: - EXTENSION
 extension ProfileCodable {
-    func mapperToProfileUseCaseModel() -> ProfileUseCaseDTO {
+    func mapperToProfileUseCaseDTO() -> ProfileUseCaseDTO {
         return ProfileUseCaseDTO(
             userIDAuth: self.first?.uidFirebase ,
             userID: self.first?.id,
