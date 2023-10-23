@@ -52,16 +52,14 @@ public class ListServicesViewController: UIViewController {
         screen.tableViewListServices.setDataSource(dataSource: self)
     }
     
-    
 }
-
 
 
 //  MARK: - EXTENSION - UITableViewDelegate
 extension ListServicesViewController: UITableViewDelegate {
 
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 160
+        return 195
     }
 }
 
@@ -70,14 +68,16 @@ extension ListServicesViewController: UITableViewDelegate {
 extension ListServicesViewController: UITableViewDataSource {
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return 2
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = UITableViewCell()
-        cell.backgroundColor = .clear
-        return cell
+        let cell = tableView.dequeueReusableCell(withIdentifier: ListServicesTableViewCell.identifier, for: indexPath) as? ListServicesTableViewCell
+        
+        cell?.backgroundColor = .clear
+        
+        return cell ?? UITableViewCell()
     }
     
 }

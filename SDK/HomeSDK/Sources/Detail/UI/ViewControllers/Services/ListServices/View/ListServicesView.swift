@@ -42,32 +42,31 @@ public class ListServicesView: UIView {
         return comp
     }()
     
-    lazy var searchBar: UISearchBar = {
-        let search = UISearchBar()
-        search.translatesAutoresizingMaskIntoConstraints = false
-        search.searchBarStyle = .prominent
-        
-        search.clipsToBounds = true
-        search.barTintColor = .white
-//        search.placeholder = "Pesquisar serviços"
-
-        search.searchTextField.textColor = .black
-        search.searchTextField.backgroundColor = .white
-        search.searchTextField.leftView?.tintColor = .gray
-        
-        search.searchTextField.clearButtonMode = .whileEditing
-        let clearButton = search.searchTextField.value(forKey: "_clearButton") as! UIButton
-        let img = clearButton.imageView?.image?.withRenderingMode(.alwaysTemplate)
-        clearButton.setImage(img, for: .normal)
-        clearButton.tintColor = .gray.withAlphaComponent(0.6)
-
-        let att: [NSAttributedString.Key: Any] = [.foregroundColor : UIColor.gray]
-        search.searchTextField.attributedPlaceholder = NSAttributedString (
-            string: "Pesquisar serviços",
-            attributes: att
-        )
-        
-        return search
+    lazy var searchTextField: TextFieldImageBuilder = {
+        let imgSearch = ImageViewBuilder(systemName: "magnifyingglass")
+        let imgMic = ImageViewBuilder(systemName: "mic.fill")
+        let comp = TextFieldImageBuilder("Pesquisar")
+            .setImage(imgSearch, .left, 8)
+            .setImage(imgMic, .right, 8)
+            .setAutoCapitalization(.none)
+            .setBackgroundColor(hexColor: "#ffffff")
+            .setPadding(8)
+            .setKeyboard({ build in
+                build
+                    .setKeyboardType(.emailAddress)
+                    .setReturnKeyType(.continue)
+            })
+            .setBorder({ build in
+                build
+                    .setCornerRadius(8)
+            })
+            .setConstraints { build in
+                build
+                    .setTop.equalTo(textTitle.get, .bottom, 24)
+                    .setLeading.setTrailing.equalToSafeArea(16)
+                    .setHeight.equalToConstant(48)
+            }
+        return comp
     }()
     
     public lazy var tableViewListServices: TableViewBuilder = {
@@ -78,7 +77,7 @@ public class ListServicesView: UIView {
             .setRegisterCell(ListServicesTableViewCell.self)
             .setConstraints { build in
                 build
-                    .setTop.equalTo(searchBar, .bottom, 16)
+                    .setTop.equalTo(searchTextField.get, .bottom, 16)
                     .setPinBottom.equalToSafeArea
             }
         return comp
@@ -88,6 +87,7 @@ public class ListServicesView: UIView {
 //  MARK: - PRIVATE AREA
     
     private func configure() {
+        setBackgroundColor(hexColor: "#282A35")
         addElements()
         configConstraints()
     }
@@ -95,7 +95,7 @@ public class ListServicesView: UIView {
     private func addElements() {
         backgroundView.add(insideTo: self)
         textTitle.add(insideTo: self)
-        addSubview(searchBar)
+        searchTextField.add(insideTo: self)
         tableViewListServices.add(insideTo: self)
         
     }
@@ -103,17 +103,9 @@ public class ListServicesView: UIView {
     private func configConstraints() {
         backgroundView.applyConstraint()
         textTitle.applyConstraint()
+        searchTextField.applyConstraint()
         tableViewListServices.applyConstraint()
-        configTableViewListServicesConstraints()
     }
     
-    private func configTableViewListServicesConstraints() {
-        NSLayoutConstraint.activate([
-            searchBar.topAnchor.constraint(equalTo: textTitle.get.bottomAnchor, constant: 24),
-            searchBar.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            searchBar.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -16),
-            searchBar.heightAnchor.constraint(equalToConstant: 48)
-        ])
-    }
         
 }
