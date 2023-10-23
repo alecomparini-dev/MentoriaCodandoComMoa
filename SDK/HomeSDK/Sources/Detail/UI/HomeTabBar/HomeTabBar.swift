@@ -16,6 +16,7 @@ public class HomeTabBar {
     }
     
     private func configure() {
+        
         tabBar
             .setTranslucent(true)
             .setIsNavigationBarHidden(true)
@@ -26,3 +27,4 @@ public class HomeTabBar {
     }
        
 }
+

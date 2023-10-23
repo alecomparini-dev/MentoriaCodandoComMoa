@@ -45,6 +45,10 @@ public final class ProfileSummaryViewController: UIViewController {
         return view
     }()
 
+    public override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+
     
 //  MARK: - LIFE CYCLE
 
@@ -64,6 +68,7 @@ public final class ProfileSummaryViewController: UIViewController {
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         screen.tableViewScroll.get.reloadData()
+        
     }
     
 

@@ -32,7 +32,7 @@ class HomeTabBarCoordinator: Coordinator {
         if let currentScene = CurrentWindow.get {
             currentScene.rootViewController = homeTabBar.tabBar.get
         }
-        
+
         homeTabBarControllers = homeTabBar
     }
     
