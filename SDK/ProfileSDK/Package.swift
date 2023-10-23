@@ -11,13 +11,11 @@ let package = Package(
     ],
     
     products: [
-        .library(name: "ProfileSDK", targets: [ "ProfilePresenters", "ProfileUseCaseGateway", "ProfileUI" , "ProfileAuthentication", "ProfileValidations", "ProfileLocalStorage", "ProfileNetwork"] )
+        .library(name: "ProfileSDK", targets: [ "ProfilePresenters", "ProfileUseCaseGateway", "ProfileUI" , "ProfileAuthentication", "ProfileValidations"] )
     ],
     
     dependencies: [
-        .package(url: "https://github.com/alecomparini-dev/NetworkSDK.git", branch: "develop"),
         .package(url: "https://github.com/alecomparini-dev/DesignerSystemSDK.git", branch: "develop"),
-        .package(url: "https://github.com/alecomparini-dev/LocalStorageSDK.git", branch: "develop"),
         .package(url: "https://github.com/firebase/firebase-ios-sdk.git", .upToNextMajor(from: "10.0.0")),
         .package(name: "ValidatorSDK", path: "../SDK/ValidatorSDK"),
     ],
@@ -80,26 +78,6 @@ let package = Package(
             path: "Sources/Detail/Authentication"
         ),
     
-        
-        .target(
-            name: "ProfileLocalStorage",
-            dependencies: [
-                "ProfileUseCaseGateway",
-                .product(name: "LocalStorageSDKMain" , package: "LocalStorageSDK"),
-            ],
-            path: "Sources/Detail/LocalStorage"
-        ),
-
-        
-        .target(
-            name: "ProfileNetwork",
-            dependencies: [
-                "ProfileUseCaseGateway",
-                .product(name: "NetworkSDKMain" , package: "NetworkSDK")
-            ],
-            path: "Sources/Detail/Network"
-        ),
-        
         
         .target(
             name: "ProfileValidations",

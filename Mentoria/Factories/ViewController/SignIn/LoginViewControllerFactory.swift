@@ -11,9 +11,7 @@ import ProfilePresenters
 import ProfileUseCases
 import ProfileUseCaseGateway
 import ProfileAuthentication
-import ProfileLocalStorage
 import ProfileValidations
-import LocalStorageSDKMain
 import LocalStorageDetails
 
 

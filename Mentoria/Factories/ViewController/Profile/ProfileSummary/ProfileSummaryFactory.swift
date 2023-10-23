@@ -8,7 +8,6 @@ import ProfilePresenters
 import ProfileUseCases
 import ProfileUseCaseGateway
 import ProfileAuthentication
-import ProfileNetwork
 
 class ProfileSummaryFactory {
 

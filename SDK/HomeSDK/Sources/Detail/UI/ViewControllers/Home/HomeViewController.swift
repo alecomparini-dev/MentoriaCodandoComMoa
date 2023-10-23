@@ -20,7 +20,11 @@ public final class HomeViewController: UIViewController {
         view = home
         navigationController?.isNavigationBarHidden = true
     }
-    
+
+    public override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+
     
 //  MARK: - LIFE CYCLE
     public override func viewDidLoad() {
