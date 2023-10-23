@@ -122,6 +122,7 @@ class SignInView: UIView {
 
 //  MARK: - PRIVATE AREA
     public func configure() {
+        setBackgroundColor(hexColor: "#282A35")
         addElements()
         configConstraints()
     }
