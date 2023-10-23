@@ -160,7 +160,7 @@ public final class ProfileSummaryViewController: UIViewController {
     private func getProfilePictureTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ProfilePictureTableViewCell.identifier, for: indexPath) as? ProfilePictureTableViewCell
         cell?.configSkeleton()
-        let profileImageData = profileSummaryPresenter.getProfileImageData(profilePresenterDTO?.userIDAuth)
+        let profileImageData = profileSummaryPresenter.getProfileImageData(profilePresenterDTO)
         cell?.setupCell(self, profilePresenterDTO: profilePresenterDTO, profileImage: profileImageData)
         setCell(cell, key: TypeCells.profilePicture)
         cell?.delegate = self
@@ -281,7 +281,9 @@ extension ProfileSummaryViewController: ProfileSummaryPresenterOutput {
         if let userIDAuth = success?.userIDAuth {
             self.profileSummaryPresenter.getProfile(userIDAuth)
         }
-        
+        if let error {
+            print(#function,error)
+        }
     }
     
     public func getUserProfile(success: ProfilePresenterDTO?, error: String?) {
@@ -291,7 +293,19 @@ extension ProfileSummaryViewController: ProfileSummaryPresenterOutput {
             return
         }
         configScreenToNewProfile()
+        
+        if let error {
+            print(#function,error)
+        }
     }
+    
+    public func saveProfileImage(success: ProfilePresenters.ProfilePresenterDTO?, error: String?) {
+        profilePresenterDTO = success
+        if let error {
+            print(#function,error)
+        }
+    }
+
     
 }
 
@@ -301,16 +315,42 @@ extension ProfileSummaryViewController: ProfileSummaryPresenterOutput {
 extension ProfileSummaryViewController: ProfilePictureTableViewCellDelegate {
     
     func saveProfileImage(_ image: UIImage) {
-        if let imageJPEGData = convertImageToJPEG(image), let userIDAuth = profilePresenterDTO?.userIDAuth {
-            profileSummaryPresenter.saveProfileImageData(userIDAuth, imageJPEGData)
+        var imageResize = resizeImage(image)
+        if imageResize == nil { imageResize = image }
+
+        if let imageJPEGData = convertImageToJPEG(imageResize!) {
+            profilePresenterDTO?.imageProfile = imageJPEGData.base64EncodedString()
+            profileSummaryPresenter.saveProfileImageData(profilePresenterDTO)
         }
     }
     
     private func convertImageToJPEG(_ image: UIImage) -> Data? {
-        return image.jpegData(compressionQuality: 1)
+        return image.jpegData(compressionQuality: 0.6)
     }
     
-    
+    private func resizeImage(_ image: UIImage) -> UIImage? {
+        let targetSize = CGSize(width: 200, height: 200)
+        let size = image.size
+        let widthRatio = targetSize.width / size.width
+        let heightRatio = targetSize.height / size.height
+        
+        var newSize: CGSize
+        
+        if widthRatio > heightRatio {
+            newSize = CGSize(width: size.width * heightRatio, height: size.height * heightRatio)
+        } else {
+            newSize = CGSize(width: size.width * widthRatio, height: size.height * widthRatio)
+        }
+        
+        let rect = CGRect(origin: .zero, size: newSize)
+        
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+        image.draw(in: rect)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage
+    }
     
 }
 

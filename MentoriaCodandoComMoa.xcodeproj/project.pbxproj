@@ -33,6 +33,8 @@
 		028B28A12AA75EAE008E4A7E /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 028B28A02AA75EAE008E4A7E /* Environment.swift */; };
 		028B28A42AA75F8C008E4A7E /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 028B28A32AA75F8C008E4A7E /* Release.xcconfig */; };
 		028B28BC2AA76EEC008E4A7E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 028B28BB2AA76EEC008E4A7E /* Constants.swift */; };
+		0293DF092AE6D42500716142 /* CreateProfileUseCaseFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0293DF082AE6D42500716142 /* CreateProfileUseCaseFactory.swift */; };
+		0293DF0C2AE6E5B000716142 /* MasksFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0293DF0B2AE6E5B000716142 /* MasksFactory.swift */; };
 		02995B4B2AB34BBA00615FDC /* LoginViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02995B4A2AB34BBA00615FDC /* LoginViewControllerFactory.swift */; };
 		02995B942AB39B6200615FDC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 02995B932AB39B6200615FDC /* GoogleService-Info.plist */; };
 		02B18F912AE6A4CF0063D655 /* LocalStorageSDKDetail in Frameworks */ = {isa = PBXBuildFile; productRef = 02B18F902AE6A4CF0063D655 /* LocalStorageSDKDetail */; };
@@ -70,6 +72,8 @@
 		028B28A22AA75F52008E4A7E /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		028B28A32AA75F8C008E4A7E /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		028B28BB2AA76EEC008E4A7E /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		0293DF082AE6D42500716142 /* CreateProfileUseCaseFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProfileUseCaseFactory.swift; sourceTree = "<group>"; };
+		0293DF0B2AE6E5B000716142 /* MasksFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasksFactory.swift; sourceTree = "<group>"; };
 		02995B4A2AB34BBA00615FDC /* LoginViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewControllerFactory.swift; sourceTree = "<group>"; };
 		02995B932AB39B6200615FDC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		02E2C39E2AA0FFD30040A2C8 /* MentoriaCodandoComMoa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MentoriaCodandoComMoa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -283,9 +287,27 @@
 			path = Constants;
 			sourceTree = "<group>";
 		};
+		0293DF072AE6D41600716142 /* UseCase */ = {
+			isa = PBXGroup;
+			children = (
+				0293DF082AE6D42500716142 /* CreateProfileUseCaseFactory.swift */,
+			);
+			path = UseCase;
+			sourceTree = "<group>";
+		};
+		0293DF0A2AE6E59A00716142 /* Mask */ = {
+			isa = PBXGroup;
+			children = (
+				0293DF0B2AE6E5B000716142 /* MasksFactory.swift */,
+			);
+			path = Mask;
+			sourceTree = "<group>";
+		};
 		02995B4C2AB34BCB00615FDC /* Factories */ = {
 			isa = PBXGroup;
 			children = (
+				0293DF0A2AE6E59A00716142 /* Mask */,
+				0293DF072AE6D41600716142 /* UseCase */,
 				02995B4D2AB34C1300615FDC /* ViewController */,
 			);
 			path = Factories;
@@ -478,7 +500,9 @@
 				0220550D2AE1C93400C076FC /* CPFMask.swift in Sources */,
 				024BC97E2ADAEB6500E9EEDC /* ProfileRegistrationStep2Factory.swift in Sources */,
 				028B28A12AA75EAE008E4A7E /* Environment.swift in Sources */,
+				0293DF092AE6D42500716142 /* CreateProfileUseCaseFactory.swift in Sources */,
 				0220550E2AE1C93400C076FC /* DateMask.swift in Sources */,
+				0293DF0C2AE6E5B000716142 /* MasksFactory.swift in Sources */,
 				022B87E42AE69A670041B984 /* LocalStorage.swift in Sources */,
 				024340822AD9872B00110844 /* ProfileRegistrationStep1Coordinator.swift in Sources */,
 				02995B4B2AB34BBA00615FDC /* LoginViewControllerFactory.swift in Sources */,

@@ -94,7 +94,7 @@ public class ProfileRegistrationStep2PresenterImpl: ProfileRegistrationStep2Pres
                     )
                 )
                 
-                var profilePresenter: ProfilePresenterDTO = ProfileUseCaseDTOToPresenter.mapper(profileUseCaseDTO: profileDTO)
+                var profilePresenter: ProfilePresenterDTO = MapperProfileUseCaseDTOToProfilePresenterDTO.mapper(profileUseCaseDTO: profileDTO)
                 let cellPhoneMask = masks[TypeMasks.cellPhoneMask]
                 profilePresenter.cellPhoneNumber = cellPhoneMask?.formatString(profilePresenter.cellPhoneNumber)
                 
