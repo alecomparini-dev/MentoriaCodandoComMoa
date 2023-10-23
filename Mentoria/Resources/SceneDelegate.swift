@@ -67,7 +67,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         win.makeKeyAndVisible()
         window = win
         
-        let coordinator = LoginCoordinator(nav)
+        let coordinator = SignInCoordinator(nav)
         coordinator.start()
     }
 

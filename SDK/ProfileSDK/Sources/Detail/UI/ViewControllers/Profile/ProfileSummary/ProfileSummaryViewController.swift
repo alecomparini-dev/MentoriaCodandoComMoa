@@ -61,14 +61,15 @@ public final class ProfileSummaryViewController: UIViewController {
         configure()
     }
     
-    public override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
     
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        screen.tableViewScroll.get.reloadData()
-        
+        if profilePresenterDTO != nil {return}
+        DispatchQueue.main.async { [weak self] in
+            guard let self else {return}
+            screen.tableViewScroll.get.reloadData()
+            getUserAuthenticated()
+        }
     }
     
 
@@ -84,7 +85,6 @@ public final class ProfileSummaryViewController: UIViewController {
 //  MARK: - PRIVATE AREA
     private func configure() {
         configDelegate()
-        getUserAuthenticated()
     }
     
     private func configDelegate() {
@@ -93,6 +93,7 @@ public final class ProfileSummaryViewController: UIViewController {
     }
     
     private func configTableViewDelegate() {
+        screen.tableViewScroll.get.reloadData()
         screen.tableViewScroll.setDelegate(delegate: self)
         screen.tableViewScroll.setDataSource(dataSource: self)
     }

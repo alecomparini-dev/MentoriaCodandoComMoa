@@ -4,7 +4,7 @@
 import Foundation
 import ProfileUI
 
-class LoginCoordinator: Coordinator {
+class SignInCoordinator: Coordinator {
     var childCoordinator: Coordinator?
     unowned let navigationController: NavigationController
     var dataTransfer: Any?
@@ -24,7 +24,7 @@ class LoginCoordinator: Coordinator {
 
 
 //  MARK: - EXTENSION LoginViewControllerCoordinator
-extension LoginCoordinator: SignInViewControllerCoordinator {
+extension SignInCoordinator: SignInViewControllerCoordinator {
     func gotoLogin() {
         let coordinator = SignUpCoordinator(navigationController)
         coordinator.start()

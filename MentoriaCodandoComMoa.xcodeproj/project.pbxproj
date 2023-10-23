@@ -26,7 +26,7 @@
 		024E688E2AB4860A0044A521 /* SignUpViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024E688D2AB4860A0044A521 /* SignUpViewControllerFactory.swift */; };
 		026682D12AA7D62600EE70EC /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026682CF2AA7D62600EE70EC /* Coordinator.swift */; };
 		026682D42AA7D69D00EE70EC /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026682D32AA7D69D00EE70EC /* NavigationController.swift */; };
-		026682D62AA7D75F00EE70EC /* LoginCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026682D52AA7D75F00EE70EC /* LoginCoordinator.swift */; };
+		026682D62AA7D75F00EE70EC /* SignInCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026682D52AA7D75F00EE70EC /* SignInCoordinator.swift */; };
 		026682D82AA7D8A200EE70EC /* HomeTabBarCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026682D72AA7D8A200EE70EC /* HomeTabBarCoordinator.swift */; };
 		026FC69B2AD9D0430009D1A3 /* ProfileRegistrationStep2Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026FC69A2AD9D0430009D1A3 /* ProfileRegistrationStep2Coordinator.swift */; };
 		027239622AE0437E009BA9A1 /* ProfileSummaryFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 027239612AE0437E009BA9A1 /* ProfileSummaryFactory.swift */; };
@@ -61,7 +61,7 @@
 		024E688D2AB4860A0044A521 /* SignUpViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewControllerFactory.swift; sourceTree = "<group>"; };
 		026682CF2AA7D62600EE70EC /* Coordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		026682D32AA7D69D00EE70EC /* NavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
-		026682D52AA7D75F00EE70EC /* LoginCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCoordinator.swift; sourceTree = "<group>"; };
+		026682D52AA7D75F00EE70EC /* SignInCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInCoordinator.swift; sourceTree = "<group>"; };
 		026682D72AA7D8A200EE70EC /* HomeTabBarCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeTabBarCoordinator.swift; sourceTree = "<group>"; };
 		026FC69A2AD9D0430009D1A3 /* ProfileRegistrationStep2Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRegistrationStep2Coordinator.swift; sourceTree = "<group>"; };
 		027239612AE0437E009BA9A1 /* ProfileSummaryFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSummaryFactory.swift; sourceTree = "<group>"; };
@@ -227,7 +227,7 @@
 				024340812AD9872B00110844 /* ProfileRegistrationStep1Coordinator.swift */,
 				026FC69A2AD9D0430009D1A3 /* ProfileRegistrationStep2Coordinator.swift */,
 				020924722AB3228D008F8DC8 /* SignUpCoordinator.swift */,
-				026682D52AA7D75F00EE70EC /* LoginCoordinator.swift */,
+				026682D52AA7D75F00EE70EC /* SignInCoordinator.swift */,
 				026682D72AA7D8A200EE70EC /* HomeTabBarCoordinator.swift */,
 			);
 			path = Coordinator;
@@ -474,7 +474,7 @@
 				0212ECAF2AA10867001C1BCF /* AppDelegate.swift in Sources */,
 				026682D12AA7D62600EE70EC /* Coordinator.swift in Sources */,
 				022B87DD2AE698A30041B984 /* Network.swift in Sources */,
-				026682D62AA7D75F00EE70EC /* LoginCoordinator.swift in Sources */,
+				026682D62AA7D75F00EE70EC /* SignInCoordinator.swift in Sources */,
 				0220550D2AE1C93400C076FC /* CPFMask.swift in Sources */,
 				024BC97E2ADAEB6500E9EEDC /* ProfileRegistrationStep2Factory.swift in Sources */,
 				028B28A12AA75EAE008E4A7E /* Environment.swift in Sources */,

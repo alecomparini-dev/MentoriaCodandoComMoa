@@ -4,17 +4,17 @@
 import Foundation
 import UIKit
 
+import CustomComponentsSDK
 import HomeUI
 import ProfileUI
 import ProfilePresenters
-import CustomComponentsSDK
 
 class HomeTabBarCoordinator: Coordinator {
     var childCoordinator: Coordinator?
     unowned var navigationController: NavigationController
     var dataTransfer: Any?
     
-    private weak var homeTabBarControllers: HomeTabBar?
+    private var homeTabBarControllers: HomeTabBar?
     
     required init(_ navigationController: NavigationController) {
         self.navigationController = navigationController
@@ -24,10 +24,10 @@ class HomeTabBarCoordinator: Coordinator {
         childCoordinator = self
         
         let profileSummaryTabBarItem = createProfileSummaryTabBarItem()
-        let homeTabBarItem = createHomeTabBarItem()
+        let listServicesTabBarItem = createListServiceTabBarItem()
         let scheduleTabBarItem = scheduleTabBarItem()
         
-        let homeTabBar = HomeTabBar(items: [profileSummaryTabBarItem, homeTabBarItem, scheduleTabBarItem])
+        let homeTabBar = HomeTabBar(items: [profileSummaryTabBarItem, listServicesTabBarItem, scheduleTabBarItem])
         
         if let currentScene = CurrentWindow.get {
             currentScene.rootViewController = homeTabBar.tabBar.get
@@ -40,6 +40,7 @@ class HomeTabBarCoordinator: Coordinator {
         if let homeTabBarControllers {
             homeTabBarControllers.tabBar.get.selectedIndex = index
         }
+        homeTabBarControllers = nil
     }
     
     
@@ -48,13 +49,13 @@ class HomeTabBarCoordinator: Coordinator {
         
         let profileSummaryController = ProfileSummaryFactory.make()
         profileSummaryController.coordinator = self
-        
         return TabBarItems(viewController: profileSummaryController, image: ImageViewBuilder(systemName: "person"), title: "Perfil")
-        
     }
     
-    private func createHomeTabBarItem() -> TabBarItems {
-        return TabBarItems(viewController: HomeViewController(), image: ImageViewBuilder(systemName: "wrench.and.screwdriver.fill"), title: "Seu Serviço")
+    private func createListServiceTabBarItem() -> TabBarItems {
+        let listServiceVC = ListServicesViewController()
+        listServiceVC.coordinator = self
+        return TabBarItems(viewController: listServiceVC, image: ImageViewBuilder(systemName: "wrench.and.screwdriver.fill"), title: "Serviços")
     }
 
     private func scheduleTabBarItem() -> TabBarItems {
@@ -66,7 +67,6 @@ class HomeTabBarCoordinator: Coordinator {
 
 
 //  MARK: - EXTENSION - ProfileSummaryViewControllerCoordinator
-
 extension HomeTabBarCoordinator: ProfileSummaryViewControllerCoordinator {
     
     func gotoProfileRegistrationStep1(_ profilePresenterDTO: ProfilePresenterDTO?) {
@@ -80,7 +80,20 @@ extension HomeTabBarCoordinator: ProfileSummaryViewControllerCoordinator {
         coordinator.dataTransfer = profilePresenterDTO
         coordinator.start()
         childCoordinator = nil
-        homeTabBarControllers = nil
+    }
+    
+    
+}
+
+
+//  MARK: - EXTENSION - ListServicesViewControllerCoordinator
+extension HomeTabBarCoordinator: ListServicesViewControllerCoordinator {
+    func gotoSaveService() {
+        
+    }
+    
+    func gotoViewerService() {
+        
     }
     
     

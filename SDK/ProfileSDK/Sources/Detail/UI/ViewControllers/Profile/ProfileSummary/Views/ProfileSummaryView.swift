@@ -3,8 +3,8 @@
 
 import UIKit
 
-import DesignerSystemSDKComponent
 import CustomComponentsSDK
+import DesignerSystemSDKComponent
 
 
 public class ProfileSummaryView: UIView {
