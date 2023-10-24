@@ -76,8 +76,8 @@ extension ListServicesViewController: UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: ListServicesTableViewCell.identifier, for: indexPath) as? ListServicesTableViewCell
         
-        cell?.setupCell(ServicePresenterDTO(id: indexPath.row)) { servicePresenterDTO in
-            print(servicePresenterDTO ?? "")
+        cell?.setupCell(ServicePresenterDTO(id: indexPath.row)) { [weak self] servicePresenterDTO in
+            self?.coordinator?.gotoAddService()
         }
         
         cell?.backgroundColor = .clear

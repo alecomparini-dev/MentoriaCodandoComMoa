@@ -38,12 +38,21 @@ public class AddServiceViewController: UIViewController {
     
 //  MARK: - PRIVATE AREA
     private func configure() {
-        
+        configDelegate()
     }
     
     private func configDelegate() {
-        
+        screen.delegate = self
     }
     
+    
+}
+
+//  MARK: - EXTENSION - AddServiceViewDelegate
+extension AddServiceViewController: AddServiceViewDelegate {
+    
+    public func backButtonTapped() {
+        coordinator?.gotoListServiceHomeTabBar()
+    }
     
 }

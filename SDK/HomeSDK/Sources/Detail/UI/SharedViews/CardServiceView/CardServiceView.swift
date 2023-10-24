@@ -26,8 +26,9 @@ public class CardServiceView: ViewBuilder {
             .setBorder({ build in
                 build
                     .setCornerRadius(12)
-                    .setWidth(0.5)
-                    .setColor(color: .white.withAlphaComponent(0.3))
+                    .setWidth(1)
+//                    .setColor(color: .black.withAlphaComponent(0.8))
+                    .setColor(color: UIColor.HEX("#fa79c7").withAlphaComponent(0.8))
             })
             .setConstraints { build in
                 build
@@ -39,7 +40,8 @@ public class CardServiceView: ViewBuilder {
     lazy var titleServiceLabel: CustomTextTitle = {
         let comp = CustomTextTitle()
             .setText("Dev iOS JR")
-            .setColor(hexColor: "#282A35")
+//            .setColor(hexColor: "#282A35")
+            .setColor(hexColor: "#34394f")
             .setWeight(.bold)
             .setSize(18)
             .setTextAlignment(.left)
@@ -161,10 +163,11 @@ public class CardServiceView: ViewBuilder {
     
     private func configShaddowCardView() {
         cardView.get.layer.masksToBounds = false
-        cardView.get.layer.shadowColor = UIColor.white.cgColor
-        cardView.get.layer.shadowOpacity = 0.5
+//        cardView.get.layer.shadowColor = UIColor.white.cgColor
+        cardView.get.layer.shadowColor = UIColor.HEX("#565b79").cgColor
+        cardView.get.layer.shadowOpacity = 1
         cardView.get.layer.shadowRadius = 3
-        cardView.get.layer.shadowOffset = CGSize(width: 4, height: 4)
+        cardView.get.layer.shadowOffset = CGSize(width: 5, height: 5)
     }
         
 }

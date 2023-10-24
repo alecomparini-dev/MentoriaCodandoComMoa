@@ -6,8 +6,12 @@ import UIKit
 import CustomComponentsSDK
 import DesignerSystemSDKComponent
 
+public protocol AddServiceViewDelegate: AnyObject {
+    func backButtonTapped()
+}
+
 public class AddServiceView: UIView {
-    
+    public weak var delegate: AddServiceViewDelegate?
     
     public init() {
         super.init(frame: .zero)
@@ -40,6 +44,27 @@ public class AddServiceView: UIView {
             }
         return comp
     }()
+
+    
+    lazy var backButton: ButtonImageBuilder = {
+        let img = ImageViewBuilder(systemName: "chevron.backward")
+            .setContentMode(.center)
+        let comp = ButtonImageBuilder()
+            .setImageButton(img)
+            .setImageColor(hexColor: "#ffffff")
+            .setConstraints { build in
+                build
+                    .setVerticalAlignmentY.equalTo(textTitle.get)
+                    .setLeading.equalToSafeArea(16)
+                    .setSize.equalToConstant(35)
+            }
+        comp.get.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        return comp
+    }()
+    @objc private func backButtonTapped() {
+        delegate?.backButtonTapped()
+    }
+    
     
     
 
@@ -53,11 +78,13 @@ public class AddServiceView: UIView {
     
     private func addElements() {
         backgroundView.add(insideTo: self)
+        backButton.add(insideTo: self)
         textTitle.add(insideTo: self)
     }
     
     private func configConstraints() {
         backgroundView.applyConstraint()
+        backButton.applyConstraint()
         textTitle.applyConstraint()
     }
     

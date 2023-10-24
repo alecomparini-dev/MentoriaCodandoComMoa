@@ -93,7 +93,7 @@ extension HomeTabBarCoordinator: ListServicesViewControllerCoordinator {
         if let currentScene = CurrentWindow.get {
             currentScene.rootViewController = nav
         }
-        let coordinator = ProfileRegistrationStep1Coordinator(nav)
+        let coordinator = AddServiceCoordinator(nav)
         coordinator.start()
         childCoordinator = nil
     }
