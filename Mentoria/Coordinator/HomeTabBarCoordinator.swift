@@ -88,8 +88,14 @@ extension HomeTabBarCoordinator: ProfileSummaryViewControllerCoordinator {
 
 //  MARK: - EXTENSION - ListServicesViewControllerCoordinator
 extension HomeTabBarCoordinator: ListServicesViewControllerCoordinator {
-    func gotoSaveService() {
-        
+    func gotoAddService() {
+        let nav = NavigationController()
+        if let currentScene = CurrentWindow.get {
+            currentScene.rootViewController = nav
+        }
+        let coordinator = ProfileRegistrationStep1Coordinator(nav)
+        coordinator.start()
+        childCoordinator = nil
     }
     
     func gotoViewerService() {

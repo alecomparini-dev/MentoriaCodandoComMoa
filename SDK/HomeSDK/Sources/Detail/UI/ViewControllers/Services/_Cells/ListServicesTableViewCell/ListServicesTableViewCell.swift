@@ -2,9 +2,15 @@
 //
 
 import UIKit
+import HomePresenters
 
 class ListServicesTableViewCell: UITableViewCell {
     public static let identifier = String(describing: ListServicesTableViewCell.self)
+    typealias editCompletionHandler = (_ servicePresenterDTO: ServicePresenterDTO?) -> Void
+    
+    private var editCompletionHander: editCompletionHandler?
+    
+    private var servicePresenterDTO: ServicePresenterDTO?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -29,8 +35,9 @@ class ListServicesTableViewCell: UITableViewCell {
     
 //  MARK: - SETUP CELL
     
-    func setup() {
-        
+    public func setupCell(_ servicePresenterDTO: ServicePresenterDTO?, _ editCompletionHandler: @escaping editCompletionHandler) {
+        self.servicePresenterDTO = servicePresenterDTO
+        self.editCompletionHander = editCompletionHandler
     }
     
 
@@ -40,6 +47,7 @@ class ListServicesTableViewCell: UITableViewCell {
         configSelectionStyle()
         addElements()
         configConstraints()
+        configDelegate()
     }
     
     private func configSelectionStyle() {
@@ -52,6 +60,20 @@ class ListServicesTableViewCell: UITableViewCell {
     
     private func configConstraints() {
         screen.applyConstraint()
+    }
+    
+    private func configDelegate() {
+        screen.delegate = self
+    }
+    
+}
+
+
+//  MARK: - EXTENSION - ListServicesTableViewCellViewDelegate
+extension ListServicesTableViewCell: ListServicesTableViewCellViewDelegate {
+    
+    func editButtonTapped() {
+        editCompletionHander?(servicePresenterDTO)
     }
     
     

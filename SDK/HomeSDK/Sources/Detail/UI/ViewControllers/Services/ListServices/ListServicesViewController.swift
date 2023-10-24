@@ -2,9 +2,10 @@
 //
 
 import UIKit
+import HomePresenters
 
 public protocol ListServicesViewControllerCoordinator: AnyObject {
-    func gotoSaveService()
+    func gotoAddService()
     func gotoViewerService()
 }
 
@@ -59,7 +60,7 @@ public class ListServicesViewController: UIViewController {
 extension ListServicesViewController: UITableViewDelegate {
 
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 195
+        return 185
     }
 }
 
@@ -74,6 +75,10 @@ extension ListServicesViewController: UITableViewDataSource {
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: ListServicesTableViewCell.identifier, for: indexPath) as? ListServicesTableViewCell
+        
+        cell?.setupCell(ServicePresenterDTO(id: indexPath.row)) { servicePresenterDTO in
+            print(servicePresenterDTO ?? "")
+        }
         
         cell?.backgroundColor = .clear
         

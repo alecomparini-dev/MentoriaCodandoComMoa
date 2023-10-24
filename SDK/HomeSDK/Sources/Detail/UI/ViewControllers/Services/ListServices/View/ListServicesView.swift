@@ -19,7 +19,6 @@ public class ListServicesView: UIView {
     }
     
     
-    
 //  MARK: - LAZY AREA
     lazy var backgroundView: CustomView = {
         let comp = CustomView()

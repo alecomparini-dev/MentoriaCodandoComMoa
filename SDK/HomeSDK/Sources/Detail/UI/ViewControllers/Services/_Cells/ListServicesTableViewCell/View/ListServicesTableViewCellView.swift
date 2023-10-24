@@ -5,7 +5,12 @@ import UIKit
 import DesignerSystemSDKComponent
 import CustomComponentsSDK
 
+public protocol ListServicesTableViewCellViewDelegate: AnyObject {
+    func editButtonTapped()
+}
+ 
 public class ListServicesTableViewCellView: ViewBuilder {
+    public weak var delegate: ListServicesTableViewCellViewDelegate?
     
     public override init() {
         super.init(frame: .zero)
@@ -24,7 +29,7 @@ public class ListServicesTableViewCellView: ViewBuilder {
             .setConstraints { build in
                 build
                     .setTop.setBottom.equalToSafeArea(16)
-                    .setLeading.equalToSafeArea(16)
+                    .setLeading.equalToSafeArea(24)
                     .setTrailing.equalToSafeArea(-60)
             }
         return card
@@ -32,7 +37,6 @@ public class ListServicesTableViewCellView: ViewBuilder {
     
     lazy var editView: ViewBuilder = {
         let view = ViewBuilder()
-//            .setBackgroundColor(color: .red)
             .setConstraints { build in
                 build
                     .setTop.setBottom.equalToSafeArea(16)
@@ -57,8 +61,7 @@ public class ListServicesTableViewCellView: ViewBuilder {
         return btn
     }()
     @objc private func editButtonTapped(_ button: UIButton) {
-//        delegate?.favoriteButtonTapped(button)
-        print("CLICOUUUU")
+        delegate?.editButtonTapped()
     }
 
     

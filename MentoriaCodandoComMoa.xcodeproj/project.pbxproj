@@ -39,6 +39,7 @@
 		02995B942AB39B6200615FDC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 02995B932AB39B6200615FDC /* GoogleService-Info.plist */; };
 		02B18F912AE6A4CF0063D655 /* LocalStorageSDKDetail in Frameworks */ = {isa = PBXBuildFile; productRef = 02B18F902AE6A4CF0063D655 /* LocalStorageSDKDetail */; };
 		02B18F932AE6A4CF0063D655 /* LocalStorageSDKMain in Frameworks */ = {isa = PBXBuildFile; productRef = 02B18F922AE6A4CF0063D655 /* LocalStorageSDKMain */; };
+		02D7D2962AE86283003E4CF4 /* AddServiceCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02D7D2952AE86283003E4CF4 /* AddServiceCoordinator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -76,6 +77,7 @@
 		0293DF0B2AE6E5B000716142 /* MasksFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasksFactory.swift; sourceTree = "<group>"; };
 		02995B4A2AB34BBA00615FDC /* LoginViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewControllerFactory.swift; sourceTree = "<group>"; };
 		02995B932AB39B6200615FDC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		02D7D2952AE86283003E4CF4 /* AddServiceCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddServiceCoordinator.swift; sourceTree = "<group>"; };
 		02E2C39E2AA0FFD30040A2C8 /* MentoriaCodandoComMoa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MentoriaCodandoComMoa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -226,8 +228,9 @@
 		026682CC2AA7D5E900EE70EC /* Coordinator */ = {
 			isa = PBXGroup;
 			children = (
-				026682D22AA7D68700EE70EC /* NavigationController */,
 				026682CD2AA7D62600EE70EC /* Protocol */,
+				026682D22AA7D68700EE70EC /* NavigationController */,
+				02D7D2952AE86283003E4CF4 /* AddServiceCoordinator.swift */,
 				024340812AD9872B00110844 /* ProfileRegistrationStep1Coordinator.swift */,
 				026FC69A2AD9D0430009D1A3 /* ProfileRegistrationStep2Coordinator.swift */,
 				020924722AB3228D008F8DC8 /* SignUpCoordinator.swift */,
@@ -504,6 +507,7 @@
 				0220550E2AE1C93400C076FC /* DateMask.swift in Sources */,
 				0293DF0C2AE6E5B000716142 /* MasksFactory.swift in Sources */,
 				022B87E42AE69A670041B984 /* LocalStorage.swift in Sources */,
+				02D7D2962AE86283003E4CF4 /* AddServiceCoordinator.swift in Sources */,
 				024340822AD9872B00110844 /* ProfileRegistrationStep1Coordinator.swift in Sources */,
 				02995B4B2AB34BBA00615FDC /* LoginViewControllerFactory.swift in Sources */,
 				020924732AB3228D008F8DC8 /* SignUpCoordinator.swift in Sources */,

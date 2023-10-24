@@ -28,7 +28,7 @@ class ProfileRegistrationStep1Coordinator: Coordinator {
 
 
 
-//  MARK: - EXTENSION LoginViewControllerCoordinator
+//  MARK: - EXTENSION - ProfileRegistrationStep1ViewControllerCoordinator
 extension ProfileRegistrationStep1Coordinator: ProfileRegistrationStep1ViewControllerCoordinator {
     
     func gotoProfileHomeTabBar() {
