@@ -5,7 +5,12 @@ import UIKit
 import DesignerSystemSDKComponent
 import CustomComponentsSDK
 
+public protocol ListServicesTableViewCellViewDelegate: AnyObject {
+    func editButtonTapped()
+}
+ 
 public class ListServicesTableViewCellView: ViewBuilder {
+    public weak var delegate: ListServicesTableViewCellViewDelegate?
     
     public override init() {
         super.init(frame: .zero)
@@ -24,7 +29,7 @@ public class ListServicesTableViewCellView: ViewBuilder {
             .setConstraints { build in
                 build
                     .setTop.setBottom.equalToSafeArea(16)
-                    .setLeading.equalToSafeArea(16)
+                    .setLeading.equalToSafeArea(24)
                     .setTrailing.equalToSafeArea(-60)
             }
         return card
@@ -32,7 +37,6 @@ public class ListServicesTableViewCellView: ViewBuilder {
     
     lazy var editView: ViewBuilder = {
         let view = ViewBuilder()
-//            .setBackgroundColor(color: .red)
             .setConstraints { build in
                 build
                     .setTop.setBottom.equalToSafeArea(16)
@@ -47,18 +51,22 @@ public class ListServicesTableViewCellView: ViewBuilder {
             .setSize(26)
         let btn = ButtonImageBuilder()
             .setImageButton(img)
-            .setImageWeight(.ultraLight)
+            .setImageWeight(.light)
+            .setBorder({ build in
+                build
+                    .setCornerRadius(13)
+            })
             .setTintColor(color: .white)
             .setConstraints { build in
                 build
-                    .setPin.equalToSuperView
+                    .setAlignmentCenterXY.equalToSafeArea
+                    .setSize.equalToConstant(35)
             }
         btn.get.addTarget(self, action: #selector(editButtonTapped), for: .touchUpInside)
         return btn
     }()
     @objc private func editButtonTapped(_ button: UIButton) {
-//        delegate?.favoriteButtonTapped(button)
-        print("CLICOUUUU")
+        delegate?.editButtonTapped()
     }
 
     

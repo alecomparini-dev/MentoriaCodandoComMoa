@@ -11,7 +11,7 @@ let package = Package(
     ],
     
     products: [
-        .library(name: "HomeSDK", targets: [ "HomeUseCaseGateway", "HomeUI"]),
+        .library(name: "HomeSDK", targets: [ "HomePresenters", "HomeUseCaseGateway", "HomeUI"]),
     ],
     
     dependencies: [
@@ -37,14 +37,15 @@ let package = Package(
         ),
 
         
-        
 //MARK: - INTERFACE ADAPTER LAYER
                 
-//        .target(
-//            name: "HomePresenters",
-//            dependencies: [],
-//            path: "Sources/3InterfaceAdapter/Presenters"
-//        ),
+        .target(
+            name: "HomePresenters",
+            dependencies: [
+                "HomeUseCases"
+            ],
+            path: "Sources/3InterfaceAdapter/Presenters"
+        ),
         
         .target(
             name: "HomeUseCaseGateway",
@@ -62,7 +63,6 @@ let package = Package(
             dependencies: [
 //                "HomePresenters",
                 .product(name: "DesignerSystemSDKComponent" , package: "DesignerSystemSDK"),
-                .product(name: "DesignerSystemSDKMain" , package: "DesignerSystemSDK")
             ],
             path: "Sources/Detail/UI"
         ),

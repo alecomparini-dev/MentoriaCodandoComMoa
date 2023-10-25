@@ -1,4 +1,4 @@
-//  Created by Alessandro Comparini on 23/10/23.
+//  Created by Alessandro Comparini on 24/10/23.
 //
 
 import UIKit
@@ -6,8 +6,13 @@ import UIKit
 import CustomComponentsSDK
 import DesignerSystemSDKComponent
 
-public class ListServicesView: UIView {
-    
+
+public protocol AddServiceViewDelegate: AnyObject {
+    func backButtonTapped()
+}
+
+public class AddServiceView: UIView {
+    public weak var delegate: AddServiceViewDelegate?
     
     public init() {
         super.init(frame: .zero)
@@ -18,7 +23,7 @@ public class ListServicesView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
+
 //  MARK: - LAZY AREA
     lazy var backgroundView: CustomView = {
         let comp = CustomView()
@@ -31,7 +36,7 @@ public class ListServicesView: UIView {
     
     lazy var textTitle: CustomTextTitle = {
         let comp = CustomTextTitle()
-            .setText("Seus Serviços")
+            .setText("Serviço")
             .setTextAlignment(.center)
             .setConstraints { build in
                 build
@@ -40,50 +45,42 @@ public class ListServicesView: UIView {
             }
         return comp
     }()
-    
-    lazy var searchTextField: TextFieldImageBuilder = {
-        let imgSearch = ImageViewBuilder(systemName: "magnifyingglass")
-        let imgMic = ImageViewBuilder(systemName: "mic.fill")
-        let comp = TextFieldImageBuilder("Pesquisar")
-            .setImage(imgSearch, .left, 8)
-            .setImage(imgMic, .right, 8)
-            .setAutoCapitalization(.none)
-            .setBackgroundColor(hexColor: "#ffffff")
-            .setPadding(8)
-            .setKeyboard({ build in
-                build
-                    .setKeyboardType(.emailAddress)
-                    .setReturnKeyType(.continue)
-            })
-            .setBorder({ build in
-                build
-                    .setCornerRadius(8)
-            })
+
+    lazy var backButton: ButtonImageBuilder = {
+        let img = ImageViewBuilder(systemName: "chevron.backward")
+            .setContentMode(.center)
+        let comp = ButtonImageBuilder()
+            .setImageButton(img)
+            .setImageColor(hexColor: "#ffffff")
             .setConstraints { build in
                 build
-                    .setTop.equalTo(textTitle.get, .bottom, 32)
-                    .setLeading.setTrailing.equalToSafeArea(16)
-                    .setHeight.equalToConstant(48)
+                    .setVerticalAlignmentY.equalTo(textTitle.get)
+                    .setLeading.equalToSafeArea(16)
+                    .setSize.equalToConstant(35)
             }
+        comp.get.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         return comp
     }()
+    @objc private func backButtonTapped() {
+        delegate?.backButtonTapped()
+    }
     
-    public lazy var tableViewListServices: TableViewBuilder = {
+    lazy var tableViewScreen: TableViewBuilder = {
         let comp = TableViewBuilder()
             .setShowsScroll(false, .both)
             .setSeparatorStyle(.none)
             .setBackgroundColor(color: .clear)
-            .setTableFooter(ViewBuilder(frame: CGRect(origin: .zero, size: CGSize(width: 50, height: 50))))
-            .setRegisterCell(ListServicesTableViewCell.self)
+            .setRegisterCell(AddServiceTableViewCell.self)
             .setConstraints { build in
                 build
-                    .setTop.equalTo(searchTextField.get, .bottom, 24)
-                    .setPinBottom.equalToSafeArea
+                    .setTop.equalTo(backButton.get, .bottom, 24)
+                    .setLeading.setTrailing.setBottom.equalToSafeArea
             }
         return comp
     }()
     
-    
+     
+
 //  MARK: - PRIVATE AREA
     
     private func configure() {
@@ -94,18 +91,17 @@ public class ListServicesView: UIView {
     
     private func addElements() {
         backgroundView.add(insideTo: self)
+        backButton.add(insideTo: self)
         textTitle.add(insideTo: self)
-        searchTextField.add(insideTo: self)
-        tableViewListServices.add(insideTo: self)
-        
+        tableViewScreen.add(insideTo: self)
     }
     
     private func configConstraints() {
         backgroundView.applyConstraint()
+        backButton.applyConstraint()
         textTitle.applyConstraint()
-        searchTextField.applyConstraint()
-        tableViewListServices.applyConstraint()
+        tableViewScreen.applyConstraint()
     }
     
-        
+    
 }

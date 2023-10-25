@@ -93,7 +93,7 @@ public final class ProfileSummaryViewController: UIViewController {
     }
     
     private func configTableViewDelegate() {
-        screen.tableViewScroll.get.reloadData()
+//        screen.tableViewScroll.get.reloadData()
         screen.tableViewScroll.setDelegate(delegate: self)
         screen.tableViewScroll.setDataSource(dataSource: self)
     }
