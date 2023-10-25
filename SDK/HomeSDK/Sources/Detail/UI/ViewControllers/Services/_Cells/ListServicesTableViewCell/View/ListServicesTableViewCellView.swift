@@ -51,11 +51,16 @@ public class ListServicesTableViewCellView: ViewBuilder {
             .setSize(26)
         let btn = ButtonImageBuilder()
             .setImageButton(img)
-            .setImageWeight(.ultraLight)
+            .setImageWeight(.light)
+            .setBorder({ build in
+                build
+                    .setCornerRadius(13)
+            })
             .setTintColor(color: .white)
             .setConstraints { build in
                 build
-                    .setPin.equalToSuperView
+                    .setAlignmentCenterXY.equalToSafeArea
+                    .setSize.equalToConstant(35)
             }
         btn.get.addTarget(self, action: #selector(editButtonTapped), for: .touchUpInside)
         return btn

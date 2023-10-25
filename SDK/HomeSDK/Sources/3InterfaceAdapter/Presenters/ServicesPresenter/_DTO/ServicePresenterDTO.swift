@@ -8,15 +8,15 @@ public struct ServicePresenterDTO {
     public var uIDFirebase: String?
     public var name: String?
     public var description: String?
-    public var duration: Int?
-    public var howMutch: Double?
+    public var duration: String?
+    public var howMutch: String?
     
     public init(id: Int? = nil, 
                 uIDFirebase: String? = nil,
                 name: String? = nil,
                 description: String? = nil,
-                duration: Int? = nil,
-                howMutch: Double? = nil) {
+                duration: String? = nil,
+                howMutch: String? = nil) {
         self.id = id
         self.uIDFirebase = uIDFirebase
         self.name = name

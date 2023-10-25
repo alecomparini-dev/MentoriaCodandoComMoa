@@ -3,12 +3,17 @@
 
 import UIKit
 
+import HomePresenters
+
 public protocol AddServiceViewControllerCoordinator: AnyObject {
     func gotoListServiceHomeTabBar()
 }
 
 public class AddServiceViewController: UIViewController {
     public weak var coordinator: AddServiceViewControllerCoordinator?
+    
+    private var servicePresenterDTO: ServicePresenterDTO? = ServicePresenterDTO()
+    private var cellScreen: AddServiceTableViewCell?
     
     public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nil, bundle: nil)
@@ -35,6 +40,12 @@ public class AddServiceViewController: UIViewController {
         configure()
     }
 
+//  MARK: - DATA TRANSFER
+    public func setDataTransfer(_ data: Any?) {
+        if let service = data as? ServicePresenterDTO {
+            self.servicePresenterDTO = service
+        }
+    }
     
 //  MARK: - PRIVATE AREA
     private func configure() {
@@ -43,6 +54,8 @@ public class AddServiceViewController: UIViewController {
     
     private func configDelegate() {
         screen.delegate = self
+        screen.tableViewScreen.setDelegate(delegate: self)
+        screen.tableViewScreen.setDataSource(dataSource: self)
     }
     
     
@@ -55,4 +68,48 @@ extension AddServiceViewController: AddServiceViewDelegate {
         coordinator?.gotoListServiceHomeTabBar()
     }
     
+}
+
+
+//  MARK: - EXTENSION - TABLEVIEW - UITableViewDelegate
+extension AddServiceViewController: UITableViewDelegate {
+
+    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 640
+    }
+}
+
+
+//  MARK: - EXTENSION - UITableViewDataSource
+extension AddServiceViewController: UITableViewDataSource {
+    
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        cellScreen = tableView.dequeueReusableCell(withIdentifier: AddServiceTableViewCell.identifier, for: indexPath) as? AddServiceTableViewCell
+        
+        cellScreen?.screen.delegate = self
+        
+        cellScreen?.selectionStyle = .none
+        
+        cellScreen?.backgroundColor = .clear
+        
+        cellScreen?.setupCell(servicePresenterDTO)
+        
+        return cellScreen ?? UITableViewCell()
+        
+    }
+    
+}
+
+
+extension AddServiceViewController: AddServiceViewCellDelegate {
+    
+    public func confirmationButtonTapped() {
+        coordinator?.gotoListServiceHomeTabBar()
+    }
+       
 }

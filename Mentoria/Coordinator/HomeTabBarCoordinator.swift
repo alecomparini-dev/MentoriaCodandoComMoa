@@ -6,6 +6,7 @@ import UIKit
 
 import CustomComponentsSDK
 import HomeUI
+import HomePresenters
 import ProfileUI
 import ProfilePresenters
 
@@ -88,12 +89,13 @@ extension HomeTabBarCoordinator: ProfileSummaryViewControllerCoordinator {
 
 //  MARK: - EXTENSION - ListServicesViewControllerCoordinator
 extension HomeTabBarCoordinator: ListServicesViewControllerCoordinator {
-    func gotoAddService() {
+    func gotoAddService(_ servicePresenterDTO: ServicePresenterDTO?) {
         let nav = NavigationController()
         if let currentScene = CurrentWindow.get {
             currentScene.rootViewController = nav
         }
         let coordinator = AddServiceCoordinator(nav)
+        coordinator.dataTransfer = servicePresenterDTO
         coordinator.start()
         childCoordinator = nil
     }

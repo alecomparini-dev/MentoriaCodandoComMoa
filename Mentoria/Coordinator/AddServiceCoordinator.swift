@@ -8,6 +8,8 @@ import HomeUI
 public class AddServiceCoordinator: Coordinator {
     var childCoordinator: Coordinator?
     
+    var dataTransfer: Any?
+    
     unowned var navigationController: NavigationController
     
     required init(_ navigationController: NavigationController) {
@@ -18,6 +20,7 @@ public class AddServiceCoordinator: Coordinator {
         childCoordinator = self
         var controller = AddServiceViewController()
         controller = navigationController.pushViewController(controller)
+        controller.setDataTransfer(dataTransfer)
         controller.coordinator = self
     }
 

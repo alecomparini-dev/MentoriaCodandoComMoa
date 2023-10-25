@@ -22,7 +22,7 @@ class ListServicesTableViewCell: UITableViewCell {
     }
     
     
-//  MARK: - CREATE ELEMENT SCREEN
+//  MARK: - CREATE SCREEN
     public lazy var screen: ListServicesTableViewCellView = {
         let view = ListServicesTableViewCellView()
             .setConstraints { build in
@@ -36,10 +36,45 @@ class ListServicesTableViewCell: UITableViewCell {
 //  MARK: - SETUP CELL
     
     public func setupCell(_ servicePresenterDTO: ServicePresenterDTO?, _ editCompletionHandler: @escaping editCompletionHandler) {
+        guard let servicePresenterDTO else {return}
         self.servicePresenterDTO = servicePresenterDTO
         self.editCompletionHander = editCompletionHandler
+        configCardServiceView()
+        resetSkeleton()
+        
     }
     
+//  MARK: - PUBLIC AREA
+    public func configSkeleton() {
+        screen.cardServiceView.titleServiceLabel.setSkeleton { build in
+            build.showSkeleton(.gradientAnimated)
+        }
+        screen.cardServiceView.subTitleServiceLabel.setSkeleton { build in
+            build
+                .setSkeletonLineSpacing(4)
+                .showSkeleton(.gradientAnimated)
+        }
+        screen.cardServiceView.durationLabel.setSkeleton { build in
+            build.showSkeleton(.gradientAnimated)
+        }
+        screen.cardServiceView.howMutchLabel.setSkeleton { build in
+            build.showSkeleton(.gradientAnimated)
+        }
+        screen.editButton.setSkeleton { build in
+            build.showSkeleton(.gradientAnimated)
+        }
+        
+//        screen.editButton.get.imageView?.isSkeletonable = true
+//        screen.editButton.get.imageView?.showGradientSkeleton()
+    }
+    
+    private func resetSkeleton() {
+        screen.cardServiceView.titleServiceLabel.get.hideSkeleton()
+        screen.cardServiceView.subTitleServiceLabel.get.hideSkeleton()
+        screen.cardServiceView.durationLabel.get.hideSkeleton()
+        screen.cardServiceView.howMutchLabel.get.hideSkeleton()
+        screen.editButton.get.hideSkeleton()
+    }
 
 //  MARK: - PRIVATE AREA
     
@@ -65,6 +100,14 @@ class ListServicesTableViewCell: UITableViewCell {
     private func configDelegate() {
         screen.delegate = self
     }
+    
+    public func configCardServiceView() {
+        screen.cardServiceView.titleServiceLabel.setText(servicePresenterDTO?.name)
+        screen.cardServiceView.subTitleServiceLabel.setText(servicePresenterDTO?.description)
+        screen.cardServiceView.durationLabel.setText(servicePresenterDTO?.duration)
+        screen.cardServiceView.howMutchLabel.setText(servicePresenterDTO?.howMutch)
+    }
+    
     
 }
 
