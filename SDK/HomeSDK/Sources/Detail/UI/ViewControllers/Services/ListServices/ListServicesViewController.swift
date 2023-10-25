@@ -69,7 +69,7 @@ extension ListServicesViewController: UITableViewDelegate {
 extension ListServicesViewController: UITableViewDataSource {
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return 5
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -77,6 +77,7 @@ extension ListServicesViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: ListServicesTableViewCell.identifier, for: indexPath) as? ListServicesTableViewCell
         
         cell?.setupCell(ServicePresenterDTO(id: indexPath.row)) { [weak self] servicePresenterDTO in
+            print("ID: ", servicePresenterDTO?.id ?? "")
             self?.coordinator?.gotoAddService()
         }
         

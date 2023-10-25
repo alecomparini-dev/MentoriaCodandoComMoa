@@ -61,7 +61,7 @@ public class ListServicesView: UIView {
             })
             .setConstraints { build in
                 build
-                    .setTop.equalTo(textTitle.get, .bottom, 24)
+                    .setTop.equalTo(textTitle.get, .bottom, 32)
                     .setLeading.setTrailing.equalToSafeArea(16)
                     .setHeight.equalToConstant(48)
             }
@@ -73,10 +73,11 @@ public class ListServicesView: UIView {
             .setShowsScroll(false, .both)
             .setSeparatorStyle(.none)
             .setBackgroundColor(color: .clear)
+            .setTableFooter(ViewBuilder(frame: CGRect(origin: .zero, size: CGSize(width: 50, height: 50))))
             .setRegisterCell(ListServicesTableViewCell.self)
             .setConstraints { build in
                 build
-                    .setTop.equalTo(searchTextField.get, .bottom, 16)
+                    .setTop.equalTo(searchTextField.get, .bottom, 24)
                     .setPinBottom.equalToSafeArea
             }
         return comp
