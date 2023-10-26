@@ -61,7 +61,7 @@ let package = Package(
         .target(
             name: "HomeUI",
             dependencies: [
-//                "HomePresenters",
+                "HomePresenters",
                 .product(name: "DesignerSystemSDKComponent" , package: "DesignerSystemSDK"),
             ],
             path: "Sources/Detail/UI"

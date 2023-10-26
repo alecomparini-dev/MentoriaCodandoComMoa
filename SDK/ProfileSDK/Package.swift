@@ -9,9 +9,10 @@ let package = Package(
         .iOS(.v14),
         .macOS(.v10_15)
     ],
-    
+
     products: [
-        .library(name: "ProfileSDK", targets: [ "ProfilePresenters", "ProfileUseCaseGateway", "ProfileUI" , "ProfileAuthentication", "ProfileValidations"] )
+        .library(name: "ProfileSDK", targets: [ "ProfilePresenters", "ProfileUI", "ProfileValidations", "ProfileUseCaseGateway", "ProfileAuthentication"] )
+//        .library(name: "ProfileSDKMain",  targets: ["ProfileSDKMain"]),
     ],
     
     dependencies: [
@@ -56,6 +57,14 @@ let package = Package(
             path: "Sources/3InterfaceAdapter/UseCaseGateway"
         ),
         
+        .target(
+            name: "ProfileMainAdapter",
+            dependencies: [
+                "ProfileUseCases"
+            ],
+            path: "Sources/3InterfaceAdapter/ProfileMainAdapter"
+        ),
+
         
 
 //  MARK: - DETAILS LAYER
@@ -87,16 +96,19 @@ let package = Package(
             ],
             path: "Sources/Detail/Validations"
         ),
-        
-//        .target(
-//            name: "ProfileFrameworks",
-//            dependencies: [
-//                "ProfilePresenters",
-//            ],
-//            path: "Sources/Detail/Frameworks"
-//        ),
 
         
+
+//  MARK: - MAIN LAYER
+//        .target(
+//            name: "ProfileSDKMain",
+//            dependencies: [
+//                "ProfileMainAdapter",
+//                "ProfileAuthentication",
+//            ],
+//            path: "Sources/Main"
+//        ),
+
         
 //  MARK: - TESTS TARGETS AREA
 //        .testTarget(name: "ProfileSDKTests", dependencies: []),

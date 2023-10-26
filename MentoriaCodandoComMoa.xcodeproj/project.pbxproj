@@ -30,7 +30,7 @@
 		026682D62AA7D75F00EE70EC /* SignInCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026682D52AA7D75F00EE70EC /* SignInCoordinator.swift */; };
 		026682D82AA7D8A200EE70EC /* HomeTabBarCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026682D72AA7D8A200EE70EC /* HomeTabBarCoordinator.swift */; };
 		026FC69B2AD9D0430009D1A3 /* ProfileRegistrationStep2Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026FC69A2AD9D0430009D1A3 /* ProfileRegistrationStep2Coordinator.swift */; };
-		027239622AE0437E009BA9A1 /* ProfileSummaryFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 027239612AE0437E009BA9A1 /* ProfileSummaryFactory.swift */; };
+		027239622AE0437E009BA9A1 /* ProfileSummaryViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 027239612AE0437E009BA9A1 /* ProfileSummaryViewControllerFactory.swift */; };
 		028B28A12AA75EAE008E4A7E /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 028B28A02AA75EAE008E4A7E /* Environment.swift */; };
 		028B28A42AA75F8C008E4A7E /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 028B28A32AA75F8C008E4A7E /* Release.xcconfig */; };
 		028B28BC2AA76EEC008E4A7E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 028B28BB2AA76EEC008E4A7E /* Constants.swift */; };
@@ -41,6 +41,7 @@
 		02B18F912AE6A4CF0063D655 /* LocalStorageSDKDetail in Frameworks */ = {isa = PBXBuildFile; productRef = 02B18F902AE6A4CF0063D655 /* LocalStorageSDKDetail */; };
 		02B18F932AE6A4CF0063D655 /* LocalStorageSDKMain in Frameworks */ = {isa = PBXBuildFile; productRef = 02B18F922AE6A4CF0063D655 /* LocalStorageSDKMain */; };
 		02D7D2962AE86283003E4CF4 /* AddServiceCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02D7D2952AE86283003E4CF4 /* AddServiceCoordinator.swift */; };
+		02FFBF122AEAA14B00BBF19C /* ListServicesViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02FFBF112AEAA14B00BBF19C /* ListServicesViewControllerFactory.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -69,7 +70,7 @@
 		026682D52AA7D75F00EE70EC /* SignInCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInCoordinator.swift; sourceTree = "<group>"; };
 		026682D72AA7D8A200EE70EC /* HomeTabBarCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeTabBarCoordinator.swift; sourceTree = "<group>"; };
 		026FC69A2AD9D0430009D1A3 /* ProfileRegistrationStep2Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRegistrationStep2Coordinator.swift; sourceTree = "<group>"; };
-		027239612AE0437E009BA9A1 /* ProfileSummaryFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSummaryFactory.swift; sourceTree = "<group>"; };
+		027239612AE0437E009BA9A1 /* ProfileSummaryViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSummaryViewControllerFactory.swift; sourceTree = "<group>"; };
 		0281EC362AB8D49200D31407 /* ValidatorSDK */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = ValidatorSDK; path = SDK/ValidatorSDK; sourceTree = "<group>"; };
 		028B28A02AA75EAE008E4A7E /* Environment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		028B28A22AA75F52008E4A7E /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
@@ -81,6 +82,7 @@
 		02995B932AB39B6200615FDC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		02D7D2952AE86283003E4CF4 /* AddServiceCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddServiceCoordinator.swift; sourceTree = "<group>"; };
 		02E2C39E2AA0FFD30040A2C8 /* MentoriaCodandoComMoa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MentoriaCodandoComMoa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		02FFBF112AEAA14B00BBF19C /* ListServicesViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListServicesViewControllerFactory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -262,7 +264,7 @@
 		027239602AE04368009BA9A1 /* ProfileSummary */ = {
 			isa = PBXGroup;
 			children = (
-				027239612AE0437E009BA9A1 /* ProfileSummaryFactory.swift */,
+				027239612AE0437E009BA9A1 /* ProfileSummaryViewControllerFactory.swift */,
 			);
 			path = ProfileSummary;
 			sourceTree = "<group>";
@@ -322,6 +324,7 @@
 		02995B4D2AB34C1300615FDC /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				02FFBF0F2AEAA12700BBF19C /* Service */,
 				024BC97B2ADAEB0900E9EEDC /* Profile */,
 				024E688B2AB485D70044A521 /* SignIn */,
 				024E688C2AB485EB0044A521 /* SignUp */,
@@ -346,6 +349,22 @@
 				0212ECAC2AA10867001C1BCF /* Mentoria.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		02FFBF0F2AEAA12700BBF19C /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				02FFBF102AEAA13600BBF19C /* ListServices */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		02FFBF102AEAA13600BBF19C /* ListServices */ = {
+			isa = PBXGroup;
+			children = (
+				02FFBF112AEAA14B00BBF19C /* ListServicesViewControllerFactory.swift */,
+			);
+			path = ListServices;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -496,6 +515,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				02FFBF122AEAA14B00BBF19C /* ListServicesViewControllerFactory.swift in Sources */,
 				022055102AE1E48100C076FC /* CEPMask.swift in Sources */,
 				0220550A2AE1C8C900C076FC /* CellPhoneMask.swift in Sources */,
 				026682D82AA7D8A200EE70EC /* HomeTabBarCoordinator.swift in Sources */,
@@ -519,7 +539,7 @@
 				0212ECB12AA10867001C1BCF /* SceneDelegate.swift in Sources */,
 				026682D42AA7D69D00EE70EC /* NavigationController.swift in Sources */,
 				028B28BC2AA76EEC008E4A7E /* Constants.swift in Sources */,
-				027239622AE0437E009BA9A1 /* ProfileSummaryFactory.swift in Sources */,
+				027239622AE0437E009BA9A1 /* ProfileSummaryViewControllerFactory.swift in Sources */,
 				026FC69B2AD9D0430009D1A3 /* ProfileRegistrationStep2Coordinator.swift in Sources */,
 				024E688E2AB4860A0044A521 /* SignUpViewControllerFactory.swift in Sources */,
 			);

@@ -49,13 +49,15 @@ class HomeTabBarCoordinator: Coordinator {
 //  MARK: - PRIVATE AREA
     private func createProfileSummaryTabBarItem() -> TabBarItems {
         
-        let profileSummaryController = ProfileSummaryFactory.make()
+        let profileSummaryController = ProfileSummaryViewControllerFactory.make()
         profileSummaryController.coordinator = self
         return TabBarItems(viewController: profileSummaryController, image: ImageViewBuilder(systemName: "person"), title: "Perfil")
     }
     
     private func createListServiceTabBarItem() -> TabBarItems {
-        let listServiceVC = ListServicesViewController()
+        
+        let listServiceVC = ListServicesViewControllerFactory.make()
+        
         listServiceVC.coordinator = self
         return TabBarItems(viewController: listServiceVC, image: ImageViewBuilder(systemName: "wrench.and.screwdriver.fill"), title: "Serviços")
     }

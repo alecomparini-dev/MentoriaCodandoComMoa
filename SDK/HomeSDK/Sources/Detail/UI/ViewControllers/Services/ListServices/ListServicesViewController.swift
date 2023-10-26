@@ -3,6 +3,7 @@
 
 import UIKit
 import HomePresenters
+//import ProfileSDKMain
 
 public protocol ListServicesViewControllerCoordinator: AnyObject {
     func gotoAddService(_ servicePresenterDTO: ServicePresenterDTO?)
@@ -13,11 +14,17 @@ public protocol ListServicesViewControllerCoordinator: AnyObject {
 public class ListServicesViewController: UIViewController {
     public weak var coordinator: ListServicesViewControllerCoordinator?
     
+    private var userIDAuth: String?
     private var servicePresenterDTO: ServicePresenterDTO?
     private var listServicePresenterDTO: [ServicePresenterDTO]?
     
+    private var listServicePresenter: ListServicesPresenter
     
-    public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+    
+//  MARK: - INITIALIZERS
+    
+    public init(listServicePresenter: ListServicesPresenter) {
+        self.listServicePresenter = listServicePresenter
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -25,6 +32,8 @@ public class ListServicesViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    
+//  MARK: - SET SCREEN
     public lazy var screen: ListServicesView = {
         let view = ListServicesView()
         return view
@@ -52,31 +61,25 @@ public class ListServicesViewController: UIViewController {
         
         DispatchQueue.main.async { [weak self] in
             guard let self else {return}
-            screen.tableViewListServices.get.reloadData()
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
-                self.listServicePresenterDTO = [
-                    ServicePresenterDTO(id: 1, uIDFirebase: "", name: "Desenvolvimento iOS", description: "Desenvolvimento de applicativos para IOS ", duration: "60 min", howMutch: "R$ 550,00"),
-                    ServicePresenterDTO(id: 2, uIDFirebase: "", name: "Desenvolvimento Android", description: "Desenvolvimento de applicativos para IOS ", duration: "60 min", howMutch: "R$ 200,00"),
-                    ServicePresenterDTO(id: 3, uIDFirebase: "", name: "Desenvolvimento Flutter", description: "Desenvolvimento de applicativos para IOS ", duration: "60 min", howMutch: "R$ 100,00"),
-                    ServicePresenterDTO(id: 4, uIDFirebase: "", name: "Desenvolvimento BackEnd Java", description: "Desenvolvimento de applicativos para IOS ", duration: "60:00", howMutch: "R$ 20,00")
-                ]
-                self.screen.tableViewListServices.get.reloadData()
-            })
-            
+            reloadTableView()
         }
     }
 
     
-    
 //  MARK: - PRIVATE AREA
     private func configure() {
         configDelegate()
+        getUserAuth()
     }
     
     private func configDelegate() {
         screen.tableViewListServices.setDelegate(delegate: self)
         screen.tableViewListServices.setDataSource(dataSource: self)
+        listServicePresenter.outputDelegate = self
+    }
+    
+    private func getUserAuth() {
+//        let profile =
     }
     
 }
@@ -120,5 +123,24 @@ extension ListServicesViewController: UITableViewDataSource {
         
         return cell ?? UITableViewCell()
     }
+    
+}
+
+
+//  MARK: - EXTENSION - ListServicesPresenterOutput
+
+extension ListServicesViewController: ListServicesPresenterOutput {
+    public func successFetchListServices() {
+        
+    }
+    
+    public func errorFetchListServices(title: String, message: String) {
+        
+    }
+    
+    public func reloadTableView() {
+        screen.tableViewListServices.get.reloadData()
+    }
+    
     
 }
