@@ -15,7 +15,6 @@ public class ListServicesViewController: UIViewController {
     public weak var coordinator: ListServicesViewControllerCoordinator?
     
     private var userIDAuth: String?
-//    private var servicePresenterDTO: ServicePresenterDTO?
     private var listServicePresenter: ListServicesPresenter
     
     
@@ -67,10 +66,29 @@ public class ListServicesViewController: UIViewController {
     }
     
     private func configDelegate() {
+        configScreenDelegate()
+        configTableViewListServiceDelegate()
+        configListServicePresenterDelegate()
+        configTextFieldDelegate()
+    }
+    
+    private func configScreenDelegate() {
+        screen.delegate = self
+    }
+    
+    private func configTableViewListServiceDelegate() {
         screen.tableViewListServices.setDelegate(delegate: self)
         screen.tableViewListServices.setDataSource(dataSource: self)
+    }
+    
+    private func configListServicePresenterDelegate() {
         listServicePresenter.outputDelegate = self
     }
+    
+    private func configTextFieldDelegate() {
+        screen.searchTextField.setDelegate(self)
+    }
+    
     
     private func getUserAuth() {
         // TODO: - RETIRAR ESTE TRECHO DAQUI, USAR O PADRAO DO CLEAN ARCH
@@ -89,6 +107,17 @@ public class ListServicesViewController: UIViewController {
     private func fetchListServices() {
         if let userIDAuth {
             listServicePresenter.fetchCurrencies(userIDAuth)
+        }
+    }
+    
+}
+
+
+//  MARK: -
+extension ListServicesViewController: ListServicesViewDelegate {
+    public func searchTextFieldEditing(_ textField: UITextField) {
+        if let text = textField.text {
+            listServicePresenter.filterServices(text)
         }
     }
     
@@ -129,7 +158,6 @@ extension ListServicesViewController: UITableViewDataSource {
             coordinator?.gotoAddService(service)
         }
         
-        
         return cell ?? UITableViewCell()
     }
     
@@ -154,5 +182,25 @@ extension ListServicesViewController: ListServicesPresenterOutput {
         
     }
     
+}
+
+
+//  MARK: - EXTENSION - UITextFieldDelegate
+extension ListServicesViewController: UITextFieldDelegate {
+
+    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+//    public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+//        textField.text = (textField.text ?? "") + string
+//        if let text = textField.text {
+//            listServicePresenter.filterServices(text)
+//        }
+//        
+//        if string.isEmpty { return true }
+//        return false
+//    }
     
 }
