@@ -3,7 +3,7 @@
 
 import UIKit
 import HomePresenters
-//import ProfileMain
+import ProfileSDKMain
 
 public protocol ListServicesViewControllerCoordinator: AnyObject {
     func gotoAddService(_ servicePresenterDTO: ServicePresenterDTO?)
@@ -15,9 +15,7 @@ public class ListServicesViewController: UIViewController {
     public weak var coordinator: ListServicesViewControllerCoordinator?
     
     private var userIDAuth: String?
-    private var servicePresenterDTO: ServicePresenterDTO?
-    private var listServicePresenterDTO: [ServicePresenterDTO]?
-    
+//    private var servicePresenterDTO: ServicePresenterDTO?
     private var listServicePresenter: ListServicesPresenter
     
     
@@ -57,12 +55,8 @@ public class ListServicesViewController: UIViewController {
     
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if listServicePresenterDTO != nil {return}
-        
-        DispatchQueue.main.async { [weak self] in
-            guard let self else {return}
-            reloadTableView()
-        }
+        if listServicePresenter.getServices() != nil {return}
+        reloadTableView()
     }
 
     
@@ -79,8 +73,23 @@ public class ListServicesViewController: UIViewController {
     }
     
     private func getUserAuth() {
-//        let profile = ProfileSDKMain().getUserAuthenticated()
-        
+        // TODO: - RETIRAR ESTE TRECHO DAQUI, USAR O PADRAO DO CLEAN ARCH
+        Task {
+            do {
+                self.userIDAuth = try await ProfileSDKMain().getUserAuthenticated()
+                
+                fetchListServices()
+                
+            } catch let error  {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func fetchListServices() {
+        if let userIDAuth {
+            listServicePresenter.fetchCurrencies(userIDAuth)
+        }
     }
     
 }
@@ -94,8 +103,7 @@ extension ListServicesViewController: UITableViewDelegate {
     }
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let listServicePresenterDTO else {return}
-        coordinator?.gotoViewerService(listServicePresenterDTO[indexPath.row])
+        coordinator?.gotoViewerService(listServicePresenter.getServiceBy(index: indexPath.row))
     }
 }
 
@@ -104,23 +112,23 @@ extension ListServicesViewController: UITableViewDelegate {
 extension ListServicesViewController: UITableViewDataSource {
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return listServicePresenterDTO?.count ?? 3
+        return listServicePresenter.numberOfRowsInSection() ?? 3
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: ListServicesTableViewCell.identifier, for: indexPath) as? ListServicesTableViewCell
                 
-        if listServicePresenterDTO == nil {
+        if listServicePresenter.getServices() == nil {
             DispatchQueue.main.async { cell?.configSkeleton()  }
         }
         
-        cell?.setupCell(listServicePresenterDTO?[indexPath.row]) { [weak self] servicePresenterDTO in
+        let service: ServicePresenterDTO? = listServicePresenter.getServiceBy(index: indexPath.row)
+        cell?.setupCell(service) { [weak self] in
             guard let self else {return}
-            coordinator?.gotoAddService(listServicePresenterDTO?[indexPath.row])
+            coordinator?.gotoAddService(service)
         }
         
-        cell?.backgroundColor = .clear
         
         return cell ?? UITableViewCell()
     }
@@ -132,7 +140,7 @@ extension ListServicesViewController: UITableViewDataSource {
 
 extension ListServicesViewController: ListServicesPresenterOutput {
     public func successFetchListServices() {
-        
+        reloadTableView()
     }
     
     public func errorFetchListServices(title: String, message: String) {
@@ -140,7 +148,10 @@ extension ListServicesViewController: ListServicesPresenterOutput {
     }
     
     public func reloadTableView() {
-        screen.tableViewListServices.get.reloadData()
+        DispatchQueue.main.async { [weak self] in
+            self?.screen.tableViewListServices.get.reloadData()
+        }
+        
     }
     
     

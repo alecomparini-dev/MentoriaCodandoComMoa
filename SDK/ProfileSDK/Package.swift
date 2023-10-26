@@ -13,7 +13,7 @@ let package = Package(
     products: [
         .library(name: "ProfileSDK", targets: [ "ProfilePresenters", "ProfileUseCaseGateway", "ProfileUI", 
                                                 "ProfileAuthentication", "ProfileValidations"] ),
-        .library(name: "ProfileSDKMain",  targets: ["ProfileMain"]),
+        .library(name: "ProfileSDKMain",  targets: ["ProfileSDKMain"]),
     ],
     
     
@@ -104,7 +104,7 @@ let package = Package(
 
 //  MARK: - MAIN LAYER
         .target(
-            name: "ProfileMain",
+            name: "ProfileSDKMain",
             dependencies: [
                 "ProfileMainAdapter",
                 "ProfileAuthentication"

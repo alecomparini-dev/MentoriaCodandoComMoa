@@ -8,9 +8,9 @@ public protocol ListServicesPresenter {
     
     func fetchCurrencies(_ userIDAuth: String)
     
-    func numberOfRowsInSection() -> Int
+    func numberOfRowsInSection() -> Int?
     
-    func getServices() -> [ServicePresenterDTO]
+    func getServices() -> [ServicePresenterDTO]?
     
     func getServiceBy(index: Int) -> ServicePresenterDTO?
     

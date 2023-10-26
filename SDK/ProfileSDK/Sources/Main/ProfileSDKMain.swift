@@ -13,7 +13,7 @@ public class ProfileSDKMain {
     
     public init() {}
     
-    public func getUserAuthenticated() -> String? {
+    public func getUserAuthenticated() async throws -> String? {
         
         let userAutenticator = FirebaseUserAuthenticated()
         
@@ -23,14 +23,8 @@ public class ProfileSDKMain {
         
         let getUserAuthAdapter = GetUserAuthenticatedAdapterImpl(getUserAuthUseCase: getUserAuthUseCase)
         
-        Task {
-            do {
-                let userIDAuth = try await getUserAuthAdapter.getUserAuth()
-                return userIDAuth
-            }
-        }
+        return try await getUserAuthAdapter.getUserAuth()
         
-        return nil
     }
     
 }
