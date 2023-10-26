@@ -28,7 +28,7 @@ public class ListServicesTableViewCellView: ViewBuilder {
         let card = CardServiceView()
             .setConstraints { build in
                 build
-                    .setTop.setBottom.equalToSafeArea(16)
+                    .setTop.setBottom.equalToSafeArea(12)
                     .setLeading.equalToSafeArea(24)
                     .setTrailing.equalToSafeArea(-60)
             }
