@@ -18,7 +18,6 @@ class ViewerServiceCoordinator: Coordinator {
     }
     
     func start() {
-        childCoordinator = self
         let controller = ViewerServiceViewController()
         controller.setDataTransfer(dataTransfer)
         controller.coordinator = self
@@ -37,12 +36,12 @@ class ViewerServiceCoordinator: Coordinator {
             })
         }
         homeTabBar?.present(controller, animated: true)
-        
     }
     
 }
 
 
+//  MARK: - EXTENSION - ViewerServiceViewControllerCoordinator
 extension ViewerServiceCoordinator: ViewerServiceViewControllerCoordinator {
     
     func gotoEditService(_ servicePresenterDTO: ServicePresenterDTO?) {
