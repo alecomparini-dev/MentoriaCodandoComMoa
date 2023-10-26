@@ -11,14 +11,17 @@ let package = Package(
     ],
 
     products: [
-        .library(name: "ProfileSDK", targets: [ "ProfilePresenters", "ProfileUI", "ProfileValidations", "ProfileUseCaseGateway", "ProfileAuthentication"] )
-//        .library(name: "ProfileSDKMain",  targets: ["ProfileSDKMain"]),
+        .library(name: "ProfileSDK", targets: [ "ProfilePresenters", "ProfileUseCaseGateway", "ProfileUI", 
+                                                "ProfileAuthentication", "ProfileValidations"] ),
+        .library(name: "ProfileSDKMain",  targets: ["ProfileMain"]),
     ],
+    
+    
     
     dependencies: [
         .package(url: "https://github.com/alecomparini-dev/DesignerSystemSDK.git", branch: "develop"),
-        .package(url: "https://github.com/firebase/firebase-ios-sdk.git", .upToNextMajor(from: "10.0.0")),
-        .package(name: "ValidatorSDK", path: "../SDK/ValidatorSDK"),
+        .package(url: "https://github.com/alecomparini-dev/ValidatorSDK.git", branch: "develop"),
+        .package(url: "https://github.com/firebase/firebase-ios-sdk.git", branch: "10.15.0"),
     ],
     
 
@@ -82,7 +85,7 @@ let package = Package(
             name: "ProfileAuthentication",
             dependencies: [
                 "ProfileUseCaseGateway",
-                .product(name: "FirebaseAuth" , package: "firebase-ios-sdk")
+                .product(name: "FirebaseAuth", package: "firebase-ios-sdk")
             ],
             path: "Sources/Detail/Authentication"
         ),
@@ -100,14 +103,14 @@ let package = Package(
         
 
 //  MARK: - MAIN LAYER
-//        .target(
-//            name: "ProfileSDKMain",
-//            dependencies: [
-//                "ProfileMainAdapter",
-//                "ProfileAuthentication",
-//            ],
-//            path: "Sources/Main"
-//        ),
+        .target(
+            name: "ProfileMain",
+            dependencies: [
+                "ProfileMainAdapter",
+                "ProfileAuthentication"
+            ],
+            path: "Sources/Main"
+        ),
 
         
 //  MARK: - TESTS TARGETS AREA

@@ -3,7 +3,7 @@
 
 import UIKit
 import HomePresenters
-//import ProfileSDKMain
+//import ProfileMain
 
 public protocol ListServicesViewControllerCoordinator: AnyObject {
     func gotoAddService(_ servicePresenterDTO: ServicePresenterDTO?)
@@ -79,7 +79,8 @@ public class ListServicesViewController: UIViewController {
     }
     
     private func getUserAuth() {
-//        let profile =
+//        let profile = ProfileSDKMain().getUserAuthenticated()
+        
     }
     
 }
