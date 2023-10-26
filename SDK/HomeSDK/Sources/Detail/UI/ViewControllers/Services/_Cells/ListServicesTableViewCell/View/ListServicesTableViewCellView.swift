@@ -37,11 +37,15 @@ public class ListServicesTableViewCellView: ViewBuilder {
     
     lazy var editView: ViewBuilder = {
         let view = ViewBuilder()
+            .setBorder({ build in
+                build
+                    .setCornerRadius(25)
+            })
             .setConstraints { build in
                 build
-                    .setTop.setBottom.equalToSafeArea(16)
-                    .setTrailing.equalToSafeArea
-                    .setWidth.equalToConstant(60)
+                    .setVerticalAlignmentY.equalToSafeArea
+                    .setTrailing.equalToSafeArea(-4)
+                    .setSize.equalToConstant(50)
             }
         return view
     }()
@@ -54,13 +58,14 @@ public class ListServicesTableViewCellView: ViewBuilder {
             .setImageWeight(.light)
             .setBorder({ build in
                 build
-                    .setCornerRadius(13)
+                    .setCornerRadius(50)
             })
             .setTintColor(color: .white)
             .setConstraints { build in
                 build
-                    .setAlignmentCenterXY.equalToSafeArea
-                    .setSize.equalToConstant(35)
+                    .setTop.setBottom.equalTo(cardServiceView.get)
+                    .setTrailing.equalToSafeArea
+                    .setLeading.equalTo(cardServiceView.get, .trailing)
             }
         btn.get.addTarget(self, action: #selector(editButtonTapped), for: .touchUpInside)
         return btn
@@ -85,7 +90,7 @@ public class ListServicesTableViewCellView: ViewBuilder {
     private func addElements() {
         cardServiceView.add(insideTo: self.get)
         editView.add(insideTo: self.get)
-        editButton.add(insideTo: editView.get)
+        editButton.add(insideTo: self.get)
     }
     
     private func configConstraints() {

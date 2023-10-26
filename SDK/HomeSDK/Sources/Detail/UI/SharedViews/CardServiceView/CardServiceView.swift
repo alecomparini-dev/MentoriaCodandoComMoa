@@ -27,7 +27,6 @@ public class CardServiceView: ViewBuilder {
                 build
                     .setCornerRadius(12)
                     .setWidth(1)
-//                    .setColor(color: .black.withAlphaComponent(0.8))
                     .setColor(color: UIColor.HEX("#fa79c7").withAlphaComponent(0.8))
             })
             .setConstraints { build in
@@ -39,8 +38,6 @@ public class CardServiceView: ViewBuilder {
     
     lazy var titleServiceLabel: CustomTextTitle = {
         let comp = CustomTextTitle()
-            .setText("Dev iOS JR")
-//            .setColor(hexColor: "#282A35")
             .setColor(hexColor: "#34394f")
             .setWeight(.bold)
             .setSize(16)
@@ -56,7 +53,6 @@ public class CardServiceView: ViewBuilder {
     lazy var underlineView: ViewBuilder = {
         let comp = ViewBuilder()
             .setBackgroundColor(hexColor: "#fa79c7")
-//            .setBackgroundColor(hexColor: "#B281EB")
             .setBorder({ build in
                 build
                     .setCornerRadius(12)
@@ -88,7 +84,6 @@ public class CardServiceView: ViewBuilder {
 
     lazy var durationLabel: CustomTextSecondary = {
         let comp = CustomTextSecondary()
-            .setText("60 min")
             .setColor(color: UIColor.HEX("#282A35", 0.7))
             .setSize(14)
             .setConstraints { build in
@@ -101,7 +96,6 @@ public class CardServiceView: ViewBuilder {
     
     lazy var pointView: ViewBuilder = {
         let comp = ViewBuilder()
-//            .setBackgroundColor(hexColor: "#fa79c7")
             .setBackgroundColor(hexColor: "#B281EB")
             .setBorder({ build in
                 build.setCornerRadius(3)
@@ -117,7 +111,6 @@ public class CardServiceView: ViewBuilder {
     
     lazy var howMutchLabel: CustomTextSecondary = {
         let comp = CustomTextSecondary()
-            .setText("R$ 70,99")
             .setColor(color: UIColor.HEX("#282A35", 0.8))
             .setWeight(.bold)
             .setSize(14)
@@ -162,7 +155,6 @@ public class CardServiceView: ViewBuilder {
     
     private func configShaddowCardView() {
         cardView.get.layer.masksToBounds = false
-//        cardView.get.layer.shadowColor = UIColor.white.cgColor
         cardView.get.layer.shadowColor = UIColor.HEX("#565b79").cgColor
         cardView.get.layer.shadowOpacity = 1
         cardView.get.layer.shadowRadius = 3

@@ -13,6 +13,7 @@ import ProfilePresenters
 class HomeTabBarCoordinator: Coordinator {
     var childCoordinator: Coordinator?
     unowned var navigationController: NavigationController
+    
     var dataTransfer: Any?
     
     private var homeTabBarControllers: HomeTabBar?
@@ -89,6 +90,7 @@ extension HomeTabBarCoordinator: ProfileSummaryViewControllerCoordinator {
 
 //  MARK: - EXTENSION - ListServicesViewControllerCoordinator
 extension HomeTabBarCoordinator: ListServicesViewControllerCoordinator {
+    
     func gotoAddService(_ servicePresenterDTO: ServicePresenterDTO?) {
         let nav = NavigationController()
         if let currentScene = CurrentWindow.get {
@@ -100,9 +102,12 @@ extension HomeTabBarCoordinator: ListServicesViewControllerCoordinator {
         childCoordinator = nil
     }
     
-    func gotoViewerService() {
-        
+    func gotoViewerService(_ servicePresenterDTO: ServicePresenterDTO?) {
+        let nav = NavigationController()
+        let coordinator = ViewerServiceCoordinator(nav)
+        coordinator.dataTransfer = servicePresenterDTO
+        coordinator.start()
     }
-    
+
     
 }
