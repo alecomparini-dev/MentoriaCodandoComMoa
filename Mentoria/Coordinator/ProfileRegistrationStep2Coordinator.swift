@@ -7,7 +7,6 @@ import ProfilePresenters
 
 class ProfileRegistrationStep2Coordinator: Coordinator {
     var childCoordinator: Coordinator?
-    
     unowned let navigationController: NavigationController
     
     var dataTransfer: Any?
