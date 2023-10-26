@@ -6,7 +6,7 @@ import HomePresenters
 
 class ListServicesTableViewCell: UITableViewCell {
     public static let identifier = String(describing: ListServicesTableViewCell.self)
-    typealias editCompletionHandler = (_ servicePresenterDTO: ServicePresenterDTO?) -> Void
+    typealias editCompletionHandler = () -> Void
     
     private var editCompletionHander: editCompletionHandler?
     
@@ -80,6 +80,7 @@ class ListServicesTableViewCell: UITableViewCell {
     
     private func configure() {
         configSelectionStyle()
+        configBackgroundColor()
         addElements()
         configConstraints()
         configDelegate()
@@ -87,6 +88,10 @@ class ListServicesTableViewCell: UITableViewCell {
     
     private func configSelectionStyle() {
         self.selectionStyle = .none
+    }
+    
+    private func configBackgroundColor() {
+        backgroundColor = .clear
     }
     
     private func addElements() {
@@ -116,7 +121,7 @@ class ListServicesTableViewCell: UITableViewCell {
 extension ListServicesTableViewCell: ListServicesTableViewCellViewDelegate {
     
     func editButtonTapped() {
-        editCompletionHander?(servicePresenterDTO)
+        editCompletionHander?()
     }
     
     

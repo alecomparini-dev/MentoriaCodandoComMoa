@@ -9,7 +9,7 @@ import ProfileUseCases
 import ProfileUseCaseGateway
 import ProfileAuthentication
 
-class ProfileSummaryFactory {
+class ProfileSummaryViewControllerFactory {
 
     static func make() -> ProfileSummaryViewController {
         

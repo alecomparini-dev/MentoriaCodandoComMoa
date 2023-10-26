@@ -15,7 +15,8 @@ let package = Package(
     ],
     
     dependencies: [
-        .package(url: "https://github.com/alecomparini-dev/DesignerSystemSDK.git", branch: "develop")
+        .package(url: "https://github.com/alecomparini-dev/DesignerSystemSDK.git", branch: "develop"),
+        .package(url: "https://github.com/firebase/firebase-ios-sdk.git", branch: "10.15.0"),
     ],
     
 
@@ -61,8 +62,9 @@ let package = Package(
         .target(
             name: "HomeUI",
             dependencies: [
-//                "HomePresenters",
+                "HomePresenters",
                 .product(name: "DesignerSystemSDKComponent" , package: "DesignerSystemSDK"),
+                .product(name: "FirebaseAuth", package: "firebase-ios-sdk")
             ],
             path: "Sources/Detail/UI"
         ),

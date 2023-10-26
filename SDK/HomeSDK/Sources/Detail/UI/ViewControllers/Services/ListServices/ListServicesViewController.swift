@@ -3,6 +3,7 @@
 
 import UIKit
 import HomePresenters
+import ProfileSDKMain
 
 public protocol ListServicesViewControllerCoordinator: AnyObject {
     func gotoAddService(_ servicePresenterDTO: ServicePresenterDTO?)
@@ -13,11 +14,14 @@ public protocol ListServicesViewControllerCoordinator: AnyObject {
 public class ListServicesViewController: UIViewController {
     public weak var coordinator: ListServicesViewControllerCoordinator?
     
-    private var servicePresenterDTO: ServicePresenterDTO?
-    private var listServicePresenterDTO: [ServicePresenterDTO]?
+    private var userIDAuth: String?
+    private var listServicePresenter: ListServicesPresenter
     
     
-    public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+//  MARK: - INITIALIZERS
+    
+    public init(listServicePresenter: ListServicesPresenter) {
+        self.listServicePresenter = listServicePresenter
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -25,6 +29,8 @@ public class ListServicesViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    
+//  MARK: - SET SCREEN
     public lazy var screen: ListServicesView = {
         let view = ListServicesView()
         return view
@@ -48,35 +54,71 @@ public class ListServicesViewController: UIViewController {
     
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if listServicePresenterDTO != nil {return}
-        
-        DispatchQueue.main.async { [weak self] in
-            guard let self else {return}
-            screen.tableViewListServices.get.reloadData()
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
-                self.listServicePresenterDTO = [
-                    ServicePresenterDTO(id: 1, uIDFirebase: "", name: "Desenvolvimento iOS", description: "Desenvolvimento de applicativos para IOS ", duration: "60 min", howMutch: "R$ 550,00"),
-                    ServicePresenterDTO(id: 2, uIDFirebase: "", name: "Desenvolvimento Android", description: "Desenvolvimento de applicativos para IOS ", duration: "60 min", howMutch: "R$ 200,00"),
-                    ServicePresenterDTO(id: 3, uIDFirebase: "", name: "Desenvolvimento Flutter", description: "Desenvolvimento de applicativos para IOS ", duration: "60 min", howMutch: "R$ 100,00"),
-                    ServicePresenterDTO(id: 4, uIDFirebase: "", name: "Desenvolvimento BackEnd Java", description: "Desenvolvimento de applicativos para IOS ", duration: "60:00", howMutch: "R$ 20,00")
-                ]
-                self.screen.tableViewListServices.get.reloadData()
-            })
-            
-        }
+        if listServicePresenter.getServices() != nil {return}
+        reloadTableView()
     }
 
-    
     
 //  MARK: - PRIVATE AREA
     private func configure() {
         configDelegate()
+        getUserAuth()
     }
     
     private func configDelegate() {
+        configScreenDelegate()
+        configTableViewListServiceDelegate()
+        configListServicePresenterDelegate()
+        configTextFieldDelegate()
+    }
+    
+    private func configScreenDelegate() {
+        screen.delegate = self
+    }
+    
+    private func configTableViewListServiceDelegate() {
         screen.tableViewListServices.setDelegate(delegate: self)
         screen.tableViewListServices.setDataSource(dataSource: self)
+    }
+    
+    private func configListServicePresenterDelegate() {
+        listServicePresenter.outputDelegate = self
+    }
+    
+    private func configTextFieldDelegate() {
+        screen.searchTextField.setDelegate(self)
+    }
+    
+    
+    private func getUserAuth() {
+        // TODO: - RETIRAR ESTE TRECHO DAQUI, USAR O PADRAO DO CLEAN ARCH
+        Task {
+            do {
+                self.userIDAuth = try await ProfileSDKMain().getUserAuthenticated()
+                
+                fetchListServices()
+                
+            } catch let error  {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func fetchListServices() {
+        if let userIDAuth {
+            listServicePresenter.fetchCurrencies(userIDAuth)
+        }
+    }
+    
+}
+
+
+//  MARK: -
+extension ListServicesViewController: ListServicesViewDelegate {
+    public func searchTextFieldEditing(_ textField: UITextField) {
+        if let text = textField.text {
+            listServicePresenter.filterServices(text)
+        }
     }
     
 }
@@ -90,8 +132,7 @@ extension ListServicesViewController: UITableViewDelegate {
     }
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let listServicePresenterDTO else {return}
-        coordinator?.gotoViewerService(listServicePresenterDTO[indexPath.row])
+        coordinator?.gotoViewerService(listServicePresenter.getServiceBy(index: indexPath.row))
     }
 }
 
@@ -100,25 +141,66 @@ extension ListServicesViewController: UITableViewDelegate {
 extension ListServicesViewController: UITableViewDataSource {
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return listServicePresenterDTO?.count ?? 3
+        return listServicePresenter.numberOfRowsInSection() ?? 3
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: ListServicesTableViewCell.identifier, for: indexPath) as? ListServicesTableViewCell
                 
-        if listServicePresenterDTO == nil {
+        if listServicePresenter.getServices() == nil {
             DispatchQueue.main.async { cell?.configSkeleton()  }
         }
         
-        cell?.setupCell(listServicePresenterDTO?[indexPath.row]) { [weak self] servicePresenterDTO in
+        let service: ServicePresenterDTO? = listServicePresenter.getServiceBy(index: indexPath.row)
+        cell?.setupCell(service) { [weak self] in
             guard let self else {return}
-            coordinator?.gotoAddService(listServicePresenterDTO?[indexPath.row])
+            coordinator?.gotoAddService(service)
         }
-        
-        cell?.backgroundColor = .clear
         
         return cell ?? UITableViewCell()
     }
+    
+}
+
+
+//  MARK: - EXTENSION - ListServicesPresenterOutput
+
+extension ListServicesViewController: ListServicesPresenterOutput {
+    public func successFetchListServices() {
+        reloadTableView()
+    }
+    
+    public func errorFetchListServices(title: String, message: String) {
+        
+    }
+    
+    public func reloadTableView() {
+        DispatchQueue.main.async { [weak self] in
+            self?.screen.tableViewListServices.get.reloadData()
+        }
+        
+    }
+    
+}
+
+
+//  MARK: - EXTENSION - UITextFieldDelegate
+extension ListServicesViewController: UITextFieldDelegate {
+
+    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+//    public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+//        textField.text = (textField.text ?? "") + string
+//        if let text = textField.text {
+//            listServicePresenter.filterServices(text)
+//        }
+//        
+//        if string.isEmpty { return true }
+//        return false
+//    }
     
 }

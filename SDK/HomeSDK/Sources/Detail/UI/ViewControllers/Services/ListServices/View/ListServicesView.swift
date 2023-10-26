@@ -6,8 +6,12 @@ import UIKit
 import CustomComponentsSDK
 import DesignerSystemSDKComponent
 
+public protocol ListServicesViewDelegate: AnyObject {
+    func searchTextFieldEditing(_ textField: UITextField)
+}
+
 public class ListServicesView: UIView {
-    
+    public weak var delegate: ListServicesViewDelegate?
     
     public init() {
         super.init(frame: .zero)
@@ -65,8 +69,12 @@ public class ListServicesView: UIView {
                     .setLeading.setTrailing.equalToSafeArea(16)
                     .setHeight.equalToConstant(48)
             }
+        comp.get.addTarget(self, action: #selector(searchTextFieldEditing), for: .editingChanged)
         return comp
     }()
+    @objc private func searchTextFieldEditing(_ textfield: UITextField) {
+        delegate?.searchTextFieldEditing(textfield)
+    }
     
     public lazy var tableViewListServices: TableViewBuilder = {
         let comp = TableViewBuilder()

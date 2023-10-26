@@ -5,6 +5,8 @@ import Foundation
 import ProfileUseCases
 import ValidatorSDK
 
+
+
 public protocol ProfileRegistrationStep2PresenterOutput: AnyObject {
     func searchCEP(success: CEPDTO?, error: String?)
     func validations(validationsError: String?, fieldsRequired: [ProfileRegistrationStep2PresenterImpl.FieldsRequired])

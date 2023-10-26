@@ -9,15 +9,19 @@ let package = Package(
         .iOS(.v14),
         .macOS(.v10_15)
     ],
-    
+
     products: [
-        .library(name: "ProfileSDK", targets: [ "ProfilePresenters", "ProfileUseCaseGateway", "ProfileUI" , "ProfileAuthentication", "ProfileValidations"] )
+        .library(name: "ProfileSDK", targets: [ "ProfilePresenters", "ProfileUseCaseGateway", "ProfileUI", 
+                                                "ProfileAuthentication", "ProfileValidations"] ),
+        .library(name: "ProfileSDKMain",  targets: ["ProfileSDKMain"]),
     ],
+    
+    
     
     dependencies: [
         .package(url: "https://github.com/alecomparini-dev/DesignerSystemSDK.git", branch: "develop"),
-        .package(url: "https://github.com/firebase/firebase-ios-sdk.git", .upToNextMajor(from: "10.0.0")),
-        .package(name: "ValidatorSDK", path: "../SDK/ValidatorSDK"),
+        .package(url: "https://github.com/alecomparini-dev/ValidatorSDK.git", branch: "develop"),
+        .package(url: "https://github.com/firebase/firebase-ios-sdk.git", branch: "10.15.0"),
     ],
     
 
@@ -56,6 +60,14 @@ let package = Package(
             path: "Sources/3InterfaceAdapter/UseCaseGateway"
         ),
         
+        .target(
+            name: "ProfileMainAdapter",
+            dependencies: [
+                "ProfileUseCases"
+            ],
+            path: "Sources/3InterfaceAdapter/ProfileMainAdapter"
+        ),
+
         
 
 //  MARK: - DETAILS LAYER
@@ -73,7 +85,7 @@ let package = Package(
             name: "ProfileAuthentication",
             dependencies: [
                 "ProfileUseCaseGateway",
-                .product(name: "FirebaseAuth" , package: "firebase-ios-sdk")
+                .product(name: "FirebaseAuth", package: "firebase-ios-sdk")
             ],
             path: "Sources/Detail/Authentication"
         ),
@@ -87,16 +99,19 @@ let package = Package(
             ],
             path: "Sources/Detail/Validations"
         ),
-        
-//        .target(
-//            name: "ProfileFrameworks",
-//            dependencies: [
-//                "ProfilePresenters",
-//            ],
-//            path: "Sources/Detail/Frameworks"
-//        ),
 
         
+
+//  MARK: - MAIN LAYER
+        .target(
+            name: "ProfileSDKMain",
+            dependencies: [
+                "ProfileMainAdapter",
+                "ProfileAuthentication"
+            ],
+            path: "Sources/Main"
+        ),
+
         
 //  MARK: - TESTS TARGETS AREA
 //        .testTarget(name: "ProfileSDKTests", dependencies: []),
