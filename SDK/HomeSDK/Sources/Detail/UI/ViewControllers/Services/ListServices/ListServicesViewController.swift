@@ -6,14 +6,14 @@ import HomePresenters
 
 public protocol ListServicesViewControllerCoordinator: AnyObject {
     func gotoAddService(_ servicePresenterDTO: ServicePresenterDTO?)
-    func gotoViewerService()
+    func gotoViewerService(_ servicePresenterDTO: ServicePresenterDTO?)
 }
 
 
 public class ListServicesViewController: UIViewController {
     public weak var coordinator: ListServicesViewControllerCoordinator?
     
-    private var servicePresenterDTO: ServicePresenterDTO? = ServicePresenterDTO(id: 1, uIDFirebase: "", name: "Desenvolvimento de APP iOS", description: "Desenvolvimento de applicativos para IOS ", duration: "60 min", howMutch: "100,00")
+    private var servicePresenterDTO: ServicePresenterDTO?
     private var listServicePresenterDTO: [ServicePresenterDTO]?
     
     
@@ -53,15 +53,17 @@ public class ListServicesViewController: UIViewController {
         DispatchQueue.main.async { [weak self] in
             guard let self else {return}
             screen.tableViewListServices.get.reloadData()
-            self.listServicePresenterDTO = [
-                ServicePresenterDTO(id: 1, uIDFirebase: "", name: "Desenvolvimento iOS", description: "Desenvolvimento de applicativos para IOS ", duration: "60 min", howMutch: "R$ 550,00"),
-                ServicePresenterDTO(id: 2, uIDFirebase: "", name: "Desenvolvimento Android", description: "Desenvolvimento de applicativos para IOS ", duration: "60 min", howMutch: "R$ 200,00"),
-                ServicePresenterDTO(id: 3, uIDFirebase: "", name: "Desenvolvimento Flutter", description: "Desenvolvimento de applicativos para IOS ", duration: "60 min", howMutch: "R$ 100,00"),
-                ServicePresenterDTO(id: 4, uIDFirebase: "", name: "Desenvolvimento BackEnd Java", description: "Desenvolvimento de applicativos para IOS ", duration: "60:00", howMutch: "R$ 20,00")
-            ]
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+                self.listServicePresenterDTO = [
+                    ServicePresenterDTO(id: 1, uIDFirebase: "", name: "Desenvolvimento iOS", description: "Desenvolvimento de applicativos para IOS ", duration: "60 min", howMutch: "R$ 550,00"),
+                    ServicePresenterDTO(id: 2, uIDFirebase: "", name: "Desenvolvimento Android", description: "Desenvolvimento de applicativos para IOS ", duration: "60 min", howMutch: "R$ 200,00"),
+                    ServicePresenterDTO(id: 3, uIDFirebase: "", name: "Desenvolvimento Flutter", description: "Desenvolvimento de applicativos para IOS ", duration: "60 min", howMutch: "R$ 100,00"),
+                    ServicePresenterDTO(id: 4, uIDFirebase: "", name: "Desenvolvimento BackEnd Java", description: "Desenvolvimento de applicativos para IOS ", duration: "60:00", howMutch: "R$ 20,00")
+                ]
                 self.screen.tableViewListServices.get.reloadData()
             })
+            
         }
     }
 
@@ -86,6 +88,11 @@ extension ListServicesViewController: UITableViewDelegate {
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 185
     }
+    
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let listServicePresenterDTO else {return}
+        coordinator?.gotoViewerService(listServicePresenterDTO[indexPath.row])
+    }
 }
 
 
@@ -103,7 +110,6 @@ extension ListServicesViewController: UITableViewDataSource {
         if listServicePresenterDTO == nil {
             DispatchQueue.main.async { cell?.configSkeleton()  }
         }
-        
         
         cell?.setupCell(listServicePresenterDTO?[indexPath.row]) { [weak self] servicePresenterDTO in
             guard let self else {return}

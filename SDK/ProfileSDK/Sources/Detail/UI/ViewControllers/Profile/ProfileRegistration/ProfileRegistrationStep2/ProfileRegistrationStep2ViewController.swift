@@ -232,10 +232,17 @@ extension ProfileRegistrationStep2ViewController: ProfileRegistrationStep2Presen
         profilePresenterDTO = success
         let alert = UIAlertController(title: "Sucesso", message: "Cadastro realizado com Sucesso!" , preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
+            self?.addressCell?.confirmationButtom.setHideLoadingIndicator()
             self?.coordinator?.gotoProfileHomeTabBar()
         }
         alert.addAction(action)
         present(alert, animated: true)
+        
+        if let error {
+            debugPrint(error)
+            addressCell?.confirmationButtom.setHideLoadingIndicator()
+        }
+        
     }
 
 
@@ -284,6 +291,7 @@ extension ProfileRegistrationStep2ViewController: AddressTableViewCellDelegate {
     func confirmationTapped() {
         updateProfilePresenterDTO()
         if let profilePresenterDTO {
+            addressCell?.confirmationButtom.setShowLoadingIndicator()
             profileStep2Presenter.createProfile(profilePresenterDTO)
         }
     }

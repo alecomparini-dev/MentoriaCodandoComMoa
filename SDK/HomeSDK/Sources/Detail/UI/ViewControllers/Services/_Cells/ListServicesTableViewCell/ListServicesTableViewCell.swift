@@ -39,8 +39,8 @@ class ListServicesTableViewCell: UITableViewCell {
         guard let servicePresenterDTO else {return}
         self.servicePresenterDTO = servicePresenterDTO
         self.editCompletionHander = editCompletionHandler
-        configCardServiceView()
         resetSkeleton()
+        configCardServiceView()
         
     }
     
@@ -60,12 +60,11 @@ class ListServicesTableViewCell: UITableViewCell {
         screen.cardServiceView.howMutchLabel.setSkeleton { build in
             build.showSkeleton(.gradientAnimated)
         }
-        screen.editButton.setSkeleton { build in
+        screen.editView.setSkeleton { build in
             build.showSkeleton(.gradientAnimated)
         }
+        screen.editButton.setHidden(true)
         
-//        screen.editButton.get.imageView?.isSkeletonable = true
-//        screen.editButton.get.imageView?.showGradientSkeleton()
     }
     
     private func resetSkeleton() {
@@ -73,7 +72,8 @@ class ListServicesTableViewCell: UITableViewCell {
         screen.cardServiceView.subTitleServiceLabel.get.hideSkeleton()
         screen.cardServiceView.durationLabel.get.hideSkeleton()
         screen.cardServiceView.howMutchLabel.get.hideSkeleton()
-        screen.editButton.get.hideSkeleton()
+        screen.editView.get.hideSkeleton(transition: .crossDissolve(0))
+        screen.editButton.setHidden(false)
     }
 
 //  MARK: - PRIVATE AREA
