@@ -19,7 +19,7 @@ class ViewerServiceCoordinator: NSObject, Coordinator {
     
     func start() {
         childCoordinator = self
-        let controller = ViewerServiceViewController()
+        let controller = ViewerServiceViewControllerFactory.make()
         controller.setDataTransfer(dataTransfer)
         controller.coordinator = self
         
@@ -44,6 +44,7 @@ class ViewerServiceCoordinator: NSObject, Coordinator {
 
 //  MARK: - EXTENSION - ViewerServiceViewControllerCoordinator
 extension ViewerServiceCoordinator: ViewerServiceViewControllerCoordinator {
+    
     func freeMemoryCoordinator() {
         childCoordinator = nil
     }
@@ -59,9 +60,14 @@ extension ViewerServiceCoordinator: ViewerServiceViewControllerCoordinator {
         childCoordinator = nil
     }
     
-    func gotoListServiceHomeTabBar(_ vc: UIViewController) {
+    func gotoListServiceHomeTabBar(_ vc: UIViewController, _ reloadTable: Bool = false) {
         vc.dismiss(animated: true)
+        guard let currentScene = CurrentWindow.get else { return }
+        let homeTabBar = currentScene.rootViewController
+        let listServiceController = homeTabBar?.children[1] as? ListServicesViewController
+        listServiceController?.setDataTransfer(reloadTable)
         childCoordinator = nil
+        
     }
     
     

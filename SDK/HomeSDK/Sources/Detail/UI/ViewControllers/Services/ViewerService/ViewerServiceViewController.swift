@@ -8,7 +8,7 @@ import HomePresenters
 
 public protocol ViewerServiceViewControllerCoordinator: AnyObject {
     func gotoEditService(_ servicePresenterDTO: ServicePresenterDTO?)
-    func gotoListServiceHomeTabBar(_ vc: UIViewController)
+    func gotoListServiceHomeTabBar(_ vc: UIViewController, _ reloadTable: Bool)
     func freeMemoryCoordinator()
 }
 
@@ -18,7 +18,13 @@ public class ViewerServiceViewController: UIViewController {
     
     private var servicePresenterDTO: ServicePresenterDTO?
     
-    public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+    private var viewerServicePresenter: ViewerServicePresenter
+    
+    
+//  MARK: - INITIALIZERS
+    
+    public init(viewerServicePresenter: ViewerServicePresenter) {
+        self.viewerServicePresenter = viewerServicePresenter
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -65,6 +71,7 @@ public class ViewerServiceViewController: UIViewController {
     private func configDelegate() {
         configScreenDelegate()
         configBottomSheetDelegate()
+        configOutputPresenterDelegate()
     }
     
     private func configScreenDelegate() {
@@ -78,6 +85,10 @@ public class ViewerServiceViewController: UIViewController {
                 sheet.prefersGrabberVisible = true
             }
         }
+    }
+    
+    private func configOutputPresenterDelegate() {
+        viewerServicePresenter.outputDelegate = self
     }
     
 
@@ -103,24 +114,32 @@ public class ViewerServiceViewController: UIViewController {
 //  MARK: - EXTENSION - ViewerServiceViewDelegate
 extension ViewerServiceViewController: ViewerServiceViewDelegate {
     public func disableButtomTapped() {
-//        let alert = UIAlertController(title: "Aviso", message: "Deseja realmente deletar este serviço?", preferredStyle: .alert)
-//        let action = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
-//            guard let self else {return}
-//        }
-//        let cancel = UIAlertAction(title: "Cancelar", style: .cancel)
-//        alert.addAction(action)
-//        alert.addAction(cancel)
-//        present(alert, animated: true)
-        coordinator?.gotoListServiceHomeTabBar(self)
-
+        guard let id = servicePresenterDTO?.id, let userIDAuth = servicePresenterDTO?.uIDFirebase else { return}
+        viewerServicePresenter.disableService(id, userIDAuth)
     }
     
     public func backButtonTapped() {
-        coordinator?.gotoListServiceHomeTabBar(self)
+        coordinator?.gotoListServiceHomeTabBar(self, false)
     }
     
     public func editButtonTapped() {
         coordinator?.gotoEditService(servicePresenterDTO)
+    }
+    
+    
+}
+
+
+
+//  MARK: - EXTENSION - ViewerServicePresenterOutput
+extension ViewerServiceViewController: ViewerServicePresenterOutput {
+    
+    public func successDisableServices() {
+        coordinator?.gotoListServiceHomeTabBar(self, true)
+    }
+    
+    public func errorDisableServices(title: String, message: String) {
+        debugPrint(message)
     }
     
     
@@ -136,7 +155,6 @@ extension ViewerServiceViewController: UISheetPresentationControllerDelegate {
             screen.editButtom.setHidden(true)
             return
         }
-        
         screen.editButtom.setHidden(false)
     }
     

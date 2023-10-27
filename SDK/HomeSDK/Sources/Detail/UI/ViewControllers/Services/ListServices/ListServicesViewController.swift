@@ -59,6 +59,15 @@ public class ListServicesViewController: UIViewController {
     }
 
     
+//  MARK: - DATA TRANSFER
+    public func setDataTransfer(_ data: Any?) {
+        if let reload = data as? Bool {
+            if reload {
+                fetchListServices()
+            }
+        }
+    }
+    
 //  MARK: - PRIVATE AREA
     private func configure() {
         configDelegate()
@@ -69,7 +78,6 @@ public class ListServicesViewController: UIViewController {
         configScreenDelegate()
         configTableViewListServiceDelegate()
         configListServicePresenterDelegate()
-        configTextFieldDelegate()
     }
     
     private func configScreenDelegate() {
@@ -84,20 +92,13 @@ public class ListServicesViewController: UIViewController {
     private func configListServicePresenterDelegate() {
         listServicePresenter.outputDelegate = self
     }
-    
-    private func configTextFieldDelegate() {
-//        screen.searchTextField.setDelegate(self)
-    }
-    
-    
+        
     private func getUserAuth() {
         // TODO: - RETIRAR ESTE TRECHO DAQUI, USAR O PADRAO DO CLEAN ARCH
         Task {
             do {
                 self.userIDAuth = try await ProfileSDKMain().getUserAuthenticated()
-                
                 fetchListServices()
-                
             } catch let error  {
                 print(error.localizedDescription)
             }
@@ -110,15 +111,23 @@ public class ListServicesViewController: UIViewController {
         }
     }
     
+    private func filterServices(_ text: String?) {
+        guard let text else {return}
+        listServicePresenter.filterServices(text)
+    }
+    
 }
 
 
 //  MARK: -
 extension ListServicesViewController: ListServicesViewDelegate {
+    
     public func searchTextFieldEditing(_ textField: UITextField) {
-        if let text = textField.text {
-            listServicePresenter.filterServices(text)
-        }
+        filterServices(textField.text)
+    }
+    
+    public func addServiceButtonTapped() {
+        coordinator?.gotoAddService(nil)
     }
     
 }
@@ -150,7 +159,7 @@ extension ListServicesViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: ListServicesTableViewCell.identifier, for: indexPath) as? ListServicesTableViewCell
                 
         if listServicePresenter.getServices() == nil {
-            DispatchQueue.main.async { cell?.configSkeleton()  }
+            DispatchQueue.main.async { cell?.configSkeleton() }
         }
         
         let service: ServicePresenterDTO? = listServicePresenter.getServiceBy(index: indexPath.row)
@@ -169,7 +178,14 @@ extension ListServicesViewController: UITableViewDataSource {
 
 extension ListServicesViewController: ListServicesPresenterOutput {
     public func successFetchListServices() {
+        filterServices(screen.searchTextField.get.text)
         reloadTableView()
+        if let services = listServicePresenter.getServices() {
+            if services.isEmpty {
+                screen.addServiceCustomText.setHidden(false)
+            }
+        }
+        
     }
     
     public func errorFetchListServices(title: String, message: String) {
@@ -184,15 +200,3 @@ extension ListServicesViewController: ListServicesPresenterOutput {
     }
     
 }
-
-
-////  MARK: - EXTENSION - UITextFieldDelegate
-//extension ListServicesViewController: UITextFieldDelegate {
-//
-//    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-//        textField.resignFirstResponder()
-//        return true
-//    }
-//    
-//    
-//}

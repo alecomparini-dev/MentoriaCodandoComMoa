@@ -11,21 +11,12 @@ import ProfilePresenters
 protocol AddressTableViewCellDelegate: AnyObject {
     func confirmationTapped()
     func searchCEPTapped(_ textField: UITextField? , _ cep: String)
-    func textFieldShouldChangeCharactersIn(_ fieldRequired: AddressTableViewCell.FieldRequired, range: NSRange, string: String)
 }
 
 class AddressTableViewCell: UITableViewCell {
     static let identifier = String(describing: AddressTableViewCell.self)
     weak var delegate: AddressTableViewCellDelegate?
     
-    enum FieldRequired {
-        case cep
-        case street
-        case number
-        case neighborhood
-        case city
-        case state
-    }
 
 //  MARK: - INITIALIZERS
     
@@ -364,7 +355,6 @@ class AddressTableViewCell: UITableViewCell {
     private func configure() {
         addElements()
         configConstraints()
-        configDelegate()
     }
     
     private func addElements() {
@@ -402,16 +392,7 @@ class AddressTableViewCell: UITableViewCell {
         loading.applyConstraint()
         configConstraintsFieldsRequired()
     }
-    
-    private func configDelegate() {
-        searchCEPTextField.setDelegate(self)
-        streetTextField.setDelegate(self)
-        numberTextField.setDelegate(self)
-        neighborhoodTextField.setDelegate(self)
-        cityTextField.setDelegate(self)
-        stateTextField.setDelegate(self)
-    }
-    
+        
     private func addFieldsRequired() {
         CEPFieldRequired.add(insideTo: self.contentView)
         streetFieldRequired.add(insideTo: self.contentView)
@@ -432,47 +413,5 @@ class AddressTableViewCell: UITableViewCell {
 
     
     
-}
-
-
-//  MARK: - EXTENSTION - UITextFieldDelegate
-
-extension AddressTableViewCell: UITextFieldDelegate {
-    
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
-    
-    public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if searchCEPTextField.get.isFirstResponder {
-            delegate?.textFieldShouldChangeCharactersIn(FieldRequired.cep, range: range, string: string)
-            return false
-        }
-        
-        if numberTextField.get.isFirstResponder {
-            delegate?.textFieldShouldChangeCharactersIn(FieldRequired.number, range: range, string: string)
-        }
-        
-        if streetTextField.get.isFirstResponder {
-            delegate?.textFieldShouldChangeCharactersIn(FieldRequired.street, range: range, string: string)
-        }
-        
-        if neighborhoodTextField.get.isFirstResponder {
-            delegate?.textFieldShouldChangeCharactersIn(FieldRequired.neighborhood, range: range, string: string)
-        }
-        
-        if cityTextField.get.isFirstResponder {
-            delegate?.textFieldShouldChangeCharactersIn(FieldRequired.city, range: range, string: string)
-        }
-        
-        if stateTextField.get.isFirstResponder {
-            delegate?.textFieldShouldChangeCharactersIn(FieldRequired.state, range: range, string: string)
-        }
-        
-        return true
-        
-    }
 }
 

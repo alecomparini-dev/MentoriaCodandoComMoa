@@ -8,6 +8,7 @@ import DesignerSystemSDKComponent
 
 public protocol ListServicesViewDelegate: AnyObject {
     func searchTextFieldEditing(_ textField: UITextField)
+    func addServiceButtonTapped()
 }
 
 public class ListServicesView: UIView {
@@ -33,7 +34,7 @@ public class ListServicesView: UIView {
         return comp
     }()
     
-    lazy var textTitle: CustomTextTitle = {
+    lazy var screenTitle: CustomTextTitle = {
         let comp = CustomTextTitle()
             .setText("Serviços")
             .setTextAlignment(.center)
@@ -43,6 +44,39 @@ public class ListServicesView: UIView {
                     .setLeading.setTrailing.equalToSafeArea(16)
             }
         return comp
+    }()
+    
+    lazy var addServiceButton: ButtonImageBuilder = {
+        let img = ImageViewBuilder(systemName: "plus.circle")
+            .setSize(32)
+        let btn = ButtonImageBuilder()
+            .setImageButton(img)
+            .setImageWeight(.bold)
+            .setTintColor(hexColor: "#fa79c7")
+            .setConstraints { build in
+                build
+                    .setVerticalAlignmentY.equalTo(screenTitle.get)
+                    .setTrailing.equalToSafeArea(-20)
+                    .setSize.equalToConstant(50)
+            }
+        btn.get.addTarget(self, action: #selector(addServiceButtonTapped), for: .touchUpInside)
+        return btn
+    }()
+    @objc private func addServiceButtonTapped(_ button: UIButton) {
+        delegate?.addServiceButtonTapped()
+    }
+
+    lazy var addServiceLabel: CustomText = {
+        let view = CustomText()
+            .setText("Adicionar")
+            .setWeight(.medium)
+            .setSize(10)
+            .setConstraints { build in
+                build
+                    .setTop.equalTo(addServiceButton.get, .bottom, 2)
+                    .setHorizontalAlignmentX.equalTo(addServiceButton.get)
+            }
+        return view
     }()
     
     lazy var searchTextField: TextFieldImageBuilder = {
@@ -64,7 +98,7 @@ public class ListServicesView: UIView {
             })
             .setConstraints { build in
                 build
-                    .setTop.equalTo(textTitle.get, .bottom, 32)
+                    .setTop.equalTo(screenTitle.get, .bottom, 32)
                     .setLeading.setTrailing.equalToSafeArea(16)
                     .setHeight.equalToConstant(48)
             }
@@ -90,6 +124,24 @@ public class ListServicesView: UIView {
         return comp
     }()
     
+    lazy var addServiceCustomText: CustomTextSecondary = {
+        let view = CustomTextSecondary()
+            .setHidden(true)
+            .setSize(22)
+            .setTextAlignment(.center)
+            .setNumberOfLines(2)
+            .setText("Clique no botão adicionar, para incluir seu primeiro serviço!")
+            .setConstraints { build in
+                build
+                    .setLeading.setTrailing.equalToSafeArea(32)
+                    .setVerticalAlignmentY.equalToSuperView(30)
+                    .setHorizontalAlignmentX.equalToSafeArea
+            }
+        return view
+    }()
+    
+
+    
     
 //  MARK: - PRIVATE AREA
     
@@ -101,17 +153,22 @@ public class ListServicesView: UIView {
     
     private func addElements() {
         backgroundView.add(insideTo: self)
-        textTitle.add(insideTo: self)
+        screenTitle.add(insideTo: self)
+        addServiceButton.add(insideTo: self)
+        addServiceLabel.add(insideTo: self)
         searchTextField.add(insideTo: self)
         tableViewListServices.add(insideTo: self)
-        
+        addServiceCustomText.add(insideTo: self)
     }
     
     private func configConstraints() {
         backgroundView.applyConstraint()
-        textTitle.applyConstraint()
+        screenTitle.applyConstraint()
+        addServiceButton.applyConstraint()
+        addServiceLabel.applyConstraint()
         searchTextField.applyConstraint()
         tableViewListServices.applyConstraint()
+        addServiceCustomText.applyConstraint()
     }
     
         

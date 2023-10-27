@@ -3,7 +3,7 @@
 
 import Foundation
 
-// MARK: - Result
+// MARK: - DisableServiceResultCodable
 public struct ResultCodable: Codable {
     public var name: String?
     public var image: String?
