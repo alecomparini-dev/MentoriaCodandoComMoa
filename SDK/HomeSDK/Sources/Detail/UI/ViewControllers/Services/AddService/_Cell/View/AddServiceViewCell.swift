@@ -178,7 +178,7 @@ public class AddServiceViewCell: ViewBuilder {
             .setBackgroundColor(hexColor: "#ffffff")
             .setTextColor(hexColor: "#282a36")
             .setTextAlignment(.center)
-            .setPlaceHolder("R$ ")
+            .setPlaceHolder("R$ 0,00")
             .setPadding(8)
             .setBorder({ build in
                 build

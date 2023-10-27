@@ -12,9 +12,14 @@ public protocol AddServiceViewControllerCoordinator: AnyObject {
 public class AddServiceViewController: UIViewController {
     public weak var coordinator: AddServiceViewControllerCoordinator?
     
+    private var constantBottom: CGFloat?
+    
+    
     private var servicePresenterDTO: ServicePresenterDTO? = ServicePresenterDTO()
     private var cellScreen: AddServiceTableViewCell?
     
+    
+//  MARK: - INITIALIZERS
     public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nil, bundle: nil)
     }
@@ -27,6 +32,11 @@ public class AddServiceViewController: UIViewController {
         let view = AddServiceView()
         return view
     }()
+    
+    deinit {
+        unregisterKeyboardNotifications()
+        constantBottom = nil
+    }
     
     
 //  MARK: - LIFE CYCLE
@@ -50,6 +60,7 @@ public class AddServiceViewController: UIViewController {
 //  MARK: - PRIVATE AREA
     private func configure() {
         configDelegate()
+        registerKeyboardNotifications()
     }
     
     private func configDelegate() {
@@ -58,6 +69,39 @@ public class AddServiceViewController: UIViewController {
         screen.tableViewScreen.setDataSource(dataSource: self)
     }
     
+    
+//  MARK: - NOTIFIER KEYBOARD
+    private func registerKeyboardNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        guard let userInfo = notification.userInfo,
+            let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
+        
+        if constantBottom == nil {
+            self.constantBottom = (screen.tableViewScreen.get.bounds.height - keyboardFrame.origin.y) + 75
+        }
+        repositionTableViewShowKeyboardAnimation()
+    }
+    
+    private func repositionTableViewShowKeyboardAnimation() {
+        UIView.animate(withDuration: 0.3, delay: 0 , options: .curveEaseInOut, animations: { [weak self] in
+            guard let self else {return}
+            if let constantBottom {
+                screen.constraintsBottom.constant = -constantBottom
+            }
+        })
+    }
+    
+    @objc private func keyboardWillHide() {
+        screen.constraintsBottom.constant = 0
+    }
+    
+    private func unregisterKeyboardNotifications() {
+        NotificationCenter.default.removeObserver(self)
+    }
     
 }
 

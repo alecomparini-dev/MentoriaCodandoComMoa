@@ -14,6 +14,8 @@ public protocol AddServiceViewDelegate: AnyObject {
 public class AddServiceView: UIView {
     public weak var delegate: AddServiceViewDelegate?
     
+    public var constraintsBottom: NSLayoutConstraint!
+    
     public init() {
         super.init(frame: .zero)
         configure()
@@ -34,9 +36,9 @@ public class AddServiceView: UIView {
         return comp
     }()
     
-    lazy var textTitle: CustomTextTitle = {
+    lazy var screenTitle: CustomTextTitle = {
         let comp = CustomTextTitle()
-            .setText("Serviço")
+            .setText("")
             .setTextAlignment(.center)
             .setConstraints { build in
                 build
@@ -54,7 +56,7 @@ public class AddServiceView: UIView {
             .setImageColor(hexColor: "#ffffff")
             .setConstraints { build in
                 build
-                    .setVerticalAlignmentY.equalTo(textTitle.get)
+                    .setVerticalAlignmentY.equalTo(screenTitle.get)
                     .setLeading.equalToSafeArea(16)
                     .setSize.equalToConstant(35)
             }
@@ -73,8 +75,8 @@ public class AddServiceView: UIView {
             .setRegisterCell(AddServiceTableViewCell.self)
             .setConstraints { build in
                 build
-                    .setTop.equalTo(backButton.get, .bottom, 24)
-                    .setLeading.setTrailing.setBottom.equalToSafeArea
+                    .setTop.equalTo(backButton.get, .bottom, 16)
+                    .setLeading.setTrailing.equalToSafeArea
             }
         return comp
     }()
@@ -92,15 +94,27 @@ public class AddServiceView: UIView {
     private func addElements() {
         backgroundView.add(insideTo: self)
         backButton.add(insideTo: self)
-        textTitle.add(insideTo: self)
+        screenTitle.add(insideTo: self)
         tableViewScreen.add(insideTo: self)
     }
     
     private func configConstraints() {
         backgroundView.applyConstraint()
         backButton.applyConstraint()
-        textTitle.applyConstraint()
+        screenTitle.applyConstraint()
+        configTableViewScreenConstraints()
+    }
+    
+    private func configTableViewScreenConstraints() {
         tableViewScreen.applyConstraint()
+        self.constraintsBottom = NSLayoutConstraint(item: self.tableViewScreen.get,
+                                                    attribute: .bottom,
+                                                    relatedBy: .equal,
+                                                    toItem: self.safeAreaLayoutGuide,
+                                                    attribute: .bottom,
+                                                    multiplier: 1,
+                                                    constant: 0)
+        self.constraintsBottom.isActive = true
     }
     
     

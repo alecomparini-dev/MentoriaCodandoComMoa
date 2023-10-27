@@ -186,8 +186,8 @@ public class ViewerServiceView: UIView {
     }()
     
     
-    lazy var editButtom: CustomButtonPrimary = {
-        let comp = CustomButtonPrimary("Editar")
+    lazy var editButtom: CustomButtonSecondary = {
+        let comp = CustomButtonSecondary("Editar")
             .setHidden(true)
             .setConstraints { build in
                 build
