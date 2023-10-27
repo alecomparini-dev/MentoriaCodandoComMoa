@@ -3,6 +3,7 @@
 
 import Foundation
 
+import HomeUseCases
 
 public protocol ListServicesPresenterOutput: AnyObject {
     func successFetchListServices()
@@ -18,25 +19,37 @@ public class ListServicesPresenterImpl: ListServicesPresenter {
     private var filteredServicesData: [ServicePresenterDTO]?
     
     
-    public init() {}
+    private let listServicesUseCase: ListServicesUseCase
     
+    public init(listServicesUseCase: ListServicesUseCase) {
+        self.listServicesUseCase = listServicesUseCase
+    }
     
     
     public func fetchCurrencies(_ userIDAuth: String) {
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
-        
-            self.servicesData = [
-                ServicePresenterDTO(id: 1, uIDFirebase: "Ac75MOSIPBWKzzByq4Ix6G9jp7S2", name: "Desenvolvimento iOS", description: "Desenvolvimento de applicativos para IOS ", duration: "60 min", howMutch: "R$ 550,00"),
-                ServicePresenterDTO(id: 2, uIDFirebase: "Ac75MOSIPBWKzzByq4Ix6G9jp7S2", name: "Desenvolvimento Android", description: "Desenvolvimento de applicativos para Android ", duration: "60 min", howMutch: "R$ 200,00"),
-                ServicePresenterDTO(id: 3, uIDFirebase: "Ac75MOSIPBWKzzByq4Ix6G9jp7S2", name: "Desenvolvimento Flutter", description: "Desenvolvimento de applicativos para Flutter ", duration: "60 min", howMutch: "R$ 100,00"),
-                ServicePresenterDTO(id: 4, uIDFirebase: "Ac75MOSIPBWKzzByq4Ix6G9jp7S2", name: "Desenvolvimento BackEnd Java", description: "Desenvolvimento de BackEnd Java ", duration: "60 min", howMutch: "R$ 20,00")
-            ]
-            
-            self.outputDelegate?.successFetchListServices()
-            
-        })
-        
+        Task {
+            do {
+                let servicesDTO: [ServiceDTO]? = try await listServicesUseCase.list(userIDAuth)
+                
+                guard let servicesDTO else {return}
+                
+                self.servicesData = servicesDTO.map { service in
+                    return ServicePresenterDTO(
+                        id: service.id,
+                        uIDFirebase: service.uidFirebase,
+                        name: service.name,
+                        description: service.description,
+                        duration: "\(service.duration ?? 0 ) min",
+                        howMutch: "R$ \(service.howMutch ?? 0.00)")
+                }
+                
+                successFetchListServices()
+                
+            } catch let error {
+                errorFetchListServices(error.localizedDescription)
+            }
+        }
         
     }
 
@@ -65,10 +78,11 @@ public class ListServicesPresenterImpl: ListServicesPresenter {
 //  MARK: - PRIVATE AREA
     
     private func successFetchListServices() {
-        DispatchQueue.main.async { [weak self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: { [weak self] in
+//        DispatchQueue.main.async { [weak self] in
             guard let self else {return}
             outputDelegate?.successFetchListServices()
-        }
+        })
     }
     
     private func errorFetchListServices(_ error: String) {

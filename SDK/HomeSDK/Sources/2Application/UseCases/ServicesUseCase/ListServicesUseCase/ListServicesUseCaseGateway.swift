@@ -4,5 +4,5 @@
 import Foundation
 
 public protocol ListServicesUseCaseGateway {
-    func list() async throws
+    func list(_ userIDAuth: String) async throws -> [ServiceDTO]?
 }

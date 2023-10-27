@@ -3,6 +3,7 @@
 
 import Foundation
 
-public protocol HTTPPost {
-    func post(url: URL, headers: [String: String]?, queryParameters: [String: String]?, bodyJson: [String: Any]) async throws -> Data?
+
+public protocol HTTPGet {
+    func get(url: URL, headers: [String: String]?, queryParameters: [String: String]?) async throws -> Data?
 }

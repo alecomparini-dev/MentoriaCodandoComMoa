@@ -11,7 +11,7 @@ let package = Package(
     ],
     
     products: [
-        .library(name: "HomeSDK", targets: [ "HomePresenters", "HomeUseCaseGateway", "HomeUI"]),
+        .library(name: "HomeSDK", targets: [ "HomePresenters", "HomeUseCaseGateway", "HomeUI", "HomeNetwork"]),
     ],
     
     dependencies: [
@@ -69,6 +69,13 @@ let package = Package(
             path: "Sources/Detail/UI"
         ),
 
+        .target(
+            name: "HomeNetwork",
+            dependencies: [
+                "HomeUseCaseGateway",
+            ],
+            path: "Sources/Detail/Infrastructure/Network"
+        ),
                 
         
         //  MARK: - TESTS TARGETS AREA

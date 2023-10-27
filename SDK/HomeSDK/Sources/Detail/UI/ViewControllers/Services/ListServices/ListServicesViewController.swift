@@ -118,6 +118,13 @@ extension ListServicesViewController: ListServicesViewDelegate {
     public func searchTextFieldEditing(_ textField: UITextField) {
         if let text = textField.text {
             listServicePresenter.filterServices(text)
+//            let vlrDouble = (Double(text) ?? 0) / 100
+//            let value: Double = vlrDouble
+//            let numberFormatter = NumberFormatter()
+//            numberFormatter.locale = Locale(identifier: "pt_BR")
+//            numberFormatter.minimumFractionDigits = 2
+//            numberFormatter.numberStyle = .decimal
+//            textField.text = numberFormatter.string(from: NSNumber(value: value))
         }
     }
     
