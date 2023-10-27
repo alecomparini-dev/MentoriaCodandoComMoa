@@ -7,7 +7,7 @@ import CustomComponentsSDK
 import HomeUI
 import HomePresenters
 
-class ViewerServiceCoordinator: Coordinator {
+class ViewerServiceCoordinator: NSObject, Coordinator {
     var childCoordinator: Coordinator?
     unowned var navigationController: NavigationController
     
@@ -18,6 +18,7 @@ class ViewerServiceCoordinator: Coordinator {
     }
     
     func start() {
+        childCoordinator = self
         let controller = ViewerServiceViewController()
         controller.setDataTransfer(dataTransfer)
         controller.coordinator = self
@@ -43,6 +44,9 @@ class ViewerServiceCoordinator: Coordinator {
 
 //  MARK: - EXTENSION - ViewerServiceViewControllerCoordinator
 extension ViewerServiceCoordinator: ViewerServiceViewControllerCoordinator {
+    func freeMemoryCoordinator() {
+        childCoordinator = nil
+    }
     
     func gotoEditService(_ servicePresenterDTO: ServicePresenterDTO?) {
         let nav = NavigationController()
@@ -57,7 +61,9 @@ extension ViewerServiceCoordinator: ViewerServiceViewControllerCoordinator {
     
     func gotoListServiceHomeTabBar(_ vc: UIViewController) {
         vc.dismiss(animated: true)
+        childCoordinator = nil
     }
     
     
 }
+

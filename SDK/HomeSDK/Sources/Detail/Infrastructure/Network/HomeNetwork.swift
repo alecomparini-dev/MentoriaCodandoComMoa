@@ -3,11 +3,11 @@
 
 import Foundation
 
-import ProfileUseCaseGateway
+import HomeUseCaseGateway
 import NetworkSDKMain
 import NetworkInterfaces
 
-public class Network {
+public class HomeNetwork {
     
     public init() {}
     
@@ -15,7 +15,7 @@ public class Network {
 
 
 //  MARK: - EXTENSION - HTTPGet
-extension Network: HTTPGet {
+extension HomeNetwork: HTTPGet {
     public func get(url: URL, headers: [String : String]?, queryParameters: [String : String]?) async throws -> Data? {
            
         let endpoint = EndpointDTO(url: url, headers: headers, queryParameters: queryParameters)
@@ -29,7 +29,7 @@ extension Network: HTTPGet {
 
 
 //  MARK: - EXTENSION - HTTPGet
-extension Network: HTTPPost {
+extension HomeNetwork: HTTPPost {
     
     public func post(url: URL, headers: [String : String]?, queryParameters: [String : String]?, bodyJson: [String: Any]) async throws -> Data? {
         

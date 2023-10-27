@@ -9,6 +9,7 @@ import HomePresenters
 public protocol ViewerServiceViewControllerCoordinator: AnyObject {
     func gotoEditService(_ servicePresenterDTO: ServicePresenterDTO?)
     func gotoListServiceHomeTabBar(_ vc: UIViewController)
+    func freeMemoryCoordinator()
 }
 
 
@@ -50,6 +51,13 @@ public class ViewerServiceViewController: UIViewController {
         super.viewDidAppear(animated)
     }
     
+    public override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        coordinator?.freeMemoryCoordinator()
+    }
+    
+    
+//  MARK: - PRIVATE AREA
     private func configure() {
         configDelegate()
     }

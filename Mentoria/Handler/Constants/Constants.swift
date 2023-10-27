@@ -8,6 +8,7 @@ struct K {
     static let pathGetListComponent = "/ThemeComponent/GetListaThemeComponent"
     static let pathGetListProfile = "/Profile/GetListaProfile"
     static let pathCreateProfile = "/Profile/PostProfile"
+    static let pathListServices = "/Service/GetListaService"
     
     struct Strings {
         static let themeId = "themeId"
