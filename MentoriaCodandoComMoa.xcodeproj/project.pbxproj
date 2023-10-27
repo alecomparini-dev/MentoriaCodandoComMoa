@@ -19,6 +19,7 @@
 		022B87DD2AE698A30041B984 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022B87DC2AE698A30041B984 /* Network.swift */; };
 		022B87E42AE69A670041B984 /* LocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022B87E32AE69A660041B984 /* LocalStorage.swift */; };
 		0239C4BD2ADDF1460016C0E4 /* ProfileRegistrationStep1Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0239C4BC2ADDF1460016C0E4 /* ProfileRegistrationStep1Factory.swift */; };
+		023CED872AEC380F001B3562 /* ViewerServiceViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 023CED862AEC380F001B3562 /* ViewerServiceViewControllerFactory.swift */; };
 		024340822AD9872B00110844 /* ProfileRegistrationStep1Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024340812AD9872B00110844 /* ProfileRegistrationStep1Coordinator.swift */; };
 		0249C1952AE9A6230045A126 /* ViewerServiceCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0249C1942AE9A6230045A126 /* ViewerServiceCoordinator.swift */; };
 		024BC97E2ADAEB6500E9EEDC /* ProfileRegistrationStep2Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024BC97D2ADAEB6500E9EEDC /* ProfileRegistrationStep2Factory.swift */; };
@@ -62,6 +63,7 @@
 		022B87DC2AE698A30041B984 /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		022B87E32AE69A660041B984 /* LocalStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalStorage.swift; sourceTree = "<group>"; };
 		0239C4BC2ADDF1460016C0E4 /* ProfileRegistrationStep1Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRegistrationStep1Factory.swift; sourceTree = "<group>"; };
+		023CED862AEC380F001B3562 /* ViewerServiceViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewerServiceViewControllerFactory.swift; sourceTree = "<group>"; };
 		024340812AD9872B00110844 /* ProfileRegistrationStep1Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRegistrationStep1Coordinator.swift; sourceTree = "<group>"; };
 		0249C1942AE9A6230045A126 /* ViewerServiceCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewerServiceCoordinator.swift; sourceTree = "<group>"; };
 		024BC97D2ADAEB6500E9EEDC /* ProfileRegistrationStep2Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRegistrationStep2Factory.swift; sourceTree = "<group>"; };
@@ -193,6 +195,14 @@
 				0239C4BC2ADDF1460016C0E4 /* ProfileRegistrationStep1Factory.swift */,
 			);
 			path = ProfileRegistrationStep1;
+			sourceTree = "<group>";
+		};
+		023CED852AEC37F9001B3562 /* ViewerService */ = {
+			isa = PBXGroup;
+			children = (
+				023CED862AEC380F001B3562 /* ViewerServiceViewControllerFactory.swift */,
+			);
+			path = ViewerService;
 			sourceTree = "<group>";
 		};
 		024BC97B2ADAEB0900E9EEDC /* Profile */ = {
@@ -354,6 +364,7 @@
 		02FFBF0F2AEAA12700BBF19C /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				023CED852AEC37F9001B3562 /* ViewerService */,
 				02FFBF102AEAA13600BBF19C /* ListServices */,
 			);
 			path = Service;
@@ -541,6 +552,7 @@
 				026682D42AA7D69D00EE70EC /* NavigationController.swift in Sources */,
 				028B28BC2AA76EEC008E4A7E /* Constants.swift in Sources */,
 				027239622AE0437E009BA9A1 /* ProfileSummaryViewControllerFactory.swift in Sources */,
+				023CED872AEC380F001B3562 /* ViewerServiceViewControllerFactory.swift in Sources */,
 				026FC69B2AD9D0430009D1A3 /* ProfileRegistrationStep2Coordinator.swift in Sources */,
 				024E688E2AB4860A0044A521 /* SignUpViewControllerFactory.swift in Sources */,
 			);

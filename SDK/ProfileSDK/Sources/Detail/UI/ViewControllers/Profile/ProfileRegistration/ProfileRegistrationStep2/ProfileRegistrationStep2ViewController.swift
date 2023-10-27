@@ -165,7 +165,7 @@ public final class ProfileRegistrationStep2ViewController: UIViewController {
         }
         
         if addressCell.neighborhoodTextField.get.isFirstResponder {
-            setTableViewScroll(at: .bottom)
+            setTableViewScroll(at: .middle)
         }
         
         if addressCell.cityTextField.get.isFirstResponder {

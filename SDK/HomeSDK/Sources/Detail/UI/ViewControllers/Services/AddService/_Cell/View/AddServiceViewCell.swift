@@ -144,8 +144,12 @@ public class AddServiceViewCell: ViewBuilder {
             .setBackgroundColor(hexColor: "#ffffff")
             .setTextColor(hexColor: "#282a36")
             .setTextAlignment(.center)
-            .setPlaceHolder("x min")
+            .setPlaceHolder("min")
             .setPadding(8)
+            .setKeyboard({ build in
+                build
+                    .setKeyboardType(.numberPad)
+            })
             .setBorder({ build in
                 build
                     .setCornerRadius(8)
@@ -183,6 +187,10 @@ public class AddServiceViewCell: ViewBuilder {
             .setBorder({ build in
                 build
                     .setCornerRadius(8)
+            })
+            .setKeyboard({ build in
+                build
+                    .setKeyboardType(.decimalPad)
             })
             .setConstraints { build in
                 build
