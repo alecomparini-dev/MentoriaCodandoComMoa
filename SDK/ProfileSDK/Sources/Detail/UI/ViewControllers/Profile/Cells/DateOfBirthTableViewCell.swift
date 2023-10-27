@@ -7,15 +7,9 @@ import CustomComponentsSDK
 import DesignerSystemSDKComponent
 import ProfilePresenters
 
-protocol DateOfBirthTableViewCellDelegate: AnyObject {
-    func dateOfBirthTextFieldShouldBeginEditing()
-    func dateOfBirthTextFieldShouldChangeCharactersIn(_ textField: UITextField, range: NSRange, string: String)
-}
-
 
 class DateOfBirthTableViewCell: UITableViewCell {
     static let identifier = String(describing: DateOfBirthTableViewCell.self)
-    weak var delegate: DateOfBirthTableViewCellDelegate?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -99,7 +93,6 @@ class DateOfBirthTableViewCell: UITableViewCell {
     private func configure() {
         addElements()
         configConstraints()
-        configDelegate()
     }
     
     private func addElements() {
@@ -113,11 +106,7 @@ class DateOfBirthTableViewCell: UITableViewCell {
         dateOfBirthTextField.applyConstraint()
         fieldRequired.applyConstraint()
     }
-    
-    private func configDelegate() {
-        dateOfBirthTextField.setDelegate(self)
-    }
-    
+        
     private func resetSkeleton() {
         dateOfBirthLabelText.get.hideSkeleton()
         dateOfBirthTextField.get.hideSkeleton()
@@ -126,22 +115,3 @@ class DateOfBirthTableViewCell: UITableViewCell {
     
 }
 
-//  MARK: - EXTENSTION - UITextFieldDelegate
-
-extension DateOfBirthTableViewCell: UITextFieldDelegate {
-    
-    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        delegate?.dateOfBirthTextFieldShouldBeginEditing()
-        return true
-    }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
-    
-    public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        delegate?.dateOfBirthTextFieldShouldChangeCharactersIn(textField, range: range, string: string)
-        return false
-    }
-}

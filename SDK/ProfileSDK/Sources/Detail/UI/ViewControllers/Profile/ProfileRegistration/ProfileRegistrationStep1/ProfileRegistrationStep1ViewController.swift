@@ -22,6 +22,10 @@ public final class ProfileRegistrationStep1ViewController: UIViewController {
         case fieldOfWork = 4
         case continueRegistrationButton = 5
     }
+    
+    private struct Control {
+        static var setNeedsLayout = true
+    }
         
     private var profilePresenterDTO: ProfilePresenterDTO?
     private var fieldsCell: [TypeCells: UITableViewCell] = [:]
@@ -73,6 +77,7 @@ public final class ProfileRegistrationStep1ViewController: UIViewController {
 //  MARK: - PRIVATE AREA
     private func configure() {
         configDelegate()
+        configControlSetNeedsLayout()
         registerKeyboardNotifications()
     }
     
@@ -81,6 +86,10 @@ public final class ProfileRegistrationStep1ViewController: UIViewController {
         screen.tableViewIdentification.setDataSource(dataSource: self)
         screen.delegate = self
         profileStep1Presenter.outputDelegate = self
+    }
+    
+    private func configControlSetNeedsLayout() {
+        Control.setNeedsLayout = true
     }
     
     private func getTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
@@ -115,7 +124,7 @@ public final class ProfileRegistrationStep1ViewController: UIViewController {
     
     private func getNameTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: NameTableViewCell.identifier, for: indexPath) as? NameTableViewCell
-        cell?.delegate = self
+        cell?.nameTextField.setDelegate(self)
         cell?.setupCell(profilePresenterDTO)
         setCell(cell, key: TypeCells.name)
         return cell ?? UITableViewCell()
@@ -123,7 +132,7 @@ public final class ProfileRegistrationStep1ViewController: UIViewController {
 
     private func getCPFTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CPFTableViewCell.identifier, for: indexPath) as? CPFTableViewCell
-        cell?.delegate = self
+        cell?.cpfTextField.setDelegate(self)
         cell?.setupCell(profilePresenterDTO)
         setCell(cell, key: TypeCells.cpf)
         return cell ?? UITableViewCell()
@@ -131,7 +140,7 @@ public final class ProfileRegistrationStep1ViewController: UIViewController {
     
     private func getDateOfBirthTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: DateOfBirthTableViewCell.identifier, for: indexPath) as? DateOfBirthTableViewCell
-        cell?.delegate = self
+        cell?.dateOfBirthTextField.setDelegate(self)
         cell?.setupCell(profilePresenterDTO)
         setCell(cell, key: TypeCells.dateOfBirth)
         return cell ?? UITableViewCell()
@@ -139,7 +148,7 @@ public final class ProfileRegistrationStep1ViewController: UIViewController {
     
     private func getPhoneNumberTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: PhoneNumberTableViewCell.identifier, for: indexPath) as? PhoneNumberTableViewCell
-        cell?.delegate = self
+        cell?.phoneNumberTextField.setDelegate(self)
         cell?.setupCell(profilePresenterDTO)
         setCell(cell, key: TypeCells.phoneNumber)
         return cell ?? UITableViewCell()
@@ -147,7 +156,7 @@ public final class ProfileRegistrationStep1ViewController: UIViewController {
     
     private func getFieldOfWorkTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: FieldOfWorkTableViewCell.identifier, for: indexPath) as? FieldOfWorkTableViewCell
-        cell?.delegate = self
+        cell?.fieldOfWorkTextField.setDelegate(self)
         cell?.setupCell(profilePresenterDTO)
         setCell(cell, key: TypeCells.fieldOfWork)
         return cell ?? UITableViewCell()
@@ -175,38 +184,6 @@ public final class ProfileRegistrationStep1ViewController: UIViewController {
                 return 105
         }
         
-    }
-    
-    private func registerKeyboardNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    
-    @objc private func keyboardWillShow(_ notification: Notification) {
-        guard let userInfo = notification.userInfo,
-            let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
-        
-        if constantBottom == nil {
-            self.constantBottom = (screen.tableViewIdentification.get.bounds.height - keyboardFrame.origin.y) + 75
-        }
-        repositionTableViewShowKeyboardAnimation()
-    }
-    
-    private func repositionTableViewShowKeyboardAnimation() {
-        UIView.animate(withDuration: 0.3, delay: 0 , options: .curveEaseInOut, animations: { [weak self] in
-            guard let self else {return}
-            if let constantBottom {
-                screen.constraintsBottom.constant = -constantBottom
-            }
-        })
-    }
-    
-    @objc private func keyboardWillHide() {
-        screen.constraintsBottom.constant = 0
-    }
-
-    private func unregisterKeyboardNotifications() {
-        NotificationCenter.default.removeObserver(self)
     }
        
     private func setHiddenFieldRequiredName(_ flag: Bool) {
@@ -240,7 +217,7 @@ public final class ProfileRegistrationStep1ViewController: UIViewController {
     }
     
     private func setScrollToRow(_ index: Int) {
-        screen.tableViewIdentification.get.scrollToRow(at: IndexPath(row: index, section: 0), at: .middle, animated: true)
+        screen.tableViewIdentification.get.scrollToRow(at: IndexPath(row: index, section: 0), at: .top, animated: true)
     }
     
     private func setFieldsRequired(fields: [ProfileRegistrationStep1PresenterImpl.FieldsRequired]) {
@@ -264,6 +241,87 @@ public final class ProfileRegistrationStep1ViewController: UIViewController {
         }
     }
 
+    
+    private func isFirstResponderTextFields() {
+        
+        if let cell = fieldsCell[.name] as? NameTableViewCell {
+            if cell.nameTextField.get.isFirstResponder {
+                setScrollToRow(0)
+            }
+        }
+        
+        if let cell = fieldsCell[.cpf] as? CPFTableViewCell {
+            if cell.cpfTextField.get.isFirstResponder {
+                setScrollToRow(1)
+            }
+        }
+        
+        if let cell = fieldsCell[.dateOfBirth] as? DateOfBirthTableViewCell {
+            if cell.dateOfBirthTextField.get.isFirstResponder {
+                setScrollToRow(2)
+            }
+        }
+        
+        if let cell = fieldsCell[.phoneNumber] as? PhoneNumberTableViewCell {
+            if cell.phoneNumberTextField.get.isFirstResponder {
+                setScrollToRow(3)
+            }
+        }
+        
+        if let cell = fieldsCell[.fieldOfWork] as? FieldOfWorkTableViewCell {
+            if cell.fieldOfWorkTextField.get.isFirstResponder {
+                setScrollToRow(4)
+            }
+        }
+        
+    }
+
+
+
+//  MARK: - NOTIFICATION KEYBOARD
+    
+    private func registerKeyboardNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        guard let userInfo = notification.userInfo,
+            let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
+        
+        if constantBottom == nil {
+            self.constantBottom = (screen.tableViewIdentification.get.bounds.height - keyboardFrame.origin.y) + 75
+        }
+        
+        repositionTableViewShowKeyboardAnimation()
+    }
+    
+    private func repositionTableViewShowKeyboardAnimation() {
+        UIView.animate(withDuration: 0.3, animations: { [weak self] in
+            guard let self else {return}
+            if let constantBottom {
+                screen.constraintsBottom.constant = -constantBottom
+                screen.layoutIfNeeded()
+                isFirstResponderTextFields()
+            }
+        })
+    }
+    
+    @objc private func keyboardWillHide() {
+        DispatchQueue.main.asyncAfter(deadline: .now(), execute: { [weak self] in
+            UIView.animate(withDuration: 0.3, animations: { [weak self] in
+                guard let self else {return}
+                screen.constraintsBottom.constant = 0
+                if Control.setNeedsLayout {
+                    screen.layoutIfNeeded()
+                }
+            }, completion: nil)
+        })
+    }
+
+    private func unregisterKeyboardNotifications() {
+        NotificationCenter.default.removeObserver(self)
+    }
 
 }
 
@@ -273,6 +331,7 @@ public final class ProfileRegistrationStep1ViewController: UIViewController {
 extension ProfileRegistrationStep1ViewController: ProfileRegistrationStep1ViewDelegate {
     
     func backButtonTapped() {
+        Control.setNeedsLayout = false
         coordinator?.gotoProfileHomeTabBar()
     }
     
@@ -283,6 +342,7 @@ extension ProfileRegistrationStep1ViewController: ProfileRegistrationStep1ViewDe
 extension ProfileRegistrationStep1ViewController: ContinueRegistrationProfileButtonTableViewCellDelegate {
 
     func continueRegistrationTapped() {
+        Control.setNeedsLayout = false
         let name = fieldsCell[.name] as! NameTableViewCell
         let cpf = fieldsCell[.cpf] as! CPFTableViewCell
         let dateOfBirth = fieldsCell[.dateOfBirth] as! DateOfBirthTableViewCell
@@ -296,73 +356,6 @@ extension ProfileRegistrationStep1ViewController: ContinueRegistrationProfileBut
         profilePresenterDTO?.fieldOfWork = fieldOfWork.fieldOfWorkTextField.get.text
         
         profileStep1Presenter.continueRegistrationStep2(profilePresenterDTO)
-    }
-    
-}
-
-
-//  MARK: - EXTENSION - NameTableViewCellDelegate
-extension ProfileRegistrationStep1ViewController: NameTableViewCellDelegate {
-    
-    func nameTextFieldShouldChangeCharactersIn() {
-        setHiddenFieldRequiredName(true)
-    }
-}
-
-
-//  MARK: - EXTENSION - NameTableViewCellDelegate
-extension ProfileRegistrationStep1ViewController: CPFTableViewCellDelegate {
-    
-    func cpfTextFieldShouldChangeCharactersIn(_ textField: UITextField, range: NSRange, string: String) {
-        setHiddenFieldRequiredCPF(true)
-        textField.text = profileStep1Presenter.setMaskWithRange(.CPFMask, range, string)
-        setScrollToRow(1)
-    }
-        
-}
-
-
-//  MARK: - EXTENSION - NameTableViewCellDelegate
-extension ProfileRegistrationStep1ViewController: DateOfBirthTableViewCellDelegate {
-    
-    func dateOfBirthTextFieldShouldBeginEditing() {
-        setScrollToRow(2)
-    }
-    
-    func dateOfBirthTextFieldShouldChangeCharactersIn(_ textField: UITextField, range: NSRange, string: String) {
-        setHiddenFieldRequiredDateOfBirth(true)
-        textField.text = profileStep1Presenter.setMaskWithRange(.dateMask, range, string)
-    }
-    
-}
-
-
-//  MARK: - EXTENSION - NameTableViewCellDelegate
-extension ProfileRegistrationStep1ViewController: PhoneNumberTableViewDelegate {
-    
-    func cellPhoneTextFieldShouldBeginEditing() {
-        setScrollToRow(3)
-    }
-    
-    func cellPhoneTextFieldShouldChangeCharactersIn(_ textField: UITextField, range: NSRange, string: String) {
-        setHiddenFieldRequiredCellPhone(true)
-        textField.text = profileStep1Presenter.setMaskWithRange(.cellPhoneMask, range, string)
-        setScrollToRow(3)
-    }
-            
-}
-
-
-//  MARK: - EXTENSION - NameTableViewCellDelegate
-extension ProfileRegistrationStep1ViewController: FieldOfWorkTableViewCellDelegate {
-    
-    func fieldOfWorkTextFieldShouldBeginEditing() {
-        setScrollToRow(4)
-    }
-    
-    func fieldOfWorkTextFieldShouldChangeCharactersIn() {
-        setHiddenFieldRequiredFieldOfWork(true)
-        setScrollToRow(4)
     }
     
 }
@@ -427,5 +420,58 @@ extension ProfileRegistrationStep1ViewController: ProfileRegistrationStep1Presen
         coordinator?.gotoProfileRegistrationStep2(profilePresenterDTO)
     }
     
+}
+
+
+
+//  MARK: - EXTENSION - UITextFieldDelegate
+extension ProfileRegistrationStep1ViewController: UITextFieldDelegate {
+
+    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+
+    
+    public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+
+        if let cell = fieldsCell[.name] as? NameTableViewCell {
+            if cell.nameTextField.get.isFirstResponder {
+                setHiddenFieldRequiredName(true)
+            }
+        }
+        
+        if let cell = fieldsCell[.cpf] as? CPFTableViewCell {
+            if cell.cpfTextField.get.isFirstResponder {
+                setHiddenFieldRequiredCPF(true)
+                textField.text = profileStep1Presenter.setMaskWithRange(.CPFMask, range, string)
+                return false
+            }
+        }
+        
+        if let cell = fieldsCell[.dateOfBirth] as? DateOfBirthTableViewCell {
+            if cell.dateOfBirthTextField.get.isFirstResponder {
+                setHiddenFieldRequiredDateOfBirth(true)
+                textField.text = profileStep1Presenter.setMaskWithRange(.dateMask, range, string)
+                return false
+            }
+        }
+        
+        if let cell = fieldsCell[.phoneNumber] as? PhoneNumberTableViewCell {
+            if cell.phoneNumberTextField.get.isFirstResponder {
+                setHiddenFieldRequiredCellPhone(true)
+                textField.text = profileStep1Presenter.setMaskWithRange(.cellPhoneMask, range, string)
+                return false
+            }
+        }
+        
+        if let cell = fieldsCell[.fieldOfWork] as? FieldOfWorkTableViewCell {
+            if cell.fieldOfWorkTextField.get.isFirstResponder {
+                setHiddenFieldRequiredFieldOfWork(true)
+            }
+        }
+        
+        return true
+    }
     
 }

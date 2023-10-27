@@ -8,14 +8,9 @@ import CustomComponentsSDK
 import DesignerSystemSDKComponent
 import ProfilePresenters
 
-protocol CPFTableViewCellDelegate: AnyObject {
-    func cpfTextFieldShouldChangeCharactersIn(_ textField: UITextField, range: NSRange, string: String)
-}
-
 
 class CPFTableViewCell: UITableViewCell {
     static let identifier = String(describing: CPFTableViewCell.self)
-    weak var delegate: CPFTableViewCellDelegate?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -50,7 +45,7 @@ class CPFTableViewCell: UITableViewCell {
         return comp
     }()
 
-    lazy var cpfTextField: TextFieldBuilder = {
+    lazy public var cpfTextField: TextFieldBuilder = {
         let comp = TextFieldBuilder()
             .setBackgroundColor(hexColor: "#ffffff")
             .setTextColor(hexColor: "#282a36")
@@ -99,7 +94,6 @@ class CPFTableViewCell: UITableViewCell {
     private func configure() {
         addElements()
         configConstraints()
-        configDelegate()
     }
     
     private func addElements() {
@@ -113,11 +107,7 @@ class CPFTableViewCell: UITableViewCell {
         cpfTextField.applyConstraint()
         fieldRequired.applyConstraint()
     }
-    
-    private func configDelegate() {
-        cpfTextField.setDelegate(self)
-    }
-    
+        
     private func resetSkeleton() {
         cpfLabelText.get.hideSkeleton()
         cpfTextField.get.hideSkeleton()
@@ -130,7 +120,7 @@ class CPFTableViewCell: UITableViewCell {
 //        cpfLabelText.get.isSkeletonable = true
 //        cpfLabelText.get.showAnimatedGradientSkeleton()
         
-//        
+//
 //        let skeleton = ViewBuilder()
 //            .setBackgroundColor(color: .lightGray)
 //            .setConstraints { build in
@@ -139,37 +129,21 @@ class CPFTableViewCell: UITableViewCell {
 //                    .setWidth.equalToConstant(250)
 //                    .setHeight.equalToConstant(50)
 //            }
-//        
+//
 //        skeleton.add(insideTo: self.contentView)
 //        skeleton.applyConstraint()
-//        
+//
 //        let skeletonLayer = UIView(frame: CGRect(origin: CGPoint(x: -50, y: 0), size: CGSize(width: 50, height: 50)))
 //        skeletonLayer.backgroundColor = UIColor.black.withAlphaComponent(0.05)
 //        skeletonLayer.clipsToBounds = true
 //        skeleton.get.layer.masksToBounds = true
 //        skeleton.get.addSubview(skeletonLayer)
-//        
-//        
+//
+//
 //        UIView.animate(withDuration: 1.5, delay: 0, options: [.curveLinear, .repeat], animations: { [self] in
 //            skeletonLayer.frame.origin.x = 250
 //        }, completion: nil)
 //    }
 
-}
-
-
-//  MARK: - EXTENSTION - UITextFieldDelegate
-
-extension CPFTableViewCell: UITextFieldDelegate {
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
-    
-    public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        delegate?.cpfTextFieldShouldChangeCharactersIn(textField, range: range, string: string)
-        return false
-    }
 }
 

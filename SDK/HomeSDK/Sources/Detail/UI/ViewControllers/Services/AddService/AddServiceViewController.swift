@@ -12,8 +12,11 @@ public protocol AddServiceViewControllerCoordinator: AnyObject {
 public class AddServiceViewController: UIViewController {
     public weak var coordinator: AddServiceViewControllerCoordinator?
     
-    private var constantBottom: CGFloat?
+    private struct Control {
+        static var setNeedsLayout = true
+    }
     
+    private var constantBottom: CGFloat?
     
     private var servicePresenterDTO: ServicePresenterDTO? = ServicePresenterDTO()
     private var cellScreen: AddServiceTableViewCell?
@@ -49,6 +52,7 @@ public class AddServiceViewController: UIViewController {
         super.viewDidLoad()
         configure()
     }
+    
 
 //  MARK: - DATA TRANSFER
     public func setDataTransfer(_ data: Any?) {
@@ -60,6 +64,7 @@ public class AddServiceViewController: UIViewController {
 //  MARK: - PRIVATE AREA
     private func configure() {
         configDelegate()
+        configControlSetNeedsLayout()
         registerKeyboardNotifications()
     }
     
@@ -68,7 +73,11 @@ public class AddServiceViewController: UIViewController {
         screen.tableViewScreen.setDelegate(delegate: self)
         screen.tableViewScreen.setDataSource(dataSource: self)
     }
-    
+
+    private func configControlSetNeedsLayout() {
+        Control.setNeedsLayout = true
+    }
+
     private func configCellDelegate() {
         cellScreen?.screen.delegate = self
         cellScreen?.screen.durationServiceTextField.setDelegate(self)
@@ -86,6 +95,11 @@ public class AddServiceViewController: UIViewController {
             setTableViewScroll(at: .bottom)
         }
     }
+    
+    private func setTableViewScroll(at: UITableView.ScrollPosition) {
+        screen.tableViewScreen.get.scrollToRow(at: IndexPath(row: 0, section: 0), at: at, animated: true)
+    }
+
     
     
 //  MARK: - NOTIFIER KEYBOARD
@@ -105,19 +119,22 @@ public class AddServiceViewController: UIViewController {
     }
     
     private func repositionTableViewShowKeyboardAnimation() {
-        UIView.animate(withDuration: 0.3, animations: {
-            if let constantBottom = self.constantBottom {
-                self.screen.constraintsBottom.constant = -constantBottom
-                self.screen.layoutIfNeeded()
-                self.isFirstResponderTextFields()
-            }
-        })
+        if let constantBottom = self.constantBottom {
+            screen.constraintsBottom.constant = -constantBottom
+            screen.layoutIfNeeded()
+            isFirstResponderTextFields()
+        }
     }
     
     @objc private func keyboardWillHide() {
-        UIView.animate(withDuration: 0.3, animations: {
-            self.screen.constraintsBottom.constant = 0
-            self.screen.layoutIfNeeded()
+        DispatchQueue.main.asyncAfter(deadline: .now(), execute: { [weak self] in
+            UIView.animate(withDuration: 0.3, animations: { [weak self] in
+                guard let self else {return}
+                screen.constraintsBottom.constant = 0
+                if Control.setNeedsLayout {
+                    screen.layoutIfNeeded()
+                }
+            }, completion: nil)
         })
     }
     
@@ -177,6 +194,7 @@ extension AddServiceViewController: UITableViewDataSource {
 extension AddServiceViewController: AddServiceViewCellDelegate {
     
     public func confirmationButtonTapped() {
+        Control.setNeedsLayout = false
         coordinator?.gotoListServiceHomeTabBar()
     }
        
@@ -205,8 +223,5 @@ extension AddServiceViewController: UITextFieldDelegate {
         return true
     }
     
-    private func setTableViewScroll(at: UITableView.ScrollPosition) {
-        screen.tableViewScreen.get.scrollToRow(at: IndexPath(row: 0, section: 0), at: at, animated: true)
-    }
     
 }

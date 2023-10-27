@@ -7,15 +7,9 @@ import CustomComponentsSDK
 import DesignerSystemSDKComponent
 import ProfilePresenters
 
-protocol PhoneNumberTableViewDelegate: AnyObject {
-    func cellPhoneTextFieldShouldBeginEditing()
-    func cellPhoneTextFieldShouldChangeCharactersIn(_ textField: UITextField, range: NSRange, string: String)
-}
-
 
 class PhoneNumberTableViewCell: UITableViewCell {
     static let identifier = String(describing: PhoneNumberTableViewCell.self)
-    weak var delegate: PhoneNumberTableViewDelegate?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -100,7 +94,6 @@ class PhoneNumberTableViewCell: UITableViewCell {
     private func configure() {
         addElements()
         configConstraints()
-        configDelegate()
     }
     
     private func addElements() {
@@ -114,11 +107,7 @@ class PhoneNumberTableViewCell: UITableViewCell {
         phoneNumberTextField.applyConstraint()
         fieldRequired.applyConstraint()
     }
-    
-    private func configDelegate() {
-        phoneNumberTextField.setDelegate(self)
-    }
-    
+        
     private func resetSkeleton() {
         phoneNumberLabelText.get.hideSkeleton()
         phoneNumberTextField.get.hideSkeleton()
@@ -126,24 +115,3 @@ class PhoneNumberTableViewCell: UITableViewCell {
 
 }
 
-//  MARK: - EXTENSTION - UITextFieldDelegate
-
-extension PhoneNumberTableViewCell: UITextFieldDelegate {
-    
-    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        delegate?.cellPhoneTextFieldShouldBeginEditing()
-        return true
-    }
-
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
-    
-    public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        delegate?.cellPhoneTextFieldShouldChangeCharactersIn(textField, range: range, string: string)
-        return false
-    }
-    
-}
