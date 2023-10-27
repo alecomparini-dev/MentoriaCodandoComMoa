@@ -127,7 +127,7 @@ public class ListServicesView: UIView {
     lazy var addServiceCustomText: CustomTextSecondary = {
         let view = CustomTextSecondary()
             .setHidden(true)
-            .setSize(22)
+            .setSize(18)
             .setTextAlignment(.center)
             .setNumberOfLines(2)
             .setText("Clique no botão adicionar, para incluir seu primeiro serviço!")

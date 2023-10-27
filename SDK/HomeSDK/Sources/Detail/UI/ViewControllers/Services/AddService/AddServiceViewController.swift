@@ -160,7 +160,7 @@ extension AddServiceViewController: AddServiceViewDelegate {
 extension AddServiceViewController: UITableViewDelegate {
 
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 640
+        return 610
     }
 }
 
