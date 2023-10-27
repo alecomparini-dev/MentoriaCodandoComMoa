@@ -69,6 +69,24 @@ public class AddServiceViewController: UIViewController {
         screen.tableViewScreen.setDataSource(dataSource: self)
     }
     
+    private func configCellDelegate() {
+        cellScreen?.screen.delegate = self
+        cellScreen?.screen.durationServiceTextField.setDelegate(self)
+        cellScreen?.screen.howMutchServiceTextField.setDelegate(self)
+    }
+    
+    private func isFirstResponderTextFields() {
+        guard let cellScreen else {return}
+        
+        if cellScreen.screen.durationServiceTextField.get.isFirstResponder {
+            setTableViewScroll(at: .bottom)
+        }
+        
+        if cellScreen.screen.howMutchServiceTextField.get.isFirstResponder {
+            setTableViewScroll(at: .bottom)
+        }
+    }
+    
     
 //  MARK: - NOTIFIER KEYBOARD
     private func registerKeyboardNotifications() {
@@ -87,21 +105,27 @@ public class AddServiceViewController: UIViewController {
     }
     
     private func repositionTableViewShowKeyboardAnimation() {
-        UIView.animate(withDuration: 0.3, delay: 0 , options: .curveEaseInOut, animations: { [weak self] in
-            guard let self else {return}
-            if let constantBottom {
-                screen.constraintsBottom.constant = -constantBottom
+        UIView.animate(withDuration: 0.3, animations: {
+            if let constantBottom = self.constantBottom {
+                self.screen.constraintsBottom.constant = -constantBottom
+                self.screen.layoutIfNeeded()
+                self.isFirstResponderTextFields()
             }
         })
     }
     
     @objc private func keyboardWillHide() {
-        screen.constraintsBottom.constant = 0
+        UIView.animate(withDuration: 0.3, animations: {
+            self.screen.constraintsBottom.constant = 0
+            self.screen.layoutIfNeeded()
+        })
     }
     
     private func unregisterKeyboardNotifications() {
         NotificationCenter.default.removeObserver(self)
     }
+    
+
     
 }
 
@@ -135,7 +159,7 @@ extension AddServiceViewController: UITableViewDataSource {
         
         cellScreen = tableView.dequeueReusableCell(withIdentifier: AddServiceTableViewCell.identifier, for: indexPath) as? AddServiceTableViewCell
         
-        cellScreen?.screen.delegate = self
+        configCellDelegate()
         
         cellScreen?.selectionStyle = .none
         
@@ -156,4 +180,33 @@ extension AddServiceViewController: AddServiceViewCellDelegate {
         coordinator?.gotoListServiceHomeTabBar()
     }
        
+}
+
+
+//  MARK: - EXTENSION - UITextFieldDelegate
+extension AddServiceViewController: UITextFieldDelegate {
+    
+    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard let cellScreen else {return true}
+        
+        if cellScreen.screen.durationServiceTextField.get.isFirstResponder {
+            setTableViewScroll(at: .bottom)
+        }
+        
+        if cellScreen.screen.howMutchServiceTextField.get.isFirstResponder {
+            setTableViewScroll(at: .bottom)
+        }
+
+        return true
+    }
+    
+    private func setTableViewScroll(at: UITableView.ScrollPosition) {
+        screen.tableViewScreen.get.scrollToRow(at: IndexPath(row: 0, section: 0), at: at, animated: true)
+    }
+    
 }
