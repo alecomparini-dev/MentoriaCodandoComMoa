@@ -16,6 +16,10 @@ public final class ProfileRegistrationStep2ViewController: UIViewController {
     public weak var coordinator: ProfileRegistrationStep2ViewControllerCoordinator?
     private weak var addressCell: AddressTableViewCell?
     
+    private struct Control {
+        static var setNeedsLayout = true
+    }
+    
     private var profilePresenterDTO: ProfilePresenterDTO?
     private var profileStep2Presenter: ProfileRegistrationStep2Presenter
     private var constantBottom: CGFloat?
@@ -65,6 +69,7 @@ public final class ProfileRegistrationStep2ViewController: UIViewController {
 //  MARK: - PRIVATE AREA
     private func configure() {
         configDelegate()
+        configControlSetNeedsLayout()
         registerKeyboardNotifications()
     }
     
@@ -75,36 +80,8 @@ public final class ProfileRegistrationStep2ViewController: UIViewController {
         profileStep2Presenter.outputDelegate = self
     }
     
-    private func registerKeyboardNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    
-    @objc private func keyboardWillShow(_ notification: Notification) {
-        guard let userInfo = notification.userInfo,
-            let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
-        
-        if constantBottom == nil {
-            self.constantBottom = (screen.tableViewAddress.get.bounds.height - keyboardFrame.origin.y) + 75
-        }
-        repositionTableViewShowKeyboardAnimation()
-    }
-    
-    private func repositionTableViewShowKeyboardAnimation() {
-        UIView.animate(withDuration: 0.3, delay: 0 , options: .curveEaseInOut, animations: { [weak self] in
-            guard let self else {return}
-            if let constantBottom {
-                screen.constraintsBottom.constant = -constantBottom
-            }
-        })
-    }
-    
-    @objc private func keyboardWillHide() {
-        screen.constraintsBottom.constant = 0
-    }
-
-    private func unregisterKeyboardNotifications() {
-        NotificationCenter.default.removeObserver(self)
+    private func configControlSetNeedsLayout() {
+        Control.setNeedsLayout = true
     }
     
     private func resetFields() {
@@ -162,6 +139,93 @@ public final class ProfileRegistrationStep2ViewController: UIViewController {
         profilePresenterDTO?.address?.state = addressCell?.stateTextField.get.text
     }
     
+    private func configCellDelegate() {
+        addressCell?.delegate = self
+        addressCell?.searchCEPTextField.setDelegate(self)
+        addressCell?.streetTextField.setDelegate(self)
+        addressCell?.numberTextField.setDelegate(self)
+        addressCell?.neighborhoodTextField.setDelegate(self)
+        addressCell?.cityTextField.setDelegate(self)
+        addressCell?.cityTextField.setDelegate(self)
+    }
+    
+    private func isFirstResponderTextFields() {
+        guard let addressCell else {return}
+        
+        if addressCell.searchCEPTextField.get.isFirstResponder {
+            setTableViewScroll(at: .top)
+        }
+        
+        if addressCell.streetTextField.get.isFirstResponder {
+            setTableViewScroll(at: .top)
+        }
+        
+        if addressCell.numberTextField.get.isFirstResponder {
+            setTableViewScroll(at: .middle)
+        }
+        
+        if addressCell.neighborhoodTextField.get.isFirstResponder {
+            setTableViewScroll(at: .bottom)
+        }
+        
+        if addressCell.cityTextField.get.isFirstResponder {
+            setTableViewScroll(at: .bottom)
+        }
+        
+        if addressCell.stateTextField.get.isFirstResponder {
+            setTableViewScroll(at: .bottom)
+        }
+        
+    }
+    
+    private func setTableViewScroll(at: UITableView.ScrollPosition) {
+        screen.tableViewAddress.get.scrollToRow(at: IndexPath(row: 0, section: 0), at: at, animated: true)
+    }
+    
+    
+    
+//  MARK: - NOTIFIER KEYBOARD
+    private func registerKeyboardNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        guard let userInfo = notification.userInfo,
+            let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
+        
+        if constantBottom == nil {
+            self.constantBottom = (screen.tableViewAddress.get.bounds.height - keyboardFrame.origin.y) + 75
+        }
+        repositionTableViewShowKeyboardAnimation()
+    }
+    
+    private func repositionTableViewShowKeyboardAnimation() {
+        if let constantBottom = self.constantBottom {
+            screen.constraintsBottom.constant = -constantBottom
+            screen.layoutIfNeeded()
+            isFirstResponderTextFields()
+        }
+    }
+    
+    @objc private func keyboardWillHide() {
+        DispatchQueue.main.asyncAfter(deadline: .now(), execute: { [weak self] in
+            UIView.animate(withDuration: 0.3, animations: { [weak self] in
+                guard let self else {return}
+                screen.constraintsBottom.constant = 0
+                if Control.setNeedsLayout {
+                    screen.layoutIfNeeded()
+                }
+            }, completion: nil)
+        })
+    }
+    
+    private func unregisterKeyboardNotifications() {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+
+
 }
 
 
@@ -169,6 +233,7 @@ public final class ProfileRegistrationStep2ViewController: UIViewController {
 extension ProfileRegistrationStep2ViewController: ProfileRegistrationStep2ViewDelegate {
     
     func backButtonTapped() {
+        Control.setNeedsLayout = false
         updateProfilePresenterDTO()
         coordinator?.gotoProfileRegistrationStep1(profilePresenterDTO)
     }
@@ -270,7 +335,7 @@ extension ProfileRegistrationStep2ViewController: UITableViewDataSource {
         
         addressCell = tableView.dequeueReusableCell(withIdentifier: AddressTableViewCell.identifier, for: indexPath) as? AddressTableViewCell
         
-        addressCell?.delegate = self
+        configCellDelegate()
         
         addressCell?.selectionStyle = .none
         
@@ -289,6 +354,7 @@ extension ProfileRegistrationStep2ViewController: UITableViewDataSource {
 extension ProfileRegistrationStep2ViewController: AddressTableViewCellDelegate {
 
     func confirmationTapped() {
+        Control.setNeedsLayout = false
         updateProfilePresenterDTO()
         if let profilePresenterDTO {
             addressCell?.confirmationButtom.setShowLoadingIndicator()
@@ -297,35 +363,52 @@ extension ProfileRegistrationStep2ViewController: AddressTableViewCellDelegate {
     }
     
     func searchCEPTapped(_ textField: UITextField?, _ cep: String) {
+        Control.setNeedsLayout = false
         textField?.resignFirstResponder()
         profileStep2Presenter.searchCep(cep)
         addressCell?.loading.setStartAnimating()
     }
 
-    func textFieldShouldChangeCharactersIn(_ fieldRequired: AddressTableViewCell.FieldRequired, range: NSRange, string: String) {
-        switch fieldRequired {
-            case .cep:
-                setHiddenFieldRequired(addressCell?.CEPFieldRequired, true)
-                addressCell?.searchCEPTextField.get.text = profileStep2Presenter.setCEPMaskWithRange(range, string)
-                resetFields()
-            
-            case .number:
-                setHiddenFieldRequired(addressCell?.numberFieldRequired, true)
-            
-            case .street:
-                setHiddenFieldRequired(addressCell?.streetFieldRequired, true)
-            
-            case .neighborhood:
-                setHiddenFieldRequired(addressCell?.neighborhoodFieldRequired, true)
-            
-            case .city:
-                setHiddenFieldRequired(addressCell?.cityFieldRequired, true)
-            
-            case .state:
-                setHiddenFieldRequired(addressCell?.stateFieldRequired, true)
+    
+}
+
+
+//  MARK: - EXTENSION - UITextFieldDelegate
+extension ProfileRegistrationStep2ViewController: UITextFieldDelegate {
+    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard let addressCell else {return true}
+        
+        if addressCell.searchCEPTextField.get.isFirstResponder {
+            setHiddenFieldRequired(addressCell.CEPFieldRequired, true)
+            addressCell.searchCEPTextField.get.text = profileStep2Presenter.setCEPMaskWithRange(range, string)
+            resetFields()
         }
         
-    }
+        if addressCell.streetTextField.get.isFirstResponder {
+            setHiddenFieldRequired(addressCell.streetFieldRequired, true)
+        }
+        
+        if addressCell.numberTextField.get.isFirstResponder {
+            setHiddenFieldRequired(addressCell.numberFieldRequired, true)
+        }
+        
+        if addressCell.neighborhoodTextField.get.isFirstResponder {
+            setHiddenFieldRequired(addressCell.neighborhoodFieldRequired, true)
+        }
+        
+        if addressCell.cityTextField.get.isFirstResponder {
+            setHiddenFieldRequired(addressCell.cityFieldRequired, true)
+        }
+        
+        if addressCell.stateTextField.get.isFirstResponder {
+            setHiddenFieldRequired(addressCell.stateFieldRequired, true)
+        }
 
-    
+        return true
+    }
 }
