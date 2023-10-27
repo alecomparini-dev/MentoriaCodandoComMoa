@@ -86,7 +86,7 @@ public class ListServicesViewController: UIViewController {
     }
     
     private func configTextFieldDelegate() {
-        screen.searchTextField.setDelegate(self)
+//        screen.searchTextField.setDelegate(self)
     }
     
     
@@ -118,13 +118,6 @@ extension ListServicesViewController: ListServicesViewDelegate {
     public func searchTextFieldEditing(_ textField: UITextField) {
         if let text = textField.text {
             listServicePresenter.filterServices(text)
-//            let vlrDouble = (Double(text) ?? 0) / 100
-//            let value: Double = vlrDouble
-//            let numberFormatter = NumberFormatter()
-//            numberFormatter.locale = Locale(identifier: "pt_BR")
-//            numberFormatter.minimumFractionDigits = 2
-//            numberFormatter.numberStyle = .decimal
-//            textField.text = numberFormatter.string(from: NSNumber(value: value))
         }
     }
     
@@ -139,7 +132,8 @@ extension ListServicesViewController: UITableViewDelegate {
     }
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        coordinator?.gotoViewerService(listServicePresenter.getServiceBy(index: indexPath.row))
+        guard let service = listServicePresenter.getServiceBy(index: indexPath.row) else {return}
+        coordinator?.gotoViewerService(service)
     }
 }
 
@@ -192,22 +186,13 @@ extension ListServicesViewController: ListServicesPresenterOutput {
 }
 
 
-//  MARK: - EXTENSION - UITextFieldDelegate
-extension ListServicesViewController: UITextFieldDelegate {
-
-    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
-    
-//    public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-//        textField.text = (textField.text ?? "") + string
-//        if let text = textField.text {
-//            listServicePresenter.filterServices(text)
-//        }
-//        
-//        if string.isEmpty { return true }
-//        return false
+////  MARK: - EXTENSION - UITextFieldDelegate
+//extension ListServicesViewController: UITextFieldDelegate {
+//
+//    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+//        textField.resignFirstResponder()
+//        return true
 //    }
-    
-}
+//    
+//    
+//}

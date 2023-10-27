@@ -35,7 +35,7 @@ public class ListServicesView: UIView {
     
     lazy var textTitle: CustomTextTitle = {
         let comp = CustomTextTitle()
-            .setText("Seus Serviços")
+            .setText("Serviços")
             .setTextAlignment(.center)
             .setConstraints { build in
                 build
@@ -56,8 +56,7 @@ public class ListServicesView: UIView {
             .setPadding(8)
             .setKeyboard({ build in
                 build
-                    .setKeyboardType(.emailAddress)
-                    .setReturnKeyType(.continue)
+                    .setReturnKeyType(.done)
             })
             .setBorder({ build in
                 build

@@ -7,14 +7,9 @@ import CustomComponentsSDK
 import DesignerSystemSDKComponent
 import ProfilePresenters
 
-protocol FieldOfWorkTableViewCellDelegate: AnyObject {
-    func fieldOfWorkTextFieldShouldBeginEditing()
-    func fieldOfWorkTextFieldShouldChangeCharactersIn()
-}
 
 class FieldOfWorkTableViewCell: UITableViewCell {
     static let identifier = String(describing: FieldOfWorkTableViewCell.self)
-    weak var delegate: FieldOfWorkTableViewCellDelegate?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -94,7 +89,6 @@ class FieldOfWorkTableViewCell: UITableViewCell {
     private func configure() {
         addElements()
         configConstraints()
-        configDelegate()
     }
     
     private func addElements() {
@@ -108,35 +102,11 @@ class FieldOfWorkTableViewCell: UITableViewCell {
         fieldOfWorkTextField.applyConstraint()
         fieldRequired.applyConstraint()
     }
-    
-    private func configDelegate() {
-        fieldOfWorkTextField.setDelegate(self)
-    }
-    
+        
     private func resetSkeleton() {
         fieldOfWorkLabelText.get.hideSkeleton()
         fieldOfWorkTextField.get.hideSkeleton()
     }
 }
 
-//  MARK: - EXTENSTION - UITextFieldDelegate
-
-extension FieldOfWorkTableViewCell: UITextFieldDelegate {
-        
-    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        delegate?.fieldOfWorkTextFieldShouldBeginEditing()
-        return true
-    }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
-    
-    public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        delegate?.fieldOfWorkTextFieldShouldChangeCharactersIn()
-        return true
-    }
-    
-}
 

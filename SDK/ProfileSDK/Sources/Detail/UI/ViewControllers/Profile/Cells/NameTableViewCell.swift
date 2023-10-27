@@ -7,14 +7,9 @@ import DesignerSystemSDKComponent
 import ProfilePresenters
 
 
-protocol NameTableViewCellDelegate: AnyObject {
-    func nameTextFieldShouldChangeCharactersIn()
-}
-
 class NameTableViewCell: UITableViewCell {
     static let identifier = String(describing: NameTableViewCell.self)
-    weak var delegate: NameTableViewCellDelegate?
-    
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configure()
@@ -80,7 +75,6 @@ class NameTableViewCell: UITableViewCell {
     private func configure() {
         addElements()
         configConstraints()
-        configDelegate()
     }
     
     private func addElements() {
@@ -94,29 +88,6 @@ class NameTableViewCell: UITableViewCell {
         nameTextField.applyConstraint()
         fieldRequired.applyConstraint()
     }
-    
-    private func configDelegate() {
-        nameTextField.setDelegate(self)
-    }
-    
-}
-
-
-//  MARK: - EXTENSTION - UITextFieldDelegate
-
-extension NameTableViewCell: UITextFieldDelegate {
         
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
-    
-    public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        delegate?.nameTextFieldShouldChangeCharactersIn()
-        return true
-    }
-    
-    
 }
-
 
