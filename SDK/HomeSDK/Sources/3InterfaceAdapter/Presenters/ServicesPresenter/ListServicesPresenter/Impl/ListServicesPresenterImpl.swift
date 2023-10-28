@@ -30,7 +30,7 @@ public class ListServicesPresenterImpl: ListServicesPresenter {
         
         Task {
             do {
-                let servicesDTO: [ServiceDTO]? = try await listServicesUseCase.list(userIDAuth)
+                let servicesDTO: [ServiceUseCaseDTO]? = try await listServicesUseCase.list(userIDAuth)
                 
                 guard let servicesDTO else {return}
                 

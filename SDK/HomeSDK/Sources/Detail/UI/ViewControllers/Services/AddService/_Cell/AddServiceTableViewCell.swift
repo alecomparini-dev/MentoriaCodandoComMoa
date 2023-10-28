@@ -32,7 +32,7 @@ public class AddServiceTableViewCell: UITableViewCell {
     public func setupCell(_ servicePresenterDTO: ServicePresenterDTO? ) {
         guard let servicePresenterDTO else {return}
         screen.titleServiceTextField.setText(servicePresenterDTO.name)
-        screen.descriptionServiceTextView.setText(servicePresenterDTO.description ?? "")
+        screen.descriptionServiceTextView.setInsertText(servicePresenterDTO.description ?? " ")
         screen.durationServiceTextField.setText(servicePresenterDTO.duration)
         screen.howMutchServiceTextField.setText(servicePresenterDTO.howMutch)
     }

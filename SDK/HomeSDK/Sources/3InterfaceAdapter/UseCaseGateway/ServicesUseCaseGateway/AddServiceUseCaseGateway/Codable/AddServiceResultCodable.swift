@@ -1,13 +1,9 @@
-//  Created by Alessandro Comparini on 26/10/23.
+//  Created by Alessandro Comparini on 27/10/23.
 //
 
 import Foundation
 
-import HomeUseCases
-
-public typealias ServicesCodable = [ServicesCodableElement]
-
-public struct ServicesCodableElement: Codable {
+public struct AddServiceResultCodable: Codable {
     public var name: String?
     public var description: String?
     public var duration: Int?
@@ -34,8 +30,9 @@ public struct ServicesCodableElement: Codable {
         case isChanged = "IsChanged"
     }
 
-    public init(name: String?, description: String?, duration: Int?, howMutch: Double?, id: Int?, isInativo: Bool?,
-                creationDate: String?, changeDate: String?, uid: String?, uidFirebase: String?, isChanged: Bool?) {
+    public init(name: String? = nil, description: String? = nil, 
+                duration: Int? = nil, howMutch: Double? = nil,
+                id: Int? = nil, isInativo: Bool? = nil, creationDate: String? = nil, changeDate: String? = nil, uid: String? = nil, uidFirebase: String? = nil, isChanged: Bool? = nil) {
         self.name = name
         self.description = description
         self.duration = duration
@@ -48,24 +45,4 @@ public struct ServicesCodableElement: Codable {
         self.uidFirebase = uidFirebase
         self.isChanged = isChanged
     }
-}
-
-
-extension ServicesCodable {
-    
-    func mapperToServiceDTO() -> [ServiceUseCaseDTO] {
-        
-        return self.map { service in
-            return ServiceUseCaseDTO(
-                uidFirebase: service.uidFirebase,
-                id: service.id,
-                name: service.name,
-                description: service.description,
-                duration: service.duration,
-                howMutch: service.howMutch,
-                uid: service.uid)
-        }
-        
-    }
-    
 }

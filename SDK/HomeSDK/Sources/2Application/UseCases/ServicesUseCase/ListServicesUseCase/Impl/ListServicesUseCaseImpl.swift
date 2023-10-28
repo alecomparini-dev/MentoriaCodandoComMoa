@@ -11,7 +11,7 @@ final public class ListServicesUseCaseImpl: ListServicesUseCase {
         self.listServicesGateway = listServicesGateway
     }
     
-    public func list(_ userIDAuth: String) async throws -> [ServiceDTO]? {
+    public func list(_ userIDAuth: String) async throws -> [ServiceUseCaseDTO]? {
         return try await listServicesGateway.list(userIDAuth)
     }
     

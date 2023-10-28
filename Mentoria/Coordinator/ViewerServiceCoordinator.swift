@@ -32,7 +32,7 @@ class ViewerServiceCoordinator: NSObject, Coordinator {
                     .setDetents(.medium)
                     .setDetents(.large)
                     .setCornerRadius(24)
-                    .setGrabbervisible(true)
+                    .setGrabbervisible(false)
                     .setScrollingExpandsWhenScrolledToEdge(false)
             })
         }

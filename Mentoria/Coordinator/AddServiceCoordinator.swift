@@ -18,7 +18,7 @@ public class AddServiceCoordinator: Coordinator {
     
     func start() {
         childCoordinator = self
-        var controller = AddServiceViewController()
+        var controller = AddServiceViewControllerFactory.make()
         controller = navigationController.pushViewController(controller)
         controller.setDataTransfer(dataTransfer)
         controller.coordinator = self

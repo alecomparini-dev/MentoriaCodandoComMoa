@@ -82,7 +82,6 @@ public class ViewerServiceViewController: UIViewController {
         if #available(iOS 15.0, *) {
             if let sheet = self.sheetPresentationController {
                 sheet.delegate = self
-                sheet.prefersGrabberVisible = true
             }
         }
     }
