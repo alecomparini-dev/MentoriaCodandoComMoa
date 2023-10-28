@@ -90,7 +90,7 @@ public class AddServiceViewCell: ViewBuilder {
         let comp = TextViewBuilder()
             .setBackgroundColor(hexColor: "#ffffff")
             .setTextColor(hexColor: "#282a36")
-            .setSize(17)
+            .setSize(14)
             .setLineSpacing(10)
             .setPadding(left: 8, top: 16)
             .setBorder({ build in

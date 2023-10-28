@@ -127,7 +127,7 @@ extension ListServicesViewController: ListServicesViewDelegate {
     }
     
     public func addServiceButtonTapped() {
-        coordinator?.gotoAddService(nil)
+        coordinator?.gotoAddService(ServicePresenterDTO(uIDFirebase: userIDAuth))
     }
     
 }

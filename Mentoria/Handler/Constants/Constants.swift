@@ -9,6 +9,7 @@ struct K {
     static let pathGetListProfile = "/Profile/GetListaProfile"
     static let pathCreateProfile = "/Profile/PostProfile"
     static let pathListServices = "/Service/GetListaService"
+    static let pathPostService = "/Service/PostService"
     static let pathDisableService = "/Service/InativarService"
     
     struct Strings {

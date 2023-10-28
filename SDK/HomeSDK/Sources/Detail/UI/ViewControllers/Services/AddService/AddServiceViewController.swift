@@ -18,12 +18,17 @@ public class AddServiceViewController: UIViewController {
     
     private var constantBottom: CGFloat?
     
-    private var servicePresenterDTO: ServicePresenterDTO? = ServicePresenterDTO()
+    private var servicePresenterDTO: ServicePresenterDTO?
     private var cellScreen: AddServiceTableViewCell?
+    
+    private var addServicePresenter: AddServicePresenter
     
     
 //  MARK: - INITIALIZERS
-    public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+    
+    
+    public init(addServicePresenter: AddServicePresenter) {
+        self.addServicePresenter = addServicePresenter
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -72,6 +77,7 @@ public class AddServiceViewController: UIViewController {
         screen.delegate = self
         screen.tableViewScreen.setDelegate(delegate: self)
         screen.tableViewScreen.setDataSource(dataSource: self)
+        addServicePresenter.outputDelegate = self
     }
 
     private func configControlSetNeedsLayout() {
@@ -100,6 +106,12 @@ public class AddServiceViewController: UIViewController {
         screen.tableViewScreen.get.scrollToRow(at: IndexPath(row: 0, section: 0), at: at, animated: true)
     }
 
+    private func updateServicePresenterDTO() {
+        servicePresenterDTO?.name = cellScreen?.screen.titleServiceTextField.get.text
+        servicePresenterDTO?.description = cellScreen?.screen.descriptionServiceTextView.get.text
+        servicePresenterDTO?.duration = cellScreen?.screen.durationServiceTextField.get.text
+        servicePresenterDTO?.howMutch = cellScreen?.screen.howMutchServiceTextField.get.text
+    }
     
     
 //  MARK: - NOTIFIER KEYBOARD
@@ -190,12 +202,15 @@ extension AddServiceViewController: UITableViewDataSource {
     
 }
 
-
+//  MARK: - EXTENSION - 
 extension AddServiceViewController: AddServiceViewCellDelegate {
     
     public func confirmationButtonTapped() {
         Control.setNeedsLayout = false
-        coordinator?.gotoListServiceHomeTabBar()
+        updateServicePresenterDTO()
+        if let servicePresenterDTO {
+            addServicePresenter.addService(servicePresenterDTO)
+        }
     }
        
 }
@@ -221,6 +236,23 @@ extension AddServiceViewController: UITextFieldDelegate {
         }
 
         return true
+    }
+    
+    
+}
+
+
+//  MARK: - EXTENSION - AddServicePresenterOutput
+extension AddServiceViewController: AddServicePresenterOutput {
+    public func successAddService() {
+        coordinator?.gotoListServiceHomeTabBar()
+    }
+    
+    public func errorAddService(title: String, message: String) {
+        let alert = UIAlertController(title: "Aviso", message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default)
+        alert.addAction(action)
+        present(alert, animated: true)
     }
     
     

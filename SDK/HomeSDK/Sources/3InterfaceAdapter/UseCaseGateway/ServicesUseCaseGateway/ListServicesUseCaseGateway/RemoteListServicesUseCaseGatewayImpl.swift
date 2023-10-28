@@ -22,7 +22,7 @@ public class RemoteListServicesUseCaseGatewayImpl: ListServicesUseCaseGateway {
         self.queryParameters = queryParameters
     }
     
-    public func list(_ userIDAuth: String) async throws -> [ServiceDTO]? {
+    public func list(_ userIDAuth: String) async throws -> [ServiceUseCaseDTO]? {
         var query: [String: String] = self.queryParameters
         
         query.updateValue(userIDAuth, forKey: "uIdFirebase")

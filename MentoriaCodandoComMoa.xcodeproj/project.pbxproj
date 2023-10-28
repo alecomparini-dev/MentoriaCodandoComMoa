@@ -20,6 +20,7 @@
 		022B87E42AE69A670041B984 /* LocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022B87E32AE69A660041B984 /* LocalStorage.swift */; };
 		0239C4BD2ADDF1460016C0E4 /* ProfileRegistrationStep1Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0239C4BC2ADDF1460016C0E4 /* ProfileRegistrationStep1Factory.swift */; };
 		023CED872AEC380F001B3562 /* ViewerServiceViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 023CED862AEC380F001B3562 /* ViewerServiceViewControllerFactory.swift */; };
+		023CED8A2AED4BA8001B3562 /* AddServiceViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 023CED892AED4BA8001B3562 /* AddServiceViewControllerFactory.swift */; };
 		024340822AD9872B00110844 /* ProfileRegistrationStep1Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024340812AD9872B00110844 /* ProfileRegistrationStep1Coordinator.swift */; };
 		0249C1952AE9A6230045A126 /* ViewerServiceCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0249C1942AE9A6230045A126 /* ViewerServiceCoordinator.swift */; };
 		024BC97E2ADAEB6500E9EEDC /* ProfileRegistrationStep2Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024BC97D2ADAEB6500E9EEDC /* ProfileRegistrationStep2Factory.swift */; };
@@ -64,6 +65,7 @@
 		022B87E32AE69A660041B984 /* LocalStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalStorage.swift; sourceTree = "<group>"; };
 		0239C4BC2ADDF1460016C0E4 /* ProfileRegistrationStep1Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRegistrationStep1Factory.swift; sourceTree = "<group>"; };
 		023CED862AEC380F001B3562 /* ViewerServiceViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewerServiceViewControllerFactory.swift; sourceTree = "<group>"; };
+		023CED892AED4BA8001B3562 /* AddServiceViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddServiceViewControllerFactory.swift; sourceTree = "<group>"; };
 		024340812AD9872B00110844 /* ProfileRegistrationStep1Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRegistrationStep1Coordinator.swift; sourceTree = "<group>"; };
 		0249C1942AE9A6230045A126 /* ViewerServiceCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewerServiceCoordinator.swift; sourceTree = "<group>"; };
 		024BC97D2ADAEB6500E9EEDC /* ProfileRegistrationStep2Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRegistrationStep2Factory.swift; sourceTree = "<group>"; };
@@ -203,6 +205,14 @@
 				023CED862AEC380F001B3562 /* ViewerServiceViewControllerFactory.swift */,
 			);
 			path = ViewerService;
+			sourceTree = "<group>";
+		};
+		023CED882AED4B9A001B3562 /* AddService */ = {
+			isa = PBXGroup;
+			children = (
+				023CED892AED4BA8001B3562 /* AddServiceViewControllerFactory.swift */,
+			);
+			path = AddService;
 			sourceTree = "<group>";
 		};
 		024BC97B2ADAEB0900E9EEDC /* Profile */ = {
@@ -364,6 +374,7 @@
 		02FFBF0F2AEAA12700BBF19C /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				023CED882AED4B9A001B3562 /* AddService */,
 				023CED852AEC37F9001B3562 /* ViewerService */,
 				02FFBF102AEAA13600BBF19C /* ListServices */,
 			);
@@ -539,6 +550,7 @@
 				0220550D2AE1C93400C076FC /* CPFMask.swift in Sources */,
 				024BC97E2ADAEB6500E9EEDC /* ProfileRegistrationStep2Factory.swift in Sources */,
 				028B28A12AA75EAE008E4A7E /* Environment.swift in Sources */,
+				023CED8A2AED4BA8001B3562 /* AddServiceViewControllerFactory.swift in Sources */,
 				0293DF092AE6D42500716142 /* CreateProfileUseCaseFactory.swift in Sources */,
 				0220550E2AE1C93400C076FC /* DateMask.swift in Sources */,
 				0293DF0C2AE6E5B000716142 /* MasksFactory.swift in Sources */,

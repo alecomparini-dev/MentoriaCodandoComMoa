@@ -47,8 +47,8 @@ public class ViewerServiceView: UIView {
             })
             .setConstraints { build in
                 build
-                    .setTop.equalToSuperView(8)
-                    .setWidth.equalToConstant(50)
+                    .setTop.equalToSuperView(10)
+                    .setWidth.equalToConstant(45)
                     .setHeight.equalToConstant(4)
                     .setHorizontalAlignmentX.equalToSuperView
             }
@@ -95,7 +95,7 @@ public class ViewerServiceView: UIView {
     lazy var titleServiceLabel: CustomTextTitle = {
         let comp = CustomTextTitle()
             .setText("Dev iOS")
-            .setSize(25)
+            .setSize(22)
             .setTextAlignment(.center)
             .setNumberOfLines(2)
             .setConstraints { build in
@@ -130,14 +130,14 @@ public class ViewerServiceView: UIView {
             .setReadOnly(true)
             .setPadding(left: 16, top: 16, right: 16, bottom: 16)
             .setLineSpacing(10)
-            .setSize(18)
+            .setSize(17)
             .setBorder({ build in
                 build
                     .setCornerRadius(12)
             })
             .setConstraints { build in
                 build
-                    .setTop.equalTo(underlineView.get, .bottom, 32)
+                    .setTop.equalTo(titleServiceLabel.get, .top, 68)
                     .setLeading.setTrailing.equalToSafeArea(24)
                     .setHeight.equalToConstant(160)
             }

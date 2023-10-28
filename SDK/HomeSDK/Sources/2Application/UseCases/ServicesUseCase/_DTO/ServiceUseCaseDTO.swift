@@ -3,7 +3,7 @@
 
 import Foundation
 
-public struct ServiceDTO {
+public struct ServiceUseCaseDTO {
     public var uidFirebase: String?
     public var id: Int?
     public var name: String?
