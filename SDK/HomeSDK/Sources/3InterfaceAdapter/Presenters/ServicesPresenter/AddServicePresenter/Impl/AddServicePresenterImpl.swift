@@ -36,7 +36,7 @@ public class AddServicePresenterImpl: AddServicePresenter {
                         uid: servicePresenterDTO.uIDFirebase)
                 )
                 
-                guard let serviceUseCaseDTO else {return errorAddService(title: "Error", message: "Não foi possível adicionar o serviço. Favor tente novamente mais tarde") }
+                guard serviceUseCaseDTO != nil else {return errorAddService(title: "Error", message: "Não foi possível adicionar o serviço. Favor tente novamente mais tarde") }
                 
                 successAddService()
                 
