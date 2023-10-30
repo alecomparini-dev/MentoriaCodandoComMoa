@@ -9,7 +9,7 @@ public protocol AddServiceViewControllerCoordinator: AnyObject {
     func gotoListServiceHomeTabBar()
 }
 
-public class AddServiceViewController: UIViewController {
+public class SaveServiceViewController: UIViewController {
     public weak var coordinator: AddServiceViewControllerCoordinator?
     
     private struct Control {
@@ -21,14 +21,13 @@ public class AddServiceViewController: UIViewController {
     private var servicePresenterDTO: ServicePresenterDTO?
     private var cellScreen: AddServiceTableViewCell?
     
-    private var addServicePresenter: AddServicePresenter
+    private var saveServicePresenter: SaveServicePresenter
     
     
 //  MARK: - INITIALIZERS
     
-    
-    public init(addServicePresenter: AddServicePresenter) {
-        self.addServicePresenter = addServicePresenter
+    public init(saveServicePresenter: SaveServicePresenter) {
+        self.saveServicePresenter = saveServicePresenter
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -36,8 +35,8 @@ public class AddServiceViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public lazy var screen: AddServiceView = {
-        let view = AddServiceView()
+    public lazy var screen: SaveServiceView = {
+        let view = SaveServiceView()
         return view
     }()
     
@@ -71,13 +70,20 @@ public class AddServiceViewController: UIViewController {
         configDelegate()
         configControlSetNeedsLayout()
         registerKeyboardNotifications()
+        configDisableServiceButton()
+    }
+    
+    private func configDisableServiceButton() {
+        screen.disableServiceButton.setHidden(
+            saveServicePresenter.mustBeHiddenDisableServiceButton(servicePresenterDTO)
+        )
     }
     
     private func configDelegate() {
         screen.delegate = self
         screen.tableViewScreen.setDelegate(delegate: self)
         screen.tableViewScreen.setDataSource(dataSource: self)
-        addServicePresenter.outputDelegate = self
+        saveServicePresenter.outputDelegate = self
     }
 
     private func configControlSetNeedsLayout() {
@@ -159,7 +165,14 @@ public class AddServiceViewController: UIViewController {
 }
 
 //  MARK: - EXTENSION - AddServiceViewDelegate
-extension AddServiceViewController: AddServiceViewDelegate {
+extension SaveServiceViewController: AddServiceViewDelegate {
+    
+    public func disableButtomTapped() {
+        if let idService = servicePresenterDTO?.id, let userIDAuth = servicePresenterDTO?.uIDFirebase {
+            saveServicePresenter.disableService(idService, userIDAuth)
+        }
+    }
+    
     
     public func backButtonTapped() {
         coordinator?.gotoListServiceHomeTabBar()
@@ -169,7 +182,7 @@ extension AddServiceViewController: AddServiceViewDelegate {
 
 
 //  MARK: - EXTENSION - TABLEVIEW - UITableViewDelegate
-extension AddServiceViewController: UITableViewDelegate {
+extension SaveServiceViewController: UITableViewDelegate {
 
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 610
@@ -178,7 +191,7 @@ extension AddServiceViewController: UITableViewDelegate {
 
 
 //  MARK: - EXTENSION - UITableViewDataSource
-extension AddServiceViewController: UITableViewDataSource {
+extension SaveServiceViewController: UITableViewDataSource {
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
@@ -203,13 +216,13 @@ extension AddServiceViewController: UITableViewDataSource {
 }
 
 //  MARK: - EXTENSION - 
-extension AddServiceViewController: AddServiceViewCellDelegate {
+extension SaveServiceViewController: AddServiceViewCellDelegate {
     
     public func confirmationButtonTapped() {
         Control.setNeedsLayout = false
         updateServicePresenterDTO()
         if let servicePresenterDTO {
-            addServicePresenter.addService(servicePresenterDTO)
+            saveServicePresenter.saveService(servicePresenterDTO)
         }
     }
        
@@ -217,7 +230,7 @@ extension AddServiceViewController: AddServiceViewCellDelegate {
 
 
 //  MARK: - EXTENSION - UITextFieldDelegate
-extension AddServiceViewController: UITextFieldDelegate {
+extension SaveServiceViewController: UITextFieldDelegate {
     
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
@@ -242,13 +255,24 @@ extension AddServiceViewController: UITextFieldDelegate {
 }
 
 
-//  MARK: - EXTENSION - AddServicePresenterOutput
-extension AddServiceViewController: AddServicePresenterOutput {
-    public func successAddService() {
+//  MARK: - EXTENSION - saveServicePresenterOutput
+extension SaveServiceViewController: SaveServicePresenterOutput {
+    public func successSaveService() {
         coordinator?.gotoListServiceHomeTabBar()
     }
     
-    public func errorAddService(title: String, message: String) {
+    public func errorSaveService(title: String, message: String) {
+        let alert = UIAlertController(title: "Aviso", message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default)
+        alert.addAction(action)
+        present(alert, animated: true)
+    }
+    
+    public func successDisableService() {
+        coordinator?.gotoListServiceHomeTabBar()
+    }
+    
+    public func errorDisableService(title: String, message: String) {
         let alert = UIAlertController(title: "Aviso", message: message, preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default)
         alert.addAction(action)

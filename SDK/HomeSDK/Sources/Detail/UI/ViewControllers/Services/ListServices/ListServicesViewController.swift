@@ -137,7 +137,7 @@ extension ListServicesViewController: ListServicesViewDelegate {
 extension ListServicesViewController: UITableViewDelegate {
 
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 185
+        return listServicePresenter.heightForRowAt()
     }
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -189,7 +189,7 @@ extension ListServicesViewController: ListServicesPresenterOutput {
     }
     
     public func errorFetchListServices(title: String, message: String) {
-        
+        debugPrint(message)
     }
     
     public func reloadTableView() {
