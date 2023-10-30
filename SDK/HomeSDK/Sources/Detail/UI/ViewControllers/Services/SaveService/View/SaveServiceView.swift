@@ -93,7 +93,7 @@ public class SaveServiceView: UIView {
             .setShowsScroll(false, .both)
             .setSeparatorStyle(.none)
             .setBackgroundColor(color: .clear)
-            .setRegisterCell(AddServiceTableViewCell.self)
+            .setRegisterCell(SaveServiceTableViewCell.self)
             .setConstraints { build in
                 build
                     .setTop.equalTo(backButton.get, .bottom, 16)

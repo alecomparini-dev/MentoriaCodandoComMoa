@@ -75,9 +75,8 @@ public class CardServiceView: ViewBuilder {
             .setNumberOfLines(3)
             .setConstraints { build in
                 build
-                    .setTop.equalTo(titleServiceLabel.get, .bottom, 16)
-                    .setLeading.equalTo(titleServiceLabel.get, .leading, 6)
-                    .setTrailing.equalToSafeArea(-30)
+                    .setTop.equalTo(titleServiceLabel.get, .bottom, 12)
+                    .setLeading.setTrailing.equalTo(titleServiceLabel.get)
             }
         return comp
     }()

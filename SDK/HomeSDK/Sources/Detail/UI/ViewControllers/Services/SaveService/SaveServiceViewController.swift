@@ -16,10 +16,17 @@ public class SaveServiceViewController: UIViewController {
         static var setNeedsLayout = true
     }
     
+    public enum TextFieldTags: Int {
+        case title = 1
+        case description = 2
+        case duration = 3
+        case howmutch = 4
+    }
+    
     private var constantBottom: CGFloat?
     
     private var servicePresenterDTO: ServicePresenterDTO?
-    private var cellScreen: AddServiceTableViewCell?
+    private var cellScreen: SaveServiceTableViewCell?
     
     private var saveServicePresenter: SaveServicePresenter
     
@@ -69,31 +76,47 @@ public class SaveServiceViewController: UIViewController {
     private func configure() {
         configDelegate()
         configControlSetNeedsLayout()
-        registerKeyboardNotifications()
         configDisableServiceButton()
+        configTagTextFields()
+        configKeyboardNotifications()
     }
     
+    private func configDelegate() {
+        screen.delegate = self
+        saveServicePresenter.outputDelegate = self
+        screen.tableViewScreen.setDelegate(delegate: self)
+        screen.tableViewScreen.setDataSource(dataSource: self)
+    }
+    
+
+    private func configControlSetNeedsLayout() {
+        Control.setNeedsLayout = true
+    }
+
     private func configDisableServiceButton() {
         screen.disableServiceButton.setHidden(
             saveServicePresenter.mustBeHiddenDisableServiceButton(servicePresenterDTO)
         )
     }
     
-    private func configDelegate() {
-        screen.delegate = self
-        screen.tableViewScreen.setDelegate(delegate: self)
-        screen.tableViewScreen.setDataSource(dataSource: self)
-        saveServicePresenter.outputDelegate = self
+    private func configCellScreen() {
+        configCellDelegate()
+        configTagTextFields()
     }
-
-    private func configControlSetNeedsLayout() {
-        Control.setNeedsLayout = true
-    }
-
+    
     private func configCellDelegate() {
         cellScreen?.screen.delegate = self
+        cellScreen?.screen.titleServiceTextField.setDelegate(self)
+        cellScreen?.screen.descriptionServiceTextView.setDelegate(self)
         cellScreen?.screen.durationServiceTextField.setDelegate(self)
         cellScreen?.screen.howMutchServiceTextField.setDelegate(self)
+    }
+    
+    private func configTagTextFields() {
+        cellScreen?.screen.titleServiceTextField.setTag(TextFieldTags.title.rawValue)
+        cellScreen?.screen.descriptionServiceTextView.setTag(TextFieldTags.description.rawValue)
+        cellScreen?.screen.durationServiceTextField.setTag(TextFieldTags.duration.rawValue)
+        cellScreen?.screen.howMutchServiceTextField.setTag(TextFieldTags.howmutch.rawValue)
     }
     
     private func isFirstResponderTextFields() {
@@ -119,9 +142,31 @@ public class SaveServiceViewController: UIViewController {
         servicePresenterDTO?.howMutch = cellScreen?.screen.howMutchServiceTextField.get.text
     }
     
+    private func setFieldsRequired(fields: [SaveServicePresenterImpl.FieldsRequired]) {
+        fields.forEach { field in
+            switch field {
+                case .name:
+                    setHiddenFieldRequired(cellScreen?.screen.titleServiceFieldRequired, false)
+                    screen.tableViewScreen.get.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+                case .description:
+                    setHiddenFieldRequired(cellScreen?.screen.descriptionFieldRequired, false)
+                case .duration:
+                    setHiddenFieldRequired(cellScreen?.screen.groupServicesFieldRequired, false)
+                case .howMutch:
+                    setHiddenFieldRequired(cellScreen?.screen.groupServicesFieldRequired, false)
+            }
+        }
+    }
+    
+    private func setHiddenFieldRequired(_ requiredLabel: FieldRequiredCustomTextSecondary?, _ flag: Bool) {
+        if let requiredLabel {
+            requiredLabel.setHidden(flag)
+        }
+    }
+    
     
 //  MARK: - NOTIFIER KEYBOARD
-    private func registerKeyboardNotifications() {
+    private func configKeyboardNotifications() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
@@ -173,7 +218,6 @@ extension SaveServiceViewController: AddServiceViewDelegate {
         }
     }
     
-    
     public func backButtonTapped() {
         coordinator?.gotoListServiceHomeTabBar()
     }
@@ -185,7 +229,7 @@ extension SaveServiceViewController: AddServiceViewDelegate {
 extension SaveServiceViewController: UITableViewDelegate {
 
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 610
+        return saveServicePresenter.heightForRowAt()
     }
 }
 
@@ -194,29 +238,41 @@ extension SaveServiceViewController: UITableViewDelegate {
 extension SaveServiceViewController: UITableViewDataSource {
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return saveServicePresenter.numberOfRowsInSection()
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        cellScreen = tableView.dequeueReusableCell(withIdentifier: AddServiceTableViewCell.identifier, for: indexPath) as? AddServiceTableViewCell
+        cellScreen = tableView.dequeueReusableCell(withIdentifier: SaveServiceTableViewCell.identifier, for: indexPath) as? SaveServiceTableViewCell
         
-        configCellDelegate()
+        configCellScreen()
         
         cellScreen?.selectionStyle = .none
         
         cellScreen?.backgroundColor = .clear
         
-        cellScreen?.setupCell(servicePresenterDTO)
+        cellScreen?.setupCell(configSetupCell())
         
         return cellScreen ?? UITableViewCell()
         
     }
     
+    private func configSetupCell() -> ServicePresenterDTO? {
+        if let duration = servicePresenterDTO?.duration {
+            servicePresenterDTO?.duration = saveServicePresenter.removeAlphabeticCharacters(from: duration)
+        }
+        
+        if let howMutch = servicePresenterDTO?.howMutch {
+            servicePresenterDTO?.howMutch = saveServicePresenter.removeAlphabeticCharacters(from: howMutch)
+        }
+        
+        return servicePresenterDTO
+    }
+        
 }
 
-//  MARK: - EXTENSION - 
-extension SaveServiceViewController: AddServiceViewCellDelegate {
+//  MARK: - EXTENSION - AddServiceViewCellDelegate
+extension SaveServiceViewController: SaveServiceViewCellDelegate {
     
     public func confirmationButtonTapped() {
         Control.setNeedsLayout = false
@@ -226,6 +282,20 @@ extension SaveServiceViewController: AddServiceViewCellDelegate {
         }
     }
        
+}
+
+
+//  MARK: - EXTENSION - UITextViewDelegate
+extension SaveServiceViewController: UITextViewDelegate {
+
+    public func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if textView.tag == TextFieldTags.description.rawValue {
+            setHiddenFieldRequired(cellScreen?.screen.descriptionFieldRequired, true)
+        }
+
+        return true
+    }
+    
 }
 
 
@@ -240,23 +310,64 @@ extension SaveServiceViewController: UITextFieldDelegate {
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let cellScreen else {return true}
         
-        if cellScreen.screen.durationServiceTextField.get.isFirstResponder {
-            setTableViewScroll(at: .bottom)
-        }
         
-        if cellScreen.screen.howMutchServiceTextField.get.isFirstResponder {
-            setTableViewScroll(at: .bottom)
+        switch textField.tag {
+            
+            case TextFieldTags.title.rawValue:
+                setHiddenFieldRequired(cellScreen.screen.titleServiceFieldRequired, true)
+                
+            case TextFieldTags.duration.rawValue:
+                setTableViewScroll(at: .bottom)
+                configSetHiddenFieldRequiredGroupView(textField)
+                
+            case TextFieldTags.howmutch.rawValue:
+                setTableViewScroll(at: .bottom)
+                configSetHiddenFieldRequiredGroupView(textField)
+                
+            default:
+                break
         }
 
         return true
     }
     
+    private func configSetHiddenFieldRequiredGroupView(_ textField: UITextField) {
+        guard let cellScreen else {return}
+        if let duration = cellScreen.screen.durationServiceTextField.get.text {
+            if duration.isEmpty && textField.tag != TextFieldTags.duration.rawValue {
+                return
+            }
+        }
+        
+        if let howMutch = cellScreen.screen.howMutchServiceTextField.get.text {
+            if howMutch.isEmpty && textField.tag != TextFieldTags.howmutch.rawValue {
+                return
+            }
+        }
+        
+        setHiddenFieldRequired(cellScreen.screen.groupServicesFieldRequired, true)
+        
+    }
     
 }
 
 
 //  MARK: - EXTENSION - saveServicePresenterOutput
 extension SaveServiceViewController: SaveServicePresenterOutput {
+    
+    public func validations(validationsError: String?, fieldsRequired: [SaveServicePresenterImpl.FieldsRequired]) {
+        if let validationsError {
+            let alert = UIAlertController(title: "Aviso", message: validationsError, preferredStyle: .alert)
+            let action = UIAlertAction(title: "OK", style: .default)
+            alert.addAction(action)
+            present(alert, animated: true)
+        }
+        
+        if !fieldsRequired.isEmpty {
+            setFieldsRequired(fields: fieldsRequired)
+        }
+    }
+    
     public func successSaveService() {
         coordinator?.gotoListServiceHomeTabBar()
     }

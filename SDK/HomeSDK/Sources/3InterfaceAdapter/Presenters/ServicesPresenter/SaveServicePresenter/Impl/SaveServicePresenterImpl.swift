@@ -8,14 +8,21 @@ import HomeUseCases
 public protocol SaveServicePresenterOutput: AnyObject {
     func successSaveService()
     func errorSaveService(title: String, message: String)
+    func validations(validationsError: String?, fieldsRequired: [SaveServicePresenterImpl.FieldsRequired])
     func successDisableService()
     func errorDisableService(title: String, message: String)
 }
 
 
 public class SaveServicePresenterImpl: SaveServicePresenter {
-    
     public weak var outputDelegate: SaveServicePresenterOutput?
+    
+    public enum FieldsRequired {
+        case name
+        case description
+        case duration
+        case howMutch
+    }
     
     private let saveServiceUseCase: SaveServiceUseCase
     private let disableServiceUseCase: DisableServiceUseCase
@@ -26,6 +33,9 @@ public class SaveServicePresenterImpl: SaveServicePresenter {
     }
     
     public func saveService(_ servicePresenterDTO: ServicePresenterDTO) {
+        if !validations(servicePresenterDTO) {
+            return
+        }
         
         Task {
             do {
@@ -70,8 +80,62 @@ public class SaveServicePresenterImpl: SaveServicePresenter {
         return servicePresenterDTO?.id == nil
     }
     
+    public func removeAlphabeticCharacters(from input: String) -> String {
+        do {
+            let regex = try NSRegularExpression(pattern: "[a-z A-Z$]+", options: .caseInsensitive)
+            return regex.stringByReplacingMatches(in: input, options: [], range: NSRange(location: 0, length: input.count), withTemplate: "")
+        } catch {
+            debugPrint("Erro na expressão regular: \(error)")
+            return input
+        }
+    }
+    
+    public func heightForRowAt() -> CGFloat { 610 }
+    
+    public func numberOfRowsInSection() -> Int { 1 }
+
+    
     
 //  MARK: - PRIVATE AREA
+    private func validations(_ servicePresenterDTO: ServicePresenterDTO) -> Bool {
+        var failsMessage: String?
+
+        let fieldsRequired = isValidFieldsRequired(servicePresenterDTO)
+
+//        if let failMsg = isValidAddress(profilePresenterDTO.address?.cep ?? "", fieldsRequired) {
+//            failsMessage = "\n" + failMsg
+//        }
+
+        if failsMessage != nil || !fieldsRequired.isEmpty {
+            outputDelegate?.validations(validationsError: failsMessage, fieldsRequired: fieldsRequired)
+            return false
+        }
+
+        return true
+    }
+        
+    private func isValidFieldsRequired(_ servicePresenterDTO: ServicePresenterDTO) -> [FieldsRequired] {
+        var fieldsRequired: [FieldsRequired] = []
+        
+        if servicePresenterDTO.name?.isEmpty ?? true {
+            fieldsRequired.append(.name)
+        }
+        
+        if servicePresenterDTO.description?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ?? true {
+            fieldsRequired.append(.description)
+        }
+        
+        if servicePresenterDTO.duration?.isEmpty ?? true {
+            fieldsRequired.append(.duration)
+        }
+
+        if servicePresenterDTO.howMutch?.isEmpty ?? true {
+            fieldsRequired.append(.howMutch)
+        }
+        
+        return fieldsRequired
+    }
+    
     
     private func configDuration(_ duration: String?) -> Int? {
         guard let duration else {return nil}
@@ -83,15 +147,6 @@ public class SaveServicePresenterImpl: SaveServicePresenter {
         return Double(removeAlphabeticCharacters(from: howMutch))
     }
     
-    private func removeAlphabeticCharacters(from input: String) -> String {
-        do {
-            let regex = try NSRegularExpression(pattern: "[a-z A-Z$]+", options: .caseInsensitive)
-            return regex.stringByReplacingMatches(in: input, options: [], range: NSRange(location: 0, length: input.count), withTemplate: "")
-        } catch {
-            debugPrint("Erro na expressão regular: \(error)")
-            return input
-        }
-    }
     
     
 //  MARK: - RETURN CALL ADD SERVICE

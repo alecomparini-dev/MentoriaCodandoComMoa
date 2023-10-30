@@ -68,6 +68,7 @@ public class ListServicesViewController: UIViewController {
         }
     }
     
+    
 //  MARK: - PRIVATE AREA
     private func configure() {
         configDelegate()
