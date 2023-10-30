@@ -142,6 +142,17 @@ public class SaveServiceViewController: UIViewController {
         servicePresenterDTO?.howMutch = cellScreen?.screen.howMutchServiceTextField.get.text
     }
     
+    private func configHowMutch(_ howMutch: String?) -> String? {
+        guard let howMutch else {return nil}
+        
+        //TODO: CRIAR UM ARQUIVO COM TODAS AS STRINGS
+        if howMutch == "Grátis" {
+            return "0,00"
+        }
+        
+        return howMutch
+    }
+    
     private func setFieldsRequired(fields: [SaveServicePresenterImpl.FieldsRequired]) {
         fields.forEach { field in
             switch field {
@@ -262,7 +273,8 @@ extension SaveServiceViewController: UITableViewDataSource {
             servicePresenterDTO?.duration = saveServicePresenter.removeAlphabeticCharacters(from: duration)
         }
         
-        if let howMutch = servicePresenterDTO?.howMutch {
+        if var howMutch = servicePresenterDTO?.howMutch {
+            howMutch = configHowMutch(howMutch) ?? "0,00"
             servicePresenterDTO?.howMutch = saveServicePresenter.removeAlphabeticCharacters(from: howMutch)
         }
         
@@ -310,9 +322,7 @@ extension SaveServiceViewController: UITextFieldDelegate {
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let cellScreen else {return true}
         
-        
         switch textField.tag {
-            
             case TextFieldTags.title.rawValue:
                 setHiddenFieldRequired(cellScreen.screen.titleServiceFieldRequired, true)
                 
@@ -323,6 +333,7 @@ extension SaveServiceViewController: UITextFieldDelegate {
             case TextFieldTags.howmutch.rawValue:
                 setTableViewScroll(at: .bottom)
                 configSetHiddenFieldRequiredGroupView(textField)
+                return validateKeyboardDecimal(text: textField.text, string)
                 
             default:
                 break
@@ -346,7 +357,6 @@ extension SaveServiceViewController: UITextFieldDelegate {
         }
         
         setHiddenFieldRequired(cellScreen.screen.groupServicesFieldRequired, true)
-        
     }
     
 }

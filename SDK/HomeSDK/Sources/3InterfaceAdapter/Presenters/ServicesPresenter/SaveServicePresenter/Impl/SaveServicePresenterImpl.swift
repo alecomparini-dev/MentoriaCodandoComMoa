@@ -45,8 +45,8 @@ public class SaveServicePresenterImpl: SaveServicePresenter {
                         id: servicePresenterDTO.id,
                         name: servicePresenterDTO.name,
                         description: servicePresenterDTO.description,
-                        duration: configDuration(servicePresenterDTO.duration),
-                        howMutch: configHowMutch(servicePresenterDTO.howMutch),
+                        duration: Int(servicePresenterDTO.duration ?? ""),
+                        howMutch: NumberFormatterHandler.convertDoublePT_BRToEN_US(servicePresenterDTO.howMutch),
                         uid: servicePresenterDTO.uIDFirebase)
                 )
                 
@@ -102,9 +102,13 @@ public class SaveServicePresenterImpl: SaveServicePresenter {
 
         let fieldsRequired = isValidFieldsRequired(servicePresenterDTO)
 
-//        if let failMsg = isValidAddress(profilePresenterDTO.address?.cep ?? "", fieldsRequired) {
-//            failsMessage = "\n" + failMsg
-//        }
+        if let failMsg = isValidDuration(servicePresenterDTO.duration ?? "") {
+            failsMessage = "\n" + failMsg
+        }
+        
+        if let failMsg = isValidHowMutch(servicePresenterDTO.howMutch ?? "") {
+            failsMessage = (failsMessage ?? "") + "\n" + failMsg
+        }
 
         if failsMessage != nil || !fieldsRequired.isEmpty {
             outputDelegate?.validations(validationsError: failsMessage, fieldsRequired: fieldsRequired)
@@ -136,18 +140,25 @@ public class SaveServicePresenterImpl: SaveServicePresenter {
         return fieldsRequired
     }
     
-    
-    private func configDuration(_ duration: String?) -> Int? {
-        guard let duration else {return nil}
-        return Int(removeAlphabeticCharacters(from: duration))
+    private func isValidDuration(_ duration: String?) -> String? {
+        guard let duration, !duration.isEmpty else {return nil}
+        
+        guard let duration = Int(duration) else { return "Duração não é um número válido" }
+        
+        if duration < 1 { return "Serviço precisa ter duração"}
+        
+        return nil
     }
     
-    private func configHowMutch(_ howMutch: String?) -> Double? {
-        guard let howMutch else {return nil}
-        return Double(removeAlphabeticCharacters(from: howMutch))
+    private func isValidHowMutch(_ howMutch: String?) -> String? {
+        guard let howMutch, !howMutch.isEmpty else {return nil}
+        
+        guard NumberFormatterHandler.convertDoublePT_BRToEN_US(howMutch) != nil else { return "Valor não é um número válido" }
+        
+        return nil
     }
     
-    
+
     
 //  MARK: - RETURN CALL ADD SERVICE
     private func successSaveService() {

@@ -133,7 +133,7 @@ public class ProfileRegistrationStep1PresenterImpl: ProfileRegistrationStep1Pres
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd/MM/yyyy"
         
-        guard let inputDate = dateFormatter.date(from: dateString) else { return "Data Inválida"}
+        guard let inputDate = dateFormatter.date(from: dateString) else { return "Data de Nascimento Inválida"}
         
         let currentDate = Date()
         if inputDate > currentDate {
