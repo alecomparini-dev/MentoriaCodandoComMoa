@@ -10,26 +10,29 @@ import HomeUseCaseGateway
 import HomeNetwork
 
 class AddServiceViewControllerFactory {
-    static func make() -> AddServiceViewController {
+    static func make() -> SaveServiceViewController {
         
         let httpPost = HomeNetwork()
         
-        let url = makeURL()
+        let saveServiceUseCaseGateway = RemoteSaveServiceUseCaseGatewayImpl(
+            httpPost: httpPost, url: makeURL(K.pathPostService), headers: [:], queryParameters: [:])
         
-        let addServiceUseCaseGateway = RemoteAddServiceUseCaseGatewayImpl(
-            httpPost: httpPost, url: url, headers: [:], queryParameters: [:])
+        let saveServiceUseCase = SaveServiceUseCaseImpl(saveServiceUseCaseGateway: saveServiceUseCaseGateway)
         
-        let addServiceUseCase = AddServiceUseCaseImpl(addServiceUseCaseGateway: addServiceUseCaseGateway)
+        let disableServiceUseCaseGateway = RemoteDisableServiceUseCaseGatewayImpl(
+            httpPost: httpPost, url: makeURL(K.pathDisableService), headers: [:], queryParameters: [:])
         
-        let addServicePresenter = AddServicePresenterImpl(addServiceUseCase: addServiceUseCase)
+        let disableServiceUseCase = DisableServiceUseCaseImpl(disableServiceUseCaseGateway: disableServiceUseCaseGateway)
         
-        return AddServiceViewController(addServicePresenter: addServicePresenter)
+        let saveServicePresenter = SaveServicePresenterImpl(saveServiceUseCase: saveServiceUseCase,
+                                                           disableServiceUseCase: disableServiceUseCase)
+        
+        return SaveServiceViewController(saveServicePresenter: saveServicePresenter)
         
     }
     
-    static private func makeURL() -> URL {
+    static private func makeURL(_ path: String) -> URL {
         let baseURL = Environment.variable(.apiBaseUrl)
-        let path = K.pathPostService
         return URL(string: "\(baseURL)\(path)")!
     }
 }

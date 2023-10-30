@@ -5,7 +5,7 @@ import Foundation
 
 import HomeUseCases
 
-public class RemoteAddServiceUseCaseGatewayImpl: AddServiceUseCaseGateway {
+public class RemoteSaveServiceUseCaseGatewayImpl: SaveServiceUseCaseGateway {
     
     private let httpPost: HTTPPost
     private let url: URL
@@ -22,7 +22,7 @@ public class RemoteAddServiceUseCaseGatewayImpl: AddServiceUseCaseGateway {
         self.queryParameters = queryParameters
     }
     
-    public func add(_ serviceUseCaseDTO: HomeUseCases.ServiceUseCaseDTO) async throws -> ServiceUseCaseDTO? {
+    public func save(_ serviceUseCaseDTO: ServiceUseCaseDTO) async throws -> ServiceUseCaseDTO? {
         
         let addServiceCodableMapper = MapperServiceUseCaseDTO.mapperToAddServiceResultCodable(serviceUseCaseDTO)
         

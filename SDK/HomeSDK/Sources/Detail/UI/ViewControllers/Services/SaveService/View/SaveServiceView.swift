@@ -9,9 +9,10 @@ import DesignerSystemSDKComponent
 
 public protocol AddServiceViewDelegate: AnyObject {
     func backButtonTapped()
+    func disableButtomTapped()
 }
 
-public class AddServiceView: UIView {
+public class SaveServiceView: UIView {
     public weak var delegate: AddServiceViewDelegate?
     
     public var constraintsBottom: NSLayoutConstraint!
@@ -67,6 +68,26 @@ public class AddServiceView: UIView {
         delegate?.backButtonTapped()
     }
     
+    lazy var disableServiceButton: ButtonImageBuilder = {
+        let img = ImageViewBuilder(systemName: "trash")
+            .setContentMode(.center)
+            .setSize(25)
+        let comp = ButtonImageBuilder()
+            .setImageButton(img)
+            .setImageColor(hexColor: "#ffffff")
+            .setConstraints { build in
+                build
+                    .setVerticalAlignmentY.equalTo(backButton.get,4)
+                    .setTrailing.equalToSafeArea(-24)
+                    .setSize.equalToConstant(25)
+            }
+        comp.get.addTarget(self, action: #selector(disableButtomTapped), for: .touchUpInside)
+        return comp
+    }()
+    @objc private func disableButtomTapped() {
+        delegate?.disableButtomTapped()
+    }
+    
     lazy var tableViewScreen: TableViewBuilder = {
         let comp = TableViewBuilder()
             .setShowsScroll(false, .both)
@@ -94,6 +115,7 @@ public class AddServiceView: UIView {
     private func addElements() {
         backgroundView.add(insideTo: self)
         backButton.add(insideTo: self)
+        disableServiceButton.add(insideTo: self)
         screenTitle.add(insideTo: self)
         tableViewScreen.add(insideTo: self)
     }
@@ -101,6 +123,7 @@ public class AddServiceView: UIView {
     private func configConstraints() {
         backgroundView.applyConstraint()
         backButton.applyConstraint()
+        disableServiceButton.applyConstraint()
         screenTitle.applyConstraint()
         configTableViewScreenConstraints()
     }

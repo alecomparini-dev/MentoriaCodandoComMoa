@@ -53,6 +53,8 @@ public class ListServicesPresenterImpl: ListServicesPresenter {
         
     }
 
+    public func heightForRowAt() -> CGFloat { 175 }
+    
     public func numberOfRowsInSection() -> Int? {
         return getServices()?.count
     }

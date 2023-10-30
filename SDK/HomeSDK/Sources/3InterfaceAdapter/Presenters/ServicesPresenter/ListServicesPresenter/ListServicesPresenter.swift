@@ -6,9 +6,11 @@ import Foundation
 public protocol ListServicesPresenter {
     var outputDelegate: ListServicesPresenterOutput? { get set }
     
-    func fetchCurrencies(_ userIDAuth: String)
-    
     func numberOfRowsInSection() -> Int?
+    
+    func heightForRowAt() -> CGFloat
+    
+    func fetchCurrencies(_ userIDAuth: String)
     
     func getServices() -> [ServicePresenterDTO]?
     
