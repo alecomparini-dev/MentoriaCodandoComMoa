@@ -5,8 +5,8 @@ import UIKit
 
 import HomePresenters
 
-public class AddServiceTableViewCell: UITableViewCell {
-    public static let identifier = String(describing: AddServiceTableViewCell.self)
+public class SaveServiceTableViewCell: UITableViewCell {
+    public static let identifier = String(describing: SaveServiceTableViewCell.self)
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -18,8 +18,8 @@ public class AddServiceTableViewCell: UITableViewCell {
     }
     
     //  MARK: - CREATE SCREEN
-    public lazy var screen: AddServiceViewCell = {
-        let view = AddServiceViewCell()
+    public lazy var screen: SaveServiceViewCell = {
+        let view = SaveServiceViewCell()
             .setConstraints { build in
                 build
                     .setPin.equalToSafeArea
@@ -36,6 +36,7 @@ public class AddServiceTableViewCell: UITableViewCell {
         screen.durationServiceTextField.setText(servicePresenterDTO.duration)
         screen.howMutchServiceTextField.setText(servicePresenterDTO.howMutch)
     }
+    
     
     
     //  MARK: - PRIVATE AREA

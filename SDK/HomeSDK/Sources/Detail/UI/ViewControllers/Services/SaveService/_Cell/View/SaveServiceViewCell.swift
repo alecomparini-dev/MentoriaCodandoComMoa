@@ -6,12 +6,13 @@ import UIKit
 import CustomComponentsSDK
 import DesignerSystemSDKComponent
 
-public protocol AddServiceViewCellDelegate: AnyObject {
+public protocol SaveServiceViewCellDelegate: AnyObject {
     func confirmationButtonTapped()
 }
 
-public class AddServiceViewCell: ViewBuilder {
-    public weak var delegate: AddServiceViewCellDelegate?
+public class SaveServiceViewCell: ViewBuilder {
+    public weak var delegate: SaveServiceViewCellDelegate?
+
     
     public override init() {
         super.init()
@@ -35,7 +36,7 @@ public class AddServiceViewCell: ViewBuilder {
         return comp
     }()
     
-    lazy public var titleFieldRequired: FieldRequiredCustomTextSecondary = {
+    lazy public var titleServiceFieldRequired: FieldRequiredCustomTextSecondary = {
         let comp = FieldRequiredCustomTextSecondary()
             .setConstraints { build in
                 build
@@ -60,6 +61,7 @@ public class AddServiceViewCell: ViewBuilder {
                     .setLeading.setTrailing.equalToSafeArea(24)
                     .setHeight.equalToConstant(48)
             }
+        
         return comp
     }()
     
@@ -101,7 +103,7 @@ public class AddServiceViewCell: ViewBuilder {
                 build
                     .setTop.equalTo(descriptionServiceText.get, .bottom, 8)
                     .setLeading.setTrailing.equalTo(titleServiceTextField.get)
-                    .setHeight.equalToConstant(120)
+                    .setHeight.equalToConstant(140)
             }
         return comp
     }()
@@ -126,6 +128,17 @@ public class AddServiceViewCell: ViewBuilder {
         return comp
     }()
     
+    lazy public var groupServicesFieldRequired: FieldRequiredCustomTextSecondary = {
+        let comp = FieldRequiredCustomTextSecondary()
+            .setText("*Campos Obrigatórios")
+            .setConstraints { build in
+                build
+                    .setTop.equalTo(groupView.get, .top, -20)
+                    .setLeading.equalTo(groupView.get, .leading, 8)
+            }
+        return comp
+    }()
+    
 
 //  MARK: - DURATION
     lazy var durationServiceText: CustomText = {
@@ -143,9 +156,10 @@ public class AddServiceViewCell: ViewBuilder {
         let comp = TextFieldBuilder()
             .setBackgroundColor(hexColor: "#ffffff")
             .setTextColor(hexColor: "#282a36")
+            .setPlaceHolder("0")
             .setTextAlignment(.center)
-            .setPlaceHolder("min")
-            .setPadding(8)
+            .setPadding(34, .right)
+            .setPadding(22, .left)
             .setKeyboard({ build in
                 build
                     .setKeyboardType(.numberPad)
@@ -157,9 +171,25 @@ public class AddServiceViewCell: ViewBuilder {
             .setConstraints { build in
                 build
                     .setVerticalAlignmentY.equalTo(durationServiceText.get)
-                    .setLeading.equalTo(durationServiceText.get, .trailing, 16)
+                    .setLeading.equalTo(durationServiceText.get, .trailing, 12)
                     .setTrailing.equalToSafeArea(-32)
                     .setHeight.equalToConstant(32)
+            }
+        return comp
+    }()
+    
+    lazy var minLabel: LabelBuilder = {
+        let comp = LabelBuilder("min")
+            .setSize(14)
+            .setWeight(.semibold)
+            .setBackgroundColor(color: howMutchServiceTextField.get.backgroundColor)
+            .setTextAlignment(.center)
+            .setColor(color: howMutchServiceTextField.get.textColor)
+            .setConstraints { build in
+                build
+                    .setBottom.equalTo(durationServiceTextField.get, .bottom , -4)
+                    .setTrailing.equalTo(durationServiceTextField.get, .trailing , -2)
+                    .setWidth.equalToConstant(32)
             }
         return comp
     }()
@@ -182,8 +212,9 @@ public class AddServiceViewCell: ViewBuilder {
             .setBackgroundColor(hexColor: "#ffffff")
             .setTextColor(hexColor: "#282a36")
             .setTextAlignment(.center)
-            .setPlaceHolder("R$ 0,00")
-            .setPadding(8)
+            .setPlaceHolder("0,00")
+            .setPadding(32, .left)
+            .setPadding(12, .right)
             .setBorder({ build in
                 build
                     .setCornerRadius(8)
@@ -195,13 +226,28 @@ public class AddServiceViewCell: ViewBuilder {
             .setConstraints { build in
                 build
                     .setVerticalAlignmentY.equalTo(howMutchServiceText.get)
-                    .setLeading.equalTo(howMutchServiceText.get, .trailing, 16)
+                    .setLeading.equalTo(howMutchServiceText.get, .trailing, 12)
                     .setTrailing.equalToSafeArea(-32)
                     .setHeight.equalToConstant(32)
             }
         return comp
     }()
-
+    
+    lazy var currencySymbolLabel: LabelBuilder = {
+        let comp = LabelBuilder("R$")
+            .setSize(16)
+            .setWeight(.semibold)
+            .setBackgroundColor(color: howMutchServiceTextField.get.backgroundColor)
+            .setTextAlignment(.center)
+            .setColor(color: howMutchServiceTextField.get.textColor)
+            .setConstraints { build in
+                build
+                    .setPinLeft.equalTo(howMutchServiceTextField.get, 4)
+                    .setVerticalAlignmentY.equalTo(howMutchServiceTextField.get)
+                    .setWidth.equalToConstant(28)
+            }
+        return comp
+    }()
     
 //  MARK: - BUTTOM CONFIRMATION
     lazy var confirmationButtom: CustomButtonPrimary = {
@@ -230,31 +276,40 @@ public class AddServiceViewCell: ViewBuilder {
     
     private func addElements() {
         titleServiceText.add(insideTo: self.get)
-        titleFieldRequired.add(insideTo: self.get)
+        titleServiceFieldRequired.add(insideTo: self.get)
         titleServiceTextField.add(insideTo: self.get)
         descriptionServiceText.add(insideTo: self.get)
         descriptionFieldRequired.add(insideTo: self.get)
         descriptionServiceTextView.add(insideTo: self.get)
         groupView.add(insideTo: self.get)
+        groupServicesFieldRequired.add(insideTo: self.get)
+        
         durationServiceText.add(insideTo: groupView.get)
         durationServiceTextField.add(insideTo: groupView.get)
+        minLabel.add(insideTo: groupView.get)
+        
         howMutchServiceText.add(insideTo: groupView.get)
         howMutchServiceTextField.add(insideTo: groupView.get)
+        currencySymbolLabel.add(insideTo: self.get)
+        
         confirmationButtom.add(insideTo: self.get)
     }
     
     private func configConstraints() {
         titleServiceText.applyConstraint()
-        titleFieldRequired.applyConstraint()
+        titleServiceFieldRequired.applyConstraint()
         titleServiceTextField.applyConstraint()
         descriptionServiceText.applyConstraint()
         descriptionFieldRequired.applyConstraint()
         descriptionServiceTextView.applyConstraint()
         groupView.applyConstraint()
+        groupServicesFieldRequired.applyConstraint()
         durationServiceText.applyConstraint()
         durationServiceTextField.applyConstraint()
+        minLabel.applyConstraint()
         howMutchServiceText.applyConstraint()
         howMutchServiceTextField.applyConstraint()
+        currencySymbolLabel.applyConstraint()
         confirmationButtom.applyConstraint()
     }
     

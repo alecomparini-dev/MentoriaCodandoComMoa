@@ -8,14 +8,21 @@ import HomeUseCases
 public protocol SaveServicePresenterOutput: AnyObject {
     func successSaveService()
     func errorSaveService(title: String, message: String)
+    func validations(validationsError: String?, fieldsRequired: [SaveServicePresenterImpl.FieldsRequired])
     func successDisableService()
     func errorDisableService(title: String, message: String)
 }
 
 
 public class SaveServicePresenterImpl: SaveServicePresenter {
-    
     public weak var outputDelegate: SaveServicePresenterOutput?
+    
+    public enum FieldsRequired {
+        case name
+        case description
+        case duration
+        case howMutch
+    }
     
     private let saveServiceUseCase: SaveServiceUseCase
     private let disableServiceUseCase: DisableServiceUseCase
@@ -26,6 +33,9 @@ public class SaveServicePresenterImpl: SaveServicePresenter {
     }
     
     public func saveService(_ servicePresenterDTO: ServicePresenterDTO) {
+        if !validations(servicePresenterDTO) {
+            return
+        }
         
         Task {
             do {
@@ -35,8 +45,8 @@ public class SaveServicePresenterImpl: SaveServicePresenter {
                         id: servicePresenterDTO.id,
                         name: servicePresenterDTO.name,
                         description: servicePresenterDTO.description,
-                        duration: configDuration(servicePresenterDTO.duration),
-                        howMutch: configHowMutch(servicePresenterDTO.howMutch),
+                        duration: Int(servicePresenterDTO.duration ?? ""),
+                        howMutch: NumberFormatterHandler.convertDoublePT_BRToEN_US(servicePresenterDTO.howMutch),
                         uid: servicePresenterDTO.uIDFirebase)
                 )
                 
@@ -70,20 +80,7 @@ public class SaveServicePresenterImpl: SaveServicePresenter {
         return servicePresenterDTO?.id == nil
     }
     
-    
-//  MARK: - PRIVATE AREA
-    
-    private func configDuration(_ duration: String?) -> Int? {
-        guard let duration else {return nil}
-        return Int(removeAlphabeticCharacters(from: duration))
-    }
-    
-    private func configHowMutch(_ howMutch: String?) -> Double? {
-        guard let howMutch else {return nil}
-        return Double(removeAlphabeticCharacters(from: howMutch))
-    }
-    
-    private func removeAlphabeticCharacters(from input: String) -> String {
+    public func removeAlphabeticCharacters(from input: String) -> String {
         do {
             let regex = try NSRegularExpression(pattern: "[a-z A-Z$]+", options: .caseInsensitive)
             return regex.stringByReplacingMatches(in: input, options: [], range: NSRange(location: 0, length: input.count), withTemplate: "")
@@ -93,6 +90,75 @@ public class SaveServicePresenterImpl: SaveServicePresenter {
         }
     }
     
+    public func heightForRowAt() -> CGFloat { 610 }
+    
+    public func numberOfRowsInSection() -> Int { 1 }
+
+    
+    
+//  MARK: - PRIVATE AREA
+    private func validations(_ servicePresenterDTO: ServicePresenterDTO) -> Bool {
+        var failsMessage: String?
+
+        let fieldsRequired = isValidFieldsRequired(servicePresenterDTO)
+
+        if let failMsg = isValidDuration(servicePresenterDTO.duration ?? "") {
+            failsMessage = "\n" + failMsg
+        }
+        
+        if let failMsg = isValidHowMutch(servicePresenterDTO.howMutch ?? "") {
+            failsMessage = (failsMessage ?? "") + "\n" + failMsg
+        }
+
+        if failsMessage != nil || !fieldsRequired.isEmpty {
+            outputDelegate?.validations(validationsError: failsMessage, fieldsRequired: fieldsRequired)
+            return false
+        }
+
+        return true
+    }
+        
+    private func isValidFieldsRequired(_ servicePresenterDTO: ServicePresenterDTO) -> [FieldsRequired] {
+        var fieldsRequired: [FieldsRequired] = []
+        
+        if servicePresenterDTO.name?.isEmpty ?? true {
+            fieldsRequired.append(.name)
+        }
+        
+        if servicePresenterDTO.description?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ?? true {
+            fieldsRequired.append(.description)
+        }
+        
+        if servicePresenterDTO.duration?.isEmpty ?? true {
+            fieldsRequired.append(.duration)
+        }
+
+        if servicePresenterDTO.howMutch?.isEmpty ?? true {
+            fieldsRequired.append(.howMutch)
+        }
+        
+        return fieldsRequired
+    }
+    
+    private func isValidDuration(_ duration: String?) -> String? {
+        guard let duration, !duration.isEmpty else {return nil}
+        
+        guard let duration = Int(duration) else { return "Duração não é um número válido" }
+        
+        if duration < 1 { return "Serviço precisa ter duração"}
+        
+        return nil
+    }
+    
+    private func isValidHowMutch(_ howMutch: String?) -> String? {
+        guard let howMutch, !howMutch.isEmpty else {return nil}
+        
+        guard NumberFormatterHandler.convertDoublePT_BRToEN_US(howMutch) != nil else { return "Valor não é um número válido" }
+        
+        return nil
+    }
+    
+
     
 //  MARK: - RETURN CALL ADD SERVICE
     private func successSaveService() {

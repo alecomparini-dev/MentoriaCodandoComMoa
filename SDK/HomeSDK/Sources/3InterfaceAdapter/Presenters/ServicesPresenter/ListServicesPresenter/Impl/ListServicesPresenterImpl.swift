@@ -35,13 +35,15 @@ public class ListServicesPresenterImpl: ListServicesPresenter {
                 guard let servicesDTO else {return}
                 
                 self.servicesData = servicesDTO.map { service in
+                    
                     return ServicePresenterDTO(
                         id: service.id,
                         uIDFirebase: service.uidFirebase,
                         name: service.name,
                         description: service.description,
                         duration: "\(service.duration ?? 0 ) min",
-                        howMutch: "R$ \(service.howMutch ?? 0.00)")
+                        howMutch: configShowHowMutch(service.howMutch)
+                    )
                 }
                 
                 successFetchListServices()
@@ -50,10 +52,19 @@ public class ListServicesPresenterImpl: ListServicesPresenter {
                 errorFetchListServices(error.localizedDescription)
             }
         }
-        
     }
 
-    public func heightForRowAt() -> CGFloat { 175 }
+    private func configShowHowMutch(_ howMutch: Double?) -> String? {
+        guard let howMutch else {return nil}
+        
+        if howMutch <= 0 { return "Grátis" }
+        
+        let howMutchConverted = NumberFormatterHandler.convertDoubleEN_USToPT_BR( "\(howMutch )" )
+        
+        return "R$ \(howMutchConverted ?? "0,00")"
+    }
+
+    public func heightForRowAt() -> CGFloat { 170 }
     
     public func numberOfRowsInSection() -> Int? {
         return getServices()?.count

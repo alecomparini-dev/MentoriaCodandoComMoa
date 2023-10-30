@@ -387,6 +387,7 @@ extension ProfileRegistrationStep2ViewController: UITextFieldDelegate {
             setHiddenFieldRequired(addressCell.CEPFieldRequired, true)
             addressCell.searchCEPTextField.get.text = profileStep2Presenter.setCEPMaskWithRange(range, string)
             resetFields()
+            return false
         }
         
         if addressCell.streetTextField.get.isFirstResponder {

@@ -57,7 +57,7 @@ public class ListServicesView: UIView {
                 build
                     .setVerticalAlignmentY.equalTo(screenTitle.get)
                     .setTrailing.equalToSafeArea(-20)
-                    .setSize.equalToConstant(50)
+                    .setSize.equalToConstant(48)
             }
         btn.get.addTarget(self, action: #selector(addServiceButtonTapped), for: .touchUpInside)
         return btn
