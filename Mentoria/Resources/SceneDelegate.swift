@@ -13,11 +13,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        Task {
-            await startDesignerSystem()
-            startScene(scene)
-        }
-        
+        guard let windowsScene = (scene as? UIWindowScene) else { return }
+        let win = UIWindow(windowScene: windowsScene)
+        let nav = NavigationController()
+        win.rootViewController = nav
+        win.makeKeyAndVisible()
+        window = win
+        let coordinator = LoadScreenCoordinator(nav)
+        coordinator.start()
+
     }
 
     func sceneDidDisconnect(_ scene: UIScene) { }
@@ -33,43 +37,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     
 //  MARK: - PRIVATE AREA
-    private func startDesignerSystem() async {
-        do {
-            let DSMMain = makeDSMMain()
-            try await DSMMain.start()
-        } catch  {
-            debugPrint(error.localizedDescription)
-        }
-        
-    }
     
-    private func makeDSMMain() -> DesignerSystemMain {
-        let themeId = Environment.variable(.defaultTheme)
-        let uIdFirebase = Environment.variable(.uIdFirebase)
-        let baseURL = Environment.variable(.apiBaseUrl)
-        let path = K.pathGetListComponent
-        let url = URL(string: "\(baseURL)\(path)")!
-        
-        return DesignerSystemMain(
-            url: url,
-            queryParameters: [
-                K.Strings.themeId : themeId ,
-                K.Strings.uIdFirebase : uIdFirebase
-            ]
-        )
-    }
-    
-    private func startScene(_ scene: UIScene) {
-        guard let windowsScene = (scene as? UIWindowScene) else { return }
-        let win = UIWindow(windowScene: windowsScene)
-        let nav = NavigationController()
-        win.rootViewController = nav
-        win.makeKeyAndVisible()
-        window = win
-        
-        let coordinator = SignInCoordinator(nav)
-        coordinator.start()
-    }
-
 }
 
