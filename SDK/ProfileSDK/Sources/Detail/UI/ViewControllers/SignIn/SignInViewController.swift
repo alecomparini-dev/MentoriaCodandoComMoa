@@ -10,6 +10,7 @@ import ProfilePresenters
 public protocol SignInViewControllerCoordinator: AnyObject {
     func gotoHome()
     func gotoLogin()
+    func gotoForgotPassword(_ userEmail: String?)
 }
 
 public final class SignInViewController: UIViewController {
@@ -74,11 +75,11 @@ public final class SignInViewController: UIViewController {
 
 //  MARK: - EXTENSION - LoginViewDelegate
 extension SignInViewController: SignInViewDelegate {
-    
+
     func signInTapped() {
         if let email = screen.emailLoginView.emailTextField.get.text,
            let password = screen.passwordLoginView.passwordTextField.get.text {
-            screen.signInButtom.setShowLoadingIndicator { build in
+            screen.signInButton.setShowLoadingIndicator { build in
                 build
                     .setColor(hexColor: "#282a36")
                     .setHideWhenStopped(true)
@@ -91,6 +92,11 @@ extension SignInViewController: SignInViewDelegate {
     func signUpTapped() {
         coordinator?.gotoLogin()
     }
+    
+    func forgotPasswordButtonTapped() {
+        coordinator?.gotoForgotPassword(screen.passwordLoginView.passwordTextField.get.text)
+    }
+
     
 }
 
@@ -108,7 +114,7 @@ extension SignInViewController: SignInPresenterOutput {
         let action = UIAlertAction(title: "OK", style: .default)
         alert.addAction(action)
         present(alert, animated: true)
-        screen.signInButtom.setHideLoadingIndicator()
+        screen.signInButton.setHideLoadingIndicator()
     }
     
 }

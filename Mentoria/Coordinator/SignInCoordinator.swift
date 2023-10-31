@@ -25,6 +25,7 @@ class SignInCoordinator: Coordinator {
 
 //  MARK: - EXTENSION LoginViewControllerCoordinator
 extension SignInCoordinator: SignInViewControllerCoordinator {
+
     func gotoLogin() {
         let coordinator = SignUpCoordinator(navigationController)
         coordinator.start()
@@ -37,5 +38,13 @@ extension SignInCoordinator: SignInViewControllerCoordinator {
         coordinator.selectedTabBarItem(1)
         childCoordinator = nil
     }
+    
+    func gotoForgotPassword(_ email: String?) {
+        let coordinator = ForgotPasswordCoordinator(navigationController)
+        coordinator.start()
+        coordinator.dataTransfer = email
+        childCoordinator = nil
+    }
+
     
 }

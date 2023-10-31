@@ -7,7 +7,12 @@ import CustomComponentsSDK
 import DesignerSystemSDKComponent
 
 
+public protocol ProfileSummaryViewDelegate: AnyObject {
+    func logoutButtonTapped()
+}
+
 public class ProfileSummaryView: UIView {
+    public weak var delegate: ProfileSummaryViewDelegate?
     
     public init() {
         super.init(frame: .zero)
@@ -30,7 +35,7 @@ public class ProfileSummaryView: UIView {
         return comp
     }()
     
-    lazy var perfilTextTitle: CustomTextTitle = {
+    lazy var screenTitle: CustomTextTitle = {
         let comp = CustomTextTitle()
             .setText("Perfil")
             .setTextAlignment(.center)
@@ -40,6 +45,40 @@ public class ProfileSummaryView: UIView {
                     .setLeading.setTrailing.equalToSafeArea(16)
             }
         return comp
+    }()
+    
+    lazy var logoutButton: ButtonImageBuilder = {
+        let img = ImageViewBuilder(systemName: "escape")
+            .setSize(24)
+        let btn = ButtonImageBuilder()
+            .setImageButton(img)
+            .setImageWeight(.bold)
+            .setTintColor(color: UIColor.HEX("#baa0f4", 0.8))
+            .setConstraints { build in
+                build
+                    .setTop.equalTo(screenTitle.get, .top)
+                    .setLeading.equalToSafeArea(20)
+                    .setSize.equalToConstant(24)
+            }
+        btn.get.addTarget(self, action: #selector(logoutButtonTapped), for: .touchUpInside)
+        return btn
+    }()
+    @objc private func logoutButtonTapped(_ button: UIButton) {
+        delegate?.logoutButtonTapped()
+    }
+    
+    lazy var logoutLabel: CustomText = {
+        let view = CustomText()
+            .setText("Deslogar")
+            .setColor(hexColor: "#baa0f4")
+            .setWeight(.medium)
+            .setSize(10)
+            .setConstraints { build in
+                build
+                    .setTop.equalTo(logoutButton.get, .bottom, 2)
+                    .setHorizontalAlignmentX.equalTo(logoutButton.get)
+            }
+        return view
     }()
     
     public lazy var tableViewScroll: TableViewBuilder = {
@@ -56,7 +95,7 @@ public class ProfileSummaryView: UIView {
             .setRegisterCell(EditProfileButtonTableViewCell.self)
             .setConstraints { build in
                 build
-                    .setTop.equalTo(perfilTextTitle.get, .bottom, 16)
+                    .setTop.equalTo(screenTitle.get, .bottom, 16)
                     .setPinBottom.equalToSafeArea
             }
         return comp
@@ -72,13 +111,17 @@ public class ProfileSummaryView: UIView {
     
     private func addElements() {
         backgroundView.add(insideTo: self)
-        perfilTextTitle.add(insideTo: self)
+        screenTitle.add(insideTo: self)
+        logoutButton.add(insideTo: self)
+        logoutLabel.add(insideTo: self)
         tableViewScroll.add(insideTo: self)
     }
     
     private func configConstraints() {
         backgroundView.applyConstraint()
-        perfilTextTitle.applyConstraint()
+        screenTitle.applyConstraint()
+        logoutButton.applyConstraint()
+        logoutLabel.applyConstraint()
         tableViewScroll.applyConstraint()
     }
 }

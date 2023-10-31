@@ -28,10 +28,14 @@ public final class NavigationController: UINavigationController {
         return viewController as! T
     }
     
+    public override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
     
 //  MARK: - PRIVATE AREA
     private func setup() {
-        navigationBar.barStyle = .black
+        navigationBar.barStyle = .default
         navigationBar.isHidden = true
         navigationController?.isNavigationBarHidden = true
     }
