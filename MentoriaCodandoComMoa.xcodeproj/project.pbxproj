@@ -40,6 +40,8 @@
 		0293DF0C2AE6E5B000716142 /* MasksFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0293DF0B2AE6E5B000716142 /* MasksFactory.swift */; };
 		02995B4B2AB34BBA00615FDC /* LoginViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02995B4A2AB34BBA00615FDC /* LoginViewControllerFactory.swift */; };
 		02995B942AB39B6200615FDC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 02995B932AB39B6200615FDC /* GoogleService-Info.plist */; };
+		02A0D34D2AF11AB400BF25A5 /* LoadScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A0D34C2AF11AB400BF25A5 /* LoadScreenViewController.swift */; };
+		02A0D34F2AF11D4C00BF25A5 /* LoadScreenCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A0D34E2AF11D4C00BF25A5 /* LoadScreenCoordinator.swift */; };
 		02D7D2962AE86283003E4CF4 /* AddServiceCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02D7D2952AE86283003E4CF4 /* AddServiceCoordinator.swift */; };
 		02F3F0892AEAEE0400C90C59 /* LocalStorageSDKDetail in Frameworks */ = {isa = PBXBuildFile; productRef = 02F3F0882AEAEE0400C90C59 /* LocalStorageSDKDetail */; };
 		02F3F08B2AEAEE0400C90C59 /* LocalStorageSDKMain in Frameworks */ = {isa = PBXBuildFile; productRef = 02F3F08A2AEAEE0400C90C59 /* LocalStorageSDKMain */; };
@@ -84,6 +86,8 @@
 		0293DF0B2AE6E5B000716142 /* MasksFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasksFactory.swift; sourceTree = "<group>"; };
 		02995B4A2AB34BBA00615FDC /* LoginViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewControllerFactory.swift; sourceTree = "<group>"; };
 		02995B932AB39B6200615FDC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		02A0D34C2AF11AB400BF25A5 /* LoadScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadScreenViewController.swift; sourceTree = "<group>"; };
+		02A0D34E2AF11D4C00BF25A5 /* LoadScreenCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadScreenCoordinator.swift; sourceTree = "<group>"; };
 		02D7D2952AE86283003E4CF4 /* AddServiceCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddServiceCoordinator.swift; sourceTree = "<group>"; };
 		02E2C39E2AA0FFD30040A2C8 /* MentoriaCodandoComMoa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MentoriaCodandoComMoa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		02FFBF112AEAA14B00BBF19C /* ListServicesViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListServicesViewControllerFactory.swift; sourceTree = "<group>"; };
@@ -147,8 +151,9 @@
 			children = (
 				0212ECAE2AA10867001C1BCF /* AppDelegate.swift */,
 				0212ECB02AA10867001C1BCF /* SceneDelegate.swift */,
-				0212ECB72AA10868001C1BCF /* Assets.xcassets */,
 				0212ECB92AA10868001C1BCF /* LaunchScreen.storyboard */,
+				02A0D34C2AF11AB400BF25A5 /* LoadScreenViewController.swift */,
+				0212ECB72AA10868001C1BCF /* Assets.xcassets */,
 				0212ECBC2AA10868001C1BCF /* Info.plist */,
 				02995B932AB39B6200615FDC /* GoogleService-Info.plist */,
 			);
@@ -254,6 +259,7 @@
 			children = (
 				026682CD2AA7D62600EE70EC /* Protocol */,
 				026682D22AA7D68700EE70EC /* NavigationController */,
+				02A0D34E2AF11D4C00BF25A5 /* LoadScreenCoordinator.swift */,
 				020924722AB3228D008F8DC8 /* SignUpCoordinator.swift */,
 				02D7D2952AE86283003E4CF4 /* AddServiceCoordinator.swift */,
 				026682D52AA7D75F00EE70EC /* SignInCoordinator.swift */,
@@ -561,9 +567,11 @@
 				020924732AB3228D008F8DC8 /* SignUpCoordinator.swift in Sources */,
 				0239C4BD2ADDF1460016C0E4 /* ProfileRegistrationStep1Factory.swift in Sources */,
 				0212ECB12AA10867001C1BCF /* SceneDelegate.swift in Sources */,
+				02A0D34D2AF11AB400BF25A5 /* LoadScreenViewController.swift in Sources */,
 				026682D42AA7D69D00EE70EC /* NavigationController.swift in Sources */,
 				028B28BC2AA76EEC008E4A7E /* Constants.swift in Sources */,
 				027239622AE0437E009BA9A1 /* ProfileSummaryViewControllerFactory.swift in Sources */,
+				02A0D34F2AF11D4C00BF25A5 /* LoadScreenCoordinator.swift in Sources */,
 				023CED872AEC380F001B3562 /* ViewerServiceViewControllerFactory.swift in Sources */,
 				026FC69B2AD9D0430009D1A3 /* ProfileRegistrationStep2Coordinator.swift in Sources */,
 				024E688E2AB4860A0044A521 /* SignUpViewControllerFactory.swift in Sources */,
@@ -603,6 +611,8 @@
 				DEVELOPMENT_TEAM = 2HCBZJR5K3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Mentoria/Resources/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Mentoria deseja acessar sua câmera";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Mentoria deseja acessar sua galeria de foto";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
@@ -633,6 +643,8 @@
 				DEVELOPMENT_TEAM = 2HCBZJR5K3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Mentoria/Resources/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Mentoria deseja acessar sua câmera";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Mentoria deseja acessar sua galeria de foto";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
@@ -704,6 +716,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MACOSX_DEPLOYMENT_TARGET = 13.3;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -761,6 +774,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MACOSX_DEPLOYMENT_TARGET = 13.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
