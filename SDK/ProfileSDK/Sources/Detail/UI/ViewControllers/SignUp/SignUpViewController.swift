@@ -5,7 +5,7 @@ import UIKit
 import ProfilePresenters
 
 public protocol SignUpViewControllerCoordinator: AnyObject {
-    func gotoLogin()
+    func gotoSignIn()
     func gotoHome()
 }
 
@@ -61,7 +61,7 @@ public final class SignUpViewController: UIViewController {
 //  MARK: - EXTENSION - HomeViewDelegate
 extension SignUpViewController: SignUpViewDelegate {
     func backButtonTapped() {
-        coordinator?.gotoLogin()
+        coordinator?.gotoSignIn()
     }
 
     func signUpButtonTapped() {

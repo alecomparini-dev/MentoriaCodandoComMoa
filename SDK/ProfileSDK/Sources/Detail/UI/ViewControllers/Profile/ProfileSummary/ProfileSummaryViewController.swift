@@ -7,6 +7,7 @@ import ProfilePresenters
 import CustomComponentsSDK
 
 public protocol ProfileSummaryViewControllerCoordinator: AnyObject {
+    func gotoSignIn()
     func gotoProfileRegistrationStep1(_ profilePresenterDTO: ProfilePresenterDTO?)
 }
 
@@ -88,8 +89,13 @@ public final class ProfileSummaryViewController: UIViewController {
     }
     
     private func configDelegate() {
+        configViewDelegate()
         configTableViewDelegate()
         configProfileSymmaryOutPutDelegate()
+    }
+    
+    private func configViewDelegate() {
+        screen.delegate = self
     }
     
     private func configTableViewDelegate() {
@@ -231,6 +237,17 @@ public final class ProfileSummaryViewController: UIViewController {
             self.screen.tableViewScroll.get.selectRow(at: IndexPath(row: 6, section: 0), animated: true, scrollPosition: .top)
         })
     }
+}
+
+
+
+//  MARK: - EXTENSION - ProfileSummaryViewDelegate
+extension ProfileSummaryViewController: ProfileSummaryViewDelegate{
+    public func logoutButtonTapped() {
+        coordinator?.gotoSignIn()
+    }
+    
+    
 }
 
 

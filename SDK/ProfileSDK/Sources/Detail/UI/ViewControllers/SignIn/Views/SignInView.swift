@@ -9,6 +9,7 @@ import CustomComponentsSDK
 protocol SignInViewDelegate: AnyObject {
     func signInTapped()
     func signUpTapped()
+    func forgotPasswordButtonTapped()
 }
 
 class SignInView: UIView {
@@ -90,7 +91,27 @@ class SignInView: UIView {
         return label
     }()
     
-    lazy var signInButtom: CustomButtonPrimary = {
+    lazy var forgotPasswordButton: CustomButtonSecondary = {
+        let comp = CustomButtonSecondary("Esqueceu a senha?")
+            .setTitleSize(13)
+            .setAlpha(0.8)
+            .setBorder({ build in
+                build.setWidth(0)
+            })
+            .setConstraints { build in
+                build
+                    .setVerticalAlignmentY.equalTo(rememberText.get)
+                    .setTrailing.equalTo(passwordLoginView.passwordTextField.get, .trailing, -4)
+                    .setHeight.equalToConstant(25)
+            }
+        comp.get.addTarget(self, action: #selector(forgotPasswordButtonTapped), for: .touchUpInside)
+        return comp
+    }()
+    @objc private func forgotPasswordButtonTapped() {
+        delegate?.forgotPasswordButtonTapped()
+    }
+    
+    lazy var signInButton: CustomButtonPrimary = {
         let comp = CustomButtonPrimary("Entrar")
             .setConstraints { build in
                 build
@@ -105,12 +126,12 @@ class SignInView: UIView {
         delegate?.signInTapped()
     }
     
-    lazy var signUpButtom: CustomButtonSecondary = {
+    lazy var signUpButton: CustomButtonSecondary = {
         let comp = CustomButtonSecondary("Cadastra-se")
             .setConstraints { build in
                 build
-                    .setTop.equalTo(signInButtom.get, .bottom, 16)
-                    .setLeading.setTrailing.setHeight.equalTo(signInButtom.get)
+                    .setTop.equalTo(signInButton.get, .bottom, 16)
+                    .setLeading.setTrailing.setHeight.equalTo(signInButton.get)
             }
         comp.get.addTarget(self, action: #selector(signUpTapped), for: .touchUpInside)
         return comp
@@ -134,8 +155,9 @@ class SignInView: UIView {
         passwordLoginView.add(insideTo: self)
         rememberSwitch.add(insideTo: self)
         rememberText.add(insideTo: self)
-        signInButtom.add(insideTo: self)
-        signUpButtom.add(insideTo: self)
+        forgotPasswordButton.add(insideTo: self)
+        signInButton.add(insideTo: self)
+        signUpButton.add(insideTo: self)
     }
     
     private func configConstraints() {
@@ -145,8 +167,9 @@ class SignInView: UIView {
         passwordLoginView.applyConstraint()
         rememberSwitch.applyConstraint()
         rememberText.applyConstraint()
-        signInButtom.applyConstraint()
-        signUpButtom.applyConstraint()
+        forgotPasswordButton.applyConstraint()
+        signInButton.applyConstraint()
+        signUpButton.applyConstraint()
     }
     
     

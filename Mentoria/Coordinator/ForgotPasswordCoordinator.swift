@@ -1,17 +1,13 @@
+//  Created by Alessandro Comparini on 31/10/23.
 //
-//  SignUpCoordinator.swift
-//  Mentoria
-//
-//  Created by Alessandro Comparini on 14/09/23.
-//
-
-import Foundation
 
 import ProfileUI
 
-class SignUpCoordinator: Coordinator {
+class ForgotPasswordCoordinator: Coordinator {
+    
     var childCoordinator: Coordinator?
     unowned let navigationController: NavigationController
+
     var dataTransfer: Any?
     
     required init(_ navigationController: NavigationController) {
@@ -20,24 +16,21 @@ class SignUpCoordinator: Coordinator {
     
     func start() {
         childCoordinator = self
-        var controller = SignUpViewControllerFactory.make()
+        var controller = ForgotPasswordViewControllerFactory.make()
         controller = navigationController.pushViewController(controller)
+        controller.setDataTransfer(dataTransfer)
         controller.coordinator = self
     }
+
     
 }
 
 
-//  MARK: - EXTENSION LoginViewControllerCoordinator
-extension SignUpCoordinator: SignUpViewControllerCoordinator {
+//  MARK: - EXTENSION - ForgotPasswordViewControllerCoordinator
+extension ForgotPasswordCoordinator: ForgotPasswordViewControllerCoordinator {
+    
     func gotoSignIn() {
         let coordinator = SignInCoordinator(navigationController)
-        coordinator.start()
-        childCoordinator = nil
-    }
-
-    func gotoHome() {
-        let coordinator = HomeTabBarCoordinator(navigationController)
         coordinator.start()
         childCoordinator = nil
     }

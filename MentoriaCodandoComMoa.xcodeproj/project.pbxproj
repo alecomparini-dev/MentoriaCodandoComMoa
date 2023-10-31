@@ -42,6 +42,8 @@
 		02995B942AB39B6200615FDC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 02995B932AB39B6200615FDC /* GoogleService-Info.plist */; };
 		02A0D34D2AF11AB400BF25A5 /* LoadScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A0D34C2AF11AB400BF25A5 /* LoadScreenViewController.swift */; };
 		02A0D34F2AF11D4C00BF25A5 /* LoadScreenCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A0D34E2AF11D4C00BF25A5 /* LoadScreenCoordinator.swift */; };
+		02A0D3522AF13E6600BF25A5 /* ForgotPasswordCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A0D3512AF13E6600BF25A5 /* ForgotPasswordCoordinator.swift */; };
+		02A0D3552AF184E200BF25A5 /* ForgotPasswordViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A0D3542AF184E200BF25A5 /* ForgotPasswordViewControllerFactory.swift */; };
 		02D7D2962AE86283003E4CF4 /* AddServiceCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02D7D2952AE86283003E4CF4 /* AddServiceCoordinator.swift */; };
 		02F3F0892AEAEE0400C90C59 /* LocalStorageSDKDetail in Frameworks */ = {isa = PBXBuildFile; productRef = 02F3F0882AEAEE0400C90C59 /* LocalStorageSDKDetail */; };
 		02F3F08B2AEAEE0400C90C59 /* LocalStorageSDKMain in Frameworks */ = {isa = PBXBuildFile; productRef = 02F3F08A2AEAEE0400C90C59 /* LocalStorageSDKMain */; };
@@ -88,6 +90,8 @@
 		02995B932AB39B6200615FDC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		02A0D34C2AF11AB400BF25A5 /* LoadScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadScreenViewController.swift; sourceTree = "<group>"; };
 		02A0D34E2AF11D4C00BF25A5 /* LoadScreenCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadScreenCoordinator.swift; sourceTree = "<group>"; };
+		02A0D3512AF13E6600BF25A5 /* ForgotPasswordCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordCoordinator.swift; sourceTree = "<group>"; };
+		02A0D3542AF184E200BF25A5 /* ForgotPasswordViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewControllerFactory.swift; sourceTree = "<group>"; };
 		02D7D2952AE86283003E4CF4 /* AddServiceCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddServiceCoordinator.swift; sourceTree = "<group>"; };
 		02E2C39E2AA0FFD30040A2C8 /* MentoriaCodandoComMoa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MentoriaCodandoComMoa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		02FFBF112AEAA14B00BBF19C /* ListServicesViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListServicesViewControllerFactory.swift; sourceTree = "<group>"; };
@@ -260,12 +264,13 @@
 				026682CD2AA7D62600EE70EC /* Protocol */,
 				026682D22AA7D68700EE70EC /* NavigationController */,
 				02A0D34E2AF11D4C00BF25A5 /* LoadScreenCoordinator.swift */,
-				020924722AB3228D008F8DC8 /* SignUpCoordinator.swift */,
-				02D7D2952AE86283003E4CF4 /* AddServiceCoordinator.swift */,
 				026682D52AA7D75F00EE70EC /* SignInCoordinator.swift */,
+				02A0D3512AF13E6600BF25A5 /* ForgotPasswordCoordinator.swift */,
+				020924722AB3228D008F8DC8 /* SignUpCoordinator.swift */,
+				026682D72AA7D8A200EE70EC /* HomeTabBarCoordinator.swift */,
 				024340812AD9872B00110844 /* ProfileRegistrationStep1Coordinator.swift */,
 				026FC69A2AD9D0430009D1A3 /* ProfileRegistrationStep2Coordinator.swift */,
-				026682D72AA7D8A200EE70EC /* HomeTabBarCoordinator.swift */,
+				02D7D2952AE86283003E4CF4 /* AddServiceCoordinator.swift */,
 				0249C1942AE9A6230045A126 /* ViewerServiceCoordinator.swift */,
 			);
 			path = Coordinator;
@@ -350,12 +355,21 @@
 		02995B4D2AB34C1300615FDC /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				02A0D3532AF184C900BF25A5 /* ForgotPassword */,
 				02FFBF0F2AEAA12700BBF19C /* Service */,
 				024BC97B2ADAEB0900E9EEDC /* Profile */,
 				024E688B2AB485D70044A521 /* SignIn */,
 				024E688C2AB485EB0044A521 /* SignUp */,
 			);
 			path = ViewController;
+			sourceTree = "<group>";
+		};
+		02A0D3532AF184C900BF25A5 /* ForgotPassword */ = {
+			isa = PBXGroup;
+			children = (
+				02A0D3542AF184E200BF25A5 /* ForgotPasswordViewControllerFactory.swift */,
+			);
+			path = ForgotPassword;
 			sourceTree = "<group>";
 		};
 		02E2C3942AA0FFD30040A2C8 = {
@@ -546,6 +560,7 @@
 			files = (
 				02FFBF122AEAA14B00BBF19C /* ListServicesViewControllerFactory.swift in Sources */,
 				022055102AE1E48100C076FC /* CEPMask.swift in Sources */,
+				02A0D3522AF13E6600BF25A5 /* ForgotPasswordCoordinator.swift in Sources */,
 				0220550A2AE1C8C900C076FC /* CellPhoneMask.swift in Sources */,
 				026682D82AA7D8A200EE70EC /* HomeTabBarCoordinator.swift in Sources */,
 				0212ECAF2AA10867001C1BCF /* AppDelegate.swift in Sources */,
@@ -568,6 +583,7 @@
 				0239C4BD2ADDF1460016C0E4 /* ProfileRegistrationStep1Factory.swift in Sources */,
 				0212ECB12AA10867001C1BCF /* SceneDelegate.swift in Sources */,
 				02A0D34D2AF11AB400BF25A5 /* LoadScreenViewController.swift in Sources */,
+				02A0D3552AF184E200BF25A5 /* ForgotPasswordViewControllerFactory.swift in Sources */,
 				026682D42AA7D69D00EE70EC /* NavigationController.swift in Sources */,
 				028B28BC2AA76EEC008E4A7E /* Constants.swift in Sources */,
 				027239622AE0437E009BA9A1 /* ProfileSummaryViewControllerFactory.swift in Sources */,

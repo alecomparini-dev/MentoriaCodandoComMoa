@@ -72,7 +72,7 @@ class HomeTabBarCoordinator: Coordinator {
 
 //  MARK: - EXTENSION - ProfileSummaryViewControllerCoordinator
 extension HomeTabBarCoordinator: ProfileSummaryViewControllerCoordinator {
-    
+
     func gotoProfileRegistrationStep1(_ profilePresenterDTO: ProfilePresenterDTO?) {
         let nav = NavigationController()
         
@@ -85,7 +85,17 @@ extension HomeTabBarCoordinator: ProfileSummaryViewControllerCoordinator {
         coordinator.start()
         childCoordinator = nil
     }
-    
+
+    func gotoSignIn() {
+        let nav = NavigationController()
+        if let currentScene = CurrentWindow.get {
+            currentScene.rootViewController = nav
+        }
+        let coordinator = SignInCoordinator(nav)
+        coordinator.start()
+        childCoordinator = nil
+    }
+
     
 }
 

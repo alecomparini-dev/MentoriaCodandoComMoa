@@ -12,6 +12,33 @@ protocol LoadScreenViewControllerCoordinator: AnyObject {
 class LoadScreenViewController: UIViewController {
     weak var coordinator: LoadScreenViewControllerCoordinator?
     
+    
+//  MARK: - INITIALIZERS
+    
+    init() {
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        configure()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        fetchTheme()
+    }
+    
+
+//  MARK: - LAZY AREA
     lazy var backgroundView: ViewBuilder = {
         let comp = ViewBuilder()
             .setBackgroundColor(hexColor: "#282A35")
@@ -27,7 +54,7 @@ class LoadScreenViewController: UIViewController {
             .setText("MENTORIA \nCODANDO COM MOA")
             .setColor(hexColor: "#FFFFFF")
             .setWeight(.bold)
-            .setSize(30)
+            .setSize(26)
             .setNumberOfLines(2)
             .setTextAlignment(.center)
             .setConstraints { build in
@@ -65,26 +92,12 @@ class LoadScreenViewController: UIViewController {
         return comp
     }()
     
-    init() {
-        super.init(nibName: nil, bundle: nil)
-        configure()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-    }
-    
+
     
 //  MARK: - PRIVATE AREA
     private func configure() {
         addElements()
         configConstraints()
-        fetchTheme()
     }
     
     private func addElements() {
