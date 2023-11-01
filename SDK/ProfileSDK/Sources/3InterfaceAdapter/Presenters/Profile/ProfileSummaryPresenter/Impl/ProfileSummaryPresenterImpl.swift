@@ -6,9 +6,17 @@ import Foundation
 import ProfileUseCases
 
 public protocol ProfileSummaryPresenterOutput: AnyObject {
-    func getUserAuthenticated(success: ProfilePresenterDTO?, error: String?)
-    func getUserProfile(success: ProfilePresenterDTO?, error: String?)
-    func saveProfileImage(success: ProfilePresenterDTO?, error: String?)
+    func successGetUserAuthenticated(_ profilePresenterDTO: ProfilePresenterDTO?)
+    func errorGetUserAuthenticated(title: String, message: String)
+    
+    func successGetUserProfile(_ profilePresenterDTO: ProfilePresenterDTO?)
+    func errorGetUserProfile(title: String, message: String)
+    
+    func successSaveProfileImage(_ profilePresenterDTO: ProfilePresenterDTO?)
+    func errorSaveProfileImage(title: String, message: String)
+    
+    func successLogout()
+    func errorLogout()
 }
 
 
@@ -18,13 +26,15 @@ public class ProfileSummaryPresenterImpl: ProfileSummaryPresenter {
     
     private let getUserAuthUseCase: GetUserAuthenticatedUseCase
     private let getProfileUseCase: GetProfileUseCase
-    private let createProfile: CreateProfileUseCase
+    private let createProfileUseCase: CreateProfileUseCase
+    private let logoutUseCase: LogoutUseCase
     private let masks: [TypeMasks: Masks]
     
-    public init(getUserAuthUseCase: GetUserAuthenticatedUseCase, getProfileUseCase: GetProfileUseCase, createProfile: CreateProfileUseCase, masks: [TypeMasks : Masks]) {
+    public init(getUserAuthUseCase: GetUserAuthenticatedUseCase, getProfileUseCase: GetProfileUseCase, createProfileUseCase: CreateProfileUseCase, logoutUseCase: LogoutUseCase, masks: [TypeMasks : Masks]) {
         self.getUserAuthUseCase = getUserAuthUseCase
         self.getProfileUseCase = getProfileUseCase
-        self.createProfile = createProfile
+        self.createProfileUseCase = createProfileUseCase
+        self.logoutUseCase = logoutUseCase
         self.masks = masks
     }
     
@@ -33,18 +43,18 @@ public class ProfileSummaryPresenterImpl: ProfileSummaryPresenter {
             do {
                 let userAuth: UserAuthenticatedUseCaseDTO.Output =  try await getUserAuthUseCase.getUser()
                 DispatchQueue.main.async { [weak self] in
-                    self?.outputDelegate?.getUserAuthenticated(success: ProfilePresenterDTO(userIDAuth: userAuth.userIDAuth), error: nil)
+                    self?.outputDelegate?.successGetUserProfile(ProfilePresenterDTO(userIDAuth: userAuth.userIDAuth))
                 }
             } catch let error {
+                debugPrint(error.localizedDescription)
                 DispatchQueue.main.async { [weak self] in
-                    self?.outputDelegate?.getUserAuthenticated(success: nil, error: error.localizedDescription)
+                    self?.outputDelegate?.errorGetUserAuthenticated(title: "Aviso", message: "Não foi possível recuperar o Usuário Logado")
                 }
             }
         }
     }
     
     public func getProfile(_ userIDAuth: String) {
-        
         Task {
             do {
                 let getProfileUseCaseDTO: ProfileUseCaseDTO? = try await getProfileUseCase.getProfile(userIDAuth)
@@ -64,12 +74,13 @@ public class ProfileSummaryPresenterImpl: ProfileSummaryPresenter {
                 profilePresenter.address?.cep = cep
                 
                 DispatchQueue.main.sync { [weak self] in
-                    self?.outputDelegate?.getUserProfile(success: profilePresenter, error: nil)
+                    self?.outputDelegate?.successGetUserProfile(profilePresenter)
                 }
                 
             } catch let error {
+                debugPrint(error.localizedDescription)
                 DispatchQueue.main.sync { [weak self] in
-                    self?.outputDelegate?.getUserProfile(success: nil, error: error.localizedDescription)
+                    self?.outputDelegate?.errorGetUserProfile(title: "Aviso", message: "Não foi possível recuperar o profile do usuário. Tente novamente mais tarde")
                 }
             }
         }
@@ -82,7 +93,7 @@ public class ProfileSummaryPresenterImpl: ProfileSummaryPresenter {
         
         Task {
             do {
-                let profileDTO = try await createProfile.create(
+                let profileDTO = try await createProfileUseCase.create(
                     ProfileUseCaseDTO(
                         userIDAuth: profilePresenterDTO.userIDAuth,
                         userID: profilePresenterDTO.userIDProfile,
@@ -116,12 +127,13 @@ public class ProfileSummaryPresenterImpl: ProfileSummaryPresenter {
                 profilePresenter.address?.cep = cep
                 
                 DispatchQueue.main.sync { [weak self] in
-                    self?.outputDelegate?.saveProfileImage(success: profilePresenter, error: nil)
+                    self?.outputDelegate?.successSaveProfileImage(profilePresenter)
                 }
 
             } catch let error {
+                debugPrint(error.localizedDescription)
                 DispatchQueue.main.sync { [weak self] in
-                    self?.outputDelegate?.saveProfileImage(success: nil, error: error.localizedDescription)
+                    self?.outputDelegate?.errorSaveProfileImage(title: "Aviso", message: "Não foi possível salvar a imagem do perfil. Favor tentar novamente mais tarde")
                 }
             }
         }
@@ -136,25 +148,26 @@ public class ProfileSummaryPresenterImpl: ProfileSummaryPresenter {
         return nil
     }
     
-
-
-//    public func saveProfileImageData(_ userIDAuth: String?, _ imageData: Data) {
-//        guard let userIDAuth else {return}
-//        if let filename = getDocumentsDirectory()?.appendingPathComponent("\(userIDAuth).jpg") {
-//            try? imageData.write(to: filename)
-//        }
-//    }
-//    
-//    public func getProfileImageData(_ userIDAuth: String?) -> Data? {
-//        guard let userIDAuth else {return nil}
-//        if let fileURL = getDocumentsDirectory()?.appendingPathComponent("\(userIDAuth).jpg") {
-//            return try? Data(contentsOf: fileURL)
-//        }
-//        return nil
-//    }
-    
+    public func logout() {
+        Task {
+            do {
+                try logoutUseCase.logout()
+                DispatchQueue.main.async { [weak self] in
+                    self?.outputDelegate?.successLogout()
+                }
+            } catch let error {
+                debugPrint(error.localizedDescription)
+                DispatchQueue.main.async { [weak self] in
+                    self?.outputDelegate?.errorLogout()
+                }
+            }
+        }
+    }
+        
     
 //  MARK: - PRIVATE AREA
+    
+    //TODO: - CRIAR UM COMPONENT PARA CONFIGURAR DATAS -
     private func configDateOfBirth(_ date: String?) -> String? {
         guard let date else {return nil}
         let dateFormatter = DateFormatter()

@@ -244,7 +244,7 @@ public final class ProfileSummaryViewController: UIViewController {
 //  MARK: - EXTENSION - ProfileSummaryViewDelegate
 extension ProfileSummaryViewController: ProfileSummaryViewDelegate{
     public func logoutButtonTapped() {
-        coordinator?.gotoSignIn()
+        profileSummaryPresenter.logout()
     }
     
     
@@ -293,35 +293,43 @@ extension ProfileSummaryViewController: EditProfileButtonTableViewCellDelegate {
 //  MARK: - EXTENSION - ProfileSummaryPresenterOutput
 extension ProfileSummaryViewController: ProfileSummaryPresenterOutput {
     
-    public func getUserAuthenticated(success: ProfilePresenterDTO?, error: String?) {
-        if let userIDAuth = success?.userIDAuth {
+    public func successGetUserAuthenticated(_ profilePresenterDTO: ProfilePresenters.ProfilePresenterDTO?) {
+        if let userIDAuth = profilePresenterDTO?.userIDAuth {
             self.profileSummaryPresenter.getProfile(userIDAuth)
-        }
-        if let error {
-            print(#function,error)
         }
     }
     
-    public func getUserProfile(success: ProfilePresenterDTO?, error: String?) {
-        profilePresenterDTO = success
-        if success?.userIDProfile != nil {
+    public func errorGetUserAuthenticated(title: String, message: String) { }
+    
+    public func successGetUserProfile(_ profilePresenterDTO: ProfilePresenters.ProfilePresenterDTO?) {
+        self.profilePresenterDTO = profilePresenterDTO
+        if profilePresenterDTO?.userIDProfile != nil {
             screen.tableViewScroll.get.reloadData()
             return
         }
         configScreenToNewProfile()
-        
-        if let error {
-            print(#function,error)
-        }
     }
     
-    public func saveProfileImage(success: ProfilePresenters.ProfilePresenterDTO?, error: String?) {
-        profilePresenterDTO = success
-        if let error {
-            print(#function,error)
-        }
+    public func errorGetUserProfile(title: String, message: String) {
     }
 
+    public func successSaveProfileImage(_ profilePresenterDTO: ProfilePresenters.ProfilePresenterDTO?) {
+        self.profilePresenterDTO = profilePresenterDTO
+    }
+    
+    public func errorSaveProfileImage(title: String, message: String) {
+        
+    }
+
+    
+    public func successLogout() {
+        coordinator?.gotoSignIn()
+    }
+    
+    public func errorLogout() {
+        coordinator?.gotoSignIn()
+    }
+        
     
 }
 

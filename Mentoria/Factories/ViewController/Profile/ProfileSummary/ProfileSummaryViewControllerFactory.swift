@@ -14,27 +14,29 @@ class ProfileSummaryViewControllerFactory {
     static func make() -> ProfileSummaryViewController {
         
         let masks: [TypeMasks: Masks] = MasksFactory.make()
+
+        let logout = FirebaseSignOut()
+        let logoutGateway = LogoutUseCaseGatewayImpl(logoutAuth: logout)
+        let logoutUseCase = LogoutUseCaseImpl(logoutGateway: logoutGateway)
+        let createProfileUseCase = CreateProfileUseCaseFactory.make()
         
         let network = Network()
-        
-        let url = makeURL()
-        
-        let getProfileUseCaseGateway = RemoteGetProfileUseCaseGatewayImpl(httpGet: network, url: url, headers: [:], queryParameters: [:])
-        
+        let getProfileUseCaseGateway = RemoteGetProfileUseCaseGatewayImpl(httpGet: network,
+                                                                          url: makeURL(),
+                                                                          headers: [:], queryParameters: [:])
         let getProfileUseCase = GetProfileUseCaseImpl(getProfileUseCaseGateway: getProfileUseCaseGateway )
         
         let userAutenticator = FirebaseUserAuthenticated()
-        
         let getUserAuthUseCaseGateway = GetUserAuthenticatedUseCaseGatewayImpl(userAuthenticator: userAutenticator)
-        
         let getUserAuthUseCase = GetUserAuthenticatedUseCaseImpl(getUserAuthenticatedGateway: getUserAuthUseCaseGateway)
         
-        let createProfileUseCase = CreateProfileUseCaseFactory.make()
-        
-        let profileSummaryPresenter = ProfileSummaryPresenterImpl(getUserAuthUseCase: getUserAuthUseCase, getProfileUseCase: getProfileUseCase, createProfile: createProfileUseCase, masks: masks)
+        let profileSummaryPresenter = ProfileSummaryPresenterImpl(getUserAuthUseCase: getUserAuthUseCase,
+                                                                  getProfileUseCase: getProfileUseCase,
+                                                                  createProfileUseCase: createProfileUseCase, 
+                                                                  logoutUseCase: logoutUseCase,
+                                                                  masks: masks)
         
         return ProfileSummaryViewController(profileSummaryPresenter: profileSummaryPresenter)
-        
     }
     
     static private func makeURL() -> URL {
