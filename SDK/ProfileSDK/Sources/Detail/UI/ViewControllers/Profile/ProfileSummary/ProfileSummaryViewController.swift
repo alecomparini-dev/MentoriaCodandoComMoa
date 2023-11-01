@@ -293,7 +293,7 @@ extension ProfileSummaryViewController: EditProfileButtonTableViewCellDelegate {
 //  MARK: - EXTENSION - ProfileSummaryPresenterOutput
 extension ProfileSummaryViewController: ProfileSummaryPresenterOutput {
     
-    public func successGetUserAuthenticated(_ profilePresenterDTO: ProfilePresenters.ProfilePresenterDTO?) {
+    public func successGetUserAuthenticated(_ profilePresenterDTO: ProfilePresenterDTO?) {
         if let userIDAuth = profilePresenterDTO?.userIDAuth {
             self.profileSummaryPresenter.getProfile(userIDAuth)
         }
@@ -301,7 +301,7 @@ extension ProfileSummaryViewController: ProfileSummaryPresenterOutput {
     
     public func errorGetUserAuthenticated(title: String, message: String) { }
     
-    public func successGetUserProfile(_ profilePresenterDTO: ProfilePresenters.ProfilePresenterDTO?) {
+    public func successGetUserProfile(_ profilePresenterDTO: ProfilePresenterDTO?) {
         self.profilePresenterDTO = profilePresenterDTO
         if profilePresenterDTO?.userIDProfile != nil {
             screen.tableViewScroll.get.reloadData()
