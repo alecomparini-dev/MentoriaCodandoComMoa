@@ -8,6 +8,8 @@ public protocol ProfileSummaryPresenter {
     
     func getUserAuthenticated()
     
+    func logout()
+    
     func getProfile(_ userIDAuth: String)
     
     func saveProfileImageData(_ profilePresenterDTO: ProfilePresenterDTO?)
