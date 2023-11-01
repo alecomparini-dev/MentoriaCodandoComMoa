@@ -46,7 +46,6 @@ class EmailLoginTextFieldView: ViewBuilder {
             .setKeyboard({ build in
                 build
                     .setKeyboardType(.emailAddress)
-                    .setReturnKeyType(.continue)
             })
             .setBorder({ build in
                 build

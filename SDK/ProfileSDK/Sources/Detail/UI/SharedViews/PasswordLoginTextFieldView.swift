@@ -35,14 +35,13 @@ class PasswordLoginTextFieldView: ViewBuilder {
     
     lazy var passwordTextField: TextFieldPasswordBuilder = {
         let comp = TextFieldPasswordBuilder(paddingRightImage: 8)
-//            .setText("123456Aa")
+            .setText("123456Aa")
             .setBackgroundColor(hexColor: "#ffffff")
             .setPadding(8)
             .setPlaceHolder("Digite sua senha")
             .setKeyboard({ buid in
                 buid
                     .setKeyboardType(.default)
-                    .setReturnKeyType(.done)
             })
             .setBorder({ build in
                 build

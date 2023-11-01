@@ -43,7 +43,7 @@ public class ProfileSummaryPresenterImpl: ProfileSummaryPresenter {
             do {
                 let userAuth: UserAuthenticatedUseCaseDTO.Output =  try await getUserAuthUseCase.getUser()
                 DispatchQueue.main.async { [weak self] in
-                    self?.outputDelegate?.successGetUserProfile(ProfilePresenterDTO(userIDAuth: userAuth.userIDAuth))
+                    self?.outputDelegate?.successGetUserAuthenticated(ProfilePresenterDTO(userIDAuth: userAuth.userIDAuth))
                 }
             } catch let error {
                 debugPrint(error.localizedDescription)
