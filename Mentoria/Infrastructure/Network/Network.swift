@@ -31,7 +31,7 @@ extension Network: HTTPGet {
 //  MARK: - EXTENSION - HTTPGet
 extension Network: HTTPPost {
     
-    public func post(url: URL, headers: [String : String]?, queryParameters: [String : String]?, bodyJson: [String: Any]) async throws -> Data? {
+    public func post(url: URL, headers: [String : String]?, queryParameters: [String : String]?, bodyJson: Data?) async throws -> Data? {
         
         let endpoint = EndpointDTO(url: url, headers: headers, queryParameters: queryParameters)
         

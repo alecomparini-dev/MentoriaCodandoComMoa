@@ -28,13 +28,11 @@ public class RemoteCreateProfileUseCaseGatewayImpl: CreateProfileUseCaseGateway 
         
         let createProfileData = try JSONEncoder().encode(createProfileCodable)
         
-        let bodyJson = try JSONSerialization.jsonObject(with: createProfileData, options: []) as? [String: Any]
-        
         let data = try await httpPost.post(
             url: url,
             headers: headers,
             queryParameters: queryParameters,
-            bodyJson: bodyJson ?? [:])
+            bodyJson: createProfileData)
             
         
         guard let data else {return nil}

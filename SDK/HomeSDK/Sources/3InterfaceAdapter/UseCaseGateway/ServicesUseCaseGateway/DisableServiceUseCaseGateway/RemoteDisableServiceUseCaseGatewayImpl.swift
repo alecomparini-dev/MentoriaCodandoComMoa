@@ -35,7 +35,7 @@ public class RemoteDisableServiceUseCaseGatewayImpl: DisableServiceUseCaseGatewa
             url: url,
             headers: headers,
             queryParameters: query,
-            bodyJson: [:])
+            bodyJsonData: nil)
             
         guard let data else {return false}
         

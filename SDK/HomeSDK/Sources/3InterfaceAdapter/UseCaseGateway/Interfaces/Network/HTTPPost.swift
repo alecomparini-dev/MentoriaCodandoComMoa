@@ -5,5 +5,5 @@ import Foundation
 
 
 public protocol HTTPPost {
-    func post(url: URL, headers: [String: String]?, queryParameters: [String: String]?, bodyJson: [String: Any]) async throws -> Data?
+    func post(url: URL, headers: [String: String]?, queryParameters: [String: String]?, bodyJsonData: Data?) async throws -> Data?
 }
