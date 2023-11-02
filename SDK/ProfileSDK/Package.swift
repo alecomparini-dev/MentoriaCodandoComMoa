@@ -11,16 +11,16 @@ let package = Package(
     ],
 
     products: [
-        .library(name: "ProfileSDK", targets: [ "ProfilePresenters", "ProfileUseCaseGateway", "ProfileUI", 
-                                                "ProfileAuthentication", "ProfileValidations"] ),
+        .library(name: "ProfileSDK", targets: [ "ProfilePresenters", "ProfileUseCaseGateway", "ProfileUI", "ProfileAuthentication", "ProfileLocalStorage", "ProfileValidations", "ProfileNetwork"] ),
         .library(name: "ProfileSDKMain",  targets: ["ProfileSDKMain"]),
     ],
-    
     
     
     dependencies: [
         .package(url: "https://github.com/alecomparini-dev/DesignerSystemSDK.git", branch: "develop"),
         .package(url: "https://github.com/alecomparini-dev/ValidatorSDK.git", branch: "develop"),
+        .package(url: "https://github.com/alecomparini-dev/LocalStorageSDK.git", branch: "develop"),
+        .package(url: "https://github.com/alecomparini-dev/NetworkSDK.git", branch: "develop"),
         .package(url: "https://github.com/firebase/firebase-ios-sdk.git", branch: "10.15.0"),
     ],
     
@@ -89,8 +89,17 @@ let package = Package(
             ],
             path: "Sources/Detail/Authentication"
         ),
-    
         
+        .target(
+            name: "ProfileLocalStorage",
+            dependencies: [
+                "ProfileUseCaseGateway",
+                .product(name: "LocalStorageSDKMain", package: "LocalStorageSDK"),
+                .product(name: "LocalStorageSDKDetail", package: "LocalStorageSDK"),
+            ],
+            path: "Sources/Detail/Infrastructure/LocalStorage"
+        ),
+    
         .target(
             name: "ProfileValidations",
             dependencies: [
@@ -98,6 +107,15 @@ let package = Package(
                 .product(name: "ValidatorSDK", package: "ValidatorSDK")
             ],
             path: "Sources/Detail/Validations"
+        ),
+
+        .target(
+            name: "ProfileNetwork",
+            dependencies: [
+                "ProfileUseCaseGateway",
+                .product(name: "NetworkSDKMain", package: "NetworkSDK")
+            ],
+            path: "Sources/Detail/Infrastructure/Network"
         ),
 
         
@@ -111,7 +129,6 @@ let package = Package(
             ],
             path: "Sources/Main"
         ),
-
         
 //  MARK: - TESTS TARGETS AREA
 //        .testTarget(name: "ProfileSDKTests", dependencies: []),

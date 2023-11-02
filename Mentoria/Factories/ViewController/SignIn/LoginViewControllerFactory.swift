@@ -12,6 +12,7 @@ import ProfileUseCases
 import ProfileUseCaseGateway
 import ProfileAuthentication
 import ProfileValidations
+import ProfileLocalStorage
 import LocalStorageDetails
 
 
@@ -28,7 +29,7 @@ class LoginViewControllerFactory {
         let keyChainProviderStrategy = KeyChainProvider(appName: "MentoriaCodandoComMoa", forKey: "email")
 //        let keyChainProviderStrategy = UserDefaultsProvider(forKey: "email")
         
-        let localStorage = LocalStorage(storageProvider: keyChainProviderStrategy)
+        let localStorage = ProfileLocalStorage(storageProvider: keyChainProviderStrategy)
         
         let saveKeyChainGateway = SaveKeyChainUseCaseGatewayImpl(localStorageKeyChainProvider: localStorage)
         
