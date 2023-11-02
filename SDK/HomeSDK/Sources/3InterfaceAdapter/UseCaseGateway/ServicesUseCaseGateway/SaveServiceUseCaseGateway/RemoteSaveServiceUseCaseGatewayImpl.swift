@@ -28,13 +28,11 @@ public class RemoteSaveServiceUseCaseGatewayImpl: SaveServiceUseCaseGateway {
         
         let addServiceData = try JSONEncoder().encode(addServiceCodableMapper)
         
-        let bodyJson = try JSONSerialization.jsonObject(with: addServiceData, options: []) as? [String: Any]
-        
         let data = try await httpPost.post(
             url: url,
             headers: headers,
             queryParameters: queryParameters,
-            bodyJson: bodyJson ?? [:])
+            bodyJsonData: addServiceData)
             
         guard let data else {return nil}
         
