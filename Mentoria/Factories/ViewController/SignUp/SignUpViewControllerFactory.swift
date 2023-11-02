@@ -13,8 +13,8 @@ import ProfileUI
 import ProfileUseCases
 import ProfileUseCaseGateway
 import ProfileValidations
+import ProfileLocalStorage
 import LocalStorageDetails
-
 
 class SignUpViewControllerFactory {
 
@@ -32,7 +32,7 @@ class SignUpViewControllerFactory {
         
         let keyChainProviderStrategy = KeyChainProvider(appName: "MentoriaCodandoComMoa", forKey: "email")
         
-        let localStorage = LocalStorage(storageProvider: keyChainProviderStrategy)
+        let localStorage = ProfileLocalStorage(storageProvider: keyChainProviderStrategy)
         
         let delKeyChainEmailUseCaseGateway = DeleteKeyChainRememberEmailUseCaseGatewayImpl(localStorageKeyChainProvider: localStorage)
         

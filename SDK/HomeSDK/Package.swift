@@ -16,6 +16,7 @@ let package = Package(
     
     dependencies: [
         .package(url: "https://github.com/alecomparini-dev/DesignerSystemSDK.git", branch: "develop"),
+        .package(url: "https://github.com/alecomparini-dev/NetworkSDK.git", branch: "develop"),
         .package(url: "https://github.com/firebase/firebase-ios-sdk.git", branch: "10.15.0"),
     ],
     
@@ -73,6 +74,7 @@ let package = Package(
             name: "HomeNetwork",
             dependencies: [
                 "HomeUseCaseGateway",
+                .product(name: "NetworkSDKMain", package: "NetworkSDK")
             ],
             path: "Sources/Detail/Infrastructure/Network"
         ),

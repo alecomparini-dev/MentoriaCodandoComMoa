@@ -3,10 +3,9 @@
 
 import Foundation
 import ProfileUseCaseGateway
-import LocalStorageSDKMain
 import LocalStorageDetails
 
-public class LocalStorage  {
+public class ProfileLocalStorage  {
     
     private let storageProvider: StorageProviderStrategy
     
@@ -18,7 +17,7 @@ public class LocalStorage  {
     
 
 //  MARK: - EXTENSION - InsertStorageProvider
-extension LocalStorage: InsertStorageProvider {
+extension ProfileLocalStorage: InsertStorageProvider {
 
     @discardableResult
     public func insert<T>(_ object: T) throws -> T? {
@@ -32,7 +31,7 @@ extension LocalStorage: InsertStorageProvider {
 
 
 //  MARK: - EXTENSION - DeleteStorageProvider
-extension LocalStorage: DeleteStorageProvider {
+extension ProfileLocalStorage: DeleteStorageProvider {
 
     public func delete<T>(_ object: T) throws {
         try storageProvider.delete(object)
@@ -42,7 +41,7 @@ extension LocalStorage: DeleteStorageProvider {
 
 
 //  MARK: - EXTENSION - FetchStorageProvider
-extension LocalStorage: FetchStorageProvider {
+extension ProfileLocalStorage: FetchStorageProvider {
     public func fetch<T>() throws -> [T] {
         return []
     }
