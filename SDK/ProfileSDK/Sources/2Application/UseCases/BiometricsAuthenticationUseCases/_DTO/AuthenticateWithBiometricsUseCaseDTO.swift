@@ -4,7 +4,7 @@
 import Foundation
 
 public struct AuthenticateWithBiometricsUseCaseDTO {
-    public let isAuthenticatedByBiometry: Bool?
-    public let biometricType: BiometryTypes?
-    public let emailAndPassword: Bool?
+    public var isAuthenticatedByBiometry: Bool?
+    public var biometryType: BiometryTypes?
+    public var biometryCanceled: Bool?
 }
