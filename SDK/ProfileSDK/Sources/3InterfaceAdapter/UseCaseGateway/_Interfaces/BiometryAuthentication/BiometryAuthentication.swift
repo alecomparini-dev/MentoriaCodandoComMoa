@@ -5,5 +5,5 @@ import Foundation
 
 public protocol BiometryAuthentication {
     func checkBiometry() -> BiometryAuthenticationGatewayDTO
-    func authenticate(reason: String?, cancelTitle: String?) -> BiometryAuthenticationGatewayDTO
+    func authenticate(reason: String, cancelTitle: String?) async -> BiometryAuthenticationGatewayDTO
 }

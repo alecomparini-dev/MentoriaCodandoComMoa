@@ -2,16 +2,24 @@
 //
 
 import Foundation
+import ProfileUseCases
 
-public enum BiometryTypes {
-    case faceID
-    case touchID
-    case none
+public enum BiometryCanceled {
+    case userCancel
+    case appCancel
+    case others
 }
 
 public struct BiometryAuthenticationGatewayDTO {
-    public var canEvaluatePolicy: Bool?
     public var biometryTypes: BiometryTypes?
     public var isAuthenticated: Bool?
-    public var biometryCanceled: Bool?
+    public var biometryCanceled: BiometryCanceled?
+    
+    public init(biometryTypes: BiometryTypes? = nil,
+                isAuthenticated: Bool? = nil,
+                biometryCanceled: BiometryCanceled? = nil) {
+        self.biometryTypes = biometryTypes
+        self.isAuthenticated = isAuthenticated
+        self.biometryCanceled = biometryCanceled
+    }
 }
