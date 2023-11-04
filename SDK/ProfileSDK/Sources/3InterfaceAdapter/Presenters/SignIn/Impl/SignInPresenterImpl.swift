@@ -18,17 +18,15 @@ public class SignInPresenterImpl: SignInPresenter  {
     private let saveKeyChainEmailUseCase: SaveKeyChainRememberEmailUseCase
     private let getKeyChainEmailUseCase: GetKeyChainRememberEmailUseCase
     private let delKeyChainEmailUseCase: DeleteKeyChainRememberEmailUseCase
+    private let checkBiometryUseCase: CheckBiometryUseCase
     private let emailValidator: EmailValidations
     
-    public init(authUseCase: AuthenticateUseCase,
-                saveKeyChainEmailUseCase: SaveKeyChainRememberEmailUseCase,
-                getKeyChainEmailUseCase: GetKeyChainRememberEmailUseCase,
-                delKeyChainEmailUseCase: DeleteKeyChainRememberEmailUseCase,
-                emailValidator: EmailValidations ) {
+    public init(authUseCase: AuthenticateUseCase, saveKeyChainEmailUseCase: SaveKeyChainRememberEmailUseCase, getKeyChainEmailUseCase: GetKeyChainRememberEmailUseCase, delKeyChainEmailUseCase: DeleteKeyChainRememberEmailUseCase, checkBiometryUseCase: CheckBiometryUseCase, emailValidator: EmailValidations) {
         self.authUseCase = authUseCase
         self.saveKeyChainEmailUseCase = saveKeyChainEmailUseCase
         self.getKeyChainEmailUseCase = getKeyChainEmailUseCase
         self.delKeyChainEmailUseCase = delKeyChainEmailUseCase
+        self.checkBiometryUseCase = checkBiometryUseCase
         self.emailValidator = emailValidator
     }
 
@@ -36,13 +34,12 @@ public class SignInPresenterImpl: SignInPresenter  {
         do {
             return try getKeyChainEmailUseCase.getEmail()
         } catch let error {
-            print(error)
+            debugPrint(error)
         }
         return nil
     }
     
     private func validations(email: String, password: String) -> String? {
-        
         if let failMsg = isValidRequiredFields(email: email, password: password) {
             return failMsg
         }
@@ -89,6 +86,12 @@ public class SignInPresenterImpl: SignInPresenter  {
                 if rememberPassword {
                     saveRememberEmail(email)
                 }
+                
+                let checkBiometryUseCaseDTO: CheckBiometryUseCaseDTO = try checkBiometryUseCase.check()
+                if checkBiometryUseCaseDTO.biometryTypes != .noneBiometry {
+                    debugPrint("BORA CHAMAR A PARTE DE VERIFICAR SE DESEJA USAR BIOMETRIA,", checkBiometryUseCaseDTO.biometryTypes ?? "")
+                }
+                
                 DispatchQueue.main.async { [weak self] in
                     self?.outputDelegate?.success(userId)
                 }

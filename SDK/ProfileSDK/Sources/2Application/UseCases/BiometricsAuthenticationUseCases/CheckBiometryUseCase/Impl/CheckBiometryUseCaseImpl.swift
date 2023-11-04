@@ -6,10 +6,14 @@ import Foundation
 
 public class CheckBiometryUseCaseImpl: CheckBiometryUseCase {
 
-    public func check() throws -> CheckBiometryUseCaseDTO {
-        
-        return CheckBiometryUseCaseDTO()
+    private let checkBiometryGateway: CheckBiometryUseCaseGateway
+    
+    public init(checkBiometryGateway: CheckBiometryUseCaseGateway) {
+        self.checkBiometryGateway = checkBiometryGateway
     }
     
+    public func check() -> CheckBiometryUseCaseDTO {
+        return checkBiometryGateway.check()
+    }
     
 }

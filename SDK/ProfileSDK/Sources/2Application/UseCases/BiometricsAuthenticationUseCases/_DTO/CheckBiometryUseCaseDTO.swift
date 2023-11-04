@@ -4,11 +4,9 @@
 import Foundation
 
 public struct CheckBiometryUseCaseDTO {
-    public var canEvaluatePolicy: Bool?
     public var biometryTypes: BiometryTypes?
     
-    public init(canEvaluatePolicy: Bool? = nil, biometryTypes: BiometryTypes? = nil) {
-        self.canEvaluatePolicy = canEvaluatePolicy
+    public init(biometryTypes: BiometryTypes? = nil) {
         self.biometryTypes = biometryTypes
     }
 }

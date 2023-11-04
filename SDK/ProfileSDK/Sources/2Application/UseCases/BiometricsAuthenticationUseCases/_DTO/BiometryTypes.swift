@@ -4,7 +4,8 @@
 import Foundation
 
 public enum BiometryTypes {
-    case none
     case faceID
     case touchID
+    case opticID
+    case noneBiometry
 }
