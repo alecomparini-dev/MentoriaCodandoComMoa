@@ -4,5 +4,5 @@
 import Foundation
 
 public protocol UserAuthenticated {
-    func getUserIDAuthenticated() async throws -> UserAuthenticatedGatewayDTO
+    func getUserIDAuthenticated() throws -> UserAuthenticatedGatewayDTO
 }

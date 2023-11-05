@@ -24,7 +24,6 @@ public class ProfileSDKMain {
         let getUserAuthAdapter = GetUserAuthenticatedAdapterImpl(getUserAuthUseCase: getUserAuthUseCase)
         
         return try await getUserAuthAdapter.getUserAuth()
-        
     }
     
 }

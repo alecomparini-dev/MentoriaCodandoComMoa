@@ -84,8 +84,8 @@ extension SignInViewController: SignInViewDelegate {
                     .setColor(hexColor: "#282a36")
                     .setHideWhenStopped(true)
             }
-            let rememberPassword = screen.rememberSwitch.get.isOn
-            signInPresenter.login(email: email, password: password, rememberPassword: rememberPassword)
+            let rememberEmail = screen.rememberSwitch.get.isOn
+            signInPresenter.login(email: email, password: password, rememberEmail: rememberEmail)
         }
     }
     
@@ -105,11 +105,11 @@ extension SignInViewController: SignInViewDelegate {
 //  MARK: - EXTENSION - LoginPresenterOutput
 extension SignInViewController: SignInPresenterOutput {
     
-    public func success(_ userId: String) {
+    public func successSingIn(_ userId: String) {
         coordinator?.gotoHome()
     }
 
-    public func error(_ error: String) {
+    public func errorSingIn(_ error: String) {
         let alert = UIAlertController(title: "Aviso", message: error, preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default)
         alert.addAction(action)

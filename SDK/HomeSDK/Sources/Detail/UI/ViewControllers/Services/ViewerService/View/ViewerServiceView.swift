@@ -60,7 +60,7 @@ public class ViewerServiceView: UIView {
             .setContentMode(.center)
         let comp = ButtonImageBuilder()
             .setImageButton(img)
-            .setImageColor(hexColor: "#ffffff")
+            .setImageColor(color: UIColor.HEX("#ffffff",0.6))
             .setConstraints { build in
                 build
                     .setTop.setLeading.equalToSafeArea(24)
@@ -78,7 +78,7 @@ public class ViewerServiceView: UIView {
             .setContentMode(.center)
         let comp = ButtonImageBuilder()
             .setImageButton(img)
-            .setImageColor(hexColor: "#B281EB")
+            .setImageColor(hexColor: "#FFFFFF")
             .setConstraints { build in
                 build
                     .setVerticalAlignmentY.equalTo(disableServiceButton.get)
@@ -158,7 +158,7 @@ public class ViewerServiceView: UIView {
     
     lazy var pointView: ViewBuilder = {
         let comp = ViewBuilder()
-            .setBackgroundColor(hexColor: "#ffffff")
+            .setBackgroundColor(hexColor: "#B281EB")
             .setBorder({ build in
                 build.setCornerRadius(3)
             })

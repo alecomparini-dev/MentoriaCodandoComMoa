@@ -7,13 +7,13 @@ import ProfileUseCases
 
 
 public protocol SignInPresenterOutput: AnyObject {
-    func error(_ error: String)
-    func success(_ userId: String)
+    func errorSingIn(_ error: String)
+    func successSingIn(_ userId: String)
+//    func successCheckBiometry(message: String)
 }
 
 public class SignInPresenterImpl: SignInPresenter  {
     public weak var outputDelegate: SignInPresenterOutput?
-    
     private let authUseCase: AuthenticateUseCase
     private let saveKeyChainEmailUseCase: SaveKeyChainRememberEmailUseCase
     private let getKeyChainEmailUseCase: GetKeyChainRememberEmailUseCase
@@ -72,9 +72,16 @@ public class SignInPresenterImpl: SignInPresenter  {
         return failMsg
     }
     
-    public func login(email: String, password: String, rememberPassword: Bool = false) {
+    private func configRememberEmail(email: String, _ rememberPassword: Bool) throws {
+        try delKeyChainEmailUseCase.delete()
+        if rememberPassword {
+            saveRememberEmail(email)
+        }
+    }
+    
+    public func login(email: String, password: String, rememberEmail: Bool = false) {
         if let msgInvalid = validations(email: email, password: password) {
-            outputDelegate?.error(msgInvalid)
+            outputDelegate?.errorSingIn(msgInvalid)
             return
         }
         
@@ -82,22 +89,19 @@ public class SignInPresenterImpl: SignInPresenter  {
             do {
                 let userId = try await authUseCase.emailPasswordAuth(email: email, password: password)
                 
-                try delKeyChainEmailUseCase.delete()
-                if rememberPassword {
-                    saveRememberEmail(email)
-                }
+                try configRememberEmail(email: email, rememberEmail)
                 
                 let checkBiometryUseCaseDTO: CheckBiometryUseCaseDTO = try checkBiometryUseCase.check()
                 if checkBiometryUseCaseDTO.biometryTypes != .noneBiometry {
-                    debugPrint("BORA CHAMAR A PARTE DE VERIFICAR SE DESEJA USAR BIOMETRIA,", checkBiometryUseCaseDTO.biometryTypes ?? "")
+                    
                 }
                 
                 DispatchQueue.main.async { [weak self] in
-                    self?.outputDelegate?.success(userId)
+                    self?.outputDelegate?.successSingIn(userId)
                 }
             } catch {
                 DispatchQueue.main.async { [weak self] in
-                    self?.outputDelegate?.error("Email ou Senha inválidos")
+                    self?.outputDelegate?.errorSingIn("Email ou Senha inválidos")
                 }
             }
         }

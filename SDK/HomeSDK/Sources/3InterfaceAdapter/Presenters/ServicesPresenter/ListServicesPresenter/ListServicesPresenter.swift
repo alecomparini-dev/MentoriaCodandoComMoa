@@ -6,7 +6,7 @@ import Foundation
 public protocol ListServicesPresenter {
     var outputDelegate: ListServicesPresenterOutput? { get set }
     
-    func numberOfRowsInSection() -> Int?
+    func numberOfRowsInSection() -> Int
     
     func heightForRowAt() -> CGFloat
     

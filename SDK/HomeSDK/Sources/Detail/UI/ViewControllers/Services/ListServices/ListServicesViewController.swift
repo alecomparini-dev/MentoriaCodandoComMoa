@@ -152,7 +152,7 @@ extension ListServicesViewController: UITableViewDelegate {
 extension ListServicesViewController: UITableViewDataSource {
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return listServicePresenter.numberOfRowsInSection() ?? 3
+        return listServicePresenter.numberOfRowsInSection()
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -186,7 +186,6 @@ extension ListServicesViewController: ListServicesPresenterOutput {
                 screen.addServiceCustomText.setHidden(false)
             }
         }
-        
     }
     
     public func errorFetchListServices(title: String, message: String) {

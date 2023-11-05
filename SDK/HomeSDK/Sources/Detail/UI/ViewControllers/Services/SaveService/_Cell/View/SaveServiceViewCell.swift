@@ -92,7 +92,7 @@ public class SaveServiceViewCell: ViewBuilder {
         let comp = TextViewBuilder()
             .setBackgroundColor(hexColor: "#ffffff")
             .setTextColor(hexColor: "#282a36")
-            .setSize(14)
+            .setSize(16)
             .setLineSpacing(10)
             .setPadding(left: 8, top: 16)
             .setBorder({ build in
@@ -146,7 +146,8 @@ public class SaveServiceViewCell: ViewBuilder {
             .setText("Duração:")
             .setConstraints { build in
                 build
-                    .setTop.setLeading.equalToSafeArea(32)
+                    .setTop.equalToSafeArea(32)
+                    .setLeading.equalToSafeArea(24)
                     .setWidth.equalToConstant(80)
             }
         return comp
@@ -201,7 +202,8 @@ public class SaveServiceViewCell: ViewBuilder {
             .setText("Valor:")
             .setConstraints { build in
                 build
-                    .setBottom.setLeading.equalToSafeArea(32)
+                    .setLeading.equalTo(durationServiceText.get, .leading)
+                    .setBottom.equalToSafeArea(-32)
                     .setWidth.equalTo(durationServiceText.get)
             }
         return comp

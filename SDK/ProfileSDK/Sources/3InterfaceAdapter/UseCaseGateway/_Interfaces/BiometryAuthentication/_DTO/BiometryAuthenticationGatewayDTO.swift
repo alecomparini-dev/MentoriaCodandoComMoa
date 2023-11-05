@@ -4,12 +4,6 @@
 import Foundation
 import ProfileUseCases
 
-public enum BiometryCanceled {
-    case userCancel
-    case appCancel
-    case others
-}
-
 public struct BiometryAuthenticationGatewayDTO {
     public var biometryTypes: BiometryTypes?
     public var isAuthenticated: Bool?

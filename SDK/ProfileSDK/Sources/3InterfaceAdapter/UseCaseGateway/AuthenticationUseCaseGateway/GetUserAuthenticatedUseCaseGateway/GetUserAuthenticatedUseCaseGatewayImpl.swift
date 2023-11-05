@@ -15,7 +15,7 @@ public class GetUserAuthenticatedUseCaseGatewayImpl: GetUserAuthenticatedUseCase
     
     public func getUser() async throws -> UserAuthenticatedUseCaseModel {
         
-        let userAuth: UserAuthenticatedGatewayDTO = try await userAuthenticator.getUserIDAuthenticated()
+        let userAuth: UserAuthenticatedGatewayDTO = try userAuthenticator.getUserIDAuthenticated()
                
         return UserAuthenticatedUseCaseModel(userIDAuth: userAuth.userID)
     }
