@@ -14,7 +14,7 @@ public class FirebaseUserAuthenticated: UserAuthenticated {
         self.auth = auth
     }
     
-    public func getUserIDAuthenticated() async throws -> UserAuthenticatedGatewayDTO {
+    public func getUserIDAuthenticated() throws -> UserAuthenticatedGatewayDTO {
         
         guard let currentUserID: String = auth.currentUser?.uid else {
             throw AuthenticationError(code: .userNotAuthenticated)

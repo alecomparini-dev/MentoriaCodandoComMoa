@@ -13,13 +13,9 @@ public class CheckBiometryUseCaseGatewayImpl: CheckBiometryUseCaseGateway {
         self.biometryAuthentication = biometryAuthentication
     }
     
-    
     public func check() -> CheckBiometryUseCaseDTO {
         let biometryGatewayDTO: BiometryAuthenticationGatewayDTO = biometryAuthentication.checkBiometry()
         return CheckBiometryUseCaseDTO(biometryTypes: biometryGatewayDTO.biometryTypes)
     }
-    
-    
-    
     
 }

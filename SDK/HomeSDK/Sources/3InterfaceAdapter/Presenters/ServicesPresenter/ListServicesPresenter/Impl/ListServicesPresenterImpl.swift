@@ -25,9 +25,8 @@ public class ListServicesPresenterImpl: ListServicesPresenter {
         self.listServicesUseCase = listServicesUseCase
     }
     
-    
     public func fetchCurrencies(_ userIDAuth: String) {
-        
+
         Task {
             do {
                 let servicesDTO: [ServiceUseCaseDTO]? = try await listServicesUseCase.list(userIDAuth)
@@ -66,8 +65,8 @@ public class ListServicesPresenterImpl: ListServicesPresenter {
 
     public func heightForRowAt() -> CGFloat { 170 }
     
-    public func numberOfRowsInSection() -> Int? {
-        return getServices()?.count
+    public func numberOfRowsInSection() -> Int {
+        return getServices()?.count ?? 3
     }
     
     public func getServices() -> [ServicePresenterDTO]? {
@@ -75,7 +74,9 @@ public class ListServicesPresenterImpl: ListServicesPresenter {
     }
     
     public func getServiceBy(index: Int) -> ServicePresenterDTO? {
-        return getServices()?[index]
+        guard let listServices = getServices() else { return nil }
+        if index > listServices.count - 1 { return nil }
+        return listServices[index]
     }
     
     public func filterServices(_ text: String) {
@@ -92,7 +93,6 @@ public class ListServicesPresenterImpl: ListServicesPresenter {
     
     private func successFetchListServices() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: { [weak self] in
-//        DispatchQueue.main.async { [weak self] in
             guard let self else {return}
             outputDelegate?.successFetchListServices()
         })

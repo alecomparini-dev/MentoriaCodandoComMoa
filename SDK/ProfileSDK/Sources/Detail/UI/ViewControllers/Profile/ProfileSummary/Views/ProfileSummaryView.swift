@@ -57,7 +57,7 @@ public class ProfileSummaryView: UIView {
             .setConstraints { build in
                 build
                     .setTop.equalTo(screenTitle.get, .top)
-                    .setLeading.equalToSafeArea(20)
+                    .setLeading.equalToSafeArea(36)
                     .setSize.equalToConstant(24)
             }
         btn.get.addTarget(self, action: #selector(logoutButtonTapped), for: .touchUpInside)
