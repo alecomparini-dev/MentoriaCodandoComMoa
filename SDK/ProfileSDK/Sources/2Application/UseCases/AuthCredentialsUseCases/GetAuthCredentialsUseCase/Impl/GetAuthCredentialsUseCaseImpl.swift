@@ -27,6 +27,9 @@ public class GetAuthCredentialsUseCaseImpl: GetAuthCredentialsUseCase {
 //  MARK: - PRIVATE AREA
     private func didNotAcceptUseBiometrics(_ credentials: [String]) -> Bool {
         if credentials.isEmpty { return true }
+        
+        if credentials[0].isEmpty {return true}
+        
         return false
     }
     

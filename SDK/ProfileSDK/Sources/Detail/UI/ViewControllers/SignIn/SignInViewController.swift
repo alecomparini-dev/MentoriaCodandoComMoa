@@ -96,6 +96,20 @@ public final class SignInViewController: UIViewController {
         }
         screen.signInButton.setHideLoadingIndicator()
     }
+    
+    private func showLoadingLoginButton() {
+        screen.signInButton.setShowLoadingIndicator { build in
+            build
+                .setColor(hexColor: "#282a36")
+                .setHideWhenStopped(true)
+        }
+    }
+    
+    private func callLogin(_ email: String, _ password: String) {
+        showLoadingLoginButton()
+        let rememberEmail = screen.rememberSwitch.get.isOn
+        signInPresenter.login(email: email, password: password, rememberEmail: rememberEmail)
+    }
         
 }
 
@@ -104,20 +118,14 @@ public final class SignInViewController: UIViewController {
 extension SignInViewController: SignInViewDelegate {
 
     func signInTapped() {
-//        if let email = screen.emailLoginView.emailTextField.get.text, screen.passwordLoginView.passwordTextField.get.text == nil {
-//            
-//            return
-//        }
-        
         if let email = screen.emailLoginView.emailTextField.get.text,
            let password = screen.passwordLoginView.passwordTextField.get.text {
-            screen.signInButton.setShowLoadingIndicator { build in
-                build
-                    .setColor(hexColor: "#282a36")
-                    .setHideWhenStopped(true)
+            
+            if !email.isEmpty && password.isEmpty {
+                signInPresenter.loginByBiometry()
+                return
             }
-            let rememberEmail = screen.rememberSwitch.get.isOn
-            signInPresenter.login(email: email, password: password, rememberEmail: rememberEmail)
+            callLogin(email, password)
         }
     }
     
@@ -128,28 +136,17 @@ extension SignInViewController: SignInViewDelegate {
     func forgotPasswordButtonTapped() {
         coordinator?.gotoForgotPassword(screen.passwordLoginView.passwordTextField.get.text)
     }
-
-    
 }
 
 
 
 //  MARK: - EXTENSION - LoginPresenterOutput
 extension SignInViewController: SignInPresenterOutput {
-    public func errorSignByBiometry() {
-        
-    }
-    
-    public func successSignByBiometry() {
-        
-    }
-    
-    
     
     public func askIfWantToUseBiometrics(title: String, message: String, completion: @escaping (_ acceptUseBiometrics: Bool) -> Void) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let actionOk = UIAlertAction(title: "OK", style: .default) { _ in completion(true) }
-        let actionCancel = UIAlertAction(title: "Não Usar", style: .cancel) { _ in completion(false) }
+        let actionCancel = UIAlertAction(title: "Cancelar", style: .cancel) { _ in completion(false) }
         alert.addAction(actionOk)
         alert.addAction(actionCancel)
         present(alert, animated: true)
