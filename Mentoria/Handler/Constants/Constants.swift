@@ -13,7 +13,9 @@ struct K {
     static let pathDisableService = "/Service/InativarService"
     
     struct Strings {
+        static let empty = ""
         static let themeId = "themeId"
         static let uIdFirebase = "uIdFirebase"
+        static let appName = "MentoriaCodandoComMoa"
     }
 }

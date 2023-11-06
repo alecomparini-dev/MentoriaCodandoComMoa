@@ -8,6 +8,7 @@ import ProfilePresenters
 import ProfileUseCases
 import ProfileUseCaseGateway
 import ProfileAuthentication
+import ProfileNetwork
 
 class ProfileSummaryViewControllerFactory {
 
@@ -20,7 +21,7 @@ class ProfileSummaryViewControllerFactory {
         let logoutUseCase = LogoutUseCaseImpl(logoutGateway: logoutGateway)
         let createProfileUseCase = CreateProfileUseCaseFactory.make()
         
-        let network = Network()
+        let network = ProfileNetwork()
         let getProfileUseCaseGateway = RemoteGetProfileUseCaseGatewayImpl(httpGet: network,
                                                                           url: makeURL(),
                                                                           headers: [:], queryParameters: [:])

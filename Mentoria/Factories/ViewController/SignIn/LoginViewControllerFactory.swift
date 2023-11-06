@@ -26,17 +26,17 @@ class LoginViewControllerFactory {
         let authUseCaseGateway = EmailPasswordAuthenticateUseCaseGatewayImpl(authentication: authentication)
         let authUseCase = AuthenticateUseCaseImpl(authUseCaseGateway: authUseCaseGateway)
         
-        let keyChainProviderStrategy = KeyChainProvider(appName: "MentoriaCodandoComMoa")
+        let keyChainProviderStrategy = KeyChainProvider(appName: K.Strings.appName)
         
         let localStorage = ProfileLocalStorage(storageProvider: keyChainProviderStrategy)
         
         let saveKeyChainGateway = SaveKeyChainUseCaseGatewayImpl(localStorageKeyChainProvider: localStorage)
         let saveKeyChainEmailUseCase = SaveKeyChainRememberEmailUseCaseImpl(saveKeyChainGateway: saveKeyChainGateway)
         
-        let getKeyChainEmailUseCaseGateway = GetKeyChainRememberEmailUseCaseGatewayImpl(localStorageKeyChainProvider: localStorage)
+        let getKeyChainEmailUseCaseGateway = GetKeyChainUseCaseGatewayImpl(localStorageKeyChainProvider: localStorage)
         let getKeyChainEmailUseCase = GetKeyChainRememberEmailUseCaseImpl(getRememberEmailGateway: getKeyChainEmailUseCaseGateway)
         
-        let delKeyChainEmailUseCaseGateway = DeleteKeyChainRememberEmailUseCaseGatewayImpl(localStorageKeyChainProvider: localStorage)
+        let delKeyChainEmailUseCaseGateway = DeleteKeyChainUseCaseGatewayImpl(localStorageKeyChainProvider: localStorage)
         let delKeyChainEmailUseCase = DeleteKeyChainRememberEmailUseCaseImpl(delRememberEmailGateway: delKeyChainEmailUseCaseGateway)
         
         let biometryAuthentication = LocalAuthentication()

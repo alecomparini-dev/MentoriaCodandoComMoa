@@ -7,12 +7,13 @@ import ProfileUI
 import ProfilePresenters
 import ProfileUseCases
 import ProfileUseCaseGateway
+import ProfileNetwork
 
 class ProfileRegistrationStep2Factory {
     
     static func make() -> ProfileRegistrationStep2ViewController {
         
-        let httpGet: HTTPGet = Network()
+        let httpGet: HTTPGet = ProfileNetwork()
         
         let url = URL(string: Environment.variable(Environment.Variables.apiBaseCEP))!
         

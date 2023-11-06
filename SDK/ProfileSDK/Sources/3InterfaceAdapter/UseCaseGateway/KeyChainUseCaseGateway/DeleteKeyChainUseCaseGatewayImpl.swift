@@ -5,7 +5,7 @@ import Foundation
 
 import ProfileUseCases
 
-public class DeleteKeyChainRememberEmailUseCaseGatewayImpl: DeleteKeyChainUseCaseGateway {
+public class DeleteKeyChainUseCaseGatewayImpl: DeleteKeyChainUseCaseGateway {
     
     private let localStorageKeyChainProvider: DeleteStorageProvider
     
