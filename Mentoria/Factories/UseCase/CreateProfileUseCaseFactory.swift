@@ -4,12 +4,13 @@
 import Foundation
 import ProfileUseCases
 import ProfileUseCaseGateway
+import ProfileNetwork
 
 public class CreateProfileUseCaseFactory {
     
     static func make() -> CreateProfileUseCase {
         
-        let httpPost: HTTPPost = Network()
+        let httpPost: HTTPPost = ProfileNetwork()
         
         let createProfileURL = makeCreateProfileURL()
         

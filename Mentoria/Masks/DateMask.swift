@@ -25,12 +25,12 @@ public class DateMask: Masks {
     }
         
     public func formatString(_ string: String?) -> String {
-        guard let string else {return ""}
+        guard let string else {return K.Strings.empty}
         return mask.formatString(string)
     }
     
     public func formatStringWithRange(range: NSRange, string: String?) -> String {
-        guard let string else {return ""}
+        guard let string else {return K.Strings.empty}
         return mask.formatStringWithRange(range: range, string: string)
     }
     

@@ -5,7 +5,7 @@ import Foundation
 
 import ProfileUseCases
 
-public class GetKeyChainRememberEmailUseCaseGatewayImpl: GetKeyChainUseCaseGateway {
+public class GetKeyChainUseCaseGatewayImpl: GetKeyChainUseCaseGateway {
     
     private let localStorageKeyChainProvider: FetchStorageProvider
     

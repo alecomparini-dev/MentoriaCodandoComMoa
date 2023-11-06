@@ -30,12 +30,11 @@ class SignUpViewControllerFactory {
         
         let validation = Validations()
         
-        let keyChainProviderStrategy = KeyChainProvider(appName: "MentoriaCodandoComMoa")
+        let keyChainProviderStrategy = KeyChainProvider(appName: K.Strings.appName)
         
         let localStorage = ProfileLocalStorage(storageProvider: keyChainProviderStrategy)
         
-        let delKeyChainEmailUseCaseGateway = DeleteKeyChainRememberEmailUseCaseGatewayImpl(localStorageKeyChainProvider: localStorage)
-        
+        let delKeyChainEmailUseCaseGateway = DeleteKeyChainUseCaseGatewayImpl(localStorageKeyChainProvider: localStorage)
         let delKeyChainEmailUseCase = DeleteKeyChainRememberEmailUseCaseImpl(delRememberEmailGateway: delKeyChainEmailUseCaseGateway)
         
         let signUpPresenter = SignUpPresenterImpl(createLoginUseCase: createLoginUseCase,
