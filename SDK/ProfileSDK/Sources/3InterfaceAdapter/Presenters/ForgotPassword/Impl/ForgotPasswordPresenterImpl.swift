@@ -15,9 +15,11 @@ public class ForgotPasswordPresenterImpl: ForgotPasswordPresenter {
     public weak var outputDelegate: ForgotPasswordPresenterOutput?
     
     private let resetPasswordUseCase: ResetPasswordUseCase
+    private let delAuthCredentialsUseCase: DeleteAuthCredentialsUseCase
     
-    public init(resetPasswordUseCase: ResetPasswordUseCase) {
+    public init(resetPasswordUseCase: ResetPasswordUseCase, delAuthCredentialsUseCase: DeleteAuthCredentialsUseCase) {
         self.resetPasswordUseCase = resetPasswordUseCase
+        self.delAuthCredentialsUseCase = delAuthCredentialsUseCase
     }
     
     public func resetPassword(_ userEmail: String?) {
@@ -30,6 +32,7 @@ public class ForgotPasswordPresenterImpl: ForgotPasswordPresenter {
         
         Task {
             if await resetPasswordUseCase.reset(userEmail: userEmail) {
+                try delAuthCredentialsUseCase.delete(key: ProfileUseCasesConstants.credentials)
                 successResetPassword()
                 return
             }

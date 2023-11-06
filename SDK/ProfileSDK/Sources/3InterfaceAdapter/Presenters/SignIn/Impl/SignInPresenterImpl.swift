@@ -7,29 +7,52 @@ import ProfileUseCases
 
 
 public protocol SignInPresenterOutput: AnyObject {
-    func errorSingIn(_ error: String)
-    func successSingIn(_ userId: String)
-//    func successCheckBiometry(message: String)
+    func errorSignIn(_ error: String)
+    func successSignIn(_ userId: String)
+    func loadingLogin(_ isLoading: Bool)
+    func askIfWantToUseBiometrics(title: String, message: String, completion: @escaping (_ acceptUseBiometry: Bool) -> Void )
+
 }
 
 public class SignInPresenterImpl: SignInPresenter  {
     public weak var outputDelegate: SignInPresenterOutput?
+    
+    private var userIDAuth: String?
+    private var email: String = ""
+    private var password: String = ""
+    
     private let authUseCase: AuthenticateUseCase
     private let saveKeyChainEmailUseCase: SaveKeyChainRememberEmailUseCase
     private let getKeyChainEmailUseCase: GetKeyChainRememberEmailUseCase
     private let delKeyChainEmailUseCase: DeleteKeyChainRememberEmailUseCase
+    private let getAuthCredentialsUseCase: GetAuthCredentialsUseCase
+    private let saveAuthCredentialsUseCase: SaveAuthCredentialsUseCase
     private let checkBiometryUseCase: CheckBiometryUseCase
+    private let authenticateWithBiometricsUseCase: AuthenticateWithBiometricsUseCase
     private let emailValidator: EmailValidations
     
-    public init(authUseCase: AuthenticateUseCase, saveKeyChainEmailUseCase: SaveKeyChainRememberEmailUseCase, getKeyChainEmailUseCase: GetKeyChainRememberEmailUseCase, delKeyChainEmailUseCase: DeleteKeyChainRememberEmailUseCase, checkBiometryUseCase: CheckBiometryUseCase, emailValidator: EmailValidations) {
+    public init(authUseCase: AuthenticateUseCase,
+                saveKeyChainEmailUseCase: SaveKeyChainRememberEmailUseCase,
+                getKeyChainEmailUseCase: GetKeyChainRememberEmailUseCase,
+                delKeyChainEmailUseCase: DeleteKeyChainRememberEmailUseCase,
+                getAuthCredentialsUseCase: GetAuthCredentialsUseCase,
+                saveAuthCredentialsUseCase: SaveAuthCredentialsUseCase,
+                checkBiometryUseCase: CheckBiometryUseCase,
+                authenticateWithBiometricsUseCase: AuthenticateWithBiometricsUseCase,
+                emailValidator: EmailValidations) {
         self.authUseCase = authUseCase
         self.saveKeyChainEmailUseCase = saveKeyChainEmailUseCase
         self.getKeyChainEmailUseCase = getKeyChainEmailUseCase
         self.delKeyChainEmailUseCase = delKeyChainEmailUseCase
+        self.getAuthCredentialsUseCase = getAuthCredentialsUseCase
+        self.saveAuthCredentialsUseCase = saveAuthCredentialsUseCase
         self.checkBiometryUseCase = checkBiometryUseCase
+        self.authenticateWithBiometricsUseCase = authenticateWithBiometricsUseCase
         self.emailValidator = emailValidator
     }
-
+    
+    
+//  MARK: - PUBLIC AREA
     public func getEmailKeyChain() -> String? {
         do {
             return try getKeyChainEmailUseCase.getEmail()
@@ -39,22 +62,72 @@ public class SignInPresenterImpl: SignInPresenter  {
         return nil
     }
     
-    private func validations(email: String, password: String) -> String? {
-        if let failMsg = isValidRequiredFields(email: email, password: password) {
-            return failMsg
+    public func login(email: String, password: String, rememberEmail: Bool = false) {
+        self.email = email
+        self.password = password
+        
+        if let msgInvalid = validations() {
+            outputDelegate?.errorSignIn(msgInvalid)
+            return
         }
         
-        return isValidEmail(email: email)
+        Task {
+            do {
+                try await performAuthEmailPassword(email: email, password: password)
+                
+                try configRememberEmail(email: email, rememberEmail)
+                
+                if userNotRespondedUseBiometry() { return }
+                
+                successSignIn()
+            } catch let error {
+                debugPrint(error.localizedDescription)
+                errorSignIn()
+                
+            }
+        }
     }
     
-    private func isValidEmail(email: String) -> String? {
-        if !emailValidator.validate(email: email) {
+    public func loginByBiometry() {
+        Task {
+            if let biometricPreference: BiometricPreference = getBiometricPreference() {
+                switch biometricPreference {
+                    case .accepted(let credentials):
+                        performLoginBiometry(credentials)
+                        
+                    default:
+                        return
+                }
+                
+            }
+        }
+    }
+    
+    
+//  MARK: - PRIVATE AREA
+    private func saveRememberEmail(_ email: String) {
+        do {
+            try saveKeyChainEmailUseCase.save(email)
+        } catch let error {
+            print(error.localizedDescription)
+        }
+    }
+    
+    private func validations() -> String? {
+        if let failMsg = isValidRequiredFields() {
+            return failMsg
+        }
+        return isValidEmail()
+    }
+    
+    private func isValidEmail() -> String? {
+        if !emailValidator.validate(email: self.email) {
             return "\nO email está fora do padrão \n"
         }
         return nil
     }
     
-    private func isValidRequiredFields(email: String, password: String) -> String? {
+    private func isValidRequiredFields() -> String? {
         var fieldFails = [String]()
         
         if email.isEmpty {fieldFails.append("E-mail") }
@@ -65,6 +138,7 @@ public class SignInPresenterImpl: SignInPresenter  {
         if (fieldFails.count > 1) {
             failMsg = "Os campos: \(fieldFails.description), devem estar preenchidos"
         }
+        
         if (fieldFails.count == 1) {
             failMsg = "O campo: \(fieldFails.description), deve estar preenchido"
         }
@@ -79,44 +153,109 @@ public class SignInPresenterImpl: SignInPresenter  {
         }
     }
     
-    public func login(email: String, password: String, rememberEmail: Bool = false) {
-        if let msgInvalid = validations(email: email, password: password) {
-            outputDelegate?.errorSingIn(msgInvalid)
-            return
+    private func errorSignIn() {
+        DispatchQueue.main.async { [weak self] in
+            self?.outputDelegate?.errorSignIn("Email ou Senha inválidos")
         }
-        
-        Task {
-            do {
-                let userId = try await authUseCase.emailPasswordAuth(email: email, password: password)
-                
-                try configRememberEmail(email: email, rememberEmail)
-                
-                let checkBiometryUseCaseDTO: CheckBiometryUseCaseDTO = try checkBiometryUseCase.check()
-                if checkBiometryUseCaseDTO.biometryTypes != .noneBiometry {
-                    
-                }
-                
-                DispatchQueue.main.async { [weak self] in
-                    self?.outputDelegate?.successSingIn(userId)
-                }
-            } catch {
-                DispatchQueue.main.async { [weak self] in
-                    self?.outputDelegate?.errorSingIn("Email ou Senha inválidos")
-                }
+    }
+    
+    private func userNotRespondedUseBiometry() -> Bool {
+        if let biometricPreference: BiometricPreference = getBiometricPreference() {
+            if biometricPreference == .notResponded {
+                askIfWantToUseBiometrics()
+                return true
             }
         }
-        
+        return false
+    }
+    
+    private func performAuthEmailPassword(email: String, password: String) async throws {
+        self.userIDAuth = try await authUseCase.emailPasswordAuth(email: email, password: password)
+    }
+    
+    private func outputLoadingLogin(_ flag: Bool) {
+        DispatchQueue.main.async { [weak self] in
+            self?.outputDelegate?.loadingLogin(flag)
+        }
+    }
+    
+    private func successSignIn() {
+        if let userIDAuth {
+            DispatchQueue.main.async { [weak self] in
+                guard let self else {return}
+                outputDelegate?.successSignIn(userIDAuth)
+            }
+        }
     }
     
     
-//  MARK: - PRIVATE AREA
-    private func saveRememberEmail(_ email: String) {
-        do {
-            try saveKeyChainEmailUseCase.save(email)
-        } catch let error {
-            print(error.localizedDescription)
+//  MARK: - BIOMETRICS FLOW
+    
+    private func performLoginBiometry(_ credentials: CredentialsAlias) {
+        outputLoadingLogin(true)
+        Task {
+            if await !performAuthBiometric() { return outputLoadingLogin(false) }
+            do {
+                try await performAuthEmailPassword(email: credentials.email, password: credentials.password)
+                try configRememberEmail(email: credentials.email, true)
+                successSignIn()
+            } catch let error {
+                debugPrint(error.localizedDescription)
+                errorSignIn()
+            }
+            return
         }
+    }
+    
+    private func getBiometricPreference() -> BiometricPreference? {
+        do {
+            return try getAuthCredentialsUseCase.getCredentials()
+        } catch let error {
+            debugPrint(error.localizedDescription)
+        }
+        return nil
+    }
+    
+    private func performAuthBiometric() async -> Bool {
+        let authenticateBiometricsDTO = await authenticateWithBiometricsUseCase.authenticate(
+            reason: "Use a biometria para se logar",
+            cancelTitle: "Usar email/senha?")
         
+        if !authenticateBiometricsDTO.isAuthenticated! { return false }
+        
+        return true
+    }
+    
+    private func completionAskIfWantToUseBiometrics(_ acceptUseBiometry: Bool) {
+        if acceptUseBiometry {
+            saveCredentials(email: self.email, password: self.password)
+        } else {
+            saveCredentials(email: "", password: "")
+        }
+        successSignIn()
+    }
+    
+    private func askIfWantToUseBiometrics() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else {return}
+            outputDelegate?.askIfWantToUseBiometrics(
+                title: "Cadastrar Biometria",
+                message: "Deseja realizar o login usando a Biometria?",
+                completion: completionAskIfWantToUseBiometrics)
+        }
+    }
+    
+    private func saveCredentials(email: String, password: String) {
+        do {
+            if try saveAuthCredentialsUseCase.save(email: email, password: password) {
+                successSignIn()
+                return
+            }
+            //TODO: FLUXO DE EXEÇÃO PARA QUANDO NAO SALVA AS CREDENCIAIS
+        } catch let error {
+            debugPrint(error.localizedDescription)
+        }
+        return
     }
     
 }

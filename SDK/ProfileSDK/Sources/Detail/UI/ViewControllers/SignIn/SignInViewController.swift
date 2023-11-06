@@ -16,10 +16,13 @@ public protocol SignInViewControllerCoordinator: AnyObject {
 public final class SignInViewController: UIViewController {
     public weak var coordinator: SignInViewControllerCoordinator?
     
+    private var callBiometricsFlow: Bool
+    
     private var signInPresenter: SignInPresenter
     
-    public init(signInPresenter: SignInPresenter) {
+    public init(signInPresenter: SignInPresenter, callBiometricsFlow: Bool) {
         self.signInPresenter = signInPresenter
+        self.callBiometricsFlow = callBiometricsFlow
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -49,6 +52,12 @@ public final class SignInViewController: UIViewController {
         getEmailKeyChain()
     }
     
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if callBiometricsFlow { biometricsFlow() }
+    }
+
+    
     
 //  MARK: - PRIVATE AREA
     private func configure() {
@@ -70,6 +79,38 @@ public final class SignInViewController: UIViewController {
         screen.rememberSwitch.setIsOn(false)
     }
     
+    private func biometricsFlow() {
+        if !isEmailFilledIn() { return }
+        signInPresenter.loginByBiometry()
+    }
+    
+    private func isEmailFilledIn() -> Bool {
+        guard let email = screen.emailLoginView.emailTextField.get.text else {return false}
+        return !email.isEmpty
+    }
+    
+    private func loadingSignInButton(_ isLoading: Bool) {
+        if isLoading {
+            screen.signInButton.setShowLoadingIndicator()
+            return
+        }
+        screen.signInButton.setHideLoadingIndicator()
+    }
+    
+    private func showLoadingLoginButton() {
+        screen.signInButton.setShowLoadingIndicator { build in
+            build
+                .setColor(hexColor: "#282a36")
+                .setHideWhenStopped(true)
+        }
+    }
+    
+    private func callLogin(_ email: String, _ password: String) {
+        showLoadingLoginButton()
+        let rememberEmail = screen.rememberSwitch.get.isOn
+        signInPresenter.login(email: email, password: password, rememberEmail: rememberEmail)
+    }
+        
 }
 
 
@@ -79,13 +120,12 @@ extension SignInViewController: SignInViewDelegate {
     func signInTapped() {
         if let email = screen.emailLoginView.emailTextField.get.text,
            let password = screen.passwordLoginView.passwordTextField.get.text {
-            screen.signInButton.setShowLoadingIndicator { build in
-                build
-                    .setColor(hexColor: "#282a36")
-                    .setHideWhenStopped(true)
+            
+            if !email.isEmpty && password.isEmpty {
+                signInPresenter.loginByBiometry()
+                return
             }
-            let rememberEmail = screen.rememberSwitch.get.isOn
-            signInPresenter.login(email: email, password: password, rememberEmail: rememberEmail)
+            callLogin(email, password)
         }
     }
     
@@ -96,8 +136,6 @@ extension SignInViewController: SignInViewDelegate {
     func forgotPasswordButtonTapped() {
         coordinator?.gotoForgotPassword(screen.passwordLoginView.passwordTextField.get.text)
     }
-
-    
 }
 
 
@@ -105,11 +143,24 @@ extension SignInViewController: SignInViewDelegate {
 //  MARK: - EXTENSION - LoginPresenterOutput
 extension SignInViewController: SignInPresenterOutput {
     
-    public func successSingIn(_ userId: String) {
+    public func askIfWantToUseBiometrics(title: String, message: String, completion: @escaping (_ acceptUseBiometrics: Bool) -> Void) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let actionOk = UIAlertAction(title: "OK", style: .default) { _ in completion(true) }
+        let actionCancel = UIAlertAction(title: "Cancelar", style: .cancel) { _ in completion(false) }
+        alert.addAction(actionOk)
+        alert.addAction(actionCancel)
+        present(alert, animated: true)
+    }
+    
+    public func loadingLogin(_ isLoading: Bool) {
+        loadingSignInButton(isLoading)
+    }
+    
+    public func successSignIn(_ userId: String) {
         coordinator?.gotoHome()
     }
 
-    public func errorSingIn(_ error: String) {
+    public func errorSignIn(_ error: String) {
         let alert = UIAlertController(title: "Aviso", message: error, preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default)
         alert.addAction(action)

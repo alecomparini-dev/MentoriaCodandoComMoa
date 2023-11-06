@@ -14,7 +14,9 @@ public class AuthenticateWithBiometricsUseCaseGatewayImpl: AuthenticateWithBiome
     }
     
     public func authenticate(reason: String, cancelTitle: String?) async -> AuthenticateWithBiometricsUseCaseDTO {
+        
         let biometryGatewayDTO: BiometryAuthenticationGatewayDTO = await biometryAuthentication.authenticate(reason: reason, cancelTitle: cancelTitle)
+        
         return AuthenticateWithBiometricsUseCaseDTO(isAuthenticated: biometryGatewayDTO.isAuthenticated,
                                                     biometryType: biometryGatewayDTO.biometryTypes,
                                                     biometryCanceled: biometryGatewayDTO.biometryCanceled)
