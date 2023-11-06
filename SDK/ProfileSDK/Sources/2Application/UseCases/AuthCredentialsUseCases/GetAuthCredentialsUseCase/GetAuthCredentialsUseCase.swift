@@ -3,6 +3,14 @@
 
 import Foundation
 
+public typealias CredentialsAlias = (email: String, password: String)
+
+public enum BiometricPreference {
+    case notResponded
+    case notAccepted
+    case accepted(credentials: CredentialsAlias)
+}
+
 public protocol GetAuthCredentialsUseCase {
-    func getCredentials() throws -> (email: String, password: String)?
+    func getCredentials() throws -> BiometricPreference
 }

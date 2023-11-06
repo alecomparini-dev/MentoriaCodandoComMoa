@@ -49,6 +49,12 @@ public final class SignInViewController: UIViewController {
         getEmailKeyChain()
     }
     
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        biometricsFlow()
+    }
+    
+    
     
 //  MARK: - PRIVATE AREA
     private func configure() {
@@ -70,6 +76,24 @@ public final class SignInViewController: UIViewController {
         screen.rememberSwitch.setIsOn(false)
     }
     
+    private func biometricsFlow() {
+        if !isEmailFilledIn() { return }
+        signInPresenter.biometricsFlow()
+    }
+    
+    private func isEmailFilledIn() -> Bool {
+        guard let email = screen.emailLoginView.emailTextField.get.text else {return false}
+        return !email.isEmpty
+    }
+    
+    private func loadingSignInButton(_ isLoading: Bool) {
+        if isLoading {
+            screen.signInButton.setShowLoadingIndicator()
+            return
+        }
+        screen.signInButton.setHideLoadingIndicator()
+    }
+        
 }
 
 
@@ -104,6 +128,10 @@ extension SignInViewController: SignInViewDelegate {
 
 //  MARK: - EXTENSION - LoginPresenterOutput
 extension SignInViewController: SignInPresenterOutput {
+    public func loadingLogin(_ isLoading: Bool) {
+        loadingSignInButton(isLoading)
+    }
+    
     
     public func successSingIn(_ userId: String) {
         coordinator?.gotoHome()
