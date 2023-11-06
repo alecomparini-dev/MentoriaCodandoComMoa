@@ -11,10 +11,10 @@ public class SaveKeyChainUseCaseGatewayImpl: SaveKeyChainUseCaseGateway {
     public init(localStorageKeyChainProvider: InsertStorageProvider) {
         self.localStorageKeyChainProvider = localStorageKeyChainProvider
     }
-    
-    public func save(_ value: String) throws {
-        try localStorageKeyChainProvider.insert(value)
+
+    public func save(forKey: String, _ value: Any) throws {
+        try localStorageKeyChainProvider.insert(key: forKey, value)
     }
-    
+
     
 }

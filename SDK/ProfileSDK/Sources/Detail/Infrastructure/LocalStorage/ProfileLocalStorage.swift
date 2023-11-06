@@ -18,10 +18,16 @@ public class ProfileLocalStorage  {
 
 //  MARK: - EXTENSION - InsertStorageProvider
 extension ProfileLocalStorage: InsertStorageProvider {
-
-    @discardableResult
+    
     public func insert<T>(_ object: T) throws -> T? {
-        if let resultInsert =  try storageProvider.insert(object) {
+        if let resultInsert = try storageProvider.insert(object) {
+            return resultInsert
+        }
+        return nil
+    }
+    
+    public func insert<T>(key: String, _ value: T) throws -> T? {
+        if let resultInsert = try storageProvider.insert(key: key, value) {
             return resultInsert
         }
         return nil
@@ -36,7 +42,7 @@ extension ProfileLocalStorage: DeleteStorageProvider {
     public func delete<T>(_ object: T) throws {
         try storageProvider.delete(object)
     }
-    
+        
 }
 
 
@@ -47,7 +53,7 @@ extension ProfileLocalStorage: FetchStorageProvider {
     }
     
     public func fetchByID<T>(_ id: String) throws -> T? {
-        if let resultInsert: T =  try storageProvider.fetchById(id) {
+        if let resultInsert: T = try storageProvider.fetchById(id) {
             return resultInsert
         }
         return nil

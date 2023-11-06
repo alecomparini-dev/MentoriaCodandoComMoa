@@ -26,7 +26,7 @@ class LoginViewControllerFactory {
         let authUseCaseGateway = EmailPasswordAuthenticateUseCaseGatewayImpl(authentication: authentication)
         let authUseCase = AuthenticateUseCaseImpl(authUseCaseGateway: authUseCaseGateway)
         
-        let keyChainProviderStrategy = KeyChainProvider(appName: "MentoriaCodandoComMoa", forKey: "email")
+        let keyChainProviderStrategy = KeyChainProvider(appName: "MentoriaCodandoComMoa")
         
         let localStorage = ProfileLocalStorage(storageProvider: keyChainProviderStrategy)
         

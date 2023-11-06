@@ -49,7 +49,8 @@ public class ProfileSummaryView: UIView {
     
     lazy var logoutButton: ButtonImageBuilder = {
         let img = ImageViewBuilder(systemName: "escape")
-            .setSize(24)
+            .setSize(20)
+            .setContentMode(.center)
         let btn = ButtonImageBuilder()
             .setImageButton(img)
             .setImageWeight(.bold)
@@ -57,8 +58,9 @@ public class ProfileSummaryView: UIView {
             .setConstraints { build in
                 build
                     .setTop.equalTo(screenTitle.get, .top)
-                    .setLeading.equalToSafeArea(36)
-                    .setSize.equalToConstant(24)
+                    .setLeading.equalToSafeArea(16)
+                    .setWidth.equalToConstant(68)
+                    .setHeight.equalToConstant(24)
             }
         btn.get.addTarget(self, action: #selector(logoutButtonTapped), for: .touchUpInside)
         return btn

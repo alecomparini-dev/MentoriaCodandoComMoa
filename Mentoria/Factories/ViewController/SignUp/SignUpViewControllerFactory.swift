@@ -30,7 +30,7 @@ class SignUpViewControllerFactory {
         
         let validation = Validations()
         
-        let keyChainProviderStrategy = KeyChainProvider(appName: "MentoriaCodandoComMoa", forKey: "email")
+        let keyChainProviderStrategy = KeyChainProvider(appName: "MentoriaCodandoComMoa")
         
         let localStorage = ProfileLocalStorage(storageProvider: keyChainProviderStrategy)
         

@@ -56,6 +56,7 @@ public class ListServicesViewController: UIViewController {
         super.viewDidAppear(animated)
         if listServicePresenter.getServices() != nil {return}
         reloadTableView()
+        getUserAuth()
     }
 
     
@@ -72,7 +73,6 @@ public class ListServicesViewController: UIViewController {
 //  MARK: - PRIVATE AREA
     private func configure() {
         configDelegate()
-        getUserAuth()
     }
     
     private func configDelegate() {

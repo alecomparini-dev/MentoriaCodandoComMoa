@@ -12,7 +12,7 @@ public class GetKeyChainRememberEmailUseCaseImpl: GetKeyChainRememberEmailUseCas
     }
     
     public func getEmail() throws -> String? {
-        return try getRememberEmailGateway.get("email")
+        return try getRememberEmailGateway.get(ProfileUseCasesConstants.email) as? String
     }
     
 }
