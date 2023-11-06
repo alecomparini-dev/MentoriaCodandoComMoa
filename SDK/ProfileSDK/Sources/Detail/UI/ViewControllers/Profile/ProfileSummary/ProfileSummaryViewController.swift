@@ -62,7 +62,6 @@ public final class ProfileSummaryViewController: UIViewController {
         configure()
     }
     
-    
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if profilePresenterDTO != nil {return}

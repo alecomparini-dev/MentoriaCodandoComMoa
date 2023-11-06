@@ -19,7 +19,7 @@ import ProfileValidations
 
 class LoginViewControllerFactory {
 
-    static func make() -> SignInViewController {
+    static func make(callBiometricsFlow: Bool?) -> SignInViewController {
         
         let authUseCase = makeAuthUseCase()
         
@@ -55,7 +55,7 @@ class LoginViewControllerFactory {
                                                   authenticateWithBiometricsUseCase: authenticateWithBiometricsUseCase,
                                                   emailValidator: validation)
         
-        return SignInViewController(signInPresenter: signInPresenter)
+        return SignInViewController(signInPresenter: signInPresenter, callBiometricsFlow: callBiometricsFlow ?? false)
     }
     
     

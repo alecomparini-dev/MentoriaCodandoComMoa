@@ -92,6 +92,8 @@ extension HomeTabBarCoordinator: ProfileSummaryViewControllerCoordinator {
             currentScene.rootViewController = nav
         }
         let coordinator = SignInCoordinator(nav)
+        let useBiometric = false
+        coordinator.dataTransfer = useBiometric
         coordinator.start()
         childCoordinator = nil
     }

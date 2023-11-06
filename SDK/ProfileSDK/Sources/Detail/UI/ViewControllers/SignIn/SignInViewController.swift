@@ -16,10 +16,13 @@ public protocol SignInViewControllerCoordinator: AnyObject {
 public final class SignInViewController: UIViewController {
     public weak var coordinator: SignInViewControllerCoordinator?
     
+    private var callBiometricsFlow: Bool
+    
     private var signInPresenter: SignInPresenter
     
-    public init(signInPresenter: SignInPresenter) {
+    public init(signInPresenter: SignInPresenter, callBiometricsFlow: Bool) {
         self.signInPresenter = signInPresenter
+        self.callBiometricsFlow = callBiometricsFlow
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -51,9 +54,9 @@ public final class SignInViewController: UIViewController {
     
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        biometricsFlow()
+        if callBiometricsFlow { biometricsFlow() }
     }
-    
+
     
     
 //  MARK: - PRIVATE AREA
@@ -78,7 +81,7 @@ public final class SignInViewController: UIViewController {
     
     private func biometricsFlow() {
         if !isEmailFilledIn() { return }
-        signInPresenter.biometricsFlow()
+        signInPresenter.loginByBiometry()
     }
     
     private func isEmailFilledIn() -> Bool {
@@ -101,6 +104,11 @@ public final class SignInViewController: UIViewController {
 extension SignInViewController: SignInViewDelegate {
 
     func signInTapped() {
+//        if let email = screen.emailLoginView.emailTextField.get.text, screen.passwordLoginView.passwordTextField.get.text == nil {
+//            
+//            return
+//        }
+        
         if let email = screen.emailLoginView.emailTextField.get.text,
            let password = screen.passwordLoginView.passwordTextField.get.text {
             screen.signInButton.setShowLoadingIndicator { build in
@@ -128,16 +136,34 @@ extension SignInViewController: SignInViewDelegate {
 
 //  MARK: - EXTENSION - LoginPresenterOutput
 extension SignInViewController: SignInPresenterOutput {
+    public func errorSignByBiometry() {
+        
+    }
+    
+    public func successSignByBiometry() {
+        
+    }
+    
+    
+    
+    public func askIfWantToUseBiometrics(title: String, message: String, completion: @escaping (_ acceptUseBiometrics: Bool) -> Void) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let actionOk = UIAlertAction(title: "OK", style: .default) { _ in completion(true) }
+        let actionCancel = UIAlertAction(title: "Não Usar", style: .cancel) { _ in completion(false) }
+        alert.addAction(actionOk)
+        alert.addAction(actionCancel)
+        present(alert, animated: true)
+    }
+    
     public func loadingLogin(_ isLoading: Bool) {
         loadingSignInButton(isLoading)
     }
     
-    
-    public func successSingIn(_ userId: String) {
+    public func successSignIn(_ userId: String) {
         coordinator?.gotoHome()
     }
 
-    public func errorSingIn(_ error: String) {
+    public func errorSignIn(_ error: String) {
         let alert = UIAlertController(title: "Aviso", message: error, preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default)
         alert.addAction(action)

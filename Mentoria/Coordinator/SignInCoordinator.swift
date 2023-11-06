@@ -15,9 +15,20 @@ class SignInCoordinator: Coordinator {
     
     func start() {
         childCoordinator = self
-        var controller = LoginViewControllerFactory.make()
+        var controller = LoginViewControllerFactory.make(callBiometricsFlow: setCallBiometricsFlow() )
         controller = navigationController.pushViewController(controller)
         controller.coordinator = self
+    }
+    
+    
+    
+//  MARK: - PRIVATE AREA
+    
+    private func setCallBiometricsFlow() -> Bool {
+        if let useBiometrics = dataTransfer as? Bool {
+            return useBiometrics
+        }
+        return true
     }
     
 }

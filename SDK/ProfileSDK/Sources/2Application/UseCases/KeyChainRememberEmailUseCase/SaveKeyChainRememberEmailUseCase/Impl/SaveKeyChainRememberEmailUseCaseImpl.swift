@@ -12,7 +12,7 @@ public class SaveKeyChainRememberEmailUseCaseImpl: SaveKeyChainRememberEmailUseC
     }
     
     public func save(_ email: String) throws {
-        try saveKeyChainGateway.save(forKey: ProfileUseCasesConstants.email, email )
+        try saveKeyChainGateway.save(forKey: ProfileUseCasesConstants.email, [email] )
     }
     
 }
