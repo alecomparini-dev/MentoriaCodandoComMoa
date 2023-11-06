@@ -4,8 +4,6 @@
 import Foundation
 
 public class SaveAuthCredentialsUseCaseImpl: SaveAuthCredentialsUseCase {
-    private let forKey = "CREDENTIALS"
-    
     private let saveAuthCredentialsGateway: SaveKeyChainUseCaseGateway
     
     public init(saveAuthCredentialsGateway: SaveKeyChainUseCaseGateway) {
@@ -14,7 +12,7 @@ public class SaveAuthCredentialsUseCaseImpl: SaveAuthCredentialsUseCase {
     
     public func save(email: String, password: String) throws -> Bool {
         do {
-            try saveAuthCredentialsGateway.save(forKey: forKey, [email, password])
+            try saveAuthCredentialsGateway.save(forKey: ProfileUseCasesConstants.credentials, [email, password])
             return true
         } catch {
             return false
