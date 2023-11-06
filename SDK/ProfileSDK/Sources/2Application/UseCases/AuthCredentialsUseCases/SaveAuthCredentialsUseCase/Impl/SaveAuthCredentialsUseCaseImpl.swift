@@ -1,0 +1,24 @@
+//  Created by Alessandro Comparini on 05/11/23.
+//
+
+import Foundation
+
+public class SaveAuthCredentialsUseCaseImpl: SaveAuthCredentialsUseCase {
+    private let forKey = "CREDENTIALS"
+    
+    private let saveAuthCredentialsGateway: SaveKeyChainUseCaseGateway
+    
+    public init(saveAuthCredentialsGateway: SaveKeyChainUseCaseGateway) {
+        self.saveAuthCredentialsGateway = saveAuthCredentialsGateway
+    }
+    
+    public func save(email: String, password: String) throws -> Bool {
+        do {
+            try saveAuthCredentialsGateway.save(forKey: forKey, [email, password])
+            return true
+        } catch {
+            return false
+        }
+    }
+    
+}

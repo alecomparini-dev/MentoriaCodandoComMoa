@@ -4,5 +4,5 @@
 import Foundation
 
 public protocol SaveKeyChainUseCaseGateway {
-    func save(_ value: String) throws
+    func save(forKey: String, _ value: Any) throws
 }

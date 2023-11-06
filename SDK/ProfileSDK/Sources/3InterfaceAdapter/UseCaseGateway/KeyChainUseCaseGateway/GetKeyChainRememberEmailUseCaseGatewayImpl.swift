@@ -13,7 +13,7 @@ public class GetKeyChainRememberEmailUseCaseGatewayImpl: GetKeyChainUseCaseGatew
         self.localStorageKeyChainProvider = localStorageKeyChainProvider
     }
     
-    public func get(_ key: String) throws -> String? {
+    public func get(_ key: String) throws -> Any? {
         return try localStorageKeyChainProvider.fetchByID(key)
     }
     
