@@ -49,12 +49,11 @@ public final class SignInViewController: UIViewController {
     
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        getEmailKeyChain()
+        screen.passwordLoginView.passwordTextField.setCloseEye()
     }
     
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if callBiometricsFlow { biometricsFlow() }
     }
 
     
@@ -62,6 +61,8 @@ public final class SignInViewController: UIViewController {
 //  MARK: - PRIVATE AREA
     private func configure() {
         configDelegate()
+        getEmailKeyChain()
+        biometricsFlow()
     }
     
     private func configDelegate() {
@@ -142,7 +143,6 @@ extension SignInViewController: SignInViewDelegate {
 
 //  MARK: - EXTENSION - LoginPresenterOutput
 extension SignInViewController: SignInPresenterOutput {
-    
     public func askIfWantToUseBiometrics(title: String, message: String, completion: @escaping (_ acceptUseBiometrics: Bool) -> Void) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let actionOk = UIAlertAction(title: "OK", style: .default) { _ in completion(true) }

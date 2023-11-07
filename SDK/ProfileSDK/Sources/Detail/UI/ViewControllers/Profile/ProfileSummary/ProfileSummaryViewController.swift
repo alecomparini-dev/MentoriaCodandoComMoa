@@ -83,6 +83,7 @@ public final class ProfileSummaryViewController: UIViewController {
 
     
 //  MARK: - PRIVATE AREA
+    
     private func configure() {
         configDelegate()
     }
@@ -161,6 +162,16 @@ public final class ProfileSummaryViewController: UIViewController {
         
     }
     
+    private func configScreenToNewProfile() {
+        screen.tableViewScroll.get.reloadData()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+            self.screen.tableViewScroll.get.selectRow(at: IndexPath(row: 6, section: 0), animated: true, scrollPosition: .top)
+        })
+    }
+    
+
+//  MARK: - GET AND SETUP CELL
+    
     private func getProfilePictureTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ProfilePictureTableViewCell.identifier, for: indexPath) as? ProfilePictureTableViewCell
         cell?.configSkeleton()
@@ -229,12 +240,35 @@ public final class ProfileSummaryViewController: UIViewController {
             fieldsCell.updateValue(cell, forKey: key)
         }
     }
-
-    private func configScreenToNewProfile() {
-        screen.tableViewScroll.get.reloadData()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
-            self.screen.tableViewScroll.get.selectRow(at: IndexPath(row: 6, section: 0), animated: true, scrollPosition: .top)
-        })
+    
+    
+//  MARK: - RESIZE PROFILE IMAGE
+    private func convertImageToJPEG(_ image: UIImage) -> Data? {
+        return image.jpegData(compressionQuality: 0.6)
+    }
+    
+    private func resizeImage(_ image: UIImage) -> UIImage? {
+        let targetSize = CGSize(width: 200, height: 200)
+        let size = image.size
+        let widthRatio = targetSize.width / size.width
+        let heightRatio = targetSize.height / size.height
+        
+        var newSize: CGSize
+        
+        if widthRatio > heightRatio {
+            newSize = CGSize(width: size.width * heightRatio, height: size.height * heightRatio)
+        } else {
+            newSize = CGSize(width: size.width * widthRatio, height: size.height * widthRatio)
+        }
+        
+        let rect = CGRect(origin: .zero, size: newSize)
+        
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+        image.draw(in: rect)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage
     }
 }
 
@@ -242,10 +276,10 @@ public final class ProfileSummaryViewController: UIViewController {
 
 //  MARK: - EXTENSION - ProfileSummaryViewDelegate
 extension ProfileSummaryViewController: ProfileSummaryViewDelegate{
+    
     public func logoutButtonTapped() {
         profileSummaryPresenter.logout()
     }
-    
     
 }
 
@@ -309,16 +343,13 @@ extension ProfileSummaryViewController: ProfileSummaryPresenterOutput {
         configScreenToNewProfile()
     }
     
-    public func errorGetUserProfile(title: String, message: String) {
-    }
+    public func errorGetUserProfile(title: String, message: String) {  }
 
     public func successSaveProfileImage(_ profilePresenterDTO: ProfilePresenters.ProfilePresenterDTO?) {
         self.profilePresenterDTO = profilePresenterDTO
     }
     
-    public func errorSaveProfileImage(title: String, message: String) {
-        
-    }
+    public func errorSaveProfileImage(title: String, message: String) {}
 
     
     public func successLogout() {
@@ -329,9 +360,7 @@ extension ProfileSummaryViewController: ProfileSummaryPresenterOutput {
         coordinator?.gotoSignIn()
     }
         
-    
 }
-
 
 
 //  MARK: - EXTENSION - ProfilePictureTableViewCellDelegate
@@ -346,34 +375,4 @@ extension ProfileSummaryViewController: ProfilePictureTableViewCellDelegate {
             profileSummaryPresenter.saveProfileImageData(profilePresenterDTO)
         }
     }
-    
-    private func convertImageToJPEG(_ image: UIImage) -> Data? {
-        return image.jpegData(compressionQuality: 0.6)
-    }
-    
-    private func resizeImage(_ image: UIImage) -> UIImage? {
-        let targetSize = CGSize(width: 200, height: 200)
-        let size = image.size
-        let widthRatio = targetSize.width / size.width
-        let heightRatio = targetSize.height / size.height
-        
-        var newSize: CGSize
-        
-        if widthRatio > heightRatio {
-            newSize = CGSize(width: size.width * heightRatio, height: size.height * heightRatio)
-        } else {
-            newSize = CGSize(width: size.width * widthRatio, height: size.height * widthRatio)
-        }
-        
-        let rect = CGRect(origin: .zero, size: newSize)
-        
-        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
-        image.draw(in: rect)
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        return newImage
-    }
-    
 }
-

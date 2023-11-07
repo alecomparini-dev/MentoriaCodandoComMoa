@@ -67,7 +67,7 @@ public class SignInPresenterImpl: SignInPresenter  {
         self.password = password
         
         if let msgInvalid = validations() {
-            outputDelegate?.errorSignIn(msgInvalid)
+            errorSignIn(msgInvalid)
             return
         }
         
@@ -80,11 +80,12 @@ public class SignInPresenterImpl: SignInPresenter  {
                 if userNotRespondedUseBiometry() { return }
                 
                 successSignIn()
+                
             } catch let error {
                 debugPrint(error.localizedDescription)
-                errorSignIn()
-                
+                errorSignIn("Email ou Senha inválidos")
             }
+            outputLoadingLogin(false)
         }
     }
     
@@ -94,11 +95,10 @@ public class SignInPresenterImpl: SignInPresenter  {
                 switch biometricPreference {
                     case .accepted(let credentials):
                         performLoginBiometry(credentials)
-                        
+                    
                     default:
-                        return
+                        break
                 }
-                
             }
         }
     }
@@ -153,9 +153,9 @@ public class SignInPresenterImpl: SignInPresenter  {
         }
     }
     
-    private func errorSignIn() {
+    private func errorSignIn(_ message: String) {
         DispatchQueue.main.async { [weak self] in
-            self?.outputDelegate?.errorSignIn("Email ou Senha inválidos")
+            self?.outputDelegate?.errorSignIn(message)
         }
     }
     
@@ -201,9 +201,9 @@ public class SignInPresenterImpl: SignInPresenter  {
                 successSignIn()
             } catch let error {
                 debugPrint(error.localizedDescription)
-                errorSignIn()
+                errorSignIn("Email ou Senha inválidos")
             }
-            return
+            outputLoadingLogin(false)
         }
     }
     

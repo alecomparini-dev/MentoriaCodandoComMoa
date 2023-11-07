@@ -23,7 +23,6 @@ class SignInCoordinator: Coordinator {
     
     
 //  MARK: - PRIVATE AREA
-    
     private func setCallBiometricsFlow() -> Bool {
         if let useBiometrics = dataTransfer as? Bool {
             return useBiometrics
