@@ -223,9 +223,6 @@ public final class ProfileRegistrationStep2ViewController: UIViewController {
     private func unregisterKeyboardNotifications() {
         NotificationCenter.default.removeObserver(self)
     }
-    
-
-
 }
 
 
@@ -265,7 +262,6 @@ extension ProfileRegistrationStep2ViewController: ProfileRegistrationStep2Presen
                 addressCell?.stateTextField.get.text = stateShortname
                 setHiddenFieldRequired(addressCell?.stateFieldRequired, true)
             }
-            
         }
         
         if let error {
@@ -289,8 +285,9 @@ extension ProfileRegistrationStep2ViewController: ProfileRegistrationStep2Presen
         
         if !fieldsRequired.isEmpty {
             setFieldsRequired(fields: fieldsRequired)
-            
         }
+        
+        addressCell?.confirmationButtom.setHideLoadingIndicator()
     }
     
     public func createProfile(success: ProfilePresenters.ProfilePresenterDTO?, error: String?) {
@@ -307,10 +304,7 @@ extension ProfileRegistrationStep2ViewController: ProfileRegistrationStep2Presen
             debugPrint(error)
             addressCell?.confirmationButtom.setHideLoadingIndicator()
         }
-        
     }
-
-
     
 }
 
