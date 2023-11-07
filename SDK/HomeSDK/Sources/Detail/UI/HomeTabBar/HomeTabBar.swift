@@ -7,13 +7,14 @@ import CustomComponentsSDK
 public class HomeTabBar {
     
     public var tabBar: TabBarBuilder
-    private let items: [TabBarItems]
+    public let items: [TabBarItems]
     
     public init(items: [TabBarItems]) {
         self.tabBar = TabBarBuilder()
         self.items = items
         configure()
     }
+    
     
     private func configure() {
         tabBar

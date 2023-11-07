@@ -18,15 +18,23 @@ class LoadScreenCoordinator: Coordinator {
         controller = navigationController.pushViewController(controller)
         controller.coordinator = self
     }
+    
+    private func removeLoadingViewController() {
+        navigationController.viewControllers = Array(navigationController.viewControllers.dropFirst(1))
+    }
 
 }
 
 
+//  MARK: - EXTENSION - LoadScreenViewControllerCoordinator
 extension LoadScreenCoordinator: LoadScreenViewControllerCoordinator {
     func gotoSignIn() {
         let coordinator = SignInCoordinator(navigationController)
         coordinator.start()
         childCoordinator = nil
+        
+        removeLoadingViewController()
+        
     }
     
 }

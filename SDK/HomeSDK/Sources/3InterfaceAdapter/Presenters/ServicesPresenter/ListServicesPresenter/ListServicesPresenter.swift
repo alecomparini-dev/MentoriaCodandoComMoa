@@ -14,6 +14,8 @@ public protocol ListServicesPresenter {
     
     func getServices() -> [ServicePresenterDTO]?
     
+    func clearServices()
+    
     func getServiceBy(index: Int) -> ServicePresenterDTO?
     
     func filterServices(_ text: String)

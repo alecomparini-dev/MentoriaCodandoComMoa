@@ -18,12 +18,20 @@ public class ListServicesPresenterImpl: ListServicesPresenter {
     private var servicesData: [ServicePresenterDTO]?
     private var filteredServicesData: [ServicePresenterDTO]?
     
-    
     private let listServicesUseCase: ListServicesUseCase
     
     public init(listServicesUseCase: ListServicesUseCase) {
         self.listServicesUseCase = listServicesUseCase
     }
+    
+    
+//  MARK: - PUBLIC AREA
+    
+    public func clearServices() {
+        servicesData = nil
+        filteredServicesData = nil
+    }
+
     
     public func fetchCurrencies(_ userIDAuth: String) {
 

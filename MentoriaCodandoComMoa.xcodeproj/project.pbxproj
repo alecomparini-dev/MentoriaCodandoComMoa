@@ -42,7 +42,7 @@
 		02A0D34F2AF11D4C00BF25A5 /* LoadScreenCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A0D34E2AF11D4C00BF25A5 /* LoadScreenCoordinator.swift */; };
 		02A0D3522AF13E6600BF25A5 /* ForgotPasswordCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A0D3512AF13E6600BF25A5 /* ForgotPasswordCoordinator.swift */; };
 		02A0D3552AF184E200BF25A5 /* ForgotPasswordViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A0D3542AF184E200BF25A5 /* ForgotPasswordViewControllerFactory.swift */; };
-		02D7D2962AE86283003E4CF4 /* AddServiceCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02D7D2952AE86283003E4CF4 /* AddServiceCoordinator.swift */; };
+		02D7D2962AE86283003E4CF4 /* SaveServiceCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02D7D2952AE86283003E4CF4 /* SaveServiceCoordinator.swift */; };
 		02F3F08D2AEAEFE200C90C59 /* ProfileSDKMain in Frameworks */ = {isa = PBXBuildFile; productRef = 02F3F08C2AEAEFE200C90C59 /* ProfileSDKMain */; };
 		02FFBF122AEAA14B00BBF19C /* ListServicesViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02FFBF112AEAA14B00BBF19C /* ListServicesViewControllerFactory.swift */; };
 /* End PBXBuildFile section */
@@ -86,7 +86,7 @@
 		02A0D34E2AF11D4C00BF25A5 /* LoadScreenCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadScreenCoordinator.swift; sourceTree = "<group>"; };
 		02A0D3512AF13E6600BF25A5 /* ForgotPasswordCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordCoordinator.swift; sourceTree = "<group>"; };
 		02A0D3542AF184E200BF25A5 /* ForgotPasswordViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewControllerFactory.swift; sourceTree = "<group>"; };
-		02D7D2952AE86283003E4CF4 /* AddServiceCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddServiceCoordinator.swift; sourceTree = "<group>"; };
+		02D7D2952AE86283003E4CF4 /* SaveServiceCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveServiceCoordinator.swift; sourceTree = "<group>"; };
 		02E2C39E2AA0FFD30040A2C8 /* MentoriaCodandoComMoa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MentoriaCodandoComMoa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		02FFBF112AEAA14B00BBF19C /* ListServicesViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListServicesViewControllerFactory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -236,7 +236,7 @@
 				026682D72AA7D8A200EE70EC /* HomeTabBarCoordinator.swift */,
 				024340812AD9872B00110844 /* ProfileRegistrationStep1Coordinator.swift */,
 				026FC69A2AD9D0430009D1A3 /* ProfileRegistrationStep2Coordinator.swift */,
-				02D7D2952AE86283003E4CF4 /* AddServiceCoordinator.swift */,
+				02D7D2952AE86283003E4CF4 /* SaveServiceCoordinator.swift */,
 				0249C1942AE9A6230045A126 /* ViewerServiceCoordinator.swift */,
 			);
 			path = Coordinator;
@@ -536,7 +536,7 @@
 				0293DF092AE6D42500716142 /* CreateProfileUseCaseFactory.swift in Sources */,
 				0220550E2AE1C93400C076FC /* DateMask.swift in Sources */,
 				0293DF0C2AE6E5B000716142 /* MasksFactory.swift in Sources */,
-				02D7D2962AE86283003E4CF4 /* AddServiceCoordinator.swift in Sources */,
+				02D7D2962AE86283003E4CF4 /* SaveServiceCoordinator.swift in Sources */,
 				024340822AD9872B00110844 /* ProfileRegistrationStep1Coordinator.swift in Sources */,
 				02995B4B2AB34BBA00615FDC /* LoginViewControllerFactory.swift in Sources */,
 				020924732AB3228D008F8DC8 /* SignUpCoordinator.swift in Sources */,

@@ -36,35 +36,38 @@ class ListServicesTableViewCell: UITableViewCell {
 //  MARK: - SETUP CELL
     
     public func setupCell(_ servicePresenterDTO: ServicePresenterDTO?, _ editCompletionHandler: @escaping editCompletionHandler) {
-        guard let servicePresenterDTO else {return}
+        self.servicePresenterDTO = servicePresenterDTO
+        configCardServiceView()
+        guard let servicePresenterDTO else { return configSkeleton() }
         self.servicePresenterDTO = servicePresenterDTO
         self.editCompletionHander = editCompletionHandler
         resetSkeleton()
-        configCardServiceView()
         
     }
     
 //  MARK: - PUBLIC AREA
     public func configSkeleton() {
-        screen.cardServiceView.titleServiceLabel.setSkeleton { build in
-            build.showSkeleton(.gradientAnimated)
+        DispatchQueue.main.async { [weak self] in
+            guard let self else {return}
+            screen.cardServiceView.titleServiceLabel.setSkeleton { build in
+                build.showSkeleton(.gradientAnimated)
+            }
+            screen.cardServiceView.subTitleServiceLabel.setSkeleton { build in
+                build
+                    .setSkeletonLineSpacing(4)
+                    .showSkeleton(.gradientAnimated)
+            }
+            screen.cardServiceView.durationLabel.setSkeleton { build in
+                build.showSkeleton(.gradientAnimated)
+            }
+            screen.cardServiceView.howMutchLabel.setSkeleton { build in
+                build.showSkeleton(.gradientAnimated)
+            }
+            screen.editView.setSkeleton { build in
+                build.showSkeleton(.gradientAnimated)
+            }
+            screen.editButton.setHidden(true)
         }
-        screen.cardServiceView.subTitleServiceLabel.setSkeleton { build in
-            build
-                .setSkeletonLineSpacing(4)
-                .showSkeleton(.gradientAnimated)
-        }
-        screen.cardServiceView.durationLabel.setSkeleton { build in
-            build.showSkeleton(.gradientAnimated)
-        }
-        screen.cardServiceView.howMutchLabel.setSkeleton { build in
-            build.showSkeleton(.gradientAnimated)
-        }
-        screen.editView.setSkeleton { build in
-            build.showSkeleton(.gradientAnimated)
-        }
-        screen.editButton.setHidden(true)
-        
     }
     
     private func resetSkeleton() {
@@ -75,6 +78,7 @@ class ListServicesTableViewCell: UITableViewCell {
         screen.editView.get.hideSkeleton(transition: .crossDissolve(0))
         screen.editButton.setHidden(false)
     }
+    
 
 //  MARK: - PRIVATE AREA
     
