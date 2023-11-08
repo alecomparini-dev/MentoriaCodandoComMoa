@@ -32,7 +32,7 @@ public class ForgotPasswordPresenterImpl: ForgotPasswordPresenter {
         
         Task {
             if await resetPasswordUseCase.reset(userEmail: userEmail) {
-                try delAuthCredentialsUseCase.delete(key: ProfileUseCasesConstants.credentials)
+                try delAuthCredentialsUseCase.delete(key: userEmail)
                 successResetPassword()
                 return
             }

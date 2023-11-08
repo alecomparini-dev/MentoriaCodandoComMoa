@@ -11,8 +11,8 @@ public class GetAuthCredentialsUseCaseImpl: GetAuthCredentialsUseCase {
         self.getAuthCredentialsGateway = getAuthCredentialsGateway
     }
     
-    public func getCredentials() throws -> BiometricPreference {
-        guard let credentials: [String] = try getAuthCredentialsGateway.get(ProfileUseCasesConstants.credentials) as? [String] else {
+    public func getCredentials(_ userEmail: String) throws -> BiometricPreference {
+        guard let credentials: [String] = try getAuthCredentialsGateway.get(userEmail) as? [String] else {
             return BiometricPreference.notResponded
         }
         

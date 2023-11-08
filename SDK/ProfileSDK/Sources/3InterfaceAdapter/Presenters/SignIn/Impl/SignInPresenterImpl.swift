@@ -77,7 +77,7 @@ public class SignInPresenterImpl: SignInPresenter  {
                 
                 try configRememberEmail(email: email, rememberEmail)
                 
-                if userNotRespondedUseBiometry() { return }
+                if userNotRespondedUseBiometry(email) { return }
                 
                 successSignIn()
                 
@@ -85,17 +85,15 @@ public class SignInPresenterImpl: SignInPresenter  {
                 debugPrint(error.localizedDescription)
                 errorSignIn("Email ou Senha inválidos")
             }
-            outputLoadingLogin(false)
         }
     }
     
-    public func loginByBiometry() {
+    public func loginByBiometry(_ userEmail: String) {
         Task {
-            if let biometricPreference: BiometricPreference = getBiometricPreference() {
+            if let biometricPreference: BiometricPreference = getBiometricPreference(userEmail) {
                 switch biometricPreference {
                     case .accepted(let credentials):
                         performLoginBiometry(credentials)
-                    
                     default:
                         break
                 }
@@ -153,14 +151,8 @@ public class SignInPresenterImpl: SignInPresenter  {
         }
     }
     
-    private func errorSignIn(_ message: String) {
-        DispatchQueue.main.async { [weak self] in
-            self?.outputDelegate?.errorSignIn(message)
-        }
-    }
-    
-    private func userNotRespondedUseBiometry() -> Bool {
-        if let biometricPreference: BiometricPreference = getBiometricPreference() {
+    private func userNotRespondedUseBiometry(_ userEmail: String) -> Bool {
+        if let biometricPreference: BiometricPreference = getBiometricPreference(userEmail) {
             if biometricPreference == .notResponded {
                 askIfWantToUseBiometrics()
                 return true
@@ -175,7 +167,8 @@ public class SignInPresenterImpl: SignInPresenter  {
     
     private func outputLoadingLogin(_ flag: Bool) {
         DispatchQueue.main.async { [weak self] in
-            self?.outputDelegate?.loadingLogin(flag)
+            guard let self else {return}
+            outputDelegate?.loadingLogin(flag)
         }
     }
     
@@ -184,9 +177,19 @@ public class SignInPresenterImpl: SignInPresenter  {
             DispatchQueue.main.async { [weak self] in
                 guard let self else {return}
                 outputDelegate?.successSignIn(userIDAuth)
+                outputLoadingLogin(false)
             }
         }
     }
+    
+    private func errorSignIn(_ message: String) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else {return}
+            outputDelegate?.errorSignIn(message)
+            outputLoadingLogin(false)
+        }
+    }
+
     
     
 //  MARK: - BIOMETRICS FLOW
@@ -203,13 +206,12 @@ public class SignInPresenterImpl: SignInPresenter  {
                 debugPrint(error.localizedDescription)
                 errorSignIn("Email ou Senha inválidos")
             }
-            outputLoadingLogin(false)
         }
     }
     
-    private func getBiometricPreference() -> BiometricPreference? {
+    private func getBiometricPreference(_ userEmail: String) -> BiometricPreference? {
         do {
-            return try getAuthCredentialsUseCase.getCredentials()
+            return try getAuthCredentialsUseCase.getCredentials(userEmail)
         } catch let error {
             debugPrint(error.localizedDescription)
         }

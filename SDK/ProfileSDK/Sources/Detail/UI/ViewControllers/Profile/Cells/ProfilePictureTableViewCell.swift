@@ -27,34 +27,16 @@ class ProfilePictureTableViewCell: UITableViewCell {
     
 //  MARK: - SETUP CELL
     public func setupCell(_ viewController: UIViewController, profilePresenterDTO: ProfilePresenterDTO?, profileImage: Data?) {
-        guard let profilePresenterDTO else {return}
+        guard let profilePresenterDTO else {return configSkeleton()}
         configProfilePicture(viewController)
         resetSkeleton(profilePresenterDTO)
-        configUserName(profilePresenterDTO.name)
-        professionText.setText(profilePresenterDTO.fieldOfWork)
-        if let profileImage {
-            profilePictureView.setImagePicture(profileImage)
-        }
+        populateFields(profilePresenterDTO, profileImage)
     }
     
-    private func configUserName(_ userName: String?) {
-        guard let userName else {return}
-        let wordsName = userName.split(separator: " ")
-        var name = ""
-        if wordsName.count == 1 {
-            name = String(wordsName[0])
-        } else {
-            name = String(wordsName[0] + " " + (wordsName.last ?? ""))
-        }
-        
-        userNameText.setText(name)
-        
-    }
-    
-    
+
 //  MARK: - LAZY AREA
     lazy var profilePictureView: ProfilePictureBuilder = {
-        let comp = ProfilePictureBuilder(size: 112)
+        let comp = ProfilePictureBuilder(size: 120)
             .setBackgroundColor(hexColor: "#FFFFFF")
             .setTintColor("#282a36")
             .setConstraints { build in
@@ -72,7 +54,7 @@ class ProfilePictureTableViewCell: UITableViewCell {
             .setConstraints { build in
                 build
                     .setTop.equalTo(profilePictureView.get, .bottom, 16)
-                    .setLeading.setTrailing.equalToSafeArea(16)
+                    .setLeading.setTrailing.equalToSafeArea(24)
                     .setHeight.equalToConstant(30)
             }
         return comp
@@ -85,30 +67,14 @@ class ProfilePictureTableViewCell: UITableViewCell {
             .setConstraints { build in
                 build
                     .setTop.equalTo(userNameText.get, .bottom, 8)
-                    .setLeading.setTrailing.equalToSafeArea(16)
+                    .setLeading.setTrailing.equalToSafeArea(24)
                     .setHeight.equalToConstant(20)
             }
         return comp
     }()
     
-    
-//  MARK: - PUBLIC AREA
-    public func configSkeleton() {
-        profilePictureView.profileImage.setSkeleton { build in
-            build.showSkeleton(.gradientAnimated)
-        }
-        userNameText.setSkeleton { build in
-            build.showSkeleton(.gradientAnimated)
-        }
-        professionText.setSkeleton { build in
-            build.setColorSkeleton(hexColor: "#aacff9")
-                .showSkeleton(.gradientAnimated)
-        }
-    }
-    
-    
+        
 //  MARK: - PRIVATE AREA
-    
     private func configure() {
         addElements()
         configConstraints()
@@ -126,6 +92,26 @@ class ProfilePictureTableViewCell: UITableViewCell {
         professionText.applyConstraint()
     }
     
+    private func populateFields(_ profilePresenterDTO: ProfilePresenterDTO, _ profileImage: Data?) {
+        configUserName(profilePresenterDTO.name)
+        professionText.setText(profilePresenterDTO.fieldOfWork)
+        if let profileImage {
+            profilePictureView.setImagePicture(profileImage)
+        }
+    }
+    
+    private func configUserName(_ userName: String?) {
+        guard let userName else {return}
+        let wordsName = userName.split(separator: " ")
+        var name = ""
+        if wordsName.count == 1 {
+            name = String(wordsName[0])
+        } else {
+            name = String(wordsName[0] + " " + (wordsName.last ?? ""))
+        }
+        userNameText.setText(name)
+    }
+    
     private func configProfilePicture(_ viewController: UIViewController) {
         profilePictureView
             .setChooseSource(viewController: viewController, { build in
@@ -140,6 +126,27 @@ class ProfilePictureTableViewCell: UITableViewCell {
                         delegate?.saveProfileImage(imageProfile)
                     }
             })
+        
+    }
+    
+    private func configSkeleton() {
+        profilePictureView.profileImage.setSkeleton { build in
+            build.showSkeleton(.gradientAnimated)
+        }
+
+        DispatchQueue.main.async { [weak self] in
+            guard let self else {return}
+            userNameText.setSkeleton { build in
+                build.showSkeleton(.gradientAnimated)
+            }
+            professionText.setSkeleton { build in
+                build.setColorSkeleton(hexColor: "#aacff9")
+                    .showSkeleton(.gradientAnimated)
+            }
+        }
+        
+
+
     }
     
     private func resetSkeleton(_ profilePresenterDTO: ProfilePresenterDTO) {

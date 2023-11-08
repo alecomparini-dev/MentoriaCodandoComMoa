@@ -38,8 +38,7 @@ class ListServicesTableViewCell: UITableViewCell {
     public func setupCell(_ servicePresenterDTO: ServicePresenterDTO?, _ editCompletionHandler: @escaping editCompletionHandler) {
         self.servicePresenterDTO = servicePresenterDTO
         configCardServiceView()
-        guard let servicePresenterDTO else { return configSkeleton() }
-        self.servicePresenterDTO = servicePresenterDTO
+        guard servicePresenterDTO != nil else { return configSkeleton() }
         self.editCompletionHander = editCompletionHandler
         resetSkeleton()
         

@@ -50,6 +50,7 @@ public final class SignInViewController: UIViewController {
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         screen.passwordLoginView.passwordTextField.setCloseEye()
+        getEmailKeyChain()
     }
     
     public override func viewDidAppear(_ animated: Bool) {
@@ -82,7 +83,9 @@ public final class SignInViewController: UIViewController {
     
     private func biometricsFlow() {
         if !isEmailFilledIn() { return }
-        signInPresenter.loginByBiometry()
+        if let email = screen.emailLoginView.emailTextField.get.text {
+            signInPresenter.loginByBiometry(email)
+        }
     }
     
     private func isEmailFilledIn() -> Bool {
@@ -123,7 +126,7 @@ extension SignInViewController: SignInViewDelegate {
            let password = screen.passwordLoginView.passwordTextField.get.text {
             
             if !email.isEmpty && password.isEmpty {
-                signInPresenter.loginByBiometry()
+                signInPresenter.loginByBiometry(email)
                 return
             }
             callLogin(email, password)

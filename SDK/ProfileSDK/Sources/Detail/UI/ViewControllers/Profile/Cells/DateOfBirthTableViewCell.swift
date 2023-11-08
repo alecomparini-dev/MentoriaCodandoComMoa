@@ -67,27 +67,14 @@ class DateOfBirthTableViewCell: UITableViewCell {
     }()
 
     
-//  MARK: - PUBLIC AREA
-    public func configSkeleton() {
-        dateOfBirthLabelText.setSkeleton { build in
-            build
-                .showSkeleton(.gradientAnimated)
-        }
-        dateOfBirthTextField.setSkeleton { build in
-            build
-                .showSkeleton(.gradientAnimated)
-        }
-    }
-    
-    
 //  MARK: - SETUP CELL
     public func setupCell(_ profilePresenterDTO: ProfilePresenterDTO?) {
-        guard let profilePresenterDTO else {return}
+        guard let profilePresenterDTO else {return configSkeleton()}
         resetSkeleton()
         dateOfBirthTextField.setText(profilePresenterDTO.dateOfBirth)
     }
     
-    
+
 //  MARK: - PRIVATE AREA
     
     private func configure() {
@@ -106,7 +93,23 @@ class DateOfBirthTableViewCell: UITableViewCell {
         dateOfBirthTextField.applyConstraint()
         fieldRequired.applyConstraint()
     }
-        
+
+    private func configSkeleton() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else {return}
+            dateOfBirthLabelText.setSkeleton { build in
+                build
+                    .showSkeleton(.gradientAnimated)
+            }
+            dateOfBirthTextField.setSkeleton { build in
+                build
+                    .showSkeleton(.gradientAnimated)
+            }
+
+        }
+
+    }
+    
     private func resetSkeleton() {
         dateOfBirthLabelText.get.hideSkeleton()
         dateOfBirthTextField.get.hideSkeleton()

@@ -44,6 +44,8 @@ extension LocalAuthentication: BiometryAuthentication {
         do {
             if let cancelTitle { context.localizedCancelTitle = cancelTitle }
             
+            context.touchIDAuthenticationAllowableReuseDuration = 0
+            
             try await context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason)
             
             biometryGatewayDTO.isAuthenticated = true

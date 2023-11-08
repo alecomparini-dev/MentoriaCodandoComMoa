@@ -20,7 +20,7 @@ class FieldOfWorkTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
+        
 //  MARK: - LAZY AREA
     
     lazy var fieldOfWorkLabelText: CustomText = {
@@ -62,30 +62,31 @@ class FieldOfWorkTableViewCell: UITableViewCell {
         return comp
     }()
     
-
-//  MARK: - PUBLIC AREA
-    public func configSkeleton() {
-        fieldOfWorkLabelText.setSkeleton { build in
-            build
-                .showSkeleton(.gradientAnimated)
-        }
-        fieldOfWorkTextField.setSkeleton { build in
-            build
-                .showSkeleton(.gradientAnimated)
-        }
-    }
-    
     
 //  MARK: - SETUP CELL
     public func setupCell(_ profilePresenterDTO: ProfilePresenterDTO?) {
-        guard let profilePresenterDTO else {return}
+        guard let profilePresenterDTO else { return configSkeleton()}
         resetSkeleton()
         fieldOfWorkTextField.setText(profilePresenterDTO.fieldOfWork)
     }
     
+
     
 //  MARK: - PRIVATE AREA
-    
+    private func configSkeleton() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else {return}
+            fieldOfWorkLabelText.setSkeleton { build in
+                build
+                    .showSkeleton(.gradientAnimated)
+            }
+            fieldOfWorkTextField.setSkeleton { build in
+                build
+                    .showSkeleton(.gradientAnimated)
+            }
+        }
+    }
+
     private func configure() {
         addElements()
         configConstraints()

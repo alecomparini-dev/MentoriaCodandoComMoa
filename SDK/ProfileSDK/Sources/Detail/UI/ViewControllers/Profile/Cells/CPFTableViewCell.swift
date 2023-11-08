@@ -70,22 +70,9 @@ class CPFTableViewCell: UITableViewCell {
     
 //  MARK: - SETUP CELL
     public func setupCell(_ profilePresenterDTO: ProfilePresenterDTO?) {
-        guard let profilePresenterDTO else {return}
+        guard let profilePresenterDTO else {return configSkeleton()}
         resetSkeleton()
         cpfTextField.setText(profilePresenterDTO.cpf)
-    }
-
-    
-//  MARK: - PUBLIC AREA
-    public func configSkeleton() {
-        cpfLabelText.setSkeleton { build in
-            build
-                .showSkeleton(.gradientAnimated)
-        }
-        cpfTextField.setSkeleton { build in
-            build
-                .showSkeleton(.gradientAnimated)
-        }
     }
     
     
@@ -107,43 +94,27 @@ class CPFTableViewCell: UITableViewCell {
         cpfTextField.applyConstraint()
         fieldRequired.applyConstraint()
     }
-        
+     
+    private func configSkeleton() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else {return}
+            cpfLabelText.setSkeleton { build in
+                build
+                    .showSkeleton(.gradientAnimated)
+            }
+            cpfTextField.setSkeleton { build in
+                build
+                    .showSkeleton(.gradientAnimated)
+            }
+
+        }
+
+    }
+    
     private func resetSkeleton() {
         cpfLabelText.get.hideSkeleton()
         cpfTextField.get.hideSkeleton()
     }
-
-    
-//    private func configSkeleton() {
-//        cpfTextField.get.isSkeletonable = true
-//        cpfTextField.get.showAnimatedGradientSkeleton()
-//        cpfLabelText.get.isSkeletonable = true
-//        cpfLabelText.get.showAnimatedGradientSkeleton()
-        
-//
-//        let skeleton = ViewBuilder()
-//            .setBackgroundColor(color: .lightGray)
-//            .setConstraints { build in
-//                build
-//                    .setAlignmentCenterXY.equalToSafeArea
-//                    .setWidth.equalToConstant(250)
-//                    .setHeight.equalToConstant(50)
-//            }
-//
-//        skeleton.add(insideTo: self.contentView)
-//        skeleton.applyConstraint()
-//
-//        let skeletonLayer = UIView(frame: CGRect(origin: CGPoint(x: -50, y: 0), size: CGSize(width: 50, height: 50)))
-//        skeletonLayer.backgroundColor = UIColor.black.withAlphaComponent(0.05)
-//        skeletonLayer.clipsToBounds = true
-//        skeleton.get.layer.masksToBounds = true
-//        skeleton.get.addSubview(skeletonLayer)
-//
-//
-//        UIView.animate(withDuration: 1.5, delay: 0, options: [.curveLinear, .repeat], animations: { [self] in
-//            skeletonLayer.frame.origin.x = 250
-//        }, completion: nil)
-//    }
 
 }
 

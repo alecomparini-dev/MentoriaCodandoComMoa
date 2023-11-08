@@ -54,7 +54,7 @@ public class ListServicesViewController: UIViewController {
     
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if listServicePresenter.getServices() != nil {return }
+        if listServicePresenter.getServices() != nil { return }
         reload()
     }
     
@@ -62,25 +62,13 @@ public class ListServicesViewController: UIViewController {
 //  MARK: - DATA TRANSFER
     public func setDataTransfer(_ data: Any?) {
         if let reload = data as? Bool {
-            if reload {
-                self.reload()
-            }
+            if reload { self.reload() }
         }
     }
     
     
 //  MARK: - PRIVATE AREA
-    private func reload() {
-        setHiddenServiceCustomText(true)
-        listServicePresenter.clearServices()
-        reloadTableView()
-        fetchListServices()
-    }
-    
-    private func setHiddenServiceCustomText(_ flag: Bool) {
-        screen.addServiceCustomText.setHidden(flag)
-    }
-    
+
     private func configure() {
         configDelegate()
     }
@@ -103,7 +91,18 @@ public class ListServicesViewController: UIViewController {
     private func configListServicePresenterDelegate() {
         listServicePresenter.outputDelegate = self
     }
-        
+
+    private func reload() {
+        setHiddenServiceCustomText(true)
+        listServicePresenter.clearServices()
+        reloadTableView()
+        fetchListServices()
+    }
+    
+    private func setHiddenServiceCustomText(_ flag: Bool) {
+        screen.addServiceCustomText.setHidden(flag)
+    }
+
     private func fetchListServices() {
         // TODO: - RETIRAR ESTE TRECHO DAQUI, USAR O PADRAO DO CLEAN ARCH
         Task {
@@ -123,10 +122,17 @@ public class ListServicesViewController: UIViewController {
         listServicePresenter.filterServices(text)
     }
     
+    private func configShowOrHideServiceCustomText() {
+        setHiddenServiceCustomText(true)
+        guard let service = listServicePresenter.getServices() else { return setHiddenServiceCustomText(false) }
+        if !service.isEmpty { return }
+        setHiddenServiceCustomText(false)
+    }
 }
 
 
-//  MARK: -
+//  MARK: - EXTENSION - ListServicesViewDelegate
+
 extension ListServicesViewController: ListServicesViewDelegate {
     
     public func searchTextFieldEditing(_ textField: UITextField) {
@@ -141,6 +147,7 @@ extension ListServicesViewController: ListServicesViewDelegate {
 
 
 //  MARK: - EXTENSION - UITableViewDelegate
+
 extension ListServicesViewController: UITableViewDelegate {
 
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -155,6 +162,7 @@ extension ListServicesViewController: UITableViewDelegate {
 
 
 //  MARK: - EXTENSION - UITableViewDataSource
+
 extension ListServicesViewController: UITableViewDataSource {
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -183,13 +191,12 @@ extension ListServicesViewController: ListServicesPresenterOutput {
     public func successFetchListServices() {
         filterServices(screen.searchTextField.get.text)
         reloadTableView()
-        if let services = listServicePresenter.getServices() {
-            setHiddenServiceCustomText(!services.isEmpty)
-        }
+        configShowOrHideServiceCustomText()
     }
     
     public func errorFetchListServices(title: String, message: String) {
         debugPrint(message)
+        setHiddenServiceCustomText(true)
     }
     
     public func reloadTableView() {

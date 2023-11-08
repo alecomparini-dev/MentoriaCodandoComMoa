@@ -70,22 +70,9 @@ class PhoneNumberTableViewCell: UITableViewCell {
     
 //  MARK: - SETUP CELL
     public func setupCell(_ profilePresenterDTO: ProfilePresenterDTO?) {
-        guard let profilePresenterDTO else {return}
+        guard let profilePresenterDTO else { return configSkeleton()}
         resetSkeleton()
         phoneNumberTextField.setText(profilePresenterDTO.cellPhoneNumber)
-    }
-    
-    
-//  MARK: - PUBLIC AREA
-    public func configSkeleton() {
-        phoneNumberLabelText.setSkeleton { build in
-            build
-                .showSkeleton(.gradientAnimated)
-        }
-        phoneNumberTextField.setSkeleton { build in
-            build
-                .showSkeleton(.gradientAnimated)
-        }
     }
     
     
@@ -108,6 +95,20 @@ class PhoneNumberTableViewCell: UITableViewCell {
         fieldRequired.applyConstraint()
     }
         
+    private func configSkeleton() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else {return}
+            phoneNumberLabelText.setSkeleton { build in
+                build
+                    .showSkeleton(.gradientAnimated)
+            }
+            phoneNumberTextField.setSkeleton { build in
+                build
+                    .showSkeleton(.gradientAnimated)
+            }
+        }
+    }
+
     private func resetSkeleton() {
         phoneNumberLabelText.get.hideSkeleton()
         phoneNumberTextField.get.hideSkeleton()

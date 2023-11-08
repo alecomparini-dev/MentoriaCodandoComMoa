@@ -29,8 +29,7 @@ class ViewerServiceCoordinator: NSObject, Coordinator {
         if #available(iOS 15.0, *) {
             controller.setBottomSheet({ build in
                 build
-                    .setDetents(.medium)
-                    .setDetents(.large)
+                    .setDetents([.medium, .large])
                     .setCornerRadius(24)
                     .setGrabbervisible(false)
                     .setScrollingExpandsWhenScrolledToEdge(false)

@@ -12,7 +12,7 @@ public class SaveAuthCredentialsUseCaseImpl: SaveAuthCredentialsUseCase {
     
     public func save(email: String, password: String) throws -> Bool {
         do {
-            try saveAuthCredentialsGateway.save(forKey: ProfileUseCasesConstants.credentials, [email, password])
+            try saveAuthCredentialsGateway.save(forKey: email, [email, password])
             return true
         } catch {
             return false

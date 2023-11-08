@@ -57,12 +57,51 @@ class SummaryAddressTableViewCell: UITableViewCell {
     
 //  MARK: - SETUP CELL
     public func setupCell(_ profilePresenterDTO: ProfilePresenterDTO?) {
-        guard let profilePresenterDTO else {return}
+        guard let profilePresenterDTO else { return configSkeleton()}
         resetSkeleton()
         makeAddress(profilePresenterDTO)
     }
     
     
+//  MARK: - PRIVATE AREA
+
+    private func configure() {
+        addElements()
+        configConstraints()
+    }
+    
+    private func addElements() {
+        summaryAddressText.add(insideTo: self.contentView)
+        summaryAddressTextView.add(insideTo: self.contentView)
+    }
+    
+    private func configConstraints() {
+        summaryAddressText.applyConstraint()
+        summaryAddressTextView.applyConstraint()
+    }
+    
+    private func configSkeleton() {
+        summaryAddressTextView.setInsertText("")
+        DispatchQueue.main.async { [weak self] in
+            guard let self else {return}
+            summaryAddressText.setSkeleton { build in
+                build
+                    .showSkeleton(.gradientAnimated)
+            }
+        }
+        summaryAddressTextView.setSkeleton { build in
+            build
+                .showSkeleton(.gradientAnimated)
+        }
+    }
+
+    private func resetSkeleton() {
+        summaryAddressText.get.hideSkeleton()
+        summaryAddressTextView.get.hideSkeleton()
+    }
+
+    
+//  MARK: - MAKE TEXT VIEW
     private func makeAddress(_ profilePresenterDTO: ProfilePresenterDTO?) {
         summaryAddressTextView.setClearText()
         makeStreet(profilePresenterDTO)
@@ -103,41 +142,6 @@ class SummaryAddressTableViewCell: UITableViewCell {
     
     private func insertBreakLine() {
         summaryAddressTextView.setInsertText("\n")
-    }
-    
-    
-//  MARK: - PUBLIC AREA
-    public func configSkeleton() {
-        summaryAddressText.setSkeleton { build in
-            build
-                .showSkeleton(.gradientAnimated)
-        }
-        summaryAddressTextView.setSkeleton { build in
-            build
-                .showSkeleton(.gradientAnimated)
-        }
-    }
-    
-    
-//  MARK: - PRIVATE AREA
-    private func configure() {
-        addElements()
-        configConstraints()
-    }
-    
-    private func addElements() {
-        summaryAddressText.add(insideTo: self.contentView)
-        summaryAddressTextView.add(insideTo: self.contentView)
-    }
-    
-    private func configConstraints() {
-        summaryAddressText.applyConstraint()
-        summaryAddressTextView.applyConstraint()
-    }
-    
-    private func resetSkeleton() {
-        summaryAddressText.get.hideSkeleton()
-        summaryAddressTextView.get.hideSkeleton()
     }
 
 }
