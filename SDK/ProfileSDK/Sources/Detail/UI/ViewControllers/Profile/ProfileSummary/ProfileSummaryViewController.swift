@@ -91,7 +91,7 @@ public final class ProfileSummaryViewController: UIViewController {
     }
     
     private func fetchUserProfile() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3.5, execute: { [weak self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: { [weak self] in
             self?.profileSummaryPresenter.fetchUserProfile()
         })
 
@@ -241,27 +241,7 @@ public final class ProfileSummaryViewController: UIViewController {
     }
     
     private func resizeImage(_ image: UIImage) -> UIImage? {
-        let targetSize = CGSize(width: 200, height: 200)
-        let size = image.size
-        let widthRatio = targetSize.width / size.width
-        let heightRatio = targetSize.height / size.height
-        
-        var newSize: CGSize
-        
-        if widthRatio > heightRatio {
-            newSize = CGSize(width: size.width * heightRatio, height: size.height * heightRatio)
-        } else {
-            newSize = CGSize(width: size.width * widthRatio, height: size.height * widthRatio)
-        }
-        
-        let rect = CGRect(origin: .zero, size: newSize)
-        
-        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
-        image.draw(in: rect)
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        return newImage
+        return image.resizeImage(targetSize: CGSize(width: 200, height: 200))
     }
 }
 

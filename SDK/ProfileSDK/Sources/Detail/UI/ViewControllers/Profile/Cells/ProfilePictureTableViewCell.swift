@@ -55,6 +55,7 @@ class ProfilePictureTableViewCell: UITableViewCell {
                 build
                     .setTop.equalTo(profilePictureView.get, .bottom, 16)
                     .setLeading.setTrailing.equalToSafeArea(24)
+                    .setHorizontalAlignmentX.equalToSafeArea
                     .setHeight.equalToConstant(30)
             }
         return comp
@@ -67,8 +68,10 @@ class ProfilePictureTableViewCell: UITableViewCell {
             .setConstraints { build in
                 build
                     .setTop.equalTo(userNameText.get, .bottom, 8)
-                    .setLeading.setTrailing.equalToSafeArea(24)
-                    .setHeight.equalToConstant(20)
+//                    .setLeading.setTrailing.equalToSafeArea(24)
+                    .setHorizontalAlignmentX.equalToSafeArea
+                    .setHeight.equalToConstant(24)
+                    .setWidth.greaterThanOrEqualToConstant(160)
             }
         return comp
     }()
@@ -81,9 +84,9 @@ class ProfilePictureTableViewCell: UITableViewCell {
     }
     
     private func addElements() {
-        profilePictureView.add(insideTo: self.contentView)
-        userNameText.add(insideTo: self.contentView)
-        professionText.add(insideTo: self.contentView)
+        profilePictureView.add(insideTo: contentView)
+        userNameText.add(insideTo: contentView)
+        professionText.add(insideTo: contentView)
     }
     
     private func configConstraints() {
@@ -126,34 +129,30 @@ class ProfilePictureTableViewCell: UITableViewCell {
                         delegate?.saveProfileImage(imageProfile)
                     }
             })
-        
     }
     
     private func configSkeleton() {
         profilePictureView.profileImage.setSkeleton { build in
-            build.showSkeleton(.gradientAnimated)
+            build.apply()
         }
-
-        DispatchQueue.main.async { [weak self] in
-            guard let self else {return}
-            userNameText.setSkeleton { build in
-                build.showSkeleton(.gradientAnimated)
-            }
-            professionText.setSkeleton { build in
-                build.setColorSkeleton(hexColor: "#aacff9")
-                    .showSkeleton(.gradientAnimated)
-            }
+        userNameText.setSkeleton { build in
+            build
+                .setCornerRadius(4)
+                .apply()
         }
-        
-
-
+        professionText.setSkeleton { build in
+            build
+                .setCornerRadius(4)
+                .setColorSkeleton(hexColor: "#aacff9")
+                .apply()
+        }
     }
     
     private func resetSkeleton(_ profilePresenterDTO: ProfilePresenterDTO) {
-        profilePictureView.profileImage.get.hideSkeleton()
         if profilePresenterDTO.name == nil || profilePresenterDTO.name!.isEmpty {return}
-        userNameText.get.hideSkeleton()
-        professionText.get.hideSkeleton()
+        profilePictureView.profileImage.skeleton?.hideSkeleton()
+        userNameText.skeleton?.hideSkeleton()
+        professionText.skeleton?.hideSkeleton()
     }
     
     

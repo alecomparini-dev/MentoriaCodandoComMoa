@@ -66,7 +66,7 @@ class FieldOfWorkTableViewCell: UITableViewCell {
 //  MARK: - SETUP CELL
     public func setupCell(_ profilePresenterDTO: ProfilePresenterDTO?) {
         guard let profilePresenterDTO else { return configSkeleton()}
-        resetSkeleton()
+//        resetSkeleton()
         fieldOfWorkTextField.setText(profilePresenterDTO.fieldOfWork)
     }
     
@@ -76,14 +76,14 @@ class FieldOfWorkTableViewCell: UITableViewCell {
     private func configSkeleton() {
         DispatchQueue.main.async { [weak self] in
             guard let self else {return}
-            fieldOfWorkLabelText.setSkeleton { build in
-                build
-                    .showSkeleton(.gradientAnimated)
-            }
-            fieldOfWorkTextField.setSkeleton { build in
-                build
-                    .showSkeleton(.gradientAnimated)
-            }
+//            fieldOfWorkLabelText.setSkeleton { build in
+//                build
+//                    .showSkeleton(.gradientAnimated)
+//            }
+//            fieldOfWorkTextField.setSkeleton { build in
+//                build
+//                    .showSkeleton(.gradientAnimated)
+//            }
         }
     }
 

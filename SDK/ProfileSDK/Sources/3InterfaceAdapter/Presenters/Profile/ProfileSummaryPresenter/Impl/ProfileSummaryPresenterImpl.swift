@@ -44,7 +44,7 @@ public class ProfileSummaryPresenterImpl: ProfileSummaryPresenter {
         Task {
             do {
                 guard let userIDAuth = try await getUserAuthenticated() else { return }
-                
+                debugPrint(userIDAuth)
                 let getProfileUseCaseDTO: ProfileUseCaseDTO? = try await getProfileUseCase.getProfile(userIDAuth)
                 
                 profilePresenter = MappersProfilePresenter.mapperTo(profileUseCaseDTO: getProfileUseCaseDTO)

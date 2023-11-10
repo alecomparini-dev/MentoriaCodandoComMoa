@@ -98,14 +98,14 @@ class PhoneNumberTableViewCell: UITableViewCell {
     private func configSkeleton() {
         DispatchQueue.main.async { [weak self] in
             guard let self else {return}
-            phoneNumberLabelText.setSkeleton { build in
-                build
-                    .showSkeleton(.gradientAnimated)
-            }
-            phoneNumberTextField.setSkeleton { build in
-                build
-                    .showSkeleton(.gradientAnimated)
-            }
+//            phoneNumberLabelText.setSkeleton { build in
+//                build
+//                    .showSkeleton(.gradientAnimated)
+//            }
+//            phoneNumberTextField.setSkeleton { build in
+//                build
+//                    .showSkeleton(.gradientAnimated)
+//            }
         }
     }
 

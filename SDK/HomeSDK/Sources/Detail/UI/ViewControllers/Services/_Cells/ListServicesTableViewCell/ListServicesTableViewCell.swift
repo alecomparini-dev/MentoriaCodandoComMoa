@@ -48,24 +48,24 @@ class ListServicesTableViewCell: UITableViewCell {
     public func configSkeleton() {
         DispatchQueue.main.async { [weak self] in
             guard let self else {return}
-            screen.cardServiceView.titleServiceLabel.setSkeleton { build in
-                build.showSkeleton(.gradientAnimated)
-            }
-            screen.cardServiceView.subTitleServiceLabel.setSkeleton { build in
-                build
-                    .setSkeletonLineSpacing(4)
-                    .showSkeleton(.gradientAnimated)
-            }
-            screen.cardServiceView.durationLabel.setSkeleton { build in
-                build.showSkeleton(.gradientAnimated)
-            }
-            screen.cardServiceView.howMutchLabel.setSkeleton { build in
-                build.showSkeleton(.gradientAnimated)
-            }
-            screen.editView.setSkeleton { build in
-                build.showSkeleton(.gradientAnimated)
-            }
-            screen.editButton.setHidden(true)
+//            screen.cardServiceView.titleServiceLabel.setSkeleton { build in
+//                build.showSkeleton(.gradientAnimated)
+//            }
+//            screen.cardServiceView.subTitleServiceLabel.setSkeleton { build in
+//                build
+//                    .setSkeletonLineSpacing(4)
+//                    .showSkeleton(.gradientAnimated)
+//            }
+//            screen.cardServiceView.durationLabel.setSkeleton { build in
+//                build.showSkeleton(.gradientAnimated)
+//            }
+//            screen.cardServiceView.howMutchLabel.setSkeleton { build in
+//                build.showSkeleton(.gradientAnimated)
+//            }
+//            screen.editView.setSkeleton { build in
+//                build.showSkeleton(.gradientAnimated)
+//            }
+//            screen.editButton.setHidden(true)
         }
     }
     

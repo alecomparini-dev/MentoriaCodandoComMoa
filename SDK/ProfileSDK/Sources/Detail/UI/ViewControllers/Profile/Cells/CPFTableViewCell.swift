@@ -70,7 +70,7 @@ class CPFTableViewCell: UITableViewCell {
     
 //  MARK: - SETUP CELL
     public func setupCell(_ profilePresenterDTO: ProfilePresenterDTO?) {
-        guard let profilePresenterDTO else {return configSkeleton()}
+        guard let profilePresenterDTO else { return configSkeleton() }
         resetSkeleton()
         cpfTextField.setText(profilePresenterDTO.cpf)
     }
@@ -96,24 +96,18 @@ class CPFTableViewCell: UITableViewCell {
     }
      
     private func configSkeleton() {
-        DispatchQueue.main.async { [weak self] in
-            guard let self else {return}
-            cpfLabelText.setSkeleton { build in
-                build
-                    .showSkeleton(.gradientAnimated)
-            }
-            cpfTextField.setSkeleton { build in
-                build
-                    .showSkeleton(.gradientAnimated)
-            }
-
+        cpfLabelText.setSkeleton { build in
+            build
+                .setCornerRadius(4)
+                .apply()
         }
-
+        cpfTextField.setSkeleton { build in
+            build.apply()
+        }
     }
-    
     private func resetSkeleton() {
-        cpfLabelText.get.hideSkeleton()
-        cpfTextField.get.hideSkeleton()
+        cpfLabelText.skeleton?.hideSkeleton()
+        cpfTextField.skeleton?.hideSkeleton()
     }
 
 }

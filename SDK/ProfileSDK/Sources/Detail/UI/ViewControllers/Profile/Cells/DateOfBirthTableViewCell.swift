@@ -25,6 +25,12 @@ class DateOfBirthTableViewCell: UITableViewCell {
     lazy var dateOfBirthLabelText: CustomText = {
         let comp = CustomText()
             .setText("Data de nascimento")
+            .setSkeleton({ build in
+                build
+                    .setColorSkeleton(color: .lightGray)
+                    .setCornerRadius(4)
+                    .apply()
+            })
             .setConstraints { build in
                 build
                     .setTop.equalToSafeArea(8)
@@ -57,6 +63,11 @@ class DateOfBirthTableViewCell: UITableViewCell {
                 build
                     .setKeyboardType(.numberPad)
             })
+            .setSkeleton({ build in
+                build
+                    .setColorSkeleton(color: .lightGray)
+                    .apply()
+            })
             .setConstraints { build in
                 build
                     .setTop.equalTo(dateOfBirthLabelText.get, .bottom, 8)
@@ -69,7 +80,7 @@ class DateOfBirthTableViewCell: UITableViewCell {
     
 //  MARK: - SETUP CELL
     public func setupCell(_ profilePresenterDTO: ProfilePresenterDTO?) {
-        guard let profilePresenterDTO else {return configSkeleton()}
+        guard let profilePresenterDTO else { return configSkeleton() }
         resetSkeleton()
         dateOfBirthTextField.setText(profilePresenterDTO.dateOfBirth)
     }
@@ -95,24 +106,19 @@ class DateOfBirthTableViewCell: UITableViewCell {
     }
 
     private func configSkeleton() {
-        DispatchQueue.main.async { [weak self] in
-            guard let self else {return}
-            dateOfBirthLabelText.setSkeleton { build in
-                build
-                    .showSkeleton(.gradientAnimated)
-            }
-            dateOfBirthTextField.setSkeleton { build in
-                build
-                    .showSkeleton(.gradientAnimated)
-            }
-
+        dateOfBirthLabelText.setSkeleton { build in
+            build
+                .setCornerRadius(4)
+                .apply()
         }
-
+        dateOfBirthTextField.setSkeleton { build in
+            build.apply()
+        }
     }
     
     private func resetSkeleton() {
-        dateOfBirthLabelText.get.hideSkeleton()
-        dateOfBirthTextField.get.hideSkeleton()
+        dateOfBirthLabelText.skeleton?.hideSkeleton()
+        dateOfBirthTextField.skeleton?.hideSkeleton()
     }
 
     

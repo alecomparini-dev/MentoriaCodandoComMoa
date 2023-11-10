@@ -10,6 +10,9 @@ import ProfilePresenters
 class SummaryAddressTableViewCell: UITableViewCell {
     static let identifier = String(describing: SummaryAddressTableViewCell.self)
     
+    var skeleton: ViewBuilder?
+    var skeletonLayer: ViewBuilder?
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configure()
@@ -81,23 +84,19 @@ class SummaryAddressTableViewCell: UITableViewCell {
     }
     
     private func configSkeleton() {
-        summaryAddressTextView.setInsertText("")
-        DispatchQueue.main.async { [weak self] in
-            guard let self else {return}
-            summaryAddressText.setSkeleton { build in
-                build
-                    .showSkeleton(.gradientAnimated)
-            }
+        summaryAddressText.setSkeleton { build in
+            build
+                .setCornerRadius(4)
+                .apply()
         }
         summaryAddressTextView.setSkeleton { build in
-            build
-                .showSkeleton(.gradientAnimated)
+            build.apply()
         }
     }
 
     private func resetSkeleton() {
-        summaryAddressText.get.hideSkeleton()
-        summaryAddressTextView.get.hideSkeleton()
+        summaryAddressText.skeleton?.hideSkeleton()
+        summaryAddressTextView.skeleton?.hideSkeleton()
     }
 
     
