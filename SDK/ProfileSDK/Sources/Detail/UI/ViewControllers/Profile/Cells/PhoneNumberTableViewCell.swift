@@ -11,6 +11,9 @@ import ProfilePresenters
 class PhoneNumberTableViewCell: UITableViewCell {
     static let identifier = String(describing: PhoneNumberTableViewCell.self)
     
+    private var phoneNumberLabelSkeleton: SkeletonBuilder?
+    private var phoneNumberTextFieldSkeleton: SkeletonBuilder?
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configure()
@@ -70,7 +73,7 @@ class PhoneNumberTableViewCell: UITableViewCell {
     
 //  MARK: - SETUP CELL
     public func setupCell(_ profilePresenterDTO: ProfilePresenterDTO?) {
-        guard let profilePresenterDTO else { return configSkeleton()}
+        guard let profilePresenterDTO else { return applySkeleton()}
         resetSkeleton()
         phoneNumberTextField.setText(profilePresenterDTO.cellPhoneNumber)
     }
@@ -81,6 +84,7 @@ class PhoneNumberTableViewCell: UITableViewCell {
     private func configure() {
         addElements()
         configConstraints()
+        configSkeleton()
     }
     
     private func addElements() {
@@ -96,22 +100,18 @@ class PhoneNumberTableViewCell: UITableViewCell {
     }
         
     private func configSkeleton() {
-        DispatchQueue.main.async { [weak self] in
-            guard let self else {return}
-//            phoneNumberLabelText.setSkeleton { build in
-//                build
-//                    .showSkeleton(.gradientAnimated)
-//            }
-//            phoneNumberTextField.setSkeleton { build in
-//                build
-//                    .showSkeleton(.gradientAnimated)
-//            }
-        }
+        phoneNumberLabelSkeleton = SkeletonBuilder(component: phoneNumberLabelText).setCornerRadius(4)
+        phoneNumberTextFieldSkeleton = SkeletonBuilder(component: phoneNumberTextField)
+    }
+    
+    private func applySkeleton() {
+        phoneNumberLabelSkeleton?.showSkeleton()
+        phoneNumberTextFieldSkeleton?.showSkeleton()
     }
 
     private func resetSkeleton() {
-        phoneNumberLabelText.get.hideSkeleton()
-        phoneNumberTextField.get.hideSkeleton()
+        phoneNumberLabelSkeleton?.hideSkeleton()
+        phoneNumberTextFieldSkeleton?.hideSkeleton()
     }
 
 }

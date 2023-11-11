@@ -20,12 +20,15 @@ class FieldOfWorkTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-        
+    
 //  MARK: - LAZY AREA
     
     lazy var fieldOfWorkLabelText: CustomText = {
         let comp = CustomText()
             .setText("Ramo de atuação")
+            .setSkeleton({ build in
+                build.setCornerRadius(4)
+            })
             .setConstraints { build in
                 build
                     .setTop.equalToSafeArea(8)
@@ -49,6 +52,9 @@ class FieldOfWorkTableViewCell: UITableViewCell {
             .setBackgroundColor(hexColor: "#ffffff")
             .setTextColor(hexColor: "#282a36")
             .setPadding(8)
+            .setSkeleton({ build in
+                build
+            })
             .setBorder({ build in
                 build
                     .setCornerRadius(8)
@@ -65,28 +71,13 @@ class FieldOfWorkTableViewCell: UITableViewCell {
     
 //  MARK: - SETUP CELL
     public func setupCell(_ profilePresenterDTO: ProfilePresenterDTO?) {
-        guard let profilePresenterDTO else { return configSkeleton()}
-//        resetSkeleton()
+        guard let profilePresenterDTO else { return showSkeleton()}
+        resetSkeleton()
         fieldOfWorkTextField.setText(profilePresenterDTO.fieldOfWork)
     }
     
-
     
 //  MARK: - PRIVATE AREA
-    private func configSkeleton() {
-        DispatchQueue.main.async { [weak self] in
-            guard let self else {return}
-//            fieldOfWorkLabelText.setSkeleton { build in
-//                build
-//                    .showSkeleton(.gradientAnimated)
-//            }
-//            fieldOfWorkTextField.setSkeleton { build in
-//                build
-//                    .showSkeleton(.gradientAnimated)
-//            }
-        }
-    }
-
     private func configure() {
         addElements()
         configConstraints()
@@ -103,10 +94,15 @@ class FieldOfWorkTableViewCell: UITableViewCell {
         fieldOfWorkTextField.applyConstraint()
         fieldRequired.applyConstraint()
     }
-        
+
+    private func showSkeleton() {
+        fieldOfWorkLabelText.skeleton?.showSkeleton()
+        fieldOfWorkTextField.skeleton?.showSkeleton()
+    }
+
     private func resetSkeleton() {
-        fieldOfWorkLabelText.get.hideSkeleton()
-        fieldOfWorkTextField.get.hideSkeleton()
+        fieldOfWorkLabelText.skeleton?.hideSkeleton()
+        fieldOfWorkTextField.skeleton?.hideSkeleton()
     }
 }
 

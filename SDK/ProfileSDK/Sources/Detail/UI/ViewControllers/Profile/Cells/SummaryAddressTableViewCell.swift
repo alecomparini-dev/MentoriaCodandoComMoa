@@ -10,8 +10,8 @@ import ProfilePresenters
 class SummaryAddressTableViewCell: UITableViewCell {
     static let identifier = String(describing: SummaryAddressTableViewCell.self)
     
-    var skeleton: ViewBuilder?
-    var skeletonLayer: ViewBuilder?
+    private var summaryAddressTextSkeleton: SkeletonBuilder?
+    private var summaryAddressTextViewSkeleton: SkeletonBuilder?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -60,7 +60,7 @@ class SummaryAddressTableViewCell: UITableViewCell {
     
 //  MARK: - SETUP CELL
     public func setupCell(_ profilePresenterDTO: ProfilePresenterDTO?) {
-        guard let profilePresenterDTO else { return configSkeleton()}
+        guard let profilePresenterDTO else { return applySkeleton()}
         resetSkeleton()
         makeAddress(profilePresenterDTO)
     }
@@ -71,6 +71,7 @@ class SummaryAddressTableViewCell: UITableViewCell {
     private func configure() {
         addElements()
         configConstraints()
+        configSkeleton()
     }
     
     private func addElements() {
@@ -84,19 +85,18 @@ class SummaryAddressTableViewCell: UITableViewCell {
     }
     
     private func configSkeleton() {
-        summaryAddressText.setSkeleton { build in
-            build
-                .setCornerRadius(4)
-                .apply()
-        }
-        summaryAddressTextView.setSkeleton { build in
-            build.apply()
-        }
+        summaryAddressTextSkeleton = SkeletonBuilder(component: summaryAddressText).setCornerRadius(4)
+        summaryAddressTextViewSkeleton = SkeletonBuilder(component: summaryAddressTextView)
+    }
+    
+    private func applySkeleton() {
+        summaryAddressTextSkeleton?.showSkeleton()
+        summaryAddressTextViewSkeleton?.showSkeleton()
     }
 
     private func resetSkeleton() {
-        summaryAddressText.skeleton?.hideSkeleton()
-        summaryAddressTextView.skeleton?.hideSkeleton()
+        summaryAddressTextSkeleton?.hideSkeleton()
+        summaryAddressTextViewSkeleton?.hideSkeleton()
     }
 
     

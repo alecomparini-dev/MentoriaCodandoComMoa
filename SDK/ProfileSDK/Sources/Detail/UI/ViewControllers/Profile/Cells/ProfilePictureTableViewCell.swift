@@ -15,6 +15,12 @@ class ProfilePictureTableViewCell: UITableViewCell {
     static let identifier = String(describing: ProfilePictureTableViewCell.self)
     weak var delegate: ProfilePictureTableViewCellDelegate?
     
+    private struct Skeleton {
+        static var profile: SkeletonBuilder?
+        static var name: SkeletonBuilder?
+        static var fieldOfWord: SkeletonBuilder?
+    }
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configure()
@@ -25,15 +31,6 @@ class ProfilePictureTableViewCell: UITableViewCell {
     }
     
     
-//  MARK: - SETUP CELL
-    public func setupCell(_ viewController: UIViewController, profilePresenterDTO: ProfilePresenterDTO?, profileImage: Data?) {
-        guard let profilePresenterDTO else {return configSkeleton()}
-        configProfilePicture(viewController)
-        resetSkeleton(profilePresenterDTO)
-        populateFields(profilePresenterDTO, profileImage)
-    }
-    
-
 //  MARK: - LAZY AREA
     lazy var profilePictureView: ProfilePictureBuilder = {
         let comp = ProfilePictureBuilder(size: 120)
@@ -43,20 +40,26 @@ class ProfilePictureTableViewCell: UITableViewCell {
                 build
                     .setTop.equalToSafeArea(8)
                     .setLeading.setTrailing.equalToSafeArea(24)
-                    .setHeight.equalToConstant(120)
+                    .setHeight.equalToConstant(124)
             }
+        comp.profileImage.setSkeleton({ build in
+            build
+        })
         return comp
     }()
     
     lazy var userNameText: CustomTextTitle = {
         let comp = CustomTextTitle()
             .setTextAlignment(.center)
+            .setSkeleton({ build in
+                build.setCornerRadius(4)
+            })
             .setConstraints { build in
                 build
                     .setTop.equalTo(profilePictureView.get, .bottom, 16)
-                    .setLeading.setTrailing.equalToSafeArea(24)
                     .setHorizontalAlignmentX.equalToSafeArea
                     .setHeight.equalToConstant(30)
+                    .setWidth.greaterThanOrEqualToConstant(260)
             }
         return comp
     }()
@@ -65,10 +68,13 @@ class ProfilePictureTableViewCell: UITableViewCell {
         let comp = CustomTextSecondary()
             .setSize(20)
             .setTextAlignment(.center)
+            .setSkeleton({ build in
+                build.setCornerRadius(4)
+                    .setColorSkeleton(hexColor: "#aacff9")
+            })
             .setConstraints { build in
                 build
                     .setTop.equalTo(userNameText.get, .bottom, 8)
-//                    .setLeading.setTrailing.equalToSafeArea(24)
                     .setHorizontalAlignmentX.equalToSafeArea
                     .setHeight.equalToConstant(24)
                     .setWidth.greaterThanOrEqualToConstant(160)
@@ -76,6 +82,15 @@ class ProfilePictureTableViewCell: UITableViewCell {
         return comp
     }()
     
+    
+//  MARK: - SETUP CELL
+    public func setupCell(_ viewController: UIViewController, profilePresenterDTO: ProfilePresenterDTO?, profileImage: Data?) {
+        guard let profilePresenterDTO else {return showSkeleton()}
+        configProfilePicture(viewController)
+        populateFields(profilePresenterDTO, profileImage)
+        resetSkeleton(profilePresenterDTO)
+    }
+
         
 //  MARK: - PRIVATE AREA
     private func configure() {
@@ -131,29 +146,16 @@ class ProfilePictureTableViewCell: UITableViewCell {
             })
     }
     
-    private func configSkeleton() {
-        profilePictureView.profileImage.setSkeleton { build in
-            build.apply()
-        }
-        userNameText.setSkeleton { build in
-            build
-                .setCornerRadius(4)
-                .apply()
-        }
-        professionText.setSkeleton { build in
-            build
-                .setCornerRadius(4)
-                .setColorSkeleton(hexColor: "#aacff9")
-                .apply()
-        }
+    private func showSkeleton() {
+        profilePictureView.profileImage.skeleton?.showSkeleton()
+        userNameText.skeleton?.showSkeleton()
+        professionText.skeleton?.showSkeleton()
     }
     
     private func resetSkeleton(_ profilePresenterDTO: ProfilePresenterDTO) {
-        if profilePresenterDTO.name == nil || profilePresenterDTO.name!.isEmpty {return}
         profilePictureView.profileImage.skeleton?.hideSkeleton()
         userNameText.skeleton?.hideSkeleton()
         professionText.skeleton?.hideSkeleton()
     }
-    
     
 }

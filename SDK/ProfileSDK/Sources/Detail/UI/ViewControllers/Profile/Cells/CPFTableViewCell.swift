@@ -20,6 +20,7 @@ class CPFTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
  
     
 //  MARK: - LAZY AREA
@@ -27,6 +28,9 @@ class CPFTableViewCell: UITableViewCell {
     lazy var cpfLabelText: CustomText = {
         let comp = CustomText()
             .setText("CPF")
+            .setSkeleton({ build in
+                build.setCornerRadius(4)
+            })
             .setConstraints { build in
                 build
                     .setTop.equalToSafeArea(8)
@@ -50,6 +54,9 @@ class CPFTableViewCell: UITableViewCell {
             .setBackgroundColor(hexColor: "#ffffff")
             .setTextColor(hexColor: "#282a36")
             .setPadding(8)
+            .setSkeleton({ build in
+                build
+            })
             .setKeyboard({ build in
                 build
                     .setKeyboardType(.numberPad)
@@ -70,7 +77,7 @@ class CPFTableViewCell: UITableViewCell {
     
 //  MARK: - SETUP CELL
     public func setupCell(_ profilePresenterDTO: ProfilePresenterDTO?) {
-        guard let profilePresenterDTO else { return configSkeleton() }
+        guard let profilePresenterDTO else { return showSkeleton() }
         resetSkeleton()
         cpfTextField.setText(profilePresenterDTO.cpf)
     }
@@ -95,16 +102,11 @@ class CPFTableViewCell: UITableViewCell {
         fieldRequired.applyConstraint()
     }
      
-    private func configSkeleton() {
-        cpfLabelText.setSkeleton { build in
-            build
-                .setCornerRadius(4)
-                .apply()
-        }
-        cpfTextField.setSkeleton { build in
-            build.apply()
-        }
+    private func showSkeleton() {
+        cpfLabelText.skeleton?.showSkeleton()
+        cpfTextField.skeleton?.showSkeleton()
     }
+
     private func resetSkeleton() {
         cpfLabelText.skeleton?.hideSkeleton()
         cpfTextField.skeleton?.hideSkeleton()

@@ -34,6 +34,7 @@ public final class SignInViewController: UIViewController {
         let view = SignInView()
         return view
     }()
+
     
     
     //  MARK: - LIFE CYCLE
@@ -57,13 +58,13 @@ public final class SignInViewController: UIViewController {
         super.viewDidAppear(animated)
     }
 
-    
+    var overlayView: UIView?
     
 //  MARK: - PRIVATE AREA
     private func configure() {
         configDelegate()
         getEmailKeyChain()
-        biometricsFlow()
+//        biometricsFlow()
     }
     
     private func configDelegate() {
@@ -172,3 +173,6 @@ extension SignInViewController: SignInPresenterOutput {
     }
     
 }
+
+
+

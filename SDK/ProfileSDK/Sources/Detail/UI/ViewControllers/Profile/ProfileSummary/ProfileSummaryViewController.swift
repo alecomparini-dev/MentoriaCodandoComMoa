@@ -87,14 +87,14 @@ public final class ProfileSummaryViewController: UIViewController {
     }
     
     public func reloadTableView() {
+        
         self.screen.tableViewScroll.get.reloadData()
     }
     
     private func fetchUserProfile() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: { [weak self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.5, execute: { [weak self] in
             self?.profileSummaryPresenter.fetchUserProfile()
         })
-
     }
     
     private func configure() {

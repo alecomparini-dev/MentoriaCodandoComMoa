@@ -44,7 +44,7 @@ public class ProfileSummaryPresenterImpl: ProfileSummaryPresenter {
         Task {
             do {
                 guard let userIDAuth = try await getUserAuthenticated() else { return }
-                debugPrint(userIDAuth)
+
                 let getProfileUseCaseDTO: ProfileUseCaseDTO? = try await getProfileUseCase.getProfile(userIDAuth)
                 
                 profilePresenter = MappersProfilePresenter.mapperTo(profileUseCaseDTO: getProfileUseCaseDTO)
@@ -189,14 +189,14 @@ public class ProfileSummaryPresenterImpl: ProfileSummaryPresenter {
         return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
     }
     
-    //    TODO: - CODIGO DUPLICADO EXTRAIR
+//    TODO: - CODIGO DUPLICADO EXTRAIR
     private func removeMask(typeMask: TypeMasks,_ text: String?) -> String? {
         guard let text else {return nil}
         let mask = getMask(typeMask)
         return mask?.cleanText(text)
     }
     
-    //    TODO: - CODIGO DUPLICADO EXTRAIR
+//    TODO: - CODIGO DUPLICADO EXTRAIR
     private func getMask(_ typeMask: TypeMasks) -> Masks? {
         switch typeMask {
             case .cellPhoneMask:
