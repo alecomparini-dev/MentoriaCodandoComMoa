@@ -154,6 +154,7 @@ class ProfilePictureTableViewCell: UITableViewCell {
     
     private func resetSkeleton(_ profilePresenterDTO: ProfilePresenterDTO) {
         profilePictureView.profileImage.skeleton?.hideSkeleton()
+        if profilePresenterDTO.name == nil || profilePresenterDTO.name!.isEmpty {return}
         userNameText.skeleton?.hideSkeleton()
         professionText.skeleton?.hideSkeleton()
     }

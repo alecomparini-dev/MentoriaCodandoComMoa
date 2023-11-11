@@ -38,45 +38,15 @@ class ListServicesTableViewCell: UITableViewCell {
     public func setupCell(_ servicePresenterDTO: ServicePresenterDTO?, _ editCompletionHandler: @escaping editCompletionHandler) {
         self.servicePresenterDTO = servicePresenterDTO
         configCardServiceView()
-        guard servicePresenterDTO != nil else { return configSkeleton() }
+        guard servicePresenterDTO != nil else { return showSkeleton() }
         self.editCompletionHander = editCompletionHandler
         resetSkeleton()
         
     }
     
 //  MARK: - PUBLIC AREA
-    public func configSkeleton() {
-        DispatchQueue.main.async { [weak self] in
-            guard let self else {return}
-//            screen.cardServiceView.titleServiceLabel.setSkeleton { build in
-//                build.showSkeleton(.gradientAnimated)
-//            }
-//            screen.cardServiceView.subTitleServiceLabel.setSkeleton { build in
-//                build
-//                    .setSkeletonLineSpacing(4)
-//                    .showSkeleton(.gradientAnimated)
-//            }
-//            screen.cardServiceView.durationLabel.setSkeleton { build in
-//                build.showSkeleton(.gradientAnimated)
-//            }
-//            screen.cardServiceView.howMutchLabel.setSkeleton { build in
-//                build.showSkeleton(.gradientAnimated)
-//            }
-//            screen.editView.setSkeleton { build in
-//                build.showSkeleton(.gradientAnimated)
-//            }
-//            screen.editButton.setHidden(true)
-        }
-    }
     
-    private func resetSkeleton() {
-        screen.cardServiceView.titleServiceLabel.get.hideSkeleton()
-        screen.cardServiceView.subTitleServiceLabel.get.hideSkeleton()
-        screen.cardServiceView.durationLabel.get.hideSkeleton()
-        screen.cardServiceView.howMutchLabel.get.hideSkeleton()
-        screen.editView.get.hideSkeleton(transition: .crossDissolve(0))
-        screen.editButton.setHidden(false)
-    }
+    
     
 
 //  MARK: - PRIVATE AREA
@@ -116,6 +86,21 @@ class ListServicesTableViewCell: UITableViewCell {
         screen.cardServiceView.howMutchLabel.setText(servicePresenterDTO?.howMutch)
     }
     
+    private func showSkeleton() {
+        screen.cardServiceView.titleServiceLabel.skeleton?.showSkeleton()
+        screen.cardServiceView.subTitleServiceLabel.skeleton?.showSkeleton()
+        screen.cardServiceView.durationLabel.skeleton?.showSkeleton()
+        screen.cardServiceView.howMutchLabel.skeleton?.showSkeleton()
+        screen.editView.skeleton?.showSkeleton()
+    }
+    
+    private func resetSkeleton() {
+        screen.cardServiceView.titleServiceLabel.skeleton?.hideSkeleton()
+        screen.cardServiceView.subTitleServiceLabel.skeleton?.hideSkeleton()
+        screen.cardServiceView.durationLabel.skeleton?.hideSkeleton()
+        screen.cardServiceView.howMutchLabel.skeleton?.hideSkeleton()
+        screen.editView.skeleton?.hideSkeleton()
+    }
     
 }
 

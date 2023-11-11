@@ -61,9 +61,6 @@ class ProfileRegistrationStep2View: UIView {
             .setText("Etapa 2 de 2")
             .setSize(24)
             .setTextAlignment(.center)
-            .setSkeleton({ build in
-                build
-            })
             .setConstraints { build in
                 build
                     .setVerticalAlignmentY.equalTo(backButton.get)
