@@ -36,7 +36,7 @@
 		028B28BC2AA76EEC008E4A7E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 028B28BB2AA76EEC008E4A7E /* Constants.swift */; };
 		0293DF092AE6D42500716142 /* CreateProfileUseCaseFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0293DF082AE6D42500716142 /* CreateProfileUseCaseFactory.swift */; };
 		0293DF0C2AE6E5B000716142 /* MasksFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0293DF0B2AE6E5B000716142 /* MasksFactory.swift */; };
-		02995B4B2AB34BBA00615FDC /* LoginViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02995B4A2AB34BBA00615FDC /* LoginViewControllerFactory.swift */; };
+		02995B4B2AB34BBA00615FDC /* SignInViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02995B4A2AB34BBA00615FDC /* SignInViewControllerFactory.swift */; };
 		02995B942AB39B6200615FDC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 02995B932AB39B6200615FDC /* GoogleService-Info.plist */; };
 		02A0D34D2AF11AB400BF25A5 /* LoadScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A0D34C2AF11AB400BF25A5 /* LoadScreenViewController.swift */; };
 		02A0D34F2AF11D4C00BF25A5 /* LoadScreenCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A0D34E2AF11D4C00BF25A5 /* LoadScreenCoordinator.swift */; };
@@ -80,7 +80,7 @@
 		028B28BB2AA76EEC008E4A7E /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		0293DF082AE6D42500716142 /* CreateProfileUseCaseFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProfileUseCaseFactory.swift; sourceTree = "<group>"; };
 		0293DF0B2AE6E5B000716142 /* MasksFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasksFactory.swift; sourceTree = "<group>"; };
-		02995B4A2AB34BBA00615FDC /* LoginViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewControllerFactory.swift; sourceTree = "<group>"; };
+		02995B4A2AB34BBA00615FDC /* SignInViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewControllerFactory.swift; sourceTree = "<group>"; };
 		02995B932AB39B6200615FDC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		02A0D34C2AF11AB400BF25A5 /* LoadScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadScreenViewController.swift; sourceTree = "<group>"; };
 		02A0D34E2AF11D4C00BF25A5 /* LoadScreenCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadScreenCoordinator.swift; sourceTree = "<group>"; };
@@ -211,7 +211,7 @@
 		024E688B2AB485D70044A521 /* SignIn */ = {
 			isa = PBXGroup;
 			children = (
-				02995B4A2AB34BBA00615FDC /* LoginViewControllerFactory.swift */,
+				02995B4A2AB34BBA00615FDC /* SignInViewControllerFactory.swift */,
 			);
 			path = SignIn;
 			sourceTree = "<group>";
@@ -538,7 +538,7 @@
 				0293DF0C2AE6E5B000716142 /* MasksFactory.swift in Sources */,
 				02D7D2962AE86283003E4CF4 /* SaveServiceCoordinator.swift in Sources */,
 				024340822AD9872B00110844 /* ProfileRegistrationStep1Coordinator.swift in Sources */,
-				02995B4B2AB34BBA00615FDC /* LoginViewControllerFactory.swift in Sources */,
+				02995B4B2AB34BBA00615FDC /* SignInViewControllerFactory.swift in Sources */,
 				020924732AB3228D008F8DC8 /* SignUpCoordinator.swift in Sources */,
 				0239C4BD2ADDF1460016C0E4 /* ProfileRegistrationStep1Factory.swift in Sources */,
 				0212ECB12AA10867001C1BCF /* SceneDelegate.swift in Sources */,
