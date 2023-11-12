@@ -176,13 +176,13 @@ public class SaveServicePresenterImpl: SaveServicePresenter {
 //  MARK: - RETURN CALL DISABLE SERVICE
     private func successDisableService() {
         DispatchQueue.main.sync { [weak self] in
-            self?.outputDelegate?.successSaveService()
+            self?.outputDelegate?.successDisableService()
         }
     }
     
     private func errorDisableService(title: String, message: String) {
         DispatchQueue.main.sync { [weak self] in
-            self?.outputDelegate?.errorSaveService(title: title, message: message)
+            self?.outputDelegate?.errorDisableService(title: title, message: message)
         }
     }
     

@@ -25,10 +25,7 @@ public final class ProfileSummaryViewController: UIViewController {
     }
     
     private var profileSummaryPresenter: ProfileSummaryPresenter
-    
-    private var fieldsCell: [TypeCells: UITableViewCell] = [:]
-    private var profilePresenterDTO: ProfilePresenterDTO?
-    
+
     
 //  MARK: - INITIALIZERS
     
@@ -62,27 +59,44 @@ public final class ProfileSummaryViewController: UIViewController {
         configure()
     }
     
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setScrollToTop()
+        reload()
+    }
+
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if profilePresenterDTO != nil {return}
-        DispatchQueue.main.async { [weak self] in
-            guard let self else {return}
-            screen.tableViewScroll.get.reloadData()
-            getUserAuthenticated()
-        }
     }
     
 
 //  MARK: - DATA TRANSFER
-    
     public func setDataTransfer(_ data: Any?) {
-        if let profilePresenterDTO = data as? ProfilePresenterDTO {
-            self.profilePresenterDTO = profilePresenterDTO
-        }
+//        if let profilePresenterDTO = data as? ProfilePresenterDTO {
+//            self.profilePresenterDTO = profilePresenterDTO
+//        }
     }
 
     
 //  MARK: - PRIVATE AREA
+    
+    private func reload() {
+        profileSummaryPresenter.clearProfilePresenter()
+        reloadTableView()
+        fetchUserProfile()
+    }
+    
+    public func reloadTableView() {
+        
+        self.screen.tableViewScroll.get.reloadData()
+    }
+    
+    private func fetchUserProfile() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: { [weak self] in
+            self?.profileSummaryPresenter.fetchUserProfile()
+        })
+    }
+    
     private func configure() {
         configDelegate()
     }
@@ -104,11 +118,6 @@ public final class ProfileSummaryViewController: UIViewController {
     
     private func configProfileSymmaryOutPutDelegate() {
         profileSummaryPresenter.outputDelegate = self
-    }
-    
-    private func getUserAuthenticated() {
-        if let profilePresenterDTO, profilePresenterDTO.userIDAuth != nil {return}
-        profileSummaryPresenter.getUserAuthenticated()
     }
     
     private func calculateHeightForRowAt(_ index: Int) -> CGFloat {
@@ -154,87 +163,85 @@ public final class ProfileSummaryViewController: UIViewController {
                 return getEditProfileButtonTableViewCell(tableView, indexPath)
                 
             default:
-                let cell = UITableViewCell()
-                cell.backgroundColor = .clear
-                return cell
+                return UITableViewCell()
         }
         
     }
     
+    private func configScreenToNewProfile() {
+        reloadTableView()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+            self.screen.tableViewScroll.get.selectRow(at: IndexPath(row: 6, section: 0), animated: true, scrollPosition: .top)
+        })
+    }
+    
+    private func setScrollToTop() {
+        self.screen.tableViewScroll.get.selectRow(at: IndexPath(row: 0, section: 0), animated: true, scrollPosition: .top)
+    }
+    
+
+//  MARK: - GET AND SETUP CELL
+    
     private func getProfilePictureTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ProfilePictureTableViewCell.identifier, for: indexPath) as? ProfilePictureTableViewCell
-        cell?.configSkeleton()
+        let profilePresenterDTO = profileSummaryPresenter.getProfilePresenter()
         let profileImageData = profileSummaryPresenter.getProfileImageData(profilePresenterDTO)
         cell?.setupCell(self, profilePresenterDTO: profilePresenterDTO, profileImage: profileImageData)
-        setCell(cell, key: TypeCells.profilePicture)
         cell?.delegate = self
         return cell ?? UITableViewCell()
     }
     
     private func getCPFTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CPFTableViewCell.identifier, for: indexPath) as? CPFTableViewCell
-        cell?.configSkeleton()
-        cell?.setupCell(profilePresenterDTO)
+        cell?.setupCell(profileSummaryPresenter.getProfilePresenter())
         cell?.cpfTextField.setReadOnly(true)
-        setCell(cell, key: TypeCells.cpf)
         return cell ?? UITableViewCell()
     }
     
     private func getDataOfBirthTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: DateOfBirthTableViewCell.identifier, for: indexPath) as? DateOfBirthTableViewCell
-        cell?.configSkeleton()
-        cell?.setupCell(profilePresenterDTO)
+        cell?.setupCell(profileSummaryPresenter.getProfilePresenter())
         cell?.dateOfBirthTextField.setReadOnly(true)
-        setCell(cell, key: TypeCells.dateOfBirth)
         return cell ?? UITableViewCell()
     }
     
     private func getPhoneNumberTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: PhoneNumberTableViewCell.identifier, for: indexPath) as? PhoneNumberTableViewCell
-        cell?.configSkeleton()
-        cell?.setupCell(profilePresenterDTO)
+        cell?.setupCell(profileSummaryPresenter.getProfilePresenter())
         cell?.phoneNumberTextField.setReadOnly(true)
-        setCell(cell, key: TypeCells.phoneNumber)
         return cell ?? UITableViewCell()
     }
     
     private func getFieldOfWorkTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: FieldOfWorkTableViewCell.identifier, for: indexPath) as? FieldOfWorkTableViewCell
-        cell?.configSkeleton()
-        cell?.setupCell(profilePresenterDTO)
+        cell?.setupCell(profileSummaryPresenter.getProfilePresenter())
         cell?.fieldOfWorkTextField.setReadOnly(true)
-        setCell(cell, key: TypeCells.fieldOfWork)
         return cell ?? UITableViewCell()
     }
 
     private func getSummaryAddressTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SummaryAddressTableViewCell.identifier, for: indexPath) as? SummaryAddressTableViewCell
-        cell?.configSkeleton()
-        cell?.setupCell(profilePresenterDTO)
+        cell?.setupCell(profileSummaryPresenter.getProfilePresenter())
         cell?.summaryAddressTextView.setReadOnly(true)
-        setCell(cell, key: TypeCells.summaryAddress)
         return cell ?? UITableViewCell()
     }
     
     private func getEditProfileButtonTableViewCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: EditProfileButtonTableViewCell.identifier, for: indexPath) as? EditProfileButtonTableViewCell
         cell?.delegate = self
-        cell?.setupCell(profilePresenterDTO)
-        setCell(cell, key: TypeCells.editProfileButton)
+        cell?.setupCell(profileSummaryPresenter.getProfilePresenter())
         return cell ?? UITableViewCell()
     }
     
-    private func setCell(_ cell: UITableViewCell?, key: TypeCells) {
-        if let cell {
-            fieldsCell.updateValue(cell, forKey: key)
-        }
+    
+    
+//  MARK: - RESIZE PROFILE IMAGE
+    private func convertImageToJPEG(_ image: UIImage) -> Data? {
+        return image.jpegData(compressionQuality: 0.6)
     }
-
-    private func configScreenToNewProfile() {
-        screen.tableViewScroll.get.reloadData()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
-            self.screen.tableViewScroll.get.selectRow(at: IndexPath(row: 6, section: 0), animated: true, scrollPosition: .top)
-        })
+    
+    private func resizeImage(_ image: UIImage) -> UIImage? {
+        return image.resizeImage(targetSize: CGSize(width: 200, height: 200))
     }
 }
 
@@ -242,10 +249,10 @@ public final class ProfileSummaryViewController: UIViewController {
 
 //  MARK: - EXTENSION - ProfileSummaryViewDelegate
 extension ProfileSummaryViewController: ProfileSummaryViewDelegate{
+    
     public func logoutButtonTapped() {
         profileSummaryPresenter.logout()
     }
-    
     
 }
 
@@ -283,7 +290,7 @@ extension ProfileSummaryViewController: UITableViewDataSource {
 extension ProfileSummaryViewController: EditProfileButtonTableViewCellDelegate {
     
     public func editProfileTapped() {
-        coordinator?.gotoProfileRegistrationStep1(profilePresenterDTO)
+        coordinator?.gotoProfileRegistrationStep1(profileSummaryPresenter.getProfilePresenter())
     }
     
 }
@@ -292,34 +299,25 @@ extension ProfileSummaryViewController: EditProfileButtonTableViewCellDelegate {
 //  MARK: - EXTENSION - ProfileSummaryPresenterOutput
 extension ProfileSummaryViewController: ProfileSummaryPresenterOutput {
     
-    public func successGetUserAuthenticated(_ profilePresenterDTO: ProfilePresenterDTO?) {
-        if let userIDAuth = profilePresenterDTO?.userIDAuth {
-            self.profileSummaryPresenter.getProfile(userIDAuth)
-        }
-    }
-    
-    public func errorGetUserAuthenticated(title: String, message: String) { }
-    
-    public func successGetUserProfile(_ profilePresenterDTO: ProfilePresenterDTO?) {
-        self.profilePresenterDTO = profilePresenterDTO
-        if profilePresenterDTO?.userIDProfile != nil {
-            screen.tableViewScroll.get.reloadData()
+    public func successFetchUserProfile() {
+        if profileSummaryPresenter.getProfilePresenter()?.userIDProfile != nil {
+            reloadTableView()
             return
         }
         configScreenToNewProfile()
     }
     
-    public func errorGetUserProfile(title: String, message: String) {
+    public func errorFetchUserProfile(title: String, message: String) {
+        
     }
 
     public func successSaveProfileImage(_ profilePresenterDTO: ProfilePresenters.ProfilePresenterDTO?) {
-        self.profilePresenterDTO = profilePresenterDTO
+
     }
     
     public func errorSaveProfileImage(title: String, message: String) {
         
     }
-
     
     public func successLogout() {
         coordinator?.gotoSignIn()
@@ -329,9 +327,7 @@ extension ProfileSummaryViewController: ProfileSummaryPresenterOutput {
         coordinator?.gotoSignIn()
     }
         
-    
 }
-
 
 
 //  MARK: - EXTENSION - ProfilePictureTableViewCellDelegate
@@ -342,38 +338,9 @@ extension ProfileSummaryViewController: ProfilePictureTableViewCellDelegate {
         if imageResize == nil { imageResize = image }
 
         if let imageJPEGData = convertImageToJPEG(imageResize!) {
+            var profilePresenterDTO = profileSummaryPresenter.getProfilePresenter()
             profilePresenterDTO?.imageProfile = imageJPEGData.base64EncodedString()
             profileSummaryPresenter.saveProfileImageData(profilePresenterDTO)
         }
     }
-    
-    private func convertImageToJPEG(_ image: UIImage) -> Data? {
-        return image.jpegData(compressionQuality: 0.6)
-    }
-    
-    private func resizeImage(_ image: UIImage) -> UIImage? {
-        let targetSize = CGSize(width: 200, height: 200)
-        let size = image.size
-        let widthRatio = targetSize.width / size.width
-        let heightRatio = targetSize.height / size.height
-        
-        var newSize: CGSize
-        
-        if widthRatio > heightRatio {
-            newSize = CGSize(width: size.width * heightRatio, height: size.height * heightRatio)
-        } else {
-            newSize = CGSize(width: size.width * widthRatio, height: size.height * widthRatio)
-        }
-        
-        let rect = CGRect(origin: .zero, size: newSize)
-        
-        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
-        image.draw(in: rect)
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        return newImage
-    }
-    
 }
-

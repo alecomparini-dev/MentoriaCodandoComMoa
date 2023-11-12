@@ -6,11 +6,13 @@ import Foundation
 public protocol ProfileSummaryPresenter {
     var outputDelegate: ProfileSummaryPresenterOutput? { get set }
     
-    func getUserAuthenticated()
-    
     func logout()
     
-    func getProfile(_ userIDAuth: String)
+    func fetchUserProfile()
+    
+    func getProfilePresenter() -> ProfilePresenterDTO?
+    
+    func clearProfilePresenter()
     
     func saveProfileImageData(_ profilePresenterDTO: ProfilePresenterDTO?)
     

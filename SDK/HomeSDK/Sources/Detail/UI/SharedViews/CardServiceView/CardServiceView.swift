@@ -42,10 +42,14 @@ public class CardServiceView: ViewBuilder {
             .setWeight(.bold)
             .setSize(16)
             .setTextAlignment(.left)
+            .setSkeleton({ build in
+                build.setCornerRadius(4)
+            })
             .setConstraints { build in
                 build
                     .setTop.setLeading.setTrailing.equalToSafeArea(16)
-                    .setHeight.equalToConstant(30)
+                    .setHeight.equalToConstant(20)
+                    .setWidth.greaterThanOrEqualToConstant(60)
             }
         return comp
     }()
@@ -57,9 +61,13 @@ public class CardServiceView: ViewBuilder {
                 build
                     .setCornerRadius(12)
             })
+            .setSkeleton({ build in
+                build.setCornerRadius(4)
+                    .setColorSkeleton(hexColor: "#fa79c7")
+            })
             .setConstraints { build in
                 build
-                    .setTop.equalTo(titleServiceLabel.get, .bottom)
+                    .setTop.equalTo(titleServiceLabel.get, .bottom, 6)
                     .setLeading.equalTo(titleServiceLabel.get, .leading, -8)
                     .setWidth.equalToConstant(68)
                     .setHeight.equalToConstant(2)
@@ -73,10 +81,14 @@ public class CardServiceView: ViewBuilder {
             .setColor(color: UIColor.HEX("#282A35", 0.7))
             .setSize(14)
             .setNumberOfLines(3)
+            .setSkeleton({ build in
+                build.setCornerRadius(4)
+            })
             .setConstraints { build in
                 build
-                    .setTop.equalTo(titleServiceLabel.get, .bottom, 12)
+                    .setTop.equalTo(underlineView.get, .bottom, 6)
                     .setLeading.setTrailing.equalTo(titleServiceLabel.get)
+                    .setHeight.greaterThanOrEqualToConstant(55)
             }
         return comp
     }()
@@ -85,10 +97,15 @@ public class CardServiceView: ViewBuilder {
         let comp = CustomTextSecondary()
             .setColor(color: UIColor.HEX("#282A35", 0.7))
             .setSize(14)
+            .setSkeleton({ build in
+                build.setCornerRadius(4)
+            })
             .setConstraints { build in
                 build
                     .setVerticalAlignmentY.equalTo(howMutchLabel.get)
                     .setTrailing.equalTo(pointView.get, .leading, -8)
+                    .setHeight.greaterThanOrEqualToConstant(20)
+                    .setWidth.greaterThanOrEqualToConstant(35)
             }
         return comp
     }()
@@ -113,6 +130,9 @@ public class CardServiceView: ViewBuilder {
             .setColor(color: UIColor.HEX("#282A35", 0.8))
             .setWeight(.bold)
             .setSize(14)
+            .setSkeleton({ build in
+                build.setCornerRadius(4)
+            })
             .setConstraints { build in
                 build
                     .setTrailing.equalTo(subTitleServiceLabel.get, .trailing, 2)

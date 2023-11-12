@@ -11,8 +11,8 @@ public class DeleteAuthCredentialsUseCaseImpl: DeleteAuthCredentialsUseCase {
         self.delAuthCredentialsGateway = delAuthCredentialsGateway
     }
     
-    public func delete(key: String) throws {
-        return try delAuthCredentialsGateway.delete(key)
+    public func delete() throws {
+        return try delAuthCredentialsGateway.delete(ProfileUseCasesConstants.credentials)
     }
 
     

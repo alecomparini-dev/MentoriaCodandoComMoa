@@ -41,6 +41,9 @@ public class ListServicesTableViewCellView: ViewBuilder {
                 build
                     .setCornerRadius(25)
             })
+            .setSkeleton({ build in
+                build
+            })
             .setConstraints { build in
                 build
                     .setVerticalAlignmentY.equalToSafeArea
@@ -81,6 +84,7 @@ public class ListServicesTableViewCellView: ViewBuilder {
         configBackgroundColor()
         addElements()
         configConstraints()
+        
     }
     
     private func configBackgroundColor() {

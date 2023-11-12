@@ -31,7 +31,7 @@ class EmailLoginTextFieldView: ViewBuilder {
             .setConstraints { build in
                 build
                     .setTop.equalToSafeArea
-                    .setLeading.setTrailing.equalToSafeArea
+                    .setLeading.equalToSafeArea
             }
         return comp
     }()
@@ -78,4 +78,5 @@ class EmailLoginTextFieldView: ViewBuilder {
         emailCustomText.applyConstraint()
         emailTextField.applyConstraint()
     }
+    
 }

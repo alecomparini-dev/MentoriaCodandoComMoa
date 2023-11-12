@@ -6,7 +6,7 @@ import HomePresenters
 import ProfileSDKMain
 
 public protocol ListServicesViewControllerCoordinator: AnyObject {
-    func gotoAddService(_ servicePresenterDTO: ServicePresenterDTO?)
+    func gotoSaveService(_ servicePresenterDTO: ServicePresenterDTO?)
     func gotoViewerService(_ servicePresenterDTO: ServicePresenterDTO?)
 }
 
@@ -52,25 +52,23 @@ public class ListServicesViewController: UIViewController {
         configure()
     }
     
-    public override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        if listServicePresenter.getServices() != nil {return}
-        reloadTableView()
-        getUserAuth()
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if listServicePresenter.getServices() != nil { return }
+        reload()
     }
-
+    
     
 //  MARK: - DATA TRANSFER
     public func setDataTransfer(_ data: Any?) {
         if let reload = data as? Bool {
-            if reload {
-                fetchListServices()
-            }
+            if reload { self.reload() }
         }
     }
     
     
 //  MARK: - PRIVATE AREA
+
     private func configure() {
         configDelegate()
     }
@@ -93,22 +91,29 @@ public class ListServicesViewController: UIViewController {
     private func configListServicePresenterDelegate() {
         listServicePresenter.outputDelegate = self
     }
-        
-    private func getUserAuth() {
+
+    private func reload() {
+        setHiddenServiceCustomText(true)
+        listServicePresenter.clearServices()
+        reloadTableView()
+        fetchListServices()
+    }
+    
+    private func setHiddenServiceCustomText(_ flag: Bool) {
+        screen.addServiceCustomText.setHidden(flag)
+    }
+
+    private func fetchListServices() {
         // TODO: - RETIRAR ESTE TRECHO DAQUI, USAR O PADRAO DO CLEAN ARCH
         Task {
             do {
-                self.userIDAuth = try await ProfileSDKMain().getUserAuthenticated()
-                fetchListServices()
+                if userIDAuth == nil {
+                    userIDAuth = try await ProfileSDKMain().getUserAuthenticated()
+                }
+                listServicePresenter.fetchCurrencies(userIDAuth!)
             } catch let error  {
                 print(error.localizedDescription)
             }
-        }
-    }
-    
-    private func fetchListServices() {
-        if let userIDAuth {
-            listServicePresenter.fetchCurrencies(userIDAuth)
         }
     }
     
@@ -117,10 +122,17 @@ public class ListServicesViewController: UIViewController {
         listServicePresenter.filterServices(text)
     }
     
+    private func configShowOrHideServiceCustomText() {
+        setHiddenServiceCustomText(true)
+        guard let service = listServicePresenter.getServices() else { return setHiddenServiceCustomText(false) }
+        if !service.isEmpty { return }
+        setHiddenServiceCustomText(false)
+    }
 }
 
 
-//  MARK: -
+//  MARK: - EXTENSION - ListServicesViewDelegate
+
 extension ListServicesViewController: ListServicesViewDelegate {
     
     public func searchTextFieldEditing(_ textField: UITextField) {
@@ -128,13 +140,14 @@ extension ListServicesViewController: ListServicesViewDelegate {
     }
     
     public func addServiceButtonTapped() {
-        coordinator?.gotoAddService(ServicePresenterDTO(uIDFirebase: userIDAuth))
+        coordinator?.gotoSaveService(ServicePresenterDTO(uIDFirebase: userIDAuth))
     }
     
 }
 
 
 //  MARK: - EXTENSION - UITableViewDelegate
+
 extension ListServicesViewController: UITableViewDelegate {
 
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -149,6 +162,7 @@ extension ListServicesViewController: UITableViewDelegate {
 
 
 //  MARK: - EXTENSION - UITableViewDataSource
+
 extension ListServicesViewController: UITableViewDataSource {
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -159,14 +173,10 @@ extension ListServicesViewController: UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: ListServicesTableViewCell.identifier, for: indexPath) as? ListServicesTableViewCell
                 
-        if listServicePresenter.getServices() == nil {
-            DispatchQueue.main.async { cell?.configSkeleton() }
-        }
-        
         let service: ServicePresenterDTO? = listServicePresenter.getServiceBy(index: indexPath.row)
         cell?.setupCell(service) { [weak self] in
             guard let self else {return}
-            coordinator?.gotoAddService(service)
+            coordinator?.gotoSaveService(service)
         }
         
         return cell ?? UITableViewCell()
@@ -181,22 +191,16 @@ extension ListServicesViewController: ListServicesPresenterOutput {
     public func successFetchListServices() {
         filterServices(screen.searchTextField.get.text)
         reloadTableView()
-        if let services = listServicePresenter.getServices() {
-            if services.isEmpty {
-                screen.addServiceCustomText.setHidden(false)
-            }
-        }
+        configShowOrHideServiceCustomText()
     }
     
     public func errorFetchListServices(title: String, message: String) {
         debugPrint(message)
+        setHiddenServiceCustomText(true)
     }
     
     public func reloadTableView() {
-        DispatchQueue.main.async { [weak self] in
-            self?.screen.tableViewListServices.get.reloadData()
-        }
-        
+        screen.tableViewListServices.get.reloadData()
     }
     
 }

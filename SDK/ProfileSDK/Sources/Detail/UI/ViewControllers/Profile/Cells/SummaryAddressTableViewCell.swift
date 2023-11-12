@@ -10,6 +10,9 @@ import ProfilePresenters
 class SummaryAddressTableViewCell: UITableViewCell {
     static let identifier = String(describing: SummaryAddressTableViewCell.self)
     
+    private var summaryAddressTextSkeleton: SkeletonBuilder?
+    private var summaryAddressTextViewSkeleton: SkeletonBuilder?
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configure()
@@ -57,12 +60,47 @@ class SummaryAddressTableViewCell: UITableViewCell {
     
 //  MARK: - SETUP CELL
     public func setupCell(_ profilePresenterDTO: ProfilePresenterDTO?) {
-        guard let profilePresenterDTO else {return}
+        guard let profilePresenterDTO else { return applySkeleton()}
         resetSkeleton()
         makeAddress(profilePresenterDTO)
     }
     
     
+//  MARK: - PRIVATE AREA
+
+    private func configure() {
+        addElements()
+        configConstraints()
+        configSkeleton()
+    }
+    
+    private func addElements() {
+        summaryAddressText.add(insideTo: self.contentView)
+        summaryAddressTextView.add(insideTo: self.contentView)
+    }
+    
+    private func configConstraints() {
+        summaryAddressText.applyConstraint()
+        summaryAddressTextView.applyConstraint()
+    }
+    
+    private func configSkeleton() {
+        summaryAddressTextSkeleton = SkeletonBuilder(component: summaryAddressText).setCornerRadius(4)
+        summaryAddressTextViewSkeleton = SkeletonBuilder(component: summaryAddressTextView)
+    }
+    
+    private func applySkeleton() {
+        summaryAddressTextSkeleton?.showSkeleton()
+        summaryAddressTextViewSkeleton?.showSkeleton()
+    }
+
+    private func resetSkeleton() {
+        summaryAddressTextSkeleton?.hideSkeleton()
+        summaryAddressTextViewSkeleton?.hideSkeleton()
+    }
+
+    
+//  MARK: - MAKE TEXT VIEW
     private func makeAddress(_ profilePresenterDTO: ProfilePresenterDTO?) {
         summaryAddressTextView.setClearText()
         makeStreet(profilePresenterDTO)
@@ -103,41 +141,6 @@ class SummaryAddressTableViewCell: UITableViewCell {
     
     private func insertBreakLine() {
         summaryAddressTextView.setInsertText("\n")
-    }
-    
-    
-//  MARK: - PUBLIC AREA
-    public func configSkeleton() {
-        summaryAddressText.setSkeleton { build in
-            build
-                .showSkeleton(.gradientAnimated)
-        }
-        summaryAddressTextView.setSkeleton { build in
-            build
-                .showSkeleton(.gradientAnimated)
-        }
-    }
-    
-    
-//  MARK: - PRIVATE AREA
-    private func configure() {
-        addElements()
-        configConstraints()
-    }
-    
-    private func addElements() {
-        summaryAddressText.add(insideTo: self.contentView)
-        summaryAddressTextView.add(insideTo: self.contentView)
-    }
-    
-    private func configConstraints() {
-        summaryAddressText.applyConstraint()
-        summaryAddressTextView.applyConstraint()
-    }
-    
-    private func resetSkeleton() {
-        summaryAddressText.get.hideSkeleton()
-        summaryAddressTextView.get.hideSkeleton()
     }
 
 }

@@ -20,6 +20,7 @@ class CPFTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
  
     
 //  MARK: - LAZY AREA
@@ -27,6 +28,9 @@ class CPFTableViewCell: UITableViewCell {
     lazy var cpfLabelText: CustomText = {
         let comp = CustomText()
             .setText("CPF")
+            .setSkeleton({ build in
+                build.setCornerRadius(4)
+            })
             .setConstraints { build in
                 build
                     .setTop.equalToSafeArea(8)
@@ -50,6 +54,9 @@ class CPFTableViewCell: UITableViewCell {
             .setBackgroundColor(hexColor: "#ffffff")
             .setTextColor(hexColor: "#282a36")
             .setPadding(8)
+            .setSkeleton({ build in
+                build
+            })
             .setKeyboard({ build in
                 build
                     .setKeyboardType(.numberPad)
@@ -70,22 +77,9 @@ class CPFTableViewCell: UITableViewCell {
     
 //  MARK: - SETUP CELL
     public func setupCell(_ profilePresenterDTO: ProfilePresenterDTO?) {
-        guard let profilePresenterDTO else {return}
+        guard let profilePresenterDTO else { return showSkeleton() }
         resetSkeleton()
         cpfTextField.setText(profilePresenterDTO.cpf)
-    }
-
-    
-//  MARK: - PUBLIC AREA
-    public func configSkeleton() {
-        cpfLabelText.setSkeleton { build in
-            build
-                .showSkeleton(.gradientAnimated)
-        }
-        cpfTextField.setSkeleton { build in
-            build
-                .showSkeleton(.gradientAnimated)
-        }
     }
     
     
@@ -107,43 +101,16 @@ class CPFTableViewCell: UITableViewCell {
         cpfTextField.applyConstraint()
         fieldRequired.applyConstraint()
     }
-        
-    private func resetSkeleton() {
-        cpfLabelText.get.hideSkeleton()
-        cpfTextField.get.hideSkeleton()
+     
+    private func showSkeleton() {
+        cpfLabelText.skeleton?.showSkeleton()
+        cpfTextField.skeleton?.showSkeleton()
     }
 
-    
-//    private func configSkeleton() {
-//        cpfTextField.get.isSkeletonable = true
-//        cpfTextField.get.showAnimatedGradientSkeleton()
-//        cpfLabelText.get.isSkeletonable = true
-//        cpfLabelText.get.showAnimatedGradientSkeleton()
-        
-//
-//        let skeleton = ViewBuilder()
-//            .setBackgroundColor(color: .lightGray)
-//            .setConstraints { build in
-//                build
-//                    .setAlignmentCenterXY.equalToSafeArea
-//                    .setWidth.equalToConstant(250)
-//                    .setHeight.equalToConstant(50)
-//            }
-//
-//        skeleton.add(insideTo: self.contentView)
-//        skeleton.applyConstraint()
-//
-//        let skeletonLayer = UIView(frame: CGRect(origin: CGPoint(x: -50, y: 0), size: CGSize(width: 50, height: 50)))
-//        skeletonLayer.backgroundColor = UIColor.black.withAlphaComponent(0.05)
-//        skeletonLayer.clipsToBounds = true
-//        skeleton.get.layer.masksToBounds = true
-//        skeleton.get.addSubview(skeletonLayer)
-//
-//
-//        UIView.animate(withDuration: 1.5, delay: 0, options: [.curveLinear, .repeat], animations: { [self] in
-//            skeletonLayer.frame.origin.x = 250
-//        }, completion: nil)
-//    }
+    private func resetSkeleton() {
+        cpfLabelText.skeleton?.hideSkeleton()
+        cpfTextField.skeleton?.hideSkeleton()
+    }
 
 }
 

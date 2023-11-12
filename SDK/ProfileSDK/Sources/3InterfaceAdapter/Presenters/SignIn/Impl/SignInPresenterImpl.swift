@@ -10,6 +10,7 @@ public protocol SignInPresenterOutput: AnyObject {
     func errorSignIn(_ error: String)
     func successSignIn(_ userId: String)
     func loadingLogin(_ isLoading: Bool)
+    func signInUserPasswordLogin(_ continueLoginUserPassword: Bool)
     func askIfWantToUseBiometrics(title: String, message: String, completion: @escaping (_ acceptUseBiometry: Bool) -> Void )
 
 }
@@ -27,6 +28,7 @@ public class SignInPresenterImpl: SignInPresenter  {
     private let delKeyChainEmailUseCase: DeleteKeyChainRememberEmailUseCase
     private let getAuthCredentialsUseCase: GetAuthCredentialsUseCase
     private let saveAuthCredentialsUseCase: SaveAuthCredentialsUseCase
+    private let delAuthCredentialsUseCase: DeleteAuthCredentialsUseCase
     private let checkBiometryUseCase: CheckBiometryUseCase
     private let authenticateWithBiometricsUseCase: AuthenticateWithBiometricsUseCase
     private let emailValidator: EmailValidations
@@ -37,6 +39,7 @@ public class SignInPresenterImpl: SignInPresenter  {
                 delKeyChainEmailUseCase: DeleteKeyChainRememberEmailUseCase,
                 getAuthCredentialsUseCase: GetAuthCredentialsUseCase,
                 saveAuthCredentialsUseCase: SaveAuthCredentialsUseCase,
+                delAuthCredentialsUseCase: DeleteAuthCredentialsUseCase,
                 checkBiometryUseCase: CheckBiometryUseCase,
                 authenticateWithBiometricsUseCase: AuthenticateWithBiometricsUseCase,
                 emailValidator: EmailValidations) {
@@ -46,6 +49,7 @@ public class SignInPresenterImpl: SignInPresenter  {
         self.delKeyChainEmailUseCase = delKeyChainEmailUseCase
         self.getAuthCredentialsUseCase = getAuthCredentialsUseCase
         self.saveAuthCredentialsUseCase = saveAuthCredentialsUseCase
+        self.delAuthCredentialsUseCase = delAuthCredentialsUseCase
         self.checkBiometryUseCase = checkBiometryUseCase
         self.authenticateWithBiometricsUseCase = authenticateWithBiometricsUseCase
         self.emailValidator = emailValidator
@@ -67,7 +71,7 @@ public class SignInPresenterImpl: SignInPresenter  {
         self.password = password
         
         if let msgInvalid = validations() {
-            outputDelegate?.errorSignIn(msgInvalid)
+            errorSignIn(msgInvalid)
             return
         }
         
@@ -77,28 +81,34 @@ public class SignInPresenterImpl: SignInPresenter  {
                 
                 try configRememberEmail(email: email, rememberEmail)
                 
-                if userNotRespondedUseBiometry() { return }
+                if userNotRespondedUseBiometry(email) { return }
                 
                 successSignIn()
+                
             } catch let error {
                 debugPrint(error.localizedDescription)
-                errorSignIn()
-                
+                errorSignIn("Email ou Senha inválidos")
             }
         }
     }
     
-    public func loginByBiometry() {
+    public func loginByBiometry(_ userEmail: String) {
         Task {
-            if let biometricPreference: BiometricPreference = getBiometricPreference() {
+            if let biometricPreference: BiometricPreference = getBiometricPreference(userEmail) {
                 switch biometricPreference {
                     case .accepted(let credentials):
                         performLoginBiometry(credentials)
-                        
-                    default:
                         return
+                    
+                    case .notSameUser:
+                        try delAuthCredentialsUseCase.delete()
+                        signInUserPasswordLogin(true)
+                        return
+                    
+                    default:
+                        break
                 }
-                
+                signInUserPasswordLogin(false)
             }
         }
     }
@@ -153,15 +163,19 @@ public class SignInPresenterImpl: SignInPresenter  {
         }
     }
     
-    private func errorSignIn() {
-        DispatchQueue.main.async { [weak self] in
-            self?.outputDelegate?.errorSignIn("Email ou Senha inválidos")
-        }
-    }
-    
-    private func userNotRespondedUseBiometry() -> Bool {
-        if let biometricPreference: BiometricPreference = getBiometricPreference() {
+    private func userNotRespondedUseBiometry(_ userEmail: String) -> Bool {
+        if let biometricPreference: BiometricPreference = getBiometricPreference(userEmail) {
             if biometricPreference == .notResponded {
+                askIfWantToUseBiometrics()
+                return true
+            }
+            
+            if biometricPreference == .notSameUser {
+                do {
+                    try delAuthCredentialsUseCase.delete()
+                } catch let error {
+                    debugPrint(error.localizedDescription)
+                }
                 askIfWantToUseBiometrics()
                 return true
             }
@@ -175,7 +189,8 @@ public class SignInPresenterImpl: SignInPresenter  {
     
     private func outputLoadingLogin(_ flag: Bool) {
         DispatchQueue.main.async { [weak self] in
-            self?.outputDelegate?.loadingLogin(flag)
+            guard let self else {return}
+            outputDelegate?.loadingLogin(flag)
         }
     }
     
@@ -184,9 +199,27 @@ public class SignInPresenterImpl: SignInPresenter  {
             DispatchQueue.main.async { [weak self] in
                 guard let self else {return}
                 outputDelegate?.successSignIn(userIDAuth)
+                outputLoadingLogin(false)
             }
         }
     }
+    
+    private func errorSignIn(_ message: String) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else {return}
+            outputDelegate?.errorSignIn(message)
+            outputLoadingLogin(false)
+        }
+    }
+    
+    private func signInUserPasswordLogin(_ continueLoginUserPassword: Bool ) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else {return}
+            outputDelegate?.signInUserPasswordLogin(continueLoginUserPassword)
+        }
+    }
+    
+
     
     
 //  MARK: - BIOMETRICS FLOW
@@ -201,15 +234,14 @@ public class SignInPresenterImpl: SignInPresenter  {
                 successSignIn()
             } catch let error {
                 debugPrint(error.localizedDescription)
-                errorSignIn()
+                errorSignIn("Email ou Senha inválidos")
             }
-            return
         }
     }
     
-    private func getBiometricPreference() -> BiometricPreference? {
+    private func getBiometricPreference(_ userEmail: String) -> BiometricPreference? {
         do {
-            return try getAuthCredentialsUseCase.getCredentials()
+            return try getAuthCredentialsUseCase.getCredentials(userEmail)
         } catch let error {
             debugPrint(error.localizedDescription)
         }
@@ -226,15 +258,6 @@ public class SignInPresenterImpl: SignInPresenter  {
         return true
     }
     
-    private func completionAskIfWantToUseBiometrics(_ acceptUseBiometry: Bool) {
-        if acceptUseBiometry {
-            saveCredentials(email: self.email, password: self.password)
-        } else {
-            saveCredentials(email: "", password: "")
-        }
-        successSignIn()
-    }
-    
     private func askIfWantToUseBiometrics() {
         DispatchQueue.main.async { [weak self] in
             guard let self else {return}
@@ -243,6 +266,15 @@ public class SignInPresenterImpl: SignInPresenter  {
                 message: "Deseja realizar o login usando a Biometria?",
                 completion: completionAskIfWantToUseBiometrics)
         }
+    }
+    
+    private func completionAskIfWantToUseBiometrics(_ acceptUseBiometry: Bool) {
+        if acceptUseBiometry {
+            saveCredentials(email: self.email, password: self.password)
+        } else {
+            saveCredentials(email: self.email, password: "")
+        }
+        successSignIn()
     }
     
     private func saveCredentials(email: String, password: String) {

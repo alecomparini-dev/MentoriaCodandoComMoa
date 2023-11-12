@@ -8,6 +8,7 @@ public typealias CredentialsAlias = (email: String, password: String)
 public enum BiometricPreference: Equatable {
     case notResponded
     case notAccepted
+    case notSameUser
     case accepted(credentials: CredentialsAlias)
     
     public static func == (lhs: BiometricPreference, rhs: BiometricPreference) -> Bool {
@@ -21,6 +22,9 @@ public enum BiometricPreference: Equatable {
         case (.accepted, .accepted):
             return true
             
+        case (.notSameUser, .notSameUser):
+            return true
+            
         default:
             return false
         }
@@ -29,5 +33,5 @@ public enum BiometricPreference: Equatable {
 }
 
 public protocol GetAuthCredentialsUseCase {
-    func getCredentials() throws -> BiometricPreference
+    func getCredentials(_ userEmail: String) throws -> BiometricPreference
 }

@@ -7,7 +7,7 @@ import UIKit
 import HomePresenters
 
 public protocol ViewerServiceViewControllerCoordinator: AnyObject {
-    func gotoEditService(_ servicePresenterDTO: ServicePresenterDTO?)
+    func gotoEditService(_ vc: UIViewController, _ servicePresenterDTO: ServicePresenterDTO?)
     func gotoListServiceHomeTabBar(_ vc: UIViewController, _ reloadTable: Bool)
     func freeMemoryCoordinator()
 }
@@ -122,7 +122,7 @@ extension ViewerServiceViewController: ViewerServiceViewDelegate {
     }
     
     public func editButtonTapped() {
-        coordinator?.gotoEditService(servicePresenterDTO)
+        coordinator?.gotoEditService(self, servicePresenterDTO)
     }
     
     

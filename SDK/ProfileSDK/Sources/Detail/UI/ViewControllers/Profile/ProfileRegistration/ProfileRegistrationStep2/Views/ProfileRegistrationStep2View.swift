@@ -89,6 +89,8 @@ class ProfileRegistrationStep2View: UIView {
     private func configure() {
         addElements()
         configConstraints()
+        
+        stepTextTitle.skeleton?.showSkeleton()
     }
     
     private func addElements() {

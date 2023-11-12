@@ -23,13 +23,18 @@ class ForgotPasswordViewControllerFactory {
         
         let deleteAuthCredentialsUseCase = DeleteAuthCredentialsUseCaseImpl(delAuthCredentialsGateway: deleteKeyChainUseCaseGateway)
         
+        let getAuthCredentialsGateway = GetKeyChainUseCaseGatewayImpl(localStorageKeyChainProvider: localStorage)
+        
+        let getAuthCredentialsUseCase = GetAuthCredentialsUseCaseImpl(getAuthCredentialsGateway: getAuthCredentialsGateway)
+        
         let resetPassword = FirebaseResetPassword()
         
         let resetPasswordGateway = ResetPasswordUseCaseGatewayImpl(resetPassword: resetPassword)
         
         let resetPasswordUseCase = ResetPasswordUseCaseImpl(resetPasswordGateway: resetPasswordGateway )
-                
-        let forgotPasswordPresenter = ForgotPasswordPresenterImpl(resetPasswordUseCase: resetPasswordUseCase,
+            
+        let forgotPasswordPresenter = ForgotPasswordPresenterImpl(resetPasswordUseCase: resetPasswordUseCase, 
+                                                                  getAuthCredentialsUseCase: getAuthCredentialsUseCase,
                                                                   delAuthCredentialsUseCase: deleteAuthCredentialsUseCase)
         
         return ForgotPasswordViewController(forgotPasswordPresenter: forgotPasswordPresenter)

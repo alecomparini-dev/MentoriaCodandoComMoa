@@ -5,12 +5,12 @@ import UIKit
 
 import HomePresenters
 
-public protocol AddServiceViewControllerCoordinator: AnyObject {
-    func gotoListServiceHomeTabBar()
+public protocol SaveServiceViewControllerCoordinator: AnyObject {
+    func gotoListServiceHomeTabBar(_ reload: Bool)
 }
 
 public class SaveServiceViewController: UIViewController {
-    public weak var coordinator: AddServiceViewControllerCoordinator?
+    public weak var coordinator: SaveServiceViewControllerCoordinator?
     
     private struct Control {
         static var setNeedsLayout = true
@@ -230,7 +230,7 @@ extension SaveServiceViewController: AddServiceViewDelegate {
     }
     
     public func backButtonTapped() {
-        coordinator?.gotoListServiceHomeTabBar()
+        coordinator?.gotoListServiceHomeTabBar(false)
     }
     
 }
@@ -379,7 +379,7 @@ extension SaveServiceViewController: SaveServicePresenterOutput {
     }
     
     public func successSaveService() {
-        coordinator?.gotoListServiceHomeTabBar()
+        coordinator?.gotoListServiceHomeTabBar(true)
     }
     
     public func errorSaveService(title: String, message: String) {
@@ -390,7 +390,7 @@ extension SaveServiceViewController: SaveServicePresenterOutput {
     }
     
     public func successDisableService() {
-        coordinator?.gotoListServiceHomeTabBar()
+        coordinator?.gotoListServiceHomeTabBar(true)
     }
     
     public func errorDisableService(title: String, message: String) {

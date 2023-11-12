@@ -15,10 +15,12 @@ public class ForgotPasswordPresenterImpl: ForgotPasswordPresenter {
     public weak var outputDelegate: ForgotPasswordPresenterOutput?
     
     private let resetPasswordUseCase: ResetPasswordUseCase
+    private let getAuthCredentialsUseCase: GetAuthCredentialsUseCase
     private let delAuthCredentialsUseCase: DeleteAuthCredentialsUseCase
     
-    public init(resetPasswordUseCase: ResetPasswordUseCase, delAuthCredentialsUseCase: DeleteAuthCredentialsUseCase) {
+    public init(resetPasswordUseCase: ResetPasswordUseCase, getAuthCredentialsUseCase: GetAuthCredentialsUseCase, delAuthCredentialsUseCase: DeleteAuthCredentialsUseCase) {
         self.resetPasswordUseCase = resetPasswordUseCase
+        self.getAuthCredentialsUseCase = getAuthCredentialsUseCase
         self.delAuthCredentialsUseCase = delAuthCredentialsUseCase
     }
     
@@ -32,8 +34,17 @@ public class ForgotPasswordPresenterImpl: ForgotPasswordPresenter {
         
         Task {
             if await resetPasswordUseCase.reset(userEmail: userEmail) {
-                try delAuthCredentialsUseCase.delete(key: ProfileUseCasesConstants.credentials)
+                let pref = try getAuthCredentialsUseCase.getCredentials(userEmail)
+                
                 successResetPassword()
+                
+                if pref != .notSameUser {
+                    do {
+                        try delAuthCredentialsUseCase.delete()
+                    } catch let error {
+                        debugPrint(error.localizedDescription)
+                    }
+                }   
                 return
             }
             errorResetPassword("Aviso", "Não foi possível resetar a senha. Favor tente novamente mais tarde")

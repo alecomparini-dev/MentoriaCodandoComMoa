@@ -9,7 +9,7 @@ import ProfilePresenters
 
 public protocol SignInViewControllerCoordinator: AnyObject {
     func gotoHome()
-    func gotoLogin()
+    func gotoSignIn()
     func gotoForgotPassword(_ userEmail: String?)
 }
 
@@ -34,6 +34,7 @@ public final class SignInViewController: UIViewController {
         let view = SignInView()
         return view
     }()
+
     
     
     //  MARK: - LIFE CYCLE
@@ -49,19 +50,22 @@ public final class SignInViewController: UIViewController {
     
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        screen.passwordLoginView.passwordTextField.setCloseEye()
+        screen.passwordLoginView.passwordTextField.setText("")
         getEmailKeyChain()
     }
     
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if callBiometricsFlow { biometricsFlow() }
     }
 
-    
+    var overlayView: UIView?
     
 //  MARK: - PRIVATE AREA
     private func configure() {
         configDelegate()
+        getEmailKeyChain()
+        biometricsFlow()
     }
     
     private func configDelegate() {
@@ -81,7 +85,9 @@ public final class SignInViewController: UIViewController {
     
     private func biometricsFlow() {
         if !isEmailFilledIn() { return }
-        signInPresenter.loginByBiometry()
+        if let email = screen.emailLoginView.emailTextField.get.text {
+            signInPresenter.loginByBiometry(email)
+        }
     }
     
     private func isEmailFilledIn() -> Bool {
@@ -109,6 +115,7 @@ public final class SignInViewController: UIViewController {
         showLoadingLoginButton()
         let rememberEmail = screen.rememberSwitch.get.isOn
         signInPresenter.login(email: email, password: password, rememberEmail: rememberEmail)
+        callBiometricsFlow = true
     }
         
 }
@@ -121,8 +128,8 @@ extension SignInViewController: SignInViewDelegate {
         if let email = screen.emailLoginView.emailTextField.get.text,
            let password = screen.passwordLoginView.passwordTextField.get.text {
             
-            if !email.isEmpty && password.isEmpty {
-                signInPresenter.loginByBiometry()
+            if !email.isEmpty && password.isEmpty && callBiometricsFlow {
+                signInPresenter.loginByBiometry(email)
                 return
             }
             callLogin(email, password)
@@ -130,7 +137,7 @@ extension SignInViewController: SignInViewDelegate {
     }
     
     func signUpTapped() {
-        coordinator?.gotoLogin()
+        coordinator?.gotoSignIn()
     }
     
     func forgotPasswordButtonTapped() {
@@ -142,6 +149,14 @@ extension SignInViewController: SignInViewDelegate {
 
 //  MARK: - EXTENSION - LoginPresenterOutput
 extension SignInViewController: SignInPresenterOutput {
+    
+    public func signInUserPasswordLogin(_ continueLoginUserPassword: Bool) {
+        callBiometricsFlow = false
+        if continueLoginUserPassword {
+            signInTapped()
+        }
+    }
+    
     
     public func askIfWantToUseBiometrics(title: String, message: String, completion: @escaping (_ acceptUseBiometrics: Bool) -> Void) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -169,3 +184,7 @@ extension SignInViewController: SignInPresenterOutput {
     }
     
 }
+
+
+
+

@@ -29,8 +29,7 @@ class ViewerServiceCoordinator: NSObject, Coordinator {
         if #available(iOS 15.0, *) {
             controller.setBottomSheet({ build in
                 build
-                    .setDetents(.medium)
-                    .setDetents(.large)
+                    .setDetents([.medium, .large])
                     .setCornerRadius(24)
                     .setGrabbervisible(false)
                     .setScrollingExpandsWhenScrolledToEdge(false)
@@ -49,12 +48,9 @@ extension ViewerServiceCoordinator: ViewerServiceViewControllerCoordinator {
         childCoordinator = nil
     }
     
-    func gotoEditService(_ servicePresenterDTO: ServicePresenterDTO?) {
-        let nav = NavigationController()
-        if let currentScene = CurrentWindow.get {
-            currentScene.rootViewController = nav
-        }
-        let coordinator = AddServiceCoordinator(nav)
+    func gotoEditService(_ vc: UIViewController, _ servicePresenterDTO: ServicePresenterDTO?) {
+        vc.dismiss(animated: true)
+        let coordinator = SaveServiceCoordinator(navigationController)
         coordinator.dataTransfer = servicePresenterDTO
         coordinator.start()
         childCoordinator = nil
@@ -64,10 +60,9 @@ extension ViewerServiceCoordinator: ViewerServiceViewControllerCoordinator {
         vc.dismiss(animated: true)
         guard let currentScene = CurrentWindow.get else { return }
         let homeTabBar = currentScene.rootViewController
-        let listServiceController = homeTabBar?.children[1] as? ListServicesViewController
+        let listServiceController = homeTabBar?.children[1].children[1] as? ListServicesViewController
         listServiceController?.setDataTransfer(reloadTable)
         childCoordinator = nil
-        
     }
     
     

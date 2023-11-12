@@ -3,27 +3,32 @@
 
 import Foundation
 import ProfileUI
+import CustomComponentsSDK
 
 class SignInCoordinator: Coordinator {
     var childCoordinator: Coordinator?
-    unowned let navigationController: NavigationController
+    let navigationController: NavigationController
     var dataTransfer: Any?
     
     required init(_ navigationController: NavigationController) {
         self.navigationController = navigationController
+//        self.navigationController = NavigationController()
     }
     
     func start() {
         childCoordinator = self
-        var controller = LoginViewControllerFactory.make(callBiometricsFlow: setCallBiometricsFlow() )
+        var controller = SignInViewControllerFactory.make(callBiometricsFlow: setCallBiometricsFlow() )
         controller = navigationController.pushViewController(controller)
         controller.coordinator = self
+        //        if let currentScene = CurrentWindow.get {
+        //            currentScene.rootViewController = navigationController
+        //        }
+
     }
     
     
     
 //  MARK: - PRIVATE AREA
-    
     private func setCallBiometricsFlow() -> Bool {
         if let useBiometrics = dataTransfer as? Bool {
             return useBiometrics
@@ -37,7 +42,7 @@ class SignInCoordinator: Coordinator {
 //  MARK: - EXTENSION LoginViewControllerCoordinator
 extension SignInCoordinator: SignInViewControllerCoordinator {
 
-    func gotoLogin() {
+    func gotoSignIn() {
         let coordinator = SignUpCoordinator(navigationController)
         coordinator.start()
         childCoordinator = nil

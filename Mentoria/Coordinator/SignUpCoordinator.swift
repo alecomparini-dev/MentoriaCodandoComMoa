@@ -1,7 +1,3 @@
-//
-//  SignUpCoordinator.swift
-//  Mentoria
-//
 //  Created by Alessandro Comparini on 14/09/23.
 //
 
@@ -12,6 +8,7 @@ import ProfileUI
 class SignUpCoordinator: Coordinator {
     var childCoordinator: Coordinator?
     unowned let navigationController: NavigationController
+    
     var dataTransfer: Any?
     
     required init(_ navigationController: NavigationController) {

@@ -5,18 +5,17 @@ import Foundation
 
 import HomeUI
 
-public class AddServiceCoordinator: Coordinator {
+class SaveServiceCoordinator: Coordinator {
     var childCoordinator: Coordinator?
-    
-    var dataTransfer: Any?
-    
     unowned var navigationController: NavigationController
     
+    var dataTransfer: Any?
+        
     required init(_ navigationController: NavigationController) {
         self.navigationController = navigationController
     }
     
-    func start() {
+    func start() { 
         childCoordinator = self
         var controller = AddServiceViewControllerFactory.make()
         controller = navigationController.pushViewController(controller)
@@ -27,11 +26,12 @@ public class AddServiceCoordinator: Coordinator {
     
 }
 
-//  MARK: - EXTENSION - AddServiceViewControllerCoordinator
-extension AddServiceCoordinator: AddServiceViewControllerCoordinator {
+//  MARK: - EXTENSION - SaveServiceViewControllerCoordinator
+extension SaveServiceCoordinator: SaveServiceViewControllerCoordinator {
     
-    public func gotoListServiceHomeTabBar() {
+    public func gotoListServiceHomeTabBar(_ reload: Bool) {
         let coodinator = HomeTabBarCoordinator(navigationController)
+        coodinator.dataTransfer = reload
         coodinator.start()
         coodinator.selectedTabBarItem(1)
         childCoordinator = nil

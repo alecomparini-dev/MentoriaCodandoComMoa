@@ -11,6 +11,9 @@ import ProfilePresenters
 class DateOfBirthTableViewCell: UITableViewCell {
     static let identifier = String(describing: DateOfBirthTableViewCell.self)
     
+    private var skeletonLabel: SkeletonBuilder?
+    private var skeletonTextField: SkeletonBuilder?
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configure()
@@ -25,6 +28,9 @@ class DateOfBirthTableViewCell: UITableViewCell {
     lazy var dateOfBirthLabelText: CustomText = {
         let comp = CustomText()
             .setText("Data de nascimento")
+            .setSkeleton({ build in
+                build.setCornerRadius(4)
+            })
             .setConstraints { build in
                 build
                     .setTop.equalToSafeArea(8)
@@ -49,6 +55,9 @@ class DateOfBirthTableViewCell: UITableViewCell {
             .setBackgroundColor(hexColor: "#ffffff")
             .setTextColor(hexColor: "#282a36")
             .setPadding(8)
+            .setSkeleton({ build in
+                build
+            })
             .setBorder({ build in
                 build
                     .setCornerRadius(8)
@@ -67,27 +76,14 @@ class DateOfBirthTableViewCell: UITableViewCell {
     }()
 
     
-//  MARK: - PUBLIC AREA
-    public func configSkeleton() {
-        dateOfBirthLabelText.setSkeleton { build in
-            build
-                .showSkeleton(.gradientAnimated)
-        }
-        dateOfBirthTextField.setSkeleton { build in
-            build
-                .showSkeleton(.gradientAnimated)
-        }
-    }
-    
-    
 //  MARK: - SETUP CELL
     public func setupCell(_ profilePresenterDTO: ProfilePresenterDTO?) {
-        guard let profilePresenterDTO else {return}
+        guard let profilePresenterDTO else { return showSkeleton() }
         resetSkeleton()
         dateOfBirthTextField.setText(profilePresenterDTO.dateOfBirth)
     }
     
-    
+
 //  MARK: - PRIVATE AREA
     
     private func configure() {
@@ -106,10 +102,15 @@ class DateOfBirthTableViewCell: UITableViewCell {
         dateOfBirthTextField.applyConstraint()
         fieldRequired.applyConstraint()
     }
-        
+       
+    private func showSkeleton() {
+        dateOfBirthLabelText.skeleton?.showSkeleton()
+        dateOfBirthTextField.skeleton?.showSkeleton()
+    }
+    
     private func resetSkeleton() {
-        dateOfBirthLabelText.get.hideSkeleton()
-        dateOfBirthTextField.get.hideSkeleton()
+        dateOfBirthLabelText.skeleton?.hideSkeleton()
+        dateOfBirthTextField.skeleton?.hideSkeleton()
     }
 
     

@@ -8,7 +8,7 @@ import ProfileUseCaseGateway
 
 public class LocalAuthentication  {
     
-    private let context: LAContext
+    private var context: LAContext
     
     public init(context: LAContext = LAContext()) {
         self.context = context
@@ -24,7 +24,7 @@ extension LocalAuthentication: BiometryAuthentication {
         
         var biometryGatewayDTO = BiometryAuthenticationGatewayDTO()
         
-        if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) {
+        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
             if error != nil { biometryGatewayDTO.biometryTypes = .noneBiometry }
             
             biometryGatewayDTO.biometryTypes = configBiometryTypes()
@@ -41,12 +41,15 @@ extension LocalAuthentication: BiometryAuthentication {
         
         biometryGatewayDTO.isAuthenticated = false
         
+        context = LAContext()
+        
         do {
+            
             if let cancelTitle { context.localizedCancelTitle = cancelTitle }
             
-            try await context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason)
+            context.touchIDAuthenticationAllowableReuseDuration = 0
             
-            biometryGatewayDTO.isAuthenticated = true
+            biometryGatewayDTO.isAuthenticated = try await context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason)
             
             biometryGatewayDTO.biometryTypes = configBiometryTypes()
             

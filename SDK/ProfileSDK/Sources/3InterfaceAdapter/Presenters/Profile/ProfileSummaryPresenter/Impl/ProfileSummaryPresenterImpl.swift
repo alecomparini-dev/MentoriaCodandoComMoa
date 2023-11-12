@@ -6,11 +6,8 @@ import Foundation
 import ProfileUseCases
 
 public protocol ProfileSummaryPresenterOutput: AnyObject {
-    func successGetUserAuthenticated(_ profilePresenterDTO: ProfilePresenterDTO?)
-    func errorGetUserAuthenticated(title: String, message: String)
-    
-    func successGetUserProfile(_ profilePresenterDTO: ProfilePresenterDTO?)
-    func errorGetUserProfile(title: String, message: String)
+    func successFetchUserProfile()
+    func errorFetchUserProfile(title: String, message: String)
     
     func successSaveProfileImage(_ profilePresenterDTO: ProfilePresenterDTO?)
     func errorSaveProfileImage(title: String, message: String)
@@ -21,8 +18,9 @@ public protocol ProfileSummaryPresenterOutput: AnyObject {
 
 
 public class ProfileSummaryPresenterImpl: ProfileSummaryPresenter {
-
     public weak var outputDelegate: ProfileSummaryPresenterOutput?
+    
+    private var profilePresenter: ProfilePresenterDTO?
     
     private let getUserAuthUseCase: GetUserAuthenticatedUseCase
     private let getProfileUseCase: GetProfileUseCase
@@ -38,49 +36,29 @@ public class ProfileSummaryPresenterImpl: ProfileSummaryPresenter {
         self.masks = masks
     }
     
-    public func getUserAuthenticated() {
-        Task {
-            do {
-                let userAuth: UserAuthenticatedUseCaseDTO.Output =  try await getUserAuthUseCase.getUser()
-                DispatchQueue.main.async { [weak self] in
-                    self?.outputDelegate?.successGetUserAuthenticated(ProfilePresenterDTO(userIDAuth: userAuth.userIDAuth))
-                }
-            } catch let error {
-                debugPrint(error.localizedDescription)
-                DispatchQueue.main.async { [weak self] in
-                    self?.outputDelegate?.errorGetUserAuthenticated(title: "Aviso", message: "Não foi possível recuperar o Usuário Logado")
-                }
-            }
-        }
-    }
+    public func getProfilePresenter() -> ProfilePresenterDTO? { self.profilePresenter }
     
-    public func getProfile(_ userIDAuth: String) {
+    public func clearProfilePresenter() { self.profilePresenter = nil}
+    
+    public func fetchUserProfile() {
         Task {
             do {
+                guard let userIDAuth = try await getUserAuthenticated() else { return }
+
                 let getProfileUseCaseDTO: ProfileUseCaseDTO? = try await getProfileUseCase.getProfile(userIDAuth)
                 
-                var profilePresenter: ProfilePresenterDTO = MappersProfilePresenter.mapperTo(profileUseCaseDTO: getProfileUseCaseDTO)
+                profilePresenter = MappersProfilePresenter.mapperTo(profileUseCaseDTO: getProfileUseCaseDTO)
                 
-                let cellPhoneMask = masks[TypeMasks.cellPhoneMask]
-                profilePresenter.cellPhoneNumber = cellPhoneMask?.formatString(profilePresenter.cellPhoneNumber)
-                
-                let CPFMask = masks[TypeMasks.CPFMask]
-                profilePresenter.cpf = CPFMask?.formatString(profilePresenter.cpf)
-                
-                profilePresenter.dateOfBirth = configDateOfBirth(profilePresenter.dateOfBirth)
-                
-                let CEPMask = masks[TypeMasks.CEPMask]
-                let cep = CEPMask?.formatString(profilePresenter.address?.cep)
-                profilePresenter.address?.cep = cep
+                populateFields()
                 
                 DispatchQueue.main.sync { [weak self] in
-                    self?.outputDelegate?.successGetUserProfile(profilePresenter)
+                    self?.outputDelegate?.successFetchUserProfile()
                 }
                 
             } catch let error {
                 debugPrint(error.localizedDescription)
                 DispatchQueue.main.sync { [weak self] in
-                    self?.outputDelegate?.errorGetUserProfile(title: "Aviso", message: "Não foi possível recuperar o profile do usuário. Tente novamente mais tarde")
+                    self?.outputDelegate?.errorFetchUserProfile(title: "Aviso", message: "Não foi possível recuperar o profile do usuário. Tente novamente mais tarde")
                 }
             }
         }
@@ -93,7 +71,7 @@ public class ProfileSummaryPresenterImpl: ProfileSummaryPresenter {
         
         Task {
             do {
-                let profileDTO = try await createProfileUseCase.create(
+                let profileUseCaseDTO = try await createProfileUseCase.create(
                     ProfileUseCaseDTO(
                         userIDAuth: profilePresenterDTO.userIDAuth,
                         userID: profilePresenterDTO.userIDProfile,
@@ -113,21 +91,12 @@ public class ProfileSummaryPresenterImpl: ProfileSummaryPresenter {
                     )
                 )
                 
-                var profilePresenter: ProfilePresenterDTO = MapperProfileUseCaseDTOToProfilePresenterDTO.mapper(profileUseCaseDTO: profileDTO)
-                let cellPhoneMask = masks[TypeMasks.cellPhoneMask]
-                profilePresenter.cellPhoneNumber = cellPhoneMask?.formatString(profilePresenter.cellPhoneNumber)
+                profilePresenter = MapperProfileUseCaseDTOToProfilePresenterDTO.mapper(profileUseCaseDTO: profileUseCaseDTO)
                 
-                let CPFMask = masks[TypeMasks.CPFMask]
-                profilePresenter.cpf = CPFMask?.formatString(profilePresenter.cpf)
-                
-                profilePresenter.dateOfBirth = configDateOfBirth(profilePresenter.dateOfBirth)
-                
-                let CEPMask = masks[TypeMasks.CEPMask]
-                let cep = CEPMask?.formatString(profilePresenter.address?.cep)
-                profilePresenter.address?.cep = cep
-                
+                populateFields()
+                                
                 DispatchQueue.main.sync { [weak self] in
-                    self?.outputDelegate?.successSaveProfileImage(profilePresenter)
+                    self?.outputDelegate?.successSaveProfileImage(self?.profilePresenter)
                 }
 
             } catch let error {
@@ -138,6 +107,23 @@ public class ProfileSummaryPresenterImpl: ProfileSummaryPresenter {
             }
         }
         
+    }
+    
+    private func populateFields() {
+        let cellPhoneMask = masks[TypeMasks.cellPhoneMask]
+        let cellPhoneNumber = profilePresenter?.cellPhoneNumber
+        profilePresenter?.cellPhoneNumber = cellPhoneMask?.formatString(cellPhoneNumber)
+        
+        let CPFMask = masks[TypeMasks.CPFMask]
+        let cpf = profilePresenter?.cpf
+        profilePresenter?.cpf = CPFMask?.formatString(cpf)
+        
+        let dateOfBirth = profilePresenter?.dateOfBirth
+        profilePresenter?.dateOfBirth = configDateOfBirth(dateOfBirth)
+        
+        let CEPMask = masks[TypeMasks.CEPMask]
+        let cep = CEPMask?.formatString(profilePresenter?.address?.cep)
+        profilePresenter?.address?.cep = cep
     }
     
     public func getProfileImageData(_ profilePresenterDTO: ProfilePresenterDTO?) -> Data? {
@@ -166,6 +152,11 @@ public class ProfileSummaryPresenterImpl: ProfileSummaryPresenter {
         
     
 //  MARK: - PRIVATE AREA
+    private func getUserAuthenticated() async throws -> String? {
+        let userAuth: UserAuthenticatedUseCaseDTO.Output = try await getUserAuthUseCase.getUser()
+        return userAuth.userIDAuth
+    }
+    
     
     //TODO: - CRIAR UM COMPONENT PARA CONFIGURAR DATAS -
     private func configDateOfBirth(_ date: String?) -> String? {
@@ -198,14 +189,14 @@ public class ProfileSummaryPresenterImpl: ProfileSummaryPresenter {
         return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
     }
     
-    //    TODO: - CODIGO DUPLICADO EXTRAIR
+//    TODO: - CODIGO DUPLICADO EXTRAIR
     private func removeMask(typeMask: TypeMasks,_ text: String?) -> String? {
         guard let text else {return nil}
         let mask = getMask(typeMask)
         return mask?.cleanText(text)
     }
     
-    //    TODO: - CODIGO DUPLICADO EXTRAIR
+//    TODO: - CODIGO DUPLICADO EXTRAIR
     private func getMask(_ typeMask: TypeMasks) -> Masks? {
         switch typeMask {
             case .cellPhoneMask:

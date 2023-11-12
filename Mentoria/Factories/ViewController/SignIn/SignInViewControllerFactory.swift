@@ -1,5 +1,5 @@
 //
-//  LoginViewControllerFactory.swift
+//  SignInViewControllerFactory.swift
 //  Mentoria
 //
 //  Created by Alessandro Comparini on 14/09/23.
@@ -17,7 +17,7 @@ import ProfileUseCaseGateway
 import ProfileValidations
 
 
-class LoginViewControllerFactory {
+class SignInViewControllerFactory {
 
     static func make(callBiometricsFlow: Bool?) -> SignInViewController {
         
@@ -37,11 +37,11 @@ class LoginViewControllerFactory {
         
         let saveAuthCredentialsUseCase = makeSaveAuthCredentialsUseCase(localStorage)
         
-        let biometryAuthentication = LocalAuthentication()
+        let delAuthCredentialsUseCase = makeDeleteAuthCredentialsUseCase(localStorage)
         
-        let checkBiometryUseCase = makeCheckBiometryUseCase(biometryAuthentication)
+        let checkBiometryUseCase = makeCheckBiometryUseCase()
         
-        let authenticateWithBiometricsUseCase = makeAuthenticateWithBiometricsUseCase(biometryAuthentication)
+        let authenticateWithBiometricsUseCase = makeAuthenticateWithBiometricsUseCase()
             
         let validation = Validations()
         
@@ -50,8 +50,9 @@ class LoginViewControllerFactory {
                                                   getKeyChainEmailUseCase: getKeyChainEmailUseCase,
                                                   delKeyChainEmailUseCase: delKeyChainEmailUseCase,
                                                   getAuthCredentialsUseCase: getAuthCredentialsUseCase,
-                                                  saveAuthCredentialsUseCase: saveAuthCredentialsUseCase,
-                                                  checkBiometryUseCase: checkBiometryUseCase, 
+                                                  saveAuthCredentialsUseCase: saveAuthCredentialsUseCase, 
+                                                  delAuthCredentialsUseCase: delAuthCredentialsUseCase,
+                                                  checkBiometryUseCase: checkBiometryUseCase,
                                                   authenticateWithBiometricsUseCase: authenticateWithBiometricsUseCase,
                                                   emailValidator: validation)
         
@@ -67,12 +68,14 @@ class LoginViewControllerFactory {
         return AuthenticateUseCaseImpl(authUseCaseGateway: authUseCaseGateway)
     }
     
-    static private func makeCheckBiometryUseCase(_ biometryAuthentication: LocalAuthentication) -> CheckBiometryUseCaseImpl{
-        let checkBiometryGateway = CheckBiometryUseCaseGatewayImpl(biometryAuthentication: biometryAuthentication)
+    static private func makeCheckBiometryUseCase() -> CheckBiometryUseCaseImpl{
+        let biometryCheckAuthentication = LocalAuthentication(context: LAContext())
+        let checkBiometryGateway = CheckBiometryUseCaseGatewayImpl(biometryAuthentication: biometryCheckAuthentication)
         return CheckBiometryUseCaseImpl(checkBiometryGateway: checkBiometryGateway)
     }
     
-    static private func makeAuthenticateWithBiometricsUseCase(_ biometryAuthentication: LocalAuthentication) -> AuthenticateWithBiometricsUseCaseImpl{
+    static private func makeAuthenticateWithBiometricsUseCase() -> AuthenticateWithBiometricsUseCaseImpl{
+        let biometryAuthentication = LocalAuthentication(context: LAContext())
         let authenticateWithBiometricGateway = AuthenticateWithBiometricsUseCaseGatewayImpl(biometryAuthentication: biometryAuthentication)
         return AuthenticateWithBiometricsUseCaseImpl(authenticateWithBiometricGateway: authenticateWithBiometricGateway)
     }
@@ -90,6 +93,11 @@ class LoginViewControllerFactory {
     static private func makeSaveKeyChainEmailUseCase(_ localStorage: ProfileLocalStorage) -> SaveKeyChainRememberEmailUseCaseImpl{
         let saveKeyChainGateway = SaveKeyChainUseCaseGatewayImpl(localStorageKeyChainProvider: localStorage)
         return SaveKeyChainRememberEmailUseCaseImpl(saveKeyChainGateway: saveKeyChainGateway)
+    }
+    
+    static private func makeDeleteAuthCredentialsUseCase(_ localStorage: ProfileLocalStorage) -> DeleteAuthCredentialsUseCaseImpl {
+        let delKeyChainGateway = DeleteKeyChainUseCaseGatewayImpl(localStorageKeyChainProvider: localStorage)
+        return DeleteAuthCredentialsUseCaseImpl(delAuthCredentialsGateway: delKeyChainGateway)
     }
     
     static private func makeGetAuthCredentialsUseCase(_ localStorage: ProfileLocalStorage) -> GetAuthCredentialsUseCaseImpl{
