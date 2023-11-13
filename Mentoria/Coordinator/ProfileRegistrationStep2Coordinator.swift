@@ -37,8 +37,9 @@ extension ProfileRegistrationStep2Coordinator: ProfileRegistrationStep2ViewContr
         childCoordinator = nil
     }
     
-    func gotoProfileHomeTabBar() {
+    func gotoProfileSummaryHomeTabBar(_ reload: Bool) {
         let coodinator = HomeTabBarCoordinator(navigationController)
+        coodinator.dataTransfer = reload
         coodinator.start()
         coodinator.selectedTabBarItem(0)
         childCoordinator = nil

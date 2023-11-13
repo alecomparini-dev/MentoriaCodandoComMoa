@@ -8,7 +8,7 @@ import ProfilePresenters
 
 public protocol ProfileRegistrationStep2ViewControllerCoordinator: AnyObject {
     func gotoProfileRegistrationStep1(_ profilePresenterDTO: ProfilePresenterDTO?)
-    func gotoProfileHomeTabBar()
+    func gotoProfileSummaryHomeTabBar(_ reload: Bool)
 }
 
 
@@ -295,7 +295,7 @@ extension ProfileRegistrationStep2ViewController: ProfileRegistrationStep2Presen
         let alert = UIAlertController(title: "Sucesso", message: "Cadastro realizado com Sucesso!" , preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
             self?.addressCell?.confirmationButtom.setHideLoadingIndicator()
-            self?.coordinator?.gotoProfileHomeTabBar()
+            self?.coordinator?.gotoProfileSummaryHomeTabBar(true)
         }
         alert.addAction(action)
         present(alert, animated: true)

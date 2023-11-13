@@ -31,7 +31,7 @@ class ProfileRegistrationStep1Coordinator: Coordinator {
 //  MARK: - EXTENSION - ProfileRegistrationStep1ViewControllerCoordinator
 extension ProfileRegistrationStep1Coordinator: ProfileRegistrationStep1ViewControllerCoordinator {
     
-    func gotoProfileHomeTabBar() {
+    func gotoProfileSummaryHomeTabBar() {
         let coodinator = HomeTabBarCoordinator(navigationController)
         coodinator.start()
         coodinator.selectedTabBarItem(0)

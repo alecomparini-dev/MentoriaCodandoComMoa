@@ -62,6 +62,7 @@ public final class ProfileSummaryViewController: UIViewController {
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setScrollToTop()
+        if profileSummaryPresenter.getProfilePresenter() != nil {return}
         reload()
     }
 
@@ -72,9 +73,10 @@ public final class ProfileSummaryViewController: UIViewController {
 
 //  MARK: - DATA TRANSFER
     public func setDataTransfer(_ data: Any?) {
-//        if let profilePresenterDTO = data as? ProfilePresenterDTO {
-//            self.profilePresenterDTO = profilePresenterDTO
-//        }
+        if let reload = data as? Bool {
+            setScrollToTop()
+            if reload { self.reload() }
+        }
     }
 
     
