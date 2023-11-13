@@ -7,7 +7,7 @@ import ProfilePresenters
 
 
 public protocol ProfileRegistrationStep1ViewControllerCoordinator: AnyObject {
-    func gotoProfileHomeTabBar()
+    func gotoProfileSummaryHomeTabBar()
     func gotoProfileRegistrationStep2(_ profilePresenterDTO: ProfilePresenterDTO?)
 }
 
@@ -332,7 +332,7 @@ extension ProfileRegistrationStep1ViewController: ProfileRegistrationStep1ViewDe
     
     func backButtonTapped() {
         Control.setNeedsLayout = false
-        coordinator?.gotoProfileHomeTabBar()
+        coordinator?.gotoProfileSummaryHomeTabBar()
     }
     
 }
