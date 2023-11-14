@@ -75,7 +75,7 @@ class ProfileRegistrationStep1View: UIView {
         let comp = TableViewBuilder()
             .setShowsScroll(false, .both)
             .setSeparatorStyle(.none)
-            .setBackgroundColor(color: .clear)
+            .setBackgroundColor(.clear)
             .setRegisterCell(NameTableViewCell.self)
             .setRegisterCell(CPFTableViewCell.self)
             .setRegisterCell(DateOfBirthTableViewCell.self)

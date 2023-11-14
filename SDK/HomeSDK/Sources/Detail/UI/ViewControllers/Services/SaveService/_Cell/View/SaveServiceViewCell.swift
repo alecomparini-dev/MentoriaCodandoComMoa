@@ -183,7 +183,7 @@ public class SaveServiceViewCell: ViewBuilder {
         let comp = LabelBuilder("min")
             .setSize(14)
             .setWeight(.semibold)
-            .setBackgroundColor(color: howMutchServiceTextField.get.backgroundColor)
+            .setBackgroundColor(howMutchServiceTextField.get.backgroundColor)
             .setTextAlignment(.center)
             .setColor(color: howMutchServiceTextField.get.textColor)
             .setConstraints { build in
@@ -239,7 +239,7 @@ public class SaveServiceViewCell: ViewBuilder {
         let comp = LabelBuilder("R$")
             .setSize(16)
             .setWeight(.semibold)
-            .setBackgroundColor(color: howMutchServiceTextField.get.backgroundColor)
+            .setBackgroundColor(howMutchServiceTextField.get.backgroundColor)
             .setTextAlignment(.center)
             .setColor(color: howMutchServiceTextField.get.textColor)
             .setConstraints { build in

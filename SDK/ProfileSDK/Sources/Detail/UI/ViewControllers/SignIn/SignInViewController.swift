@@ -55,11 +55,11 @@ public final class SignInViewController: UIViewController {
         getEmailKeyChain()
     }
     
-    public override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    public override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
     }
+    
 
-    var overlayView: UIView?
     
 //  MARK: - PRIVATE AREA
     private func configure() {
