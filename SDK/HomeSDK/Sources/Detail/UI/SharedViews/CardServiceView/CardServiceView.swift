@@ -27,7 +27,7 @@ public class CardServiceView: ViewBuilder {
                 build
                     .setCornerRadius(12)
                     .setWidth(1)
-                    .setColor(color: UIColor.HEX("#fa79c7").withAlphaComponent(0.8))
+                    .setColor(UIColor.HEX("#fa79c7").withAlphaComponent(0.8))
             })
             .setConstraints { build in
                 build
@@ -78,7 +78,7 @@ public class CardServiceView: ViewBuilder {
     lazy var subTitleServiceLabel: CustomText = {
         let comp = CustomText()
             .setTextAlignment(.justified)
-            .setColor(color: UIColor.HEX("#282A35", 0.7))
+            .setColor(UIColor.HEX("#282A35", 0.7))
             .setSize(14)
             .setNumberOfLines(3)
             .setSkeleton({ build in
@@ -95,7 +95,7 @@ public class CardServiceView: ViewBuilder {
 
     lazy var durationLabel: CustomTextSecondary = {
         let comp = CustomTextSecondary()
-            .setColor(color: UIColor.HEX("#282A35", 0.7))
+            .setColor(UIColor.HEX("#282A35", 0.7))
             .setSize(14)
             .setSkeleton({ build in
                 build.setCornerRadius(4)
@@ -127,7 +127,7 @@ public class CardServiceView: ViewBuilder {
     
     lazy var howMutchLabel: CustomTextSecondary = {
         let comp = CustomTextSecondary()
-            .setColor(color: UIColor.HEX("#282A35", 0.8))
+            .setColor(UIColor.HEX("#282A35", 0.8))
             .setWeight(.bold)
             .setSize(14)
             .setSkeleton({ build in
