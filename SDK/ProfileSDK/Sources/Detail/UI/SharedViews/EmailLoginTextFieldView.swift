@@ -50,6 +50,8 @@ class EmailLoginTextFieldView: ViewBuilder {
             .setBorder({ build in
                 build
                     .setCornerRadius(8)
+                    .setColor(hexColor: "#fa79c7")
+                    .setWidth(0.5)
             })
             .setConstraints { build in
                 build
