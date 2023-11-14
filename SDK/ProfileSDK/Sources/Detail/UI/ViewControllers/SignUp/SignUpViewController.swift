@@ -58,7 +58,6 @@ public final class SignUpViewController: UIViewController {
 }
 
 
-
 //  MARK: - EXTENSION - HomeViewDelegate
 extension SignUpViewController: SignUpViewDelegate {
     func backButtonTapped() {

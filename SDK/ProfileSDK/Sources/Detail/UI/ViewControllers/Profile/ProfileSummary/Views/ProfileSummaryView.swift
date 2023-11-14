@@ -87,7 +87,7 @@ public class ProfileSummaryView: UIView {
         let comp = TableViewBuilder()
             .setShowsScroll(false, .both)
             .setSeparatorStyle(.none)
-            .setBackgroundColor(color: .clear)
+            .setBackgroundColor(.clear)
             .setRegisterCell(ProfilePictureTableViewCell.self)
             .setRegisterCell(CPFTableViewCell.self)
             .setRegisterCell(DateOfBirthTableViewCell.self)

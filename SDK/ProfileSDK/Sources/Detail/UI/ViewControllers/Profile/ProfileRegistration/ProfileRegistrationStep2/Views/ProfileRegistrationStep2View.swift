@@ -73,7 +73,7 @@ class ProfileRegistrationStep2View: UIView {
         let comp = TableViewBuilder()
             .setShowsScroll(false, .both)
             .setSeparatorStyle(.none)
-            .setBackgroundColor(color: .clear)
+            .setBackgroundColor(.clear)
             .setRegisterCell(AddressTableViewCell.self)
             .setConstraints { build in
                 build

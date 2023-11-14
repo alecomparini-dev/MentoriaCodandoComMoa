@@ -22,7 +22,7 @@ public class CardServiceView: ViewBuilder {
     
     lazy var cardView: ViewBuilder = {
         let comp = ViewBuilder()
-            .setBackgroundColor(color: UIColor.HEX("#ffffff", 0.9))
+            .setBackgroundColor(UIColor.HEX("#ffffff", 0.9))
             .setBorder({ build in
                 build
                     .setCornerRadius(12)

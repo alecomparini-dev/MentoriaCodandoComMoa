@@ -97,7 +97,7 @@ class AddressTableViewCell: UITableViewCell {
     
     lazy var loading: LoadingBuilder = {
         let comp = LoadingBuilder()
-            .setBackgroundColor(color: searchCEPTextField.get.backgroundColor)
+            .setBackgroundColor(searchCEPTextField.get.backgroundColor)
             .setColor(color: UIColor.HEX("#000000", 0.8))
             .setHideWhenStopped(true)
             .setConstraints { build in

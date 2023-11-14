@@ -92,7 +92,7 @@ public class SaveServiceView: UIView {
         let comp = TableViewBuilder()
             .setShowsScroll(false, .both)
             .setSeparatorStyle(.none)
-            .setBackgroundColor(color: .clear)
+            .setBackgroundColor(.clear)
             .setRegisterCell(SaveServiceTableViewCell.self)
             .setConstraints { build in
                 build

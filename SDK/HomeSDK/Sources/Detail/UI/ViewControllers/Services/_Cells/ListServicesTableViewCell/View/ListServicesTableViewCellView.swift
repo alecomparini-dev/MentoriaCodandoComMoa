@@ -88,7 +88,7 @@ public class ListServicesTableViewCellView: ViewBuilder {
     }
     
     private func configBackgroundColor() {
-        self.setBackgroundColor(color: .clear)
+        self.setBackgroundColor(.clear)
     }
     
     private func addElements() {
