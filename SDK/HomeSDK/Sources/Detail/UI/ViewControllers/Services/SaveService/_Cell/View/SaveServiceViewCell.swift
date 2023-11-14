@@ -185,7 +185,7 @@ public class SaveServiceViewCell: ViewBuilder {
             .setWeight(.semibold)
             .setBackgroundColor(howMutchServiceTextField.get.backgroundColor)
             .setTextAlignment(.center)
-            .setColor(color: howMutchServiceTextField.get.textColor)
+            .setColor(howMutchServiceTextField.get.textColor)
             .setConstraints { build in
                 build
                     .setBottom.equalTo(durationServiceTextField.get, .bottom , -4)
@@ -241,7 +241,7 @@ public class SaveServiceViewCell: ViewBuilder {
             .setWeight(.semibold)
             .setBackgroundColor(howMutchServiceTextField.get.backgroundColor)
             .setTextAlignment(.center)
-            .setColor(color: howMutchServiceTextField.get.textColor)
+            .setColor(howMutchServiceTextField.get.textColor)
             .setConstraints { build in
                 build
                     .setPinLeft.equalTo(howMutchServiceTextField.get, 4)

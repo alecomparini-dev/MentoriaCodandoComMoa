@@ -60,7 +60,7 @@ public class ViewerServiceView: UIView {
             .setContentMode(.center)
         let comp = ButtonImageBuilder()
             .setImageButton(img)
-            .setImageColor(color: UIColor.HEX("#ffffff",0.6))
+            .setImageColor(UIColor.HEX("#ffffff",0.6))
             .setConstraints { build in
                 build
                     .setTop.setLeading.equalToSafeArea(24)
@@ -146,7 +146,7 @@ public class ViewerServiceView: UIView {
 
     lazy var durationLabel: CustomTextSecondary = {
         let comp = CustomTextSecondary()
-            .setColor(color: UIColor.HEX("#ffffff", 0.7))
+            .setColor(UIColor.HEX("#ffffff", 0.7))
             .setSize(16)
             .setConstraints { build in
                 build
@@ -174,7 +174,7 @@ public class ViewerServiceView: UIView {
     lazy var howMutchLabel: CustomText = {
         let comp = CustomText()
             .setText("R$ 50,00")
-            .setColor(color: UIColor.HEX("#ffffff", 0.8))
+            .setColor(UIColor.HEX("#ffffff", 0.8))
             .setWeight(.bold)
             .setSize(18)
             .setConstraints { build in

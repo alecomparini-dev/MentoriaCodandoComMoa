@@ -63,7 +63,7 @@ public class ListServicesTableViewCellView: ViewBuilder {
                 build
                     .setCornerRadius(50)
             })
-            .setTintColor(color: .white)
+            .setTintColor(.white)
             .setConstraints { build in
                 build
                     .setTop.setBottom.equalTo(cardServiceView.get)

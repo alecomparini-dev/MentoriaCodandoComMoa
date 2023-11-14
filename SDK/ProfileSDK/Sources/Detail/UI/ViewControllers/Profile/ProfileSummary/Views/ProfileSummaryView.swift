@@ -54,7 +54,7 @@ public class ProfileSummaryView: UIView {
         let btn = ButtonImageBuilder()
             .setImageButton(img)
             .setImageWeight(.bold)
-            .setTintColor(color: UIColor.HEX("#baa0f4", 0.8))
+            .setTintColor(UIColor.HEX("#baa0f4", 0.8))
             .setConstraints { build in
                 build
                     .setTop.equalTo(screenTitle.get, .top)

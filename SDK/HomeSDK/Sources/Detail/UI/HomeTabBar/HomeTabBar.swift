@@ -21,7 +21,7 @@ public class HomeTabBar {
             .setTranslucent(true)
             .setIsNavigationBarHidden(true)
             .setBackGroundColor(hexColor: "#363a51")
-            .setUnselectedItemTintColor(color: UIColor.HEX("#FFFFFF").withAlphaComponent(0.5))
+            .setUnselectedItemTintColor(UIColor.HEX("#FFFFFF").withAlphaComponent(0.5))
             .setTintColor(hexColor: "#FFFFFF")
             .setItems(items: items)
     }
