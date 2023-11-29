@@ -71,7 +71,7 @@ public class SaveServiceView: UIView {
     lazy var disableServiceButton: ButtonImageBuilder = {
         let img = ImageViewBuilder(systemName: "trash")
             .setContentMode(.center)
-            .setSize(25)
+            .setSize(18)
         let comp = ButtonImageBuilder()
             .setImageButton(img)
             .setImageColor(hexColor: "#ffffff")

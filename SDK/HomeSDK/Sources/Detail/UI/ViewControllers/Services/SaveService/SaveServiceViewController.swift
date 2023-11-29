@@ -20,7 +20,7 @@ public class SaveServiceViewController: UIViewController {
         case title = 1
         case description = 2
         case duration = 3
-        case howmutch = 4
+        case howMutch = 4
     }
     
     private var constantBottom: CGFloat?
@@ -88,7 +88,6 @@ public class SaveServiceViewController: UIViewController {
         screen.tableViewScreen.setDataSource(dataSource: self)
     }
     
-
     private func configControlSetNeedsLayout() {
         Control.setNeedsLayout = true
     }
@@ -116,7 +115,7 @@ public class SaveServiceViewController: UIViewController {
         cellScreen?.screen.titleServiceTextField.setTag(TextFieldTags.title.rawValue)
         cellScreen?.screen.descriptionServiceTextView.setTag(TextFieldTags.description.rawValue)
         cellScreen?.screen.durationServiceTextField.setTag(TextFieldTags.duration.rawValue)
-        cellScreen?.screen.howMutchServiceTextField.setTag(TextFieldTags.howmutch.rawValue)
+        cellScreen?.screen.howMutchServiceTextField.setTag(TextFieldTags.howMutch.rawValue)
     }
     
     private func isFirstResponderTextFields() {
@@ -216,9 +215,9 @@ public class SaveServiceViewController: UIViewController {
         NotificationCenter.default.removeObserver(self)
     }
     
-
-    
 }
+
+
 
 //  MARK: - EXTENSION - AddServiceViewDelegate
 extension SaveServiceViewController: AddServiceViewDelegate {
@@ -330,7 +329,7 @@ extension SaveServiceViewController: UITextFieldDelegate {
                 setTableViewScroll(at: .bottom)
                 configSetHiddenFieldRequiredGroupView(textField)
                 
-            case TextFieldTags.howmutch.rawValue:
+            case TextFieldTags.howMutch.rawValue:
                 setTableViewScroll(at: .bottom)
                 configSetHiddenFieldRequiredGroupView(textField)
                 return validateKeyboardDecimal(text: textField.text, string)
@@ -351,7 +350,7 @@ extension SaveServiceViewController: UITextFieldDelegate {
         }
         
         if let howMutch = cellScreen.screen.howMutchServiceTextField.get.text {
-            if howMutch.isEmpty && textField.tag != TextFieldTags.howmutch.rawValue {
+            if howMutch.isEmpty && textField.tag != TextFieldTags.howMutch.rawValue {
                 return
             }
         }
