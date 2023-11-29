@@ -12,7 +12,6 @@ class SignInCoordinator: Coordinator {
     
     required init(_ navigationController: NavigationController) {
         self.navigationController = navigationController
-//        self.navigationController = NavigationController()
     }
     
     func start() {
@@ -20,12 +19,8 @@ class SignInCoordinator: Coordinator {
         var controller = SignInViewControllerFactory.make(callBiometricsFlow: setCallBiometricsFlow() )
         controller = navigationController.pushViewController(controller)
         controller.coordinator = self
-        //        if let currentScene = CurrentWindow.get {
-        //            currentScene.rootViewController = navigationController
-        //        }
 
     }
-    
     
     
 //  MARK: - PRIVATE AREA

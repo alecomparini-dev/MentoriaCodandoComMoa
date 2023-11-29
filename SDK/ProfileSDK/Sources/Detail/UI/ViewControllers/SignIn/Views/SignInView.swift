@@ -15,8 +15,6 @@ protocol SignInViewDelegate: AnyObject {
 class SignInView: UIView {
     weak var delegate: SignInViewDelegate?
     
-//    var skeleton: SkeletonBuilderAqui?
-    
     init() {
         super.init(frame: .zero)
         configure()

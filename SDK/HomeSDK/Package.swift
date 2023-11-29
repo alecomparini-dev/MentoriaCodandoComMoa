@@ -17,7 +17,8 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/alecomparini-dev/DesignerSystemSDK.git", branch: "develop"),
         .package(url: "https://github.com/alecomparini-dev/NetworkSDK.git", branch: "develop"),
-        .package(url: "https://github.com/firebase/firebase-ios-sdk.git", branch: "10.15.0"),
+        .package(url: "https://github.com/alecomparini-dev/DataStorageSDK.git", branch: "develop"),
+        .package(url: "https://github.com/firebase/firebase-ios-sdk.git", .upToNextMajor(from: "10.18.0") ),
     ],
     
 
@@ -59,7 +60,7 @@ let package = Package(
         
     
 
-        //  MARK: - DETAILS LAYER
+//  MARK: - DETAILS LAYER
         .target(
             name: "HomeUI",
             dependencies: [
@@ -77,6 +78,15 @@ let package = Package(
                 .product(name: "NetworkSDKMain", package: "NetworkSDK")
             ],
             path: "Sources/Detail/Infrastructure/Network"
+        ),
+        
+        .target(
+            name: "HomeDataStorage",
+            dependencies: [
+                "HomeUseCaseGateway",
+                .product(name: "DataStorageSDKMain", package: "DataStorageSDK"),
+            ],
+            path: "Sources/Detail/Infrastructure/DataStorage"
         ),
                 
         
