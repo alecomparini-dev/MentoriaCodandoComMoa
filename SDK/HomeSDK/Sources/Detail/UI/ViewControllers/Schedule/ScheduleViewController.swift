@@ -2,6 +2,7 @@
 //
 
 import UIKit
+import CustomComponentsSDK
 
 public protocol ScheduleViewControllerCoordinator: AnyObject {
     
@@ -40,9 +41,38 @@ public final class ScheduleViewController: UIViewController {
 //  MARK: - PRIVATE AREA
     private func configure() {
         configDelegate()
+        screen.dock.show()
     }
     
     private func configDelegate() {
-//        screen.delegate = self
+        screen.dock.setDelegate(delegate: self)
     }
+}
+
+
+//  MARK: - EXTESION - ScheduleViewController
+extension ScheduleViewController: DockDelegate {
+    
+    public func numberOfItemsCallback() -> Int {
+        return 10
+    }
+    
+    public func cellItemCallback(_ indexItem: Int) -> UIView {
+        return ViewBuilder()
+            .setBackgroundColor(.systemPink)
+            .setBorder({ build in
+                build
+                    .setCornerRadius(8)
+            })
+            .get
+    }
+    
+    public func didSelectItemAt(_ indexItem: Int) {
+        print("SELECIONOU:", indexItem)
+    }
+    
+    public func didDeselectItemAt(_ indexItem: Int) {
+        print("RETIROU:", indexItem)
+    }
+    
 }
