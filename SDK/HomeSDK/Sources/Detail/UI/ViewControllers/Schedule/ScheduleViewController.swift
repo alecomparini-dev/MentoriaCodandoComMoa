@@ -54,12 +54,12 @@ public final class ScheduleViewController: UIViewController {
 extension ScheduleViewController: DockDelegate {
     
     public func numberOfItemsCallback() -> Int {
-        return 10
+        return 31
     }
     
     public func cellItemCallback(_ indexItem: Int) -> UIView {
         return ViewBuilder()
-            .setBackgroundColor(.systemPink)
+            .setBackgroundColor(hexColor: "#fa79c7")
             .setBorder({ build in
                 build
                     .setCornerRadius(8)
