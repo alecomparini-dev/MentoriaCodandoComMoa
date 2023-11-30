@@ -74,7 +74,6 @@ class ScheduleView: UIView {
     
     lazy var dock: DockBuilder = {
         let comp = DockBuilder()
-//            .setBackgroundColor(.yellow)
             .setMinimumLineSpacing(18)
             .setContentInset(top: 0, left: 16, bottom: 0, rigth: 16)
             .setShowsHorizontalScrollIndicator(false)
@@ -99,7 +98,7 @@ class ScheduleView: UIView {
             .setConstraints { build in
                 build
                     .setTop.equalTo(dock.get, .bottom, 8)
-                    .setPinBottom.equalToSuperView
+                    .setPinBottom.equalToSafeArea
             }
         return comp
     }()
@@ -129,6 +128,20 @@ class ScheduleView: UIView {
         return comp
     }()
     
+    lazy var listSchedule: ListBuilder = {
+        let comp = ListBuilder()
+            .setRowHeight(100)
+            .setSectionHeaderHeight(45)
+            .setPadding(top: 0, left: 0, bottom: 30, right: 0)
+            .setSeparatorStyle(.singleLine)
+            .setConstraints { build in
+                build
+                    .setTop.equalTo(searchTextField.get, .bottom, 8)
+                    .setPinBottom.equalToSafeArea
+            }
+        return comp
+    }()
+    
     
     
 //  MARK: - PRIVATE AREA
@@ -145,6 +158,7 @@ class ScheduleView: UIView {
         changeDateButton.add(insideTo: self)
         dock.add(insideTo: self)
         backgroundListView.add(insideTo: self)
+        listSchedule.add(insideTo: backgroundListView.get)
         searchTextField.add(insideTo: self)
     }
     
@@ -155,6 +169,7 @@ class ScheduleView: UIView {
         changeDateButton.applyConstraint()
         dock.applyConstraint()
         backgroundListView.applyConstraint()
+        listSchedule.applyConstraint()
         searchTextField.applyConstraint()
     }
     
