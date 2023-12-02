@@ -68,25 +68,25 @@ public final class ListScheduleViewController: UIViewController {
     
     private func configDelegate() {
         screen.delegate = self
-        screen.dock.setDelegate(delegate: self)
+        screen.filterDock.setDelegate(delegate: self)
         screen.listSchedule.setDelegate(delegate: self)
     }
     
     private func configShowComponents() {
-        screen.dock.show()
+        screen.filterDock.show()
         screen.listSchedule.show()
     }
     
     private func configSizeItemsDock() {
-        _ = listSchedulePresenter.sizeItemsDock().compactMap { (key, value) in
-            screen.dock.setCustomCellSize(index: key.rawValue, value)
+        _ = listSchedulePresenter.sizeItemsFilterDock().compactMap { (key, value) in
+            screen.filterDock.setCustomCellSize(index: key.rawValue, value)
         }
     }
     
     private func makeCellItemDock(_ index: Int) -> UIView {
-        let itemDock = ListSchedulePresenterImpl.ItemsDock(rawValue: index) ?? .currentMonth
+        let itemDock = ListSchedulePresenterImpl.ItemsFilterDock(rawValue: index) ?? .currentMonth
         
-        let title = listSchedulePresenter.labelItemsDock()[itemDock] ?? ""
+        let title = listSchedulePresenter.labelItemsFilterDock()[itemDock] ?? ""
         
         let btn = CustomButtonSecondary("  \(title)")
             .setTitleSize(14)
@@ -98,8 +98,8 @@ public final class ListScheduleViewController: UIViewController {
         return btn.get
     }
     
-    private func setImageToItemsDock(_ itemDock: ListSchedulePresenterImpl.ItemsDock, _ btn: CustomButtonSecondary, _ title: String ) {
-        let systemNameImage = listSchedulePresenter.iconItemsDock()[itemDock] ?? ""
+    private func setImageToItemsDock(_ itemDock: ListSchedulePresenterImpl.ItemsFilterDock, _ btn: CustomButtonSecondary, _ title: String ) {
+        let systemNameImage = listSchedulePresenter.iconItemsFilterDock()[itemDock] ?? ""
         
         let img = ImageViewBuilder()
             .setImage(systemName: systemNameImage)
@@ -128,7 +128,7 @@ extension ListScheduleViewController: ListScheduleViewDelegate {
 extension ListScheduleViewController: DockDelegate {
     
     public func numberOfItemsCallback() -> Int {
-        return listSchedulePresenter.sizeItemsDock().count
+        return listSchedulePresenter.numberOfItemsFilterDock()
     }
     
     public func cellCallback(_ index: Int) -> UIView {
@@ -159,16 +159,11 @@ extension ListScheduleViewController: DockDelegate {
     }
     
     public func didSelectItemAt(_ index: Int) {
-        print("alguma ação de tapped")
+        print("Selecionado: ", index)
     }
     
     public func didDeselectItemAt(_ index: Int) {
-//        let item = screen.dock.getCellByIndex(index)
-//        let view = (item)?.getView(tag: tagIdentifierItemDock)
-//        guard let btn = view as? UIButton else { return }
-//        btn.removeNeumorphism()
-//        setColorItemDock("#ffffff", btn)
-        print("alguma ação pra REMOÇÃO ")
+        print("Removido: ", index)
     }
     
     public func setColorItemDock(_ hexColor: String, _ btn: UIButton) {
@@ -183,23 +178,20 @@ extension ListScheduleViewController: DockDelegate {
 extension ListScheduleViewController: ListDelegate {
     
     public func numberOfSections() -> Int {
-        return 0
+        return 2
     }
         
     public func numberOfRows(section: Int) -> Int {
         switch section {
             case 0:
-                return 2
+                return 1
             case 1:
-                return 5
-            case 2:
                 return 3
             default:
                 return 0
         }
     
 //        CÓDIGO PARA PEGAR DATAS UNICAS E HORAS UNICAS, ENTAO COM ISSO CONSIGUIREI SABER QUANTAS DATAS E PARA CADA DATA QUANTAS HORAS
-        
 //        do {
 //            let jsonData = jsonData.data(using: .utf8)!
 //            let events = try JSONDecoder().decode([Event].self, from: jsonData)
@@ -224,28 +216,13 @@ extension ListScheduleViewController: ListDelegate {
     }
     
     public func sectionViewCallback(section: Int) -> UIView? {
-        let label = LabelBuilder(" Alessandro - \(section)")
-            .setSize(24)
-            .setColor(.red)
-            .setWeight(.black)
-            .setShadow({ build in
-                build
-                    .setColor(.black)
-                    .setOffset(CGSize(width: 2, height: 2))
-                    .setRadius(4)
-            })
-            .setConstraints { build in
-                build.setPin.equalToSafeArea
-            }
-                
-        return label.get
+        let label = ListScheduleSectionView(schedulePresenterDTO: SchedulePresenterDTO())    
+        return label
         
     }
     
     public func rowViewCallBack(section: Int, row: Int) -> UIView {
-        return LabelBuilder("   section : \(section) - linha: \(row)" )
-            .setColor(.white)
-            .get
+        return ListScheduleRowView(schedulePresenterDTO: SchedulePresenterDTO())
     }
     
     

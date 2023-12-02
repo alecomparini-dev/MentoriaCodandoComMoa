@@ -77,7 +77,7 @@ class ListScheduleView: UIView {
         return comp
     }()
     
-    lazy var dock: DockBuilder = {
+    lazy var filterDock: DockBuilder = {
         let comp = DockBuilder()
             .setContentInset(top: 0, left: 16, bottom: 0, rigth: 16)
             .setShowsHorizontalScrollIndicator(false)
@@ -93,15 +93,28 @@ class ListScheduleView: UIView {
     
     lazy var backgroundListView: ViewBuilder = {
         let comp = ViewBuilder()
-            .setBackgroundColor(hexColor: "#444967")
+            .setGradient({ build in
+                build
+                    .setReferenceColor(referenceHexColor: "#444966", percentageGradient: 20)
+                    .setAxialGradient(.leftToRight)
+                    .apply()
+            })
             .setBorder { build in
                 build
                     .setCornerRadius(36)
                     .setWhichCornersWillBeRounded([.top])
             }
+            .setShadow({ build in
+                build
+                    .setColor(.black)
+                    .setRadius(10)
+                    .setOpacity(0.5)
+                    .setOffset(width: -2, height: -2)
+                    .apply()
+            })
             .setConstraints { build in
                 build
-                    .setTop.equalTo(dock.get, .bottom, 8)
+                    .setTop.equalTo(filterDock.get, .bottom, 8)
                     .setPinBottom.equalToSafeArea
             }
         return comp
@@ -134,10 +147,10 @@ class ListScheduleView: UIView {
     
     lazy var listSchedule: ListBuilder = {
         let comp = ListBuilder()
-            .setRowHeight(100)
+            .setRowHeight(190)
             .setSectionHeaderHeight(50)
             .setSeparatorStyle(.singleLine)
-            .setPadding(top: 0, left: 0, bottom: 100, right: 0)
+            .setPadding(top: 0, left: 0, bottom: 70, right: 0)
             .setConstraints { build in
                 build
                     .setTop.equalTo(searchTextField.get, .bottom, 8)
@@ -148,17 +161,16 @@ class ListScheduleView: UIView {
     
     lazy var addScheduleFloatButton: ButtonImageBuilder = {
         let img = ImageViewBuilder(systemName: "calendar.badge.plus")
-            .setSize(22)
+            .setSize(16)
             .setContentMode(.left)
         let btn = ButtonImageBuilder()
             .setImageButton(img)
             .setFloatButton()
             .setImageWeight(.black)
-            .setBackgroundColor(hexColor: "#fa79c7")
             .setTintColor(hexColor: "#ffffff")
             .setBorder({ build in
                 build
-                    .setCornerRadius(30)
+                    .setCornerRadius(25)
             })
             .setNeumorphism({ build in
                 build
@@ -175,7 +187,7 @@ class ListScheduleView: UIView {
             .setConstraints { build in
                 build
                     .setTrailing.setBottom.equalToSafeArea(16)
-                    .setSize.equalToConstant(60)
+                    .setSize.equalToConstant(50)
             }
         btn.get.addTarget(self, action: #selector(addScheduleFloatButtonTapped), for: .touchUpInside)
         return btn
@@ -186,7 +198,9 @@ class ListScheduleView: UIView {
     
     
 //  MARK: - PUBLIC AREA
-    
+    func makeSection() -> UIView {
+        return UIView()
+    }
     
     
 //  MARK: - PRIVATE AREA
@@ -201,7 +215,7 @@ class ListScheduleView: UIView {
         menuSandwich.add(insideTo: self)
         screenTitle.add(insideTo: self)
         changeDateButton.add(insideTo: self)
-        dock.add(insideTo: self)
+        filterDock.add(insideTo: self)
         backgroundListView.add(insideTo: self)
         listSchedule.add(insideTo: backgroundListView.get)
         searchTextField.add(insideTo: self)
@@ -213,7 +227,7 @@ class ListScheduleView: UIView {
         menuSandwich.applyConstraint()
         screenTitle.applyConstraint()
         changeDateButton.applyConstraint()
-        dock.applyConstraint()
+        filterDock.applyConstraint()
         backgroundListView.applyConstraint()
         listSchedule.applyConstraint()
         searchTextField.applyConstraint()

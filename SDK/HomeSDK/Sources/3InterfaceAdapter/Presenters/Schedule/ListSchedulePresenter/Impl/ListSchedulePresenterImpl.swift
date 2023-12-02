@@ -7,46 +7,46 @@ public class ListSchedulePresenterImpl: ListSchedulePresenter {
     
     public init() {}
     
-    public enum ItemsDock: Int {
-        case all = 0
+    public enum ItemsFilterDock: Int {
+        case currentMonth = 0
         case today = 1
         case sevenDay = 2
-        case currentMonth = 3
-        case quatro = 4
-        case cinco = 5
+        case all = 3
     }
     
     
     
     
-    public func sizeItemsDock() -> [ItemsDock : CGSize] {
+    public func numberOfItemsListSchedule() -> Int {
+        return 3
+    }
+    
+    public func numberOfItemsFilterDock() -> Int { sizeItemsFilterDock().count }
+    
+    public func sizeItemsFilterDock() -> [ItemsFilterDock : CGSize] {
         return [
-            ItemsDock.all : CGSize(width: 135, height: 40),
-            ItemsDock.today : CGSize(width: 100, height: 40),
-            ItemsDock.sevenDay : CGSize(width: 100, height: 40),
-            ItemsDock.currentMonth : CGSize(width: 150, height: 40),
-            ItemsDock.quatro : CGSize(width: 150, height: 40),
-            ItemsDock.cinco : CGSize(width: 150, height: 40),
+            ItemsFilterDock.currentMonth: CGSize(width: 150, height: 40),
+            ItemsFilterDock.today: CGSize(width: 100, height: 40),
+            ItemsFilterDock.sevenDay: CGSize(width: 100, height: 40),
+            ItemsFilterDock.all: CGSize(width: 135, height: 40),
         ]
     }
     
-    public func labelItemsDock() -> [ItemsDock : String] {
+    public func labelItemsFilterDock() -> [ItemsFilterDock : String] {
         return [
-            ItemsDock.all : "Ver todos",
-            ItemsDock.today : "Hoje",
-            ItemsDock.sevenDay : "7 dias",
-            ItemsDock.currentMonth : "Mês atual",
-            ItemsDock.quatro : "Mês atual",
-            ItemsDock.cinco : "Mês atual",
+            ItemsFilterDock.currentMonth: "Mês atual",
+            ItemsFilterDock.today: "Hoje",
+            ItemsFilterDock.sevenDay: "7 dias",
+            ItemsFilterDock.all: "Ver todos",
         ]
     }
     
-    public func iconItemsDock() -> [ItemsDock: String] {
+    public func iconItemsFilterDock() -> [ItemsFilterDock: String] {
         return [
-            ItemsDock.all : "rectangle.stack",
-            ItemsDock.today : "target",
-            ItemsDock.sevenDay : "calendar.circle",
-            ItemsDock.currentMonth : "calendar.badge.clock"
+            ItemsFilterDock.currentMonth: "calendar.badge.clock",
+            ItemsFilterDock.today: "target",
+            ItemsFilterDock.sevenDay: "calendar.circle",
+            ItemsFilterDock.all: "rectangle.stack",
         ]
     }
                             
