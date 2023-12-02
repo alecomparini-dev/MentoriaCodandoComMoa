@@ -79,7 +79,7 @@ public final class ListScheduleViewController: UIViewController {
     
     private func configSizeItemsDock() {
         _ = listSchedulePresenter.sizeItemsDock().compactMap { (key, value) in
-            screen.dock.setCustomCellSize(indexCell: key.rawValue, value)
+            screen.dock.setCustomCellSize(index: key.rawValue, value)
         }
     }
     
@@ -131,18 +131,13 @@ extension ListScheduleViewController: DockDelegate {
         return listSchedulePresenter.sizeItemsDock().count
     }
     
-    public func cellItemCallback(_ indexItem: Int) -> UIView {
-        let activeIndex = screen.dock.getIndexSelected()
-        if activeIndex == indexItem {
-            return itemDockActive ?? UIView()
-        }
-        return makeCellItemDock(indexItem)
+    public func cellCallback(_ index: Int) -> UIView {
+        return makeCellItemDock(index)
     }
     
-    public func didSelectItemAt(_ indexItem: Int) {
-        let item = screen.dock.getCellSelected()
-        let view = (item)?.getView(tag: tagIdentifierItemDock)
-        guard let btn = view as? UIButton else { return }
+    public func customCellActiveCallback(_ cell: UIView) -> UIView? {
+        let view = cell.getView(tag: tagIdentifierItemDock)
+        guard let btn = view as? UIButton else { return nil }
         setColorItemDock("#282a36", btn)
         btn.makeBorder({ make in
             make
@@ -160,18 +155,21 @@ extension ListScheduleViewController: DockDelegate {
                 .setIntensity(to: .dark, percent: 100)
                 .apply()
         })
-        itemDockActive = btn
-        
+        return btn
     }
     
-    public func didDeselectItemAt(_ indexItem: Int) {
-        let item = screen.dock.getCellByIndex(indexItem)
-        let view = (item)?.getView(tag: tagIdentifierItemDock)
-        guard let btn = view as? UIButton else { return }
-        btn.removeNeumorphism()
-        setColorItemDock("#ffffff", btn)
+    public func didSelectItemAt(_ index: Int) {
+        print("alguma ação de tapped")
     }
     
+    public func didDeselectItemAt(_ index: Int) {
+//        let item = screen.dock.getCellByIndex(index)
+//        let view = (item)?.getView(tag: tagIdentifierItemDock)
+//        guard let btn = view as? UIButton else { return }
+//        btn.removeNeumorphism()
+//        setColorItemDock("#ffffff", btn)
+        print("alguma ação pra REMOÇÃO ")
+    }
     
     public func setColorItemDock(_ hexColor: String, _ btn: UIButton) {
         btn.setTitleColor(UIColor.HEX(hexColor), for: .normal)
@@ -185,7 +183,7 @@ extension ListScheduleViewController: DockDelegate {
 extension ListScheduleViewController: ListDelegate {
     
     public func numberOfSections() -> Int {
-        return 3
+        return 0
     }
         
     public func numberOfRows(section: Int) -> Int {
