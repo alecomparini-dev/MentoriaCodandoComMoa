@@ -5,7 +5,12 @@ import Foundation
 
 public protocol ListSchedulePresenter {
     
-    func sizeItemsDock() -> [ListSchedulePresenterImpl.ItemsDock: CGSize]
-    func labelItemsDock() -> [ListSchedulePresenterImpl.ItemsDock: String]
-    func iconItemsDock() -> [ListSchedulePresenterImpl.ItemsDock: String]
+    
+    func numberOfItemsListSchedule() -> Int
+    func numberOfItemsFilterDock() -> Int
+    
+    func sizeItemsFilterDock() -> [ListSchedulePresenterImpl.ItemsFilterDock: CGSize]
+    func labelItemsFilterDock() -> [ListSchedulePresenterImpl.ItemsFilterDock: String]
+    func iconItemsFilterDock() -> [ListSchedulePresenterImpl.ItemsFilterDock: String]
+    
 }
