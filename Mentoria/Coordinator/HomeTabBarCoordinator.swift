@@ -57,7 +57,8 @@ class HomeTabBarCoordinator: Coordinator {
     }
     
     private func scheduleTabBarItem() -> TabBarItems {
-        return TabBarItems(viewController: ScheduleViewController(), image: ImageViewBuilder(systemName: "calendar"), title: "Agenda")
+        let listScheduleVC = ListScheduleViewControllerFactory.make()
+        return TabBarItems(viewController: listScheduleVC, image: ImageViewBuilder(systemName: "calendar"), title: "Agenda")
     }
     
     private func setCoordinator(_ controller: UITabBarController) {
@@ -69,7 +70,7 @@ class HomeTabBarCoordinator: Coordinator {
         listServicesController.coordinator = self
         listServicesController.setDataTransfer(dataTransfer)
         
-        let scheduleViewController = (controller.viewControllers?[2] as! ScheduleViewController)
+        let scheduleViewController = (controller.viewControllers?[2] as! ListScheduleViewController)
         scheduleViewController.coordinator = self
         
     }
@@ -119,6 +120,13 @@ extension HomeTabBarCoordinator: ListServicesViewControllerCoordinator {
 
 
 //  MARK: - EXTENSION - ScheduleViewControllerCoordinator
-extension HomeTabBarCoordinator: ScheduleViewControllerCoordinator {
+extension HomeTabBarCoordinator: ListScheduleViewControllerCoordinator {
+    
+    func gotoAddSchedule() {
+        let coordinator = AddScheduleCoordinator(navigationController)
+        coordinator.start()
+        childCoordinator = nil
+    }
+    
     
 }

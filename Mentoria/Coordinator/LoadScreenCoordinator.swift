@@ -8,6 +8,8 @@ class LoadScreenCoordinator: Coordinator {
     var childCoordinator: Coordinator?
     unowned let navigationController: NavigationController
     
+    var dataTransfer: Any?
+    
     required init(_ navigationController: NavigationController) {
         self.navigationController = navigationController
     }
