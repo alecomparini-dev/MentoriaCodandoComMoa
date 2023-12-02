@@ -7,7 +7,12 @@ import CustomComponentsSDK
 import DesignerSystemSDKComponent
 
 
-class ScheduleView: UIView {
+protocol ListScheduleViewDelegate: AnyObject {
+    func addScheduleFloatButtonTapped()
+}
+
+class ListScheduleView: UIView {
+    weak var delegate: ListScheduleViewDelegate?
     
     init() {
         super.init(frame: .zero)
@@ -61,7 +66,7 @@ class ScheduleView: UIView {
         let comp = ImageViewBuilder(systemName: "line.3.horizontal")
             .setContentMode(.left)
             .setTintColor(hexColor: "#FFFFFF")
-            .setSize(21)
+            .setSize(24)
             .setConstraints { build in
                 build
                     .setVerticalAlignmentY.equalTo(screenTitle.get)
@@ -74,16 +79,14 @@ class ScheduleView: UIView {
     
     lazy var dock: DockBuilder = {
         let comp = DockBuilder()
-//            .setBackgroundColor(.yellow)
-            .setMinimumLineSpacing(18)
             .setContentInset(top: 0, left: 16, bottom: 0, rigth: 16)
             .setShowsHorizontalScrollIndicator(false)
-            .setCellsSize(CGSize(width: 55, height: 70))
+            .setCellsSize(CGSize(width: 70, height: 40))
             .setConstraints { build in
                 build
                     .setTop.equalTo(screenTitle.get, .bottom, 8)
                     .setLeading.setTrailing.equalToSafeArea
-                    .setHeight.equalToConstant(90)
+                    .setHeight.equalToConstant(70)
             }
         return comp
     }()
@@ -99,7 +102,7 @@ class ScheduleView: UIView {
             .setConstraints { build in
                 build
                     .setTop.equalTo(dock.get, .bottom, 8)
-                    .setPinBottom.equalToSuperView
+                    .setPinBottom.equalToSafeArea
             }
         return comp
     }()
@@ -129,6 +132,61 @@ class ScheduleView: UIView {
         return comp
     }()
     
+    lazy var listSchedule: ListBuilder = {
+        let comp = ListBuilder()
+            .setRowHeight(100)
+            .setSectionHeaderHeight(50)
+            .setSeparatorStyle(.singleLine)
+            .setPadding(top: 0, left: 0, bottom: 100, right: 0)
+            .setConstraints { build in
+                build
+                    .setTop.equalTo(searchTextField.get, .bottom, 8)
+                    .setPinBottom.equalToSafeArea
+            }
+        return comp
+    }()
+    
+    lazy var addScheduleFloatButton: ButtonImageBuilder = {
+        let img = ImageViewBuilder(systemName: "calendar.badge.plus")
+            .setSize(22)
+            .setContentMode(.left)
+        let btn = ButtonImageBuilder()
+            .setImageButton(img)
+            .setFloatButton()
+            .setImageWeight(.black)
+            .setBackgroundColor(hexColor: "#fa79c7")
+            .setTintColor(hexColor: "#ffffff")
+            .setBorder({ build in
+                build
+                    .setCornerRadius(30)
+            })
+            .setNeumorphism({ build in
+                build
+                    .setShape(.convex)
+                    .setReferenceColor(hexColor: "#fa79c7")
+                    .setDistance(to: .light, percent: 2)
+                    .setDistance(to: .dark, percent: 10)
+                    .setBlur(to: .light, percent: 3)
+                    .setBlur(to: .dark, percent: 10)
+                    .setIntensity(to: .light, percent: 30)
+                    .setIntensity(to: .dark, percent: 100)
+                    .apply()
+            })
+            .setConstraints { build in
+                build
+                    .setTrailing.setBottom.equalToSafeArea(16)
+                    .setSize.equalToConstant(60)
+            }
+        btn.get.addTarget(self, action: #selector(addScheduleFloatButtonTapped), for: .touchUpInside)
+        return btn
+    }()
+    @objc private func addScheduleFloatButtonTapped(_ button: UIButton) {
+        delegate?.addScheduleFloatButtonTapped()
+    }
+    
+    
+//  MARK: - PUBLIC AREA
+    
     
     
 //  MARK: - PRIVATE AREA
@@ -145,7 +203,9 @@ class ScheduleView: UIView {
         changeDateButton.add(insideTo: self)
         dock.add(insideTo: self)
         backgroundListView.add(insideTo: self)
+        listSchedule.add(insideTo: backgroundListView.get)
         searchTextField.add(insideTo: self)
+        addScheduleFloatButton.add(insideTo: self)
     }
     
     private func configConstraints() {
@@ -155,7 +215,9 @@ class ScheduleView: UIView {
         changeDateButton.applyConstraint()
         dock.applyConstraint()
         backgroundListView.applyConstraint()
+        listSchedule.applyConstraint()
         searchTextField.applyConstraint()
+        addScheduleFloatButton.applyConstraint()
     }
     
     

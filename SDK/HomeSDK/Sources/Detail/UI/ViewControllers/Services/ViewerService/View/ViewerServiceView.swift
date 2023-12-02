@@ -8,7 +8,7 @@ import CustomComponentsSDK
 
 
 public protocol ViewerServiceViewDelegate: AnyObject {
-    func disableButtomTapped()
+    func disableButtonTapped()
     func backButtonTapped()
     func editButtonTapped()
 }
@@ -66,11 +66,11 @@ public class ViewerServiceView: UIView {
                     .setTop.setLeading.equalToSafeArea(24)
                     .setSize.equalToConstant(30)
             }
-        comp.get.addTarget(self, action: #selector(disableButtomTapped), for: .touchUpInside)
+        comp.get.addTarget(self, action: #selector(disableButtonTapped), for: .touchUpInside)
         return comp
     }()
-    @objc private func disableButtomTapped() {
-        delegate?.disableButtomTapped()
+    @objc private func disableButtonTapped() {
+        delegate?.disableButtonTapped()
     }
     
     lazy var backButton: ButtonImageBuilder = {

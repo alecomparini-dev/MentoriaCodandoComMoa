@@ -222,7 +222,7 @@ public class SaveServiceViewController: UIViewController {
 //  MARK: - EXTENSION - AddServiceViewDelegate
 extension SaveServiceViewController: AddServiceViewDelegate {
     
-    public func disableButtomTapped() {
+    public func disableButtonTapped() {
         if let idService = servicePresenterDTO?.id, let userIDAuth = servicePresenterDTO?.uIDFirebase {
             saveServicePresenter.disableService(idService, userIDAuth)
         }

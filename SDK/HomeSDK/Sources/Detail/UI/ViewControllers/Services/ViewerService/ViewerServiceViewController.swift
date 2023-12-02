@@ -112,7 +112,7 @@ public class ViewerServiceViewController: UIViewController {
 
 //  MARK: - EXTENSION - ViewerServiceViewDelegate
 extension ViewerServiceViewController: ViewerServiceViewDelegate {
-    public func disableButtomTapped() {
+    public func disableButtonTapped() {
         guard let id = servicePresenterDTO?.id, let userIDAuth = servicePresenterDTO?.uIDFirebase else { return}
         viewerServicePresenter.disableService(id, userIDAuth)
     }
