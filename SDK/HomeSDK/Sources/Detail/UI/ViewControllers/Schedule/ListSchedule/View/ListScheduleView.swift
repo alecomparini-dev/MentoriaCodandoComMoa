@@ -93,25 +93,11 @@ class ListScheduleView: UIView {
     
     lazy var backgroundListView: ViewBuilder = {
         let comp = ViewBuilder()
-            .setGradient({ build in
-                build
-                    .setReferenceColor(referenceHexColor: "#444966", percentageGradient: 20)
-                    .setAxialGradient(.leftToRight)
-                    .apply()
-            })
             .setBorder { build in
                 build
                     .setCornerRadius(36)
                     .setWhichCornersWillBeRounded([.top])
             }
-            .setShadow({ build in
-                build
-                    .setColor(.black)
-                    .setRadius(10)
-                    .setOpacity(0.5)
-                    .setOffset(width: -2, height: -2)
-                    .apply()
-            })
             .setConstraints { build in
                 build
                     .setTop.equalTo(filterDock.get, .bottom, 8)
@@ -125,7 +111,7 @@ class ListScheduleView: UIView {
         let comp = TextFieldImageBuilder("Pesquisar")
             .setImage(imgSearch, .left, 8)
             .setAutoCapitalization(.none)
-            .setBackgroundColor(hexColor: "#ffffff")
+//            .setBackgroundColor(hexColor: "#ffffff")
             .setPadding(8)
             .setKeyboard({ build in
                 build
@@ -147,7 +133,7 @@ class ListScheduleView: UIView {
     
     lazy var listSchedule: ListBuilder = {
         let comp = ListBuilder()
-            .setRowHeight(190)
+            .setRowHeight(210)
             .setSectionHeaderHeight(50)
             .setSeparatorStyle(.singleLine)
             .setPadding(top: 0, left: 0, bottom: 70, right: 0)
@@ -172,18 +158,6 @@ class ListScheduleView: UIView {
                 build
                     .setCornerRadius(25)
             })
-            .setNeumorphism({ build in
-                build
-                    .setShape(.convex)
-                    .setReferenceColor(hexColor: "#fa79c7")
-                    .setDistance(to: .light, percent: 2)
-                    .setDistance(to: .dark, percent: 10)
-                    .setBlur(to: .light, percent: 3)
-                    .setBlur(to: .dark, percent: 10)
-                    .setIntensity(to: .light, percent: 30)
-                    .setIntensity(to: .dark, percent: 100)
-                    .apply()
-            })
             .setConstraints { build in
                 build
                     .setTrailing.setBottom.equalToSafeArea(16)
@@ -198,17 +172,72 @@ class ListScheduleView: UIView {
     
     
 //  MARK: - PUBLIC AREA
-    func makeSection() -> UIView {
-        return UIView()
+    func configStyleOnComponents() {
+        configStyleBackgroundListView()
+        configStyleSearchTextField()
+        configStyleAddScheduleFloatButton()
     }
     
     
+    
 //  MARK: - PRIVATE AREA
+    
+    private func configStyleBackgroundListView() {
+        backgroundListView
+            .setShadow({ build in
+                build
+                    .setColor(.black)
+                    .setRadius(10)
+                    .setOpacity(0.8)
+                    .setOffset(width: -2, height: -2)
+                    .apply()
+            })
+            .setGradient({ build in
+                build
+                    .setReferenceColor(referenceHexColor: "#444966", percentageGradient: 20)
+                    .setAxialGradient(.leftToRight)
+                    .apply()
+            })
+    }
+    
+    private func configStyleSearchTextField() {
+        searchTextField
+            .setNeumorphism({ build in
+                build
+                    .setShape(.concave)
+                    .setReferenceColor(hexColor: "#ffffff")
+                    .setDistance(to: .light, percent: 1)
+                    .setDistance(to: .dark, percent: 5)
+                    .setBlur(to: .light, percent: 1)
+                    .setBlur(to: .dark, percent: 10)
+                    .setIntensity(to: .light, percent: 30)
+                    .setIntensity(to: .dark, percent: 90)
+                    .apply()
+            })
+    }
+    
+    private func configStyleAddScheduleFloatButton() {
+        addScheduleFloatButton
+            .setNeumorphism({ build in
+                build
+                    .setShape(.convex)
+                    .setReferenceColor(hexColor: "#fa79c7")
+                    .setDistance(to: .light, percent: 2)
+                    .setDistance(to: .dark, percent: 10)
+                    .setBlur(to: .light, percent: 3)
+                    .setBlur(to: .dark, percent: 10)
+                    .setIntensity(to: .light, percent: 30)
+                    .setIntensity(to: .dark, percent: 100)
+                    .apply()
+            })
+    }
     
     private func configure() {
         addElements()
         configConstraints()
     }
+    
+    
     
     private func addElements() {
         backgroundView.add(insideTo: self)

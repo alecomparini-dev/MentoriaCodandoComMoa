@@ -7,7 +7,6 @@ import CustomComponentsSDK
 import HomePresenters
 
 class ListScheduleSectionView: UIView {
-    
     private let schedulePresenterDTO: SchedulePresenterDTO
     
     init(schedulePresenterDTO: SchedulePresenterDTO) {
@@ -62,6 +61,29 @@ class ListScheduleSectionView: UIView {
         return comp
     }()
     
+    lazy var dateScheduleLabel: LabelBuilder = {
+        let comp = LabelBuilder()
+            .setSize(22)
+            .setColor(.white)
+            .setWeight(.bold)
+            .setTextAttributed({ build in
+                build
+                    .setText(text: "16 /")
+                    .setAttributed(key: .font, value: UIFont.boldSystemFont(ofSize: 24))
+                    .setText(text: " Nov")
+                    .setAttributed(key: .font, value: UIFont.systemFont(ofSize: 20))
+                    .setText(text: "  terça-feira")
+                    .setAttributed(key: .font, value: UIFont.systemFont(ofSize: 16))
+                    .setAttributed(key: .foregroundColor, value: UIColor.white.withAlphaComponent(0.7))
+            })
+            .setConstraints { build in
+                build
+                    .setVerticalAlignmentY.equalTo(triangleImage.get)
+                    .setLeading.equalTo(triangleImage.get, .trailing, 12)
+            }
+        return comp
+    }()
+    
     
 //  MARK: - PRIVATE AREA
 
@@ -70,19 +92,22 @@ class ListScheduleSectionView: UIView {
         configConstraints()
     }
     
-    
     private func addElements() {
         backgroundView.add(insideTo: self)
         triangleShadowImage.add(insideTo: self)
         triangleImage.add(insideTo: self)
+        dateScheduleLabel.add(insideTo: self)
     }
     
     private func configConstraints() {
         backgroundView.applyConstraint()
         triangleImage.applyConstraint()
         triangleShadowImage.applyConstraint()
+        dateScheduleLabel.applyConstraint()
     }
     
     
 }
+
+
 
