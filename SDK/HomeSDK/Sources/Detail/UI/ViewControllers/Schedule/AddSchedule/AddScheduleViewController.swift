@@ -2,6 +2,7 @@
 //
 
 import UIKit
+import CustomComponentsSDK
 
 public protocol AddScheduleViewControllerCoordinator: AnyObject {
     func gotoListScheduleHomeTabBar(_ reload: Bool)
@@ -10,6 +11,11 @@ public protocol AddScheduleViewControllerCoordinator: AnyObject {
 
 public class AddScheduleViewController: UIViewController {
     public weak var coordinator: AddScheduleViewControllerCoordinator?
+    
+    public enum TagTextField: Int {
+        case client = 0
+        case service = 1
+    }
     
     
     //  MARK: - INITIALIZERS
@@ -49,10 +55,18 @@ public class AddScheduleViewController: UIViewController {
     private func configure() {
         configDelegate()
         configButtonDisableSchedule()
+        configShowPickers()
     }
     
     private func configDelegate() {
         screen.delegate = self
+        screen.picker.delegate = self
+        configTextFieldDelegate()
+    }
+    
+    private func configTextFieldDelegate() {
+        screen.clientTextField.setDelegate(self)
+        screen.serviceTextField.setDelegate(self)
     }
     
     private func configButtonDisableSchedule() {
@@ -62,10 +76,16 @@ public class AddScheduleViewController: UIViewController {
         )
     }
     
+    // ta errado isso aqui preciso falar onde quero que apareça o picker
+    private func configShowPickers() {
+//        screen.picker.setHidden(false)
+    }
+    
+   
 }
 
 
-//  MARK: - EXTESION
+//  MARK: - EXTESION - AddScheduleViewDelegate
 extension AddScheduleViewController: AddScheduleViewDelegate {
     public func disableScheduleButtonTapped() {
         
@@ -77,3 +97,74 @@ extension AddScheduleViewController: AddScheduleViewDelegate {
 
 }
 
+
+
+//  MARK: - EXTESION - PickerDelegate
+extension AddScheduleViewController: PickerDelegate {
+    public func numberOfComponents() -> Int {
+        1
+    }
+    
+    public func numberOfRows(forComponent: Int) -> Int {
+        4
+    }
+    
+    public func rowViewCallBack(component: Int, row: Int) -> UIView {
+        return ViewBuilder()
+            .setBackgroundColor(.yellow)
+            .get
+    }
+    
+    public func didSelectRowAt(_ component: Int, _ row: Int) {
+        print(component, row)
+    }
+    
+    
+}
+
+//  MARK: - EXTENSION - asdf
+extension AddScheduleViewController: UITextFieldDelegate {
+    
+    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        screen.picker.setHidden(true)
+        return true
+    }
+    
+    public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        showTopAnchor(textField)
+
+        if range.description == "{0, 1}" {
+            screen.picker.setHidden(true)
+        }
+        
+        return true
+    }
+    
+    public func textFieldDidEndEditing(_ textField: UITextField) {
+        screen.picker.setHidden(true)
+    }
+    
+    public func textFieldDidBeginEditing(_ textField: UITextField) {
+        if (textField.text?.count ?? 0 > 0) {
+            screen.picker.setHidden(false)
+            showTopAnchor(textField)
+        }
+    }
+    
+    private func showTopAnchor(_ textField: UITextField) {
+        switch textField.tag {
+            case TagTextField.client.rawValue:
+                screen.picker.show()
+                screen.setTopAnchorClient()
+                    
+            case TagTextField.service.rawValue:
+                screen.picker.show()
+                screen.setTopAnchorService()
+                
+            default:
+                break
+        }
+    }
+    
+}
