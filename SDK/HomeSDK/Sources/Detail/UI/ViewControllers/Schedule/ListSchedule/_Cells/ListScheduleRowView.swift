@@ -58,7 +58,7 @@ class ListScheduleRowView: UIView {
                 build
                     .setTop.equalTo(clientName.get, .bottom, -18)
                     .setLeading.setBottom.equalTo(backgroundView.get)
-                    .setWidth.equalToConstant(70)
+                    .setWidth.equalToConstant(65)
             }
         return comp
     }()
@@ -70,10 +70,10 @@ class ListScheduleRowView: UIView {
             .setTextAttributed({ build in
                 build
                     .setText(text: "18")
-                    .setAttributed(key: .font, value: UIFont.boldSystemFont(ofSize: 28))
+                    .setAttributed(key: .font, value: UIFont.boldSystemFont(ofSize: 26))
                     .setAttributed(key: .foregroundColor, value: UIColor.white)
                     .setText(text: "\n25")
-                    .setAttributed(key: .font, value: UIFont.systemFont(ofSize: 20))
+                    .setAttributed(key: .font, value: UIFont.systemFont(ofSize: 18))
                     .setAttributed(key: .foregroundColor, value: UIColor.white.withAlphaComponent(0.7))
             })
             .setConstraints { build in
@@ -101,22 +101,36 @@ class ListScheduleRowView: UIView {
                 build
                     .setVerticalAlignmentY.equalTo(hourView.get)
                     .setTrailing.equalTo(hourView.get, .trailing, -2)
-                    .setHeight.equalToConstant(80)
+                    .setHeight.equalToConstant(90)
                     .setWidth.equalToConstant(2)
             }
         return comp
     }()
     
     
-    lazy var addressTitle: LabelBuilder = {
-        let comp = LabelBuilder("Endereço:")
-            .setColor(UIColor.white.withAlphaComponent(0.8))
-            .setSize(15)
-            .setWeight(.light)
+    lazy var mappinImage: ImageViewBuilder = {
+        let comp = ImageViewBuilder(systemName: "mappin.and.ellipse")
+            .setSize(14)
+            .setContentMode(.center)
+            .setTintColor(.white.withAlphaComponent(0.8))
             .setConstraints { build in
                 build
                     .setTop.equalTo(lineDivisor.get, .top, -2)
                     .setLeading.equalTo(lineDivisor.get, .trailing, 12)
+            }
+        return comp
+    }()
+    
+    lazy var addressTitle: LabelBuilder = {
+        let comp = LabelBuilder("Endereço:")
+            .setColor(.white.withAlphaComponent(0.8))
+            .setSize(15)
+            .setWeight(.light)
+            .setConstraints { build in
+                build
+                    .setVerticalAlignmentY.equalTo(mappinImage.get, 1)
+                    .setLeading.equalTo(mappinImage.get, .trailing, 6)
+                    .setTrailing.equalToSafeArea(-8)
             }
         return comp
     }()
@@ -130,11 +144,42 @@ class ListScheduleRowView: UIView {
             .setConstraints { build in
                 build
                     .setTop.equalTo(addressTitle.get, .bottom , 4)
-                    .setLeading.equalTo(addressTitle.get, .leading)
-                    .setTrailing.equalTo(backgroundView.get, .trailing, -8)
+                    .setLeading.equalTo(mappinImage.get, .leading)
+                    .setTrailing.equalTo(backgroundView.get, .trailing, -20)
             }
         return comp
     }()
+    
+    
+    lazy var serviceImage: ImageViewBuilder = {
+        let comp = ImageViewBuilder(systemName: "wrench.adjustable.fill")
+            .setSize(14)
+            .setContentMode(.center)
+            .setTintColor(.white)
+            .setWeight(.bold)
+            .setConstraints { build in
+                build
+                    .setBottom.equalTo(lineDivisor.get, .bottom)
+                    .setLeading.equalTo(mappinImage.get, .leading)
+            }
+        return comp
+    }()
+    
+    lazy var serviceTitle: LabelBuilder = {
+        let comp = LabelBuilder("Desenv. App para iPhone")
+            .setSize(16)
+            .setColor(.white)
+            .setWeight(.light)
+            .setConstraints { build in
+                build
+                    .setVerticalAlignmentY.equalTo(serviceImage.get)
+                    .setLeading.equalTo(serviceImage.get, .trailing, 6)
+                    .setTrailing.equalToSafeArea(-8)
+            }
+        return comp
+    }()
+    
+    
     
 //  MARK: - PUBLIC AREA
     func setStyleOnComponents() {
@@ -172,8 +217,11 @@ class ListScheduleRowView: UIView {
         hourView.add(insideTo: self)
         hourLabel.add(insideTo: hourView.get)
         lineDivisor.add(insideTo: hourView.get)
+        mappinImage.add(insideTo: backgroundView.get)
         addressTitle.add(insideTo: self)
         addressLabel.add(insideTo: self)
+        serviceImage.add(insideTo: self)
+        serviceTitle.add(insideTo: self)
     }
     
     private func configConstraints() {
@@ -182,8 +230,11 @@ class ListScheduleRowView: UIView {
         hourView.applyConstraint()
         hourLabel.applyConstraint()
         lineDivisor.applyConstraint()
+        mappinImage.applyConstraint()
         addressTitle.applyConstraint()
         addressLabel.applyConstraint()
+        serviceImage.applyConstraint()
+        serviceTitle.applyConstraint()
     }
     
     
