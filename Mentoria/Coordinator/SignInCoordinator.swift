@@ -16,8 +16,15 @@ class SignInCoordinator: Coordinator {
     
     func start() {
         childCoordinator = self
-        var controller = SignInViewControllerFactory.make(callBiometricsFlow: setCallBiometricsFlow() )
-        controller = navigationController.pushViewController(controller)
+        var controller: SignInViewController!
+        
+        controller = navigationController.popToViewControllerIfNeeded(SignInViewController.self)
+        
+        if controller == nil {
+            controller = SignInViewControllerFactory.make(callBiometricsFlow: setCallBiometricsFlow() )
+            controller = navigationController.pushViewController(controller)
+        }
+        
         controller.coordinator = self
 
     }

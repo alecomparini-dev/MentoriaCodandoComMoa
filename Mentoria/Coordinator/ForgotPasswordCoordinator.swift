@@ -16,12 +16,20 @@ class ForgotPasswordCoordinator: Coordinator {
     
     func start() {
         childCoordinator = self
-        var controller = ForgotPasswordViewControllerFactory.make()
-        controller = navigationController.pushViewController(controller)
+        
+        var controller: ForgotPasswordViewController!
+        
+        controller = navigationController.popToViewControllerIfNeeded(ForgotPasswordViewController.self)
+        
+        if controller == nil {
+            controller = ForgotPasswordViewControllerFactory.make()
+            controller = navigationController.pushViewController(controller)
+        }
+        
         controller.setDataTransfer(dataTransfer)
         controller.coordinator = self
     }
-
+    
     
 }
 

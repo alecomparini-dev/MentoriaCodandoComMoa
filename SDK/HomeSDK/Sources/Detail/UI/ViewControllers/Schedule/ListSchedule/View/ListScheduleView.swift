@@ -122,13 +122,6 @@ class ListScheduleView: UIView {
                 build
                     .setCornerRadius(8)
             })
-            .setShadow({ build in
-                build
-                    .setColor(hexColor: "#000000")
-                    .setRadius(5)
-                    .setOffset(width: 2, height: 2)
-                    .apply()
-            })
             .setConstraints { build in
                 build
                     .setTop.equalTo(backgroundListView.get, .top, 24)
@@ -183,6 +176,7 @@ class ListScheduleView: UIView {
     func configStyleOnComponents() {
         configStyleBackgroundListView()
         configStyleAddScheduleFloatButton()
+        configStyleSearchTextField()
     }
     
     
@@ -222,6 +216,16 @@ class ListScheduleView: UIView {
                     .setIntensity(to: .dark, percent: 100)
                     .apply()
             })
+    }
+    
+    private func configStyleSearchTextField() {
+        searchTextField.setShadow({ build in
+            build
+                .setColor(hexColor: "#000000")
+                .setRadius(5)
+                .setOffset(width: 2, height: 2)
+                .apply()
+        })
     }
     
     private func configure() {

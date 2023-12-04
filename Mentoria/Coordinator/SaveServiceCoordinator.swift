@@ -17,8 +17,16 @@ class SaveServiceCoordinator: Coordinator {
     
     func start() { 
         childCoordinator = self
-        var controller = AddServiceViewControllerFactory.make()
-        controller = navigationController.pushViewController(controller)
+        
+        var controller: SaveServiceViewController!
+        
+        controller = navigationController.popToViewControllerIfNeeded(SaveServiceViewController.self)
+        
+        if controller == nil {
+            controller = AddServiceViewControllerFactory.make()
+            controller = navigationController.pushViewController(controller)
+        }
+        
         controller.setDataTransfer(dataTransfer)
         controller.coordinator = self
     }

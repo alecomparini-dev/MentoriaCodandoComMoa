@@ -18,8 +18,15 @@ class AddScheduleCoordinator: Coordinator {
     func start() {
         childCoordinator = self
         
-        var controller = AddScheduleViewController()
-        controller = navigationController.pushViewController(controller)
+        var controller: AddScheduleViewController!
+        
+        controller = navigationController.popToViewControllerIfNeeded(AddScheduleViewController.self)
+        
+        if controller == nil {
+            controller = AddScheduleViewController()
+            controller = navigationController.pushViewController(controller)
+        }
+        
         controller.setDataTransfer(dataTransfer)
         controller.coordinator = self
     }

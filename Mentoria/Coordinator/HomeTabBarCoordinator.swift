@@ -25,14 +25,20 @@ class HomeTabBarCoordinator: Coordinator {
     func start() {
         childCoordinator = self
         
-        let profileSummaryTabBarItem = createProfileSummaryTabBarItem()
-        let listServicesTabBarItem = createListServiceTabBarItem()
-        let scheduleTabBarItem = scheduleTabBarItem()
+        var controller: UITabBarController!
         
-        let homeTabBar = HomeTabBar(items: [profileSummaryTabBarItem, listServicesTabBarItem, scheduleTabBarItem])
-        var controller = homeTabBar.tabBar.get
-        controller = navigationController.pushViewController(controller)
-        homeTabBarControllers = homeTabBar
+        controller = navigationController.popToViewControllerIfNeeded(UITabBarController.self)
+        
+        if controller == nil {
+            let profileSummaryTabBarItem = createProfileSummaryTabBarItem()
+            let listServicesTabBarItem = createListServiceTabBarItem()
+            let scheduleTabBarItem = scheduleTabBarItem()
+            let homeTabBar = HomeTabBar(items: [profileSummaryTabBarItem, listServicesTabBarItem, scheduleTabBarItem])
+            controller = homeTabBar.tabBar.get
+            controller = navigationController.pushViewController(controller)
+            homeTabBarControllers = homeTabBar
+        }
+        
         setCoordinator(controller)
     }
     
@@ -46,6 +52,8 @@ class HomeTabBarCoordinator: Coordinator {
     
     
     //  MARK: - PRIVATE AREA
+    
+    
     private func createProfileSummaryTabBarItem() -> TabBarItems {
         let profileSummaryController = ProfileSummaryViewControllerFactory.make()
         return TabBarItems(viewController: profileSummaryController, image: ImageViewBuilder(systemName: "person"), title: "Perfil")

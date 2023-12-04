@@ -31,33 +31,28 @@ public final class ListScheduleViewController: UIViewController {
         return view
     }()
 
-    
-//  MARK: - LIFE CYCLE
-    public override func loadView() {
-        view = screen
-    }
-
     public override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
 
     
 //  MARK: - LIFE CYCLE
-    
+    public override func loadView() {
+        view = screen
+    }
+
     public override func viewDidLoad() {
         super.viewDidLoad()
         configure()
     }
     
-    public override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         screen.configStyleOnComponents()
     }
     
-    public override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        configCellDelegate()
-//        activeCurrentMonthItemFilterDock()
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
     }
     
     
@@ -67,6 +62,8 @@ public final class ListScheduleViewController: UIViewController {
         configScreenDelegate()
         configShowComponents()
         configSizeItemsFilterDock()
+        //TODO: REMOVER PARA DPS QUE FIZER O LOAD PELO PRESENTER
+        activeCurrentMonthItemFilterDock()
     }
     
     private func configNavigationController() {
@@ -75,6 +72,7 @@ public final class ListScheduleViewController: UIViewController {
     
     private func configScreenDelegate() {
         screen.delegate = self
+        configCellDelegate()
     }
     
     private func configCellDelegate() {
