@@ -49,15 +49,21 @@ public final class ListScheduleViewController: UIViewController {
         configure()
     }
     
+    public override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        screen.configStyleOnComponents()
+    }
+    
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        configCellDelegate()
     }
     
     
 //  MARK: - PRIVATE AREA
     private func configure() {
         configNavigationController()
-        configDelegate()
+        configScreenDelegate()
         configShowComponents()
         configSizeItemsDock()
     }
@@ -66,8 +72,11 @@ public final class ListScheduleViewController: UIViewController {
         navigationController?.isNavigationBarHidden = true
     }
     
-    private func configDelegate() {
+    private func configScreenDelegate() {
         screen.delegate = self
+    }
+    
+    private func configCellDelegate() {
         screen.filterDock.setDelegate(delegate: self)
         screen.listSchedule.setDelegate(delegate: self)
     }
