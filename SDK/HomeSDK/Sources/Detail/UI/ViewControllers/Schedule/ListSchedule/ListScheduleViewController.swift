@@ -57,6 +57,7 @@ public final class ListScheduleViewController: UIViewController {
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configCellDelegate()
+//        activeCurrentMonthItemFilterDock()
     }
     
     
@@ -65,7 +66,7 @@ public final class ListScheduleViewController: UIViewController {
         configNavigationController()
         configScreenDelegate()
         configShowComponents()
-        configSizeItemsDock()
+        configSizeItemsFilterDock()
     }
     
     private func configNavigationController() {
@@ -86,10 +87,14 @@ public final class ListScheduleViewController: UIViewController {
         screen.listSchedule.show()
     }
     
-    private func configSizeItemsDock() {
+    private func configSizeItemsFilterDock() {
         _ = listSchedulePresenter.sizeItemsFilterDock().compactMap { (key, value) in
             screen.filterDock.setCustomCellSize(index: key.rawValue, value)
         }
+    }
+    
+    private func activeCurrentMonthItemFilterDock() {
+        screen.filterDock.selectItem(0)
     }
     
     private func makeCellItemDock(_ index: Int) -> UIView {
