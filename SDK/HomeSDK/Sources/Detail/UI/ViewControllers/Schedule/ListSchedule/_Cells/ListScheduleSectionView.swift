@@ -68,9 +68,9 @@ class ListScheduleSectionView: UIView {
             .setWeight(.bold)
             .setTextAttributed({ build in
                 build
-                    .setText(text: "16 /")
+                    .setText(text: "04 /")
                     .setAttributed(key: .font, value: UIFont.boldSystemFont(ofSize: 24))
-                    .setText(text: " Nov")
+                    .setText(text: " Dez")
                     .setAttributed(key: .font, value: UIFont.systemFont(ofSize: 20))
                     .setText(text: "  terça-feira")
                     .setAttributed(key: .font, value: UIFont.systemFont(ofSize: 16))
