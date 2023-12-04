@@ -70,11 +70,11 @@ class ListScheduleRowView: UIView {
             .setTextAttributed({ build in
                 build
                     .setText(text: "18")
-                    .setAttributed(key: .font, value: UIFont.boldSystemFont(ofSize: 30))
+                    .setAttributed(key: .font, value: UIFont.boldSystemFont(ofSize: 28))
                     .setAttributed(key: .foregroundColor, value: UIColor.white)
                     .setText(text: "\n25")
-                    .setAttributed(key: .font, value: UIFont.systemFont(ofSize: 22))
-                    .setAttributed(key: .foregroundColor, value: UIColor.white.withAlphaComponent(0.8))
+                    .setAttributed(key: .font, value: UIFont.systemFont(ofSize: 20))
+                    .setAttributed(key: .foregroundColor, value: UIColor.white.withAlphaComponent(0.7))
             })
             .setConstraints { build in
                 build

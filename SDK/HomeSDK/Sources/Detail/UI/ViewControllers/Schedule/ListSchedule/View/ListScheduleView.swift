@@ -111,7 +111,7 @@ class ListScheduleView: UIView {
         let comp = TextFieldImageBuilder("Pesquisar")
             .setImage(imgSearch, .left, 8)
             .setAutoCapitalization(.none)
-//            .setBackgroundColor(hexColor: "#ffffff")
+            .setBackgroundColor(hexColor: "#ffffff")
             .setPadding(8)
             .setKeyboard({ build in
                 build
@@ -152,6 +152,7 @@ class ListScheduleView: UIView {
         let btn = ButtonImageBuilder()
             .setImageButton(img)
             .setFloatButton()
+            .setBackgroundColor(hexColor: "#fa79c7")
             .setImageWeight(.black)
             .setTintColor(hexColor: "#ffffff")
             .setBorder({ build in
