@@ -18,7 +18,7 @@ public class AddScheduleViewController: UIViewController {
     }
     
     
-    //  MARK: - INITIALIZERS
+//  MARK: - INITIALIZERS
     
     public init() {
         super.init(nibName: nil, bundle: nil)
@@ -34,7 +34,7 @@ public class AddScheduleViewController: UIViewController {
     }()
     
     
-    //  MARK: - LIFE CYCLE
+//  MARK: - LIFE CYCLE
     
     public override func loadView() {
         self.view = screen
@@ -46,16 +46,16 @@ public class AddScheduleViewController: UIViewController {
     }
     
     
-    //  MARK: - DATA TRANSFER
+//  MARK: - DATA TRANSFER
     public func setDataTransfer(_ data: Any?) {
         
     }
+
     
-    //  MARK: - PRIVATE AREA
+//  MARK: - PRIVATE AREA
     private func configure() {
         configDelegate()
         configButtonDisableSchedule()
-        configShowPickers()
     }
     
     private func configDelegate() {
@@ -76,16 +76,12 @@ public class AddScheduleViewController: UIViewController {
         )
     }
     
-    // ta errado isso aqui preciso falar onde quero que apareça o picker
-    private func configShowPickers() {
-//        screen.picker.setHidden(false)
-    }
-    
    
 }
 
 
 //  MARK: - EXTESION - AddScheduleViewDelegate
+
 extension AddScheduleViewController: AddScheduleViewDelegate {
     public func disableScheduleButtonTapped() {
         
@@ -100,6 +96,7 @@ extension AddScheduleViewController: AddScheduleViewDelegate {
 
 
 //  MARK: - EXTESION - PickerDelegate
+
 extension AddScheduleViewController: PickerDelegate {
     public func numberOfComponents() -> Int {
         1
@@ -122,7 +119,8 @@ extension AddScheduleViewController: PickerDelegate {
     
 }
 
-//  MARK: - EXTENSION - asdf
+
+//  MARK: - EXTENSION - UITextFieldDelegate
 extension AddScheduleViewController: UITextFieldDelegate {
     
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
