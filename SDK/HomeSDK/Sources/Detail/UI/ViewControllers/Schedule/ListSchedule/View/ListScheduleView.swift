@@ -122,6 +122,13 @@ class ListScheduleView: UIView {
                 build
                     .setCornerRadius(8)
             })
+            .setShadow({ build in
+                build
+                    .setColor(hexColor: "#000000")
+                    .setRadius(5)
+                    .setOffset(width: 2, height: 2)
+                    .apply()
+            })
             .setConstraints { build in
                 build
                     .setTop.equalTo(backgroundListView.get, .top, 24)
@@ -175,7 +182,6 @@ class ListScheduleView: UIView {
 //  MARK: - PUBLIC AREA
     func configStyleOnComponents() {
         configStyleBackgroundListView()
-        configStyleSearchTextField()
         configStyleAddScheduleFloatButton()
     }
     
@@ -201,21 +207,6 @@ class ListScheduleView: UIView {
             })
     }
     
-    private func configStyleSearchTextField() {
-        searchTextField
-            .setNeumorphism({ build in
-                build
-                    .setShape(.concave)
-                    .setReferenceColor(hexColor: "#ffffff")
-                    .setDistance(to: .light, percent: 1)
-                    .setDistance(to: .dark, percent: 5)
-                    .setBlur(to: .light, percent: 1)
-                    .setBlur(to: .dark, percent: 10)
-                    .setIntensity(to: .light, percent: 30)
-                    .setIntensity(to: .dark, percent: 90)
-                    .apply()
-            })
-    }
     
     private func configStyleAddScheduleFloatButton() {
         addScheduleFloatButton
