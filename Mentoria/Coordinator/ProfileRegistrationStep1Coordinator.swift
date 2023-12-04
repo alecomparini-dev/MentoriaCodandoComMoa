@@ -18,8 +18,16 @@ class ProfileRegistrationStep1Coordinator: Coordinator {
     
     func start() {
         childCoordinator = self
-        var controller = ProfileRegistrationStep1Factory.make()
-        controller = navigationController.pushViewController(controller)
+        
+        var controller: ProfileRegistrationStep1ViewController!
+        
+        controller = navigationController.popToViewControllerIfNeeded(ProfileRegistrationStep1ViewController.self)
+        
+        if controller == nil {
+            controller = ProfileRegistrationStep1Factory.make()
+            controller = navigationController.pushViewController(controller)
+        }
+                
         controller.setDataTransfer(dataTransfer)
         controller.coordinator = self
     }

@@ -31,32 +31,28 @@ public final class ListScheduleViewController: UIViewController {
         return view
     }()
 
-    
-//  MARK: - LIFE CYCLE
-    public override func loadView() {
-        view = screen
-    }
-
     public override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
 
     
 //  MARK: - LIFE CYCLE
-    
+    public override func loadView() {
+        view = screen
+    }
+
     public override func viewDidLoad() {
         super.viewDidLoad()
         configure()
     }
     
-    public override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         screen.configStyleOnComponents()
     }
     
-    public override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        configCellDelegate()
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
     }
     
     
@@ -65,7 +61,9 @@ public final class ListScheduleViewController: UIViewController {
         configNavigationController()
         configScreenDelegate()
         configShowComponents()
-        configSizeItemsDock()
+        configSizeItemsFilterDock()
+        //TODO: REMOVER PARA DPS QUE FIZER O LOAD PELO PRESENTER
+        activeCurrentMonthItemFilterDock()
     }
     
     private func configNavigationController() {
@@ -74,6 +72,7 @@ public final class ListScheduleViewController: UIViewController {
     
     private func configScreenDelegate() {
         screen.delegate = self
+        configCellDelegate()
     }
     
     private func configCellDelegate() {
@@ -86,10 +85,14 @@ public final class ListScheduleViewController: UIViewController {
         screen.listSchedule.show()
     }
     
-    private func configSizeItemsDock() {
+    private func configSizeItemsFilterDock() {
         _ = listSchedulePresenter.sizeItemsFilterDock().compactMap { (key, value) in
             screen.filterDock.setCustomCellSize(index: key.rawValue, value)
         }
+    }
+    
+    private func activeCurrentMonthItemFilterDock() {
+        screen.filterDock.selectItem(0)
     }
     
     private func makeCellItemDock(_ index: Int) -> UIView {

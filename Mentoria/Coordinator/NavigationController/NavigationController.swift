@@ -32,6 +32,14 @@ public final class NavigationController: UINavigationController {
         return .lightContent
     }
     
+    public func popToViewControllerIfNeeded<T>(_ viewController: AnyClass) -> T? {
+        if let controller = viewControllers.first(where: { $0.isKind(of: viewController)  }) {
+            popToViewController(controller, animated: true)
+            return controller as? T
+        }
+        return nil
+    }
+    
     
 //  MARK: - PRIVATE AREA
     private func setup() {

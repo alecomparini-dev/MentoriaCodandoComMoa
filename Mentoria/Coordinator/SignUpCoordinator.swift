@@ -17,8 +17,15 @@ class SignUpCoordinator: Coordinator {
     
     func start() {
         childCoordinator = self
-        var controller = SignUpViewControllerFactory.make()
-        controller = navigationController.pushViewController(controller)
+        var controller: SignUpViewController!
+        
+        controller = navigationController.popToViewControllerIfNeeded(SignUpViewController.self)
+        
+        if controller == nil {
+            controller = SignUpViewControllerFactory.make()
+            controller = navigationController.pushViewController(controller)
+        }
+        
         controller.coordinator = self
     }
     
