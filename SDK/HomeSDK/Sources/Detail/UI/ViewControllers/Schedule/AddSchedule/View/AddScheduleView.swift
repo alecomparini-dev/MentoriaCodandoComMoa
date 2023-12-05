@@ -207,7 +207,7 @@ public class AddScheduleView: UIView {
             .setTextAlignment(.center)
             .setConstraints { build in
                 build
-                    .setTop.equalTo(serviceTextField.get, .bottom, 24)
+                    .setTop.equalTo(serviceTextField.get, .bottom, 18)
                     .setHorizontalAlignmentX.equalToSafeArea(-16)
             }
         return comp
@@ -233,12 +233,12 @@ public class AddScheduleView: UIView {
         let comp = DockBuilder()
             .setContentInset(top: 0, left: 16, bottom: 0, rigth: 16)
             .setShowsHorizontalScrollIndicator(false)
-            .setMinimumLineSpacing(20)
+            .setMinimumLineSpacing(16)
             .setConstraints { build in
                 build
-                    .setTop.equalTo(changeDateButton.get, .bottom, 8)
+                    .setTop.equalTo(changeDateButton.get, .bottom, 10)
                     .setLeading.setTrailing.equalToSafeArea
-                    .setHeight.equalToConstant(70)
+                    .setHeight.equalToConstant(72)
             }
         return comp
     }()

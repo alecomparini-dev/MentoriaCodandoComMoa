@@ -12,16 +12,23 @@ public class AddSchedulePresenterImpl: AddSchedulePresenter {
     
     public init() {}
     
-    public func getCurrentMonth() -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MMMM"
-        formatter.locale = Locale.current
-
-        let descriptionMonth = formatter.string(from: Date())
-
-        return translateMonth(descriptionMonth)
+    
+    
+    public func getWeekName(_ date: Date) -> String {
+        let calendar = Calendar.current
+        let dayWeek = calendar.component(.weekday, from: date)
+        return getDayWeekName(dayWeek)
     }
     
+    public func getMonthName(_ date: Date? = nil) -> String {
+        let calendar = Calendar.current
+        
+        guard let date = (date == nil) ? Date() : date else { return "" }
+        
+        let month = calendar.component(.month, from: date)
+        
+        return getMonthName(month)
+    }
     
     public func numberOfItemsDock(dockID: DockID) -> Int {
         switch dockID {
@@ -36,42 +43,62 @@ public class AddSchedulePresenterImpl: AddSchedulePresenter {
     public func sizeOfItemsDock(dockID: DockID) -> CGSize {
         switch dockID {
             case .daysDock:
-                return CGSize(width: 55, height: 65)
+                return CGSize(width: 55, height: 70)
             
             case .hoursDock:
-                return CGSize(width: 100, height: 48)
+                return CGSize(width: 100, height: 40)
         }
     }
     
     
 //  MARK: - PRIVATE AREA
-    //TODO: Change to NSLocalizedString
-    private func translateMonth(_ month: String) -> String {
-        switch month.lowercased() {
-            case "january":
+    private func getMonthName(_ month: Int) -> String {
+        switch month {
+            case 1:
                 return "Janeiro"
-            case "february":
+            case 2:
                 return "Fevereiro"
-            case "march":
+            case 3:
                 return "Março"
-            case "april":
+            case 4:
                 return "Abril"
-            case "may":
+            case 5:
                 return "Maio"
-            case "june":
+            case 6:
                 return "Junho"
-            case "july":
+            case 7:
                 return "Julho"
-            case "august":
+            case 8:
                 return "Agosto"
-            case "september":
+            case 9:
                 return "Setembro"
-            case "october":
+            case 10:
                 return "Outubro"
-            case "november":
+            case 11:
                 return "Novembro"
-            case "december" :
+            case 12:
                 return "Dezembro"
+            default:
+                return ""
+        }
+    }
+    
+    private func getDayWeekName(_ dayWeek: Int) -> String {
+        switch dayWeek {
+            case 1:
+                return "Domingo"
+            case 2:
+                return "Segunda-feira"
+            case 3:
+                return "Terça-feira"
+            case 4:
+                return "Quarta-feira"
+            case 5:
+                return "Quinta-feira"
+            case 6:
+                return "Sexta-feira"
+            case 7:
+                return "Sábado"
             default:
                 return ""
         }
