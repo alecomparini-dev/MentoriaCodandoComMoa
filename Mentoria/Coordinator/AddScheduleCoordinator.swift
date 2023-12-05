@@ -23,7 +23,7 @@ class AddScheduleCoordinator: Coordinator {
         controller = navigationController.popToViewControllerIfNeeded(AddScheduleViewController.self)
         
         if controller == nil {
-            controller = AddScheduleViewController()
+            controller = AddScheduleViewControllerFactory.make()
             controller = navigationController.pushViewController(controller)
         }
         
