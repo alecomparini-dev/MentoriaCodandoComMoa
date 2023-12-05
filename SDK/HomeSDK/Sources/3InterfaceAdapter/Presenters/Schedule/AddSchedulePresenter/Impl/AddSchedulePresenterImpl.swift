@@ -46,7 +46,7 @@ public class AddSchedulePresenterImpl: AddSchedulePresenter {
                 return CGSize(width: 55, height: 70)
             
             case .hoursDock:
-                return CGSize(width: 100, height: 40)
+                return CGSize(width: 100, height: 44)
         }
     }
     

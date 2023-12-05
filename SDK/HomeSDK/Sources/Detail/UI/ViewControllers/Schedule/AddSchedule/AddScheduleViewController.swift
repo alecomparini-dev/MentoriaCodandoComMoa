@@ -108,19 +108,6 @@ public class AddScheduleViewController: UIViewController {
         )
     }
     
-    private func makeCellItemDock(_ index: Int) -> UIView {
-        let btn = CustomButtonSecondary("10")
-            .setTitleSize(14)
-            .setBorder { build in
-                build
-                    .setCornerRadius(12)
-            }
-        
-        btn.setTag(tagIdentifierDock)
-        
-        return btn.get
-    }
-    
     private func configDateLabel() {
         screen.dateLabel.setText(addSchedulePresenter.getMonthName(nil))
     }
@@ -221,43 +208,53 @@ extension AddScheduleViewController: UITextFieldDelegate {
 //  MARK: - EXTESION - DockDelegate
 extension AddScheduleViewController: DockDelegate {
     
-    public func numberOfItemsCallback(_ dockerBuilder: DockBuilder) -> Int {
-        if let dockID = AddSchedulePresenterImpl.DockID(rawValue: dockerBuilder.id) {
+    public func numberOfItemsCallback(_ dockBuilder: DockBuilder) -> Int {
+        if let dockID = AddSchedulePresenterImpl.DockID(rawValue: dockBuilder.id) {
             return addSchedulePresenter.numberOfItemsDock(dockID: dockID)
         }
         return 0
     }
     
-    private func makeAddScheduleDaysDockView(_ day: Int) -> AddScheduleDaysDockView {
+    private func makeAddScheduleDaysDockView(_ dockBuilder: DockBuilder, _ index: Int) -> AddScheduleDaysDockView {
+        let day = index + 1
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy/MM/dd"
         let calendar = Calendar.current
-        let month = calendar.component(.month, from: Date())
-        let year = calendar.component(.year, from: Date())
+        let currentDate = Date()
+        let month = calendar.component(.month, from: currentDate)
+        let year = calendar.component(.year, from: currentDate)
+        let currentDay = calendar.component(.day, from: currentDate)
         let dateString = "\(year)/\(month)/\(day)"
         
         var dayWeek = ""
+        
         if let date = formatter.date(from: dateString ) {
             dayWeek = addSchedulePresenter.getWeekName(date).prefix(3).uppercased()
         }
         
-        let daysDockeView = AddScheduleDaysDockView(day.description, dayWeek)
+        let daysDockView = AddScheduleDaysDockView(day.description, dayWeek)
         
-        daysDockeView.setTag(tagIdentifierDock)
+        daysDockView.setTag(tagIdentifierDock)
         
-        return daysDockeView
+        if day < currentDay {
+            daysDockView.setAlpha(0.4)
+            dockBuilder.setDisableUserInteraction(cells: [index])
+        }
+        
+        return daysDockView
     }
     
-    private func makeAddScheduleHoursDockView() -> UIView {
-        return UIView()
+    private func makeAddScheduleHoursDockView() -> AddScheduleHoursDockView {
+        let view = AddScheduleHoursDockView("18:30")
+        view.setTag(tagIdentifierDock)
+        return view
     }
     
-    public func cellCallback(_ dockerBuilder: DockBuilder, _ index: Int) -> UIView {
+    public func cellCallback(_ dockBuilder: DockBuilder, _ index: Int) -> UIView {
         
-        switch dockerBuilder.id {
-            
+        switch dockBuilder.id {
             case AddSchedulePresenterImpl.DockID.daysDock.rawValue:
-                return makeAddScheduleDaysDockView(index+1)
+                return makeAddScheduleDaysDockView(dockBuilder, index)
             
             case AddSchedulePresenterImpl.DockID.hoursDock.rawValue:
                 return makeAddScheduleHoursDockView()
@@ -265,26 +262,48 @@ extension AddScheduleViewController: DockDelegate {
             default:
                 break
         }
-        return makeCellItemDock(index)
+        
+        return UIView()
     }
     
-    public func customCellActiveCallback(_ dockerBuilder: DockBuilder, _ cell: UIView) -> UIView? {
+    public func customCellActiveCallback(_ dockBuilder: DockBuilder, _ cell: UIView) -> UIView? {
         let view = cell.getView(tag: tagIdentifierDock)
-        guard let addDays = view as? AddScheduleDaysDockView else { return nil }
-        addDays.dayLabel.setColor(hexColor: "#282a36")
-        addDays.dayWeakLabel.setColor(UIColor.HEX("#282a36").withAlphaComponent(0.8))
-        addDays.backgroundView.get.makeNeumorphism({ make in
-            make
-                .setShape(.convex)
-                .setReferenceColor(hexColor: "#baa0f4")
-                .setDistance(to: .light, percent: 2)
-                .setDistance(to: .dark, percent: 10)
-                .setBlur(to: .light, percent: 3)
-                .setBlur(to: .dark, percent: 10)
-                .setIntensity(to: .light, percent: 50)
-                .setIntensity(to: .dark, percent: 100)
-                .apply()
-        })
+        
+        if let addDays = view as? AddScheduleDaysDockView {
+            addDays.dayLabel.setColor(hexColor: "#282a36")
+            addDays.dayWeakLabel.setColor(UIColor.HEX("#282a36").withAlphaComponent(0.8))
+            addDays.backgroundView.get.makeNeumorphism({ make in
+                make
+                    .setShape(.convex)
+                    .setReferenceColor(hexColor: "#baa0f4")
+                    .setDistance(to: .light, percent: 2)
+                    .setDistance(to: .dark, percent: 10)
+                    .setBlur(to: .light, percent: 3)
+                    .setBlur(to: .dark, percent: 10)
+                    .setIntensity(to: .light, percent: 50)
+                    .setIntensity(to: .dark, percent: 100)
+                    .apply()
+            })
+        }
+        
+        if let addHours = view as? AddScheduleHoursDockView {
+            addHours.hourLabel.setColor(hexColor: "#282a36")
+                .setWeight(.semibold)
+            
+            addHours.backgroundView.get.makeNeumorphism({ make in
+                make
+                    .setShape(.convex)
+                    .setReferenceColor(hexColor: "#baa0f4")
+                    .setDistance(to: .light, percent: 2)
+                    .setDistance(to: .dark, percent: 10)
+                    .setBlur(to: .light, percent: 3)
+                    .setBlur(to: .dark, percent: 10)
+                    .setIntensity(to: .light, percent: 50)
+                    .setIntensity(to: .dark, percent: 100)
+                    .apply()
+            })
+        }
+        
         return nil
     }
     
