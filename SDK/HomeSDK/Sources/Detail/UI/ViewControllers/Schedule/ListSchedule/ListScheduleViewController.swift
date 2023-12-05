@@ -139,15 +139,15 @@ extension ListScheduleViewController: ListScheduleViewDelegate {
 
 extension ListScheduleViewController: DockDelegate {
     
-    public func numberOfItemsCallback() -> Int {
+    public func numberOfItemsCallback(_ dockerBuilder: DockBuilder) -> Int {
         return listSchedulePresenter.numberOfItemsFilterDock()
     }
     
-    public func cellCallback(_ index: Int) -> UIView {
+    public func cellCallback(_ dockerBuilder: DockBuilder, _ index: Int) -> UIView {
         return makeCellItemDock(index)
     }
     
-    public func customCellActiveCallback(_ cell: UIView) -> UIView? {
+    public func customCellActiveCallback(_ dockerBuilder: DockBuilder, _ cell: UIView) -> UIView? {
         let view = cell.getView(tag: tagIdentifierItemDock)
         guard let btn = view as? UIButton else { return nil }
         setColorItemDock("#282a36", btn)
@@ -170,11 +170,11 @@ extension ListScheduleViewController: DockDelegate {
         return btn
     }
     
-    public func didSelectItemAt(_ index: Int) {
+    public func didSelectItemAt(_ dockerBuilder: DockBuilder, _ index: Int) {
         print("Selecionado: ", index)
     }
     
-    public func didDeselectItemAt(_ index: Int) {
+    public func didDeselectItemAt(_ dockerBuilder: DockBuilder, _ index: Int) {
         print("Removido: ", index)
     }
     

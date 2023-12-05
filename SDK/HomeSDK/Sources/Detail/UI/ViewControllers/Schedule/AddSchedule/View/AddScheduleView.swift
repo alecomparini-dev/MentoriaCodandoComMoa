@@ -204,7 +204,6 @@ public class AddScheduleView: UIView {
     lazy var dateLabel: CustomTextTitle = {
         let comp = CustomTextTitle()
             .setSize(22)
-            .setText("Dezembro")
             .setTextAlignment(.center)
             .setConstraints { build in
                 build
@@ -234,8 +233,7 @@ public class AddScheduleView: UIView {
         let comp = DockBuilder()
             .setContentInset(top: 0, left: 16, bottom: 0, rigth: 16)
             .setShowsHorizontalScrollIndicator(false)
-            .setCellsSize(CGSize(width: 50, height: 65))
-            .setMinimumInteritemSpacing(150)
+            .setMinimumLineSpacing(20)
             .setConstraints { build in
                 build
                     .setTop.equalTo(changeDateButton.get, .bottom, 8)
@@ -245,8 +243,28 @@ public class AddScheduleView: UIView {
         return comp
     }()
     
+    lazy var hoursDock: DockBuilder = {
+        let comp = DockBuilder()
+            .setBackgroundColor(backgroundView.get.backgroundColor?.adjustBrightness(50))
+            .setScrollDirection(.vertical)
+            .setContentInset(top: 24, left: 16, bottom: 24, rigth: 16)
+            .setShowsVerticalScrollIndicator(false)
+            .setMinimumLineSpacing(20)
+            .setBorder({ build in
+                build
+                    .setCornerRadius(16)
+            })
+            .setConstraints { build in
+                build
+                    .setTop.equalTo(daysDock.get, .bottom, 16)
+                    .setLeading.setTrailing.equalToSafeArea(8)
+                    .setBottom.equalTo(saveButton.get, .top, -24)
+            }
+        return comp
+    }()
+    
     lazy var saveButton: CustomButtonPrimary = {
-        let comp = CustomButtonPrimary("Salvar")
+        let comp = CustomButtonPrimary("Agendar")
             .setConstraints { build in
                 build
                     .setBottom.equalToSafeArea(-24)
@@ -288,11 +306,12 @@ public class AddScheduleView: UIView {
         clientTextField.add(insideTo: self)
         serviceCustomText.add(insideTo: self)
         serviceTextField.add(insideTo: self)
-        picker.add(insideTo: self)
         dateLabel.add(insideTo: self)
         changeDateButton.add(insideTo: self)
         daysDock.add(insideTo: self)
+        hoursDock.add(insideTo: self)
         saveButton.add(insideTo: self)
+        picker.add(insideTo: self)
     }
     
     private func configConstraints() {
@@ -308,6 +327,7 @@ public class AddScheduleView: UIView {
         dateLabel.applyConstraint()
         changeDateButton.applyConstraint()
         daysDock.applyConstraint()
+        hoursDock.applyConstraint()
         saveButton.applyConstraint()
     }
     

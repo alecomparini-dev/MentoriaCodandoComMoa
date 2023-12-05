@@ -2,8 +2,9 @@
 //
 
 import UIKit
-import DesignerSystemSDKComponent
 import CustomComponentsSDK
+import DesignerSystemSDKComponent
+import HomePresenters
 
 public protocol AddScheduleViewControllerCoordinator: AnyObject {
     func gotoListScheduleHomeTabBar(_ reload: Bool)
@@ -23,7 +24,10 @@ public class AddScheduleViewController: UIViewController {
     
 //  MARK: - INITIALIZERS
     
-    public init() {
+    private let addSchedulePresenter: AddSchedulePresenter
+    
+    public init(addSchedulePresenter: AddSchedulePresenter) {
+        self.addSchedulePresenter = addSchedulePresenter
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -60,18 +64,23 @@ public class AddScheduleViewController: UIViewController {
         configDelegate()
         configButtonDisableSchedule()
         configShowComponents()
+        configDockIDs()
+        configSizeDocks()
+        configDateLabel()
     }
     
     private func configDelegate() {
         screen.delegate = self
         screen.picker.delegate = self
+        configTextFieldDelegate()
         configCellDelegate()
     }
     
     private func configCellDelegate() {
         screen.daysDock.setDelegate(delegate: self)
+        screen.hoursDock.setDelegate(delegate: self)
     }
-    
+
     private func configTextFieldDelegate() {
         screen.clientTextField.setDelegate(self)
         screen.serviceTextField.setDelegate(self)
@@ -79,6 +88,17 @@ public class AddScheduleViewController: UIViewController {
     
     private func configShowComponents() {
         screen.daysDock.show()
+        screen.hoursDock.show()
+    }
+    
+    private func configDockIDs() {
+        screen.daysDock.setID(AddSchedulePresenterImpl.DockID.daysDock.rawValue)
+        screen.hoursDock.setID(AddSchedulePresenterImpl.DockID.hoursDock.rawValue)
+    }
+    
+    private func configSizeDocks() {
+        screen.daysDock.setCellsSize(addSchedulePresenter.sizeOfItemsDock(dockID: .daysDock))
+        screen.hoursDock.setCellsSize(addSchedulePresenter.sizeOfItemsDock(dockID: .hoursDock))
     }
     
     private func configButtonDisableSchedule() {
@@ -88,9 +108,7 @@ public class AddScheduleViewController: UIViewController {
         )
     }
     
-    
     private func makeCellItemDock(_ index: Int) -> UIView {
-                
         let btn = CustomButtonSecondary("10")
             .setTitleSize(14)
             .setBorder { build in
@@ -101,6 +119,10 @@ public class AddScheduleViewController: UIViewController {
         btn.setTag(tagIdentifierDock)
         
         return btn.get
+    }
+    
+    private func configDateLabel() {
+        screen.dateLabel.setText(addSchedulePresenter.getCurrentMonth())
     }
    
 }
@@ -199,15 +221,18 @@ extension AddScheduleViewController: UITextFieldDelegate {
 //  MARK: - EXTESION - DockDelegate
 extension AddScheduleViewController: DockDelegate {
     
-    public func numberOfItemsCallback() -> Int {
-        return 40
+    public func numberOfItemsCallback(_ dockerBuilder: DockBuilder) -> Int {
+        if let dockID = AddSchedulePresenterImpl.DockID(rawValue: dockerBuilder.id) {
+            return addSchedulePresenter.numberOfItemsDock(dockID: dockID)
+        }
+        return 0
     }
     
-    public func cellCallback(_ index: Int) -> UIView {
+    public func cellCallback(_ dockerBuilder: DockBuilder, _ index: Int) -> UIView {
         return makeCellItemDock(index)
     }
     
-    public func customCellActiveCallback(_ cell: UIView) -> UIView? {
+    public func customCellActiveCallback(_ dockerBuilder: DockBuilder, _ cell: UIView) -> UIView? {
         let view = cell.getView(tag: tagIdentifierDock)
         guard let btn = view as? UIButton else { return nil }
         setColorItemDock("#282a36", btn)
@@ -230,13 +255,9 @@ extension AddScheduleViewController: DockDelegate {
         return btn
     }
     
-    public func didSelectItemAt(_ index: Int) {
-        print("Selecionado: ", index)
-    }
+    public func didSelectItemAt(_ index: Int) {}
     
-    public func didDeselectItemAt(_ index: Int) {
-        print("Removido: ", index)
-    }
+    public func didDeselectItemAt(_ index: Int) {}
     
     public func setColorItemDock(_ hexColor: String, _ btn: UIButton) {
         btn.setTitleColor(UIColor.HEX(hexColor), for: .normal)

@@ -81,7 +81,7 @@ class ListScheduleView: UIView {
         let comp = DockBuilder()
             .setContentInset(top: 0, left: 16, bottom: 0, rigth: 16)
             .setShowsHorizontalScrollIndicator(false)
-            .setCellsSize(CGSize(width: 70, height: 40))
+            .setMinimumInteritemSpacing(20)
             .setConstraints { build in
                 build
                     .setTop.equalTo(screenTitle.get, .bottom, 8)
