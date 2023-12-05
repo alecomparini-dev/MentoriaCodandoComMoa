@@ -122,7 +122,7 @@ public class AddScheduleViewController: UIViewController {
     }
     
     private func configDateLabel() {
-        screen.dateLabel.setText(addSchedulePresenter.getCurrentMonth())
+        screen.dateLabel.setText(addSchedulePresenter.getMonthName(nil))
     }
    
 }
@@ -228,19 +228,52 @@ extension AddScheduleViewController: DockDelegate {
         return 0
     }
     
+    private func makeAddScheduleDaysDockView(_ day: Int) -> AddScheduleDaysDockView {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy/MM/dd"
+        let calendar = Calendar.current
+        let month = calendar.component(.month, from: Date())
+        let year = calendar.component(.year, from: Date())
+        let dateString = "\(year)/\(month)/\(day)"
+        
+        var dayWeek = ""
+        if let date = formatter.date(from: dateString ) {
+            dayWeek = addSchedulePresenter.getWeekName(date).prefix(3).uppercased()
+        }
+        
+        let daysDockeView = AddScheduleDaysDockView(day.description, dayWeek)
+        
+        daysDockeView.setTag(tagIdentifierDock)
+        
+        return daysDockeView
+    }
+    
+    private func makeAddScheduleHoursDockView() -> UIView {
+        return UIView()
+    }
+    
     public func cellCallback(_ dockerBuilder: DockBuilder, _ index: Int) -> UIView {
+        
+        switch dockerBuilder.id {
+            
+            case AddSchedulePresenterImpl.DockID.daysDock.rawValue:
+                return makeAddScheduleDaysDockView(index+1)
+            
+            case AddSchedulePresenterImpl.DockID.hoursDock.rawValue:
+                return makeAddScheduleHoursDockView()
+                
+            default:
+                break
+        }
         return makeCellItemDock(index)
     }
     
     public func customCellActiveCallback(_ dockerBuilder: DockBuilder, _ cell: UIView) -> UIView? {
         let view = cell.getView(tag: tagIdentifierDock)
-        guard let btn = view as? UIButton else { return nil }
-        setColorItemDock("#282a36", btn)
-        btn.makeBorder({ make in
-            make
-                .setCornerRadius(16)
-        })
-        btn.makeNeumorphism({ make in
+        guard let addDays = view as? AddScheduleDaysDockView else { return nil }
+        addDays.dayLabel.setColor(hexColor: "#282a36")
+        addDays.dayWeakLabel.setColor(UIColor.HEX("#282a36").withAlphaComponent(0.8))
+        addDays.backgroundView.get.makeNeumorphism({ make in
             make
                 .setShape(.convex)
                 .setReferenceColor(hexColor: "#baa0f4")
@@ -252,15 +285,11 @@ extension AddScheduleViewController: DockDelegate {
                 .setIntensity(to: .dark, percent: 100)
                 .apply()
         })
-        return btn
+        return nil
     }
     
     public func didSelectItemAt(_ index: Int) {}
     
     public func didDeselectItemAt(_ index: Int) {}
     
-    public func setColorItemDock(_ hexColor: String, _ btn: UIButton) {
-        btn.setTitleColor(UIColor.HEX(hexColor), for: .normal)
-        btn.tintColor = UIColor.HEX(hexColor)
-    }
 }

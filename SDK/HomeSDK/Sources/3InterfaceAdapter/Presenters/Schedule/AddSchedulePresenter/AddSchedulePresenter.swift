@@ -6,8 +6,9 @@ import Foundation
 
 public protocol AddSchedulePresenter {
     
+    func getMonthName(_ date: Date?) -> String
     
-    func getCurrentMonth() -> String
+    func getWeekName(_ date: Date) -> String
     
     func numberOfItemsDock(dockID: AddSchedulePresenterImpl.DockID) -> Int
     
