@@ -94,6 +94,7 @@ public class AddScheduleView: UIView {
     lazy var clientTitle: CustomText = {
         let comp = CustomText()
             .setText("Cliente")
+            .setSize(15)
             .setConstraints { build in
                 build
                     .setTop.equalTo(screenTitle.get, .bottom, 40)
@@ -125,7 +126,7 @@ public class AddScheduleView: UIView {
                 build
                     .setTop.equalTo(clientTitle.get, .bottom, 8)
                     .setLeading.setTrailing.equalToSafeArea(24)
-                    .setHeight.equalToConstant(48)
+                    .setHeight.equalToConstant(40)
             }
         return comp
     }()
@@ -133,6 +134,7 @@ public class AddScheduleView: UIView {
     lazy var serviceCustomText: CustomText = {
         let comp = CustomText()
             .setText("Serviço")
+            .setSize(15)
             .setConstraints { build in
                 build
                     .setTop.equalTo(clientTextField.get, .bottom, 16)
@@ -167,7 +169,7 @@ public class AddScheduleView: UIView {
                 build
                     .setTop.equalTo(serviceCustomText.get, .bottom, 8)
                     .setLeading.setTrailing.equalTo(clientTextField.get)
-                    .setHeight.equalToConstant(48)
+                    .setHeight.equalToConstant(40)
             }
         return comp
     }()
@@ -176,11 +178,10 @@ public class AddScheduleView: UIView {
         let comp = PickerBuilder()
             .setHidden(true)
             .setRowHeight(50)
-            .setBackgroundColor(.white.withAlphaComponent(0.9))
+            .setBackgroundColor(.white)
             .setBorder({ build in
                 build
                     .setCornerRadius(16)
-//                    .setWhichCornersWillBeRounded([.bottom])
                     .setWidth(1)
                     .setColor(hexColor: "#baa0f4")
             })
@@ -194,12 +195,67 @@ public class AddScheduleView: UIView {
             })
             .setConstraints { build in
                 build
-//                    .setTop.equalTo(serviceTextField.get, .bottom, 2)
                     .setLeading.setTrailing.equalTo(serviceTextField.get)
                     .setHeight.equalToConstant(180)
             }
         return comp
     }()
+    
+    lazy var dateLabel: CustomTextTitle = {
+        let comp = CustomTextTitle()
+            .setSize(22)
+            .setText("Dezembro")
+            .setTextAlignment(.center)
+            .setConstraints { build in
+                build
+                    .setTop.equalTo(serviceTextField.get, .bottom, 24)
+                    .setHorizontalAlignmentX.equalToSafeArea(-16)
+            }
+        return comp
+    }()
+    
+    lazy var changeDateButton: ButtonImageBuilder = {
+        let img = ImageViewBuilder(systemName: "chevron.down")
+            .setSize(14)
+        let comp = ButtonImageBuilder()
+            .setImageButton(img)
+            .setTintColor(screenTitle.get.textColor)
+            .setConstraints { build in
+                build
+                    .setVerticalAlignmentY.equalTo(dateLabel.get, 2)
+                    .setLeading.equalTo(dateLabel.get, .trailing)
+                    .setWidth.equalToConstant(40)
+                    .setHeight.equalTo(dateLabel.get)
+            }
+        return comp
+    }()
+    
+    lazy var daysDock: DockBuilder = {
+        let comp = DockBuilder()
+            .setContentInset(top: 0, left: 16, bottom: 0, rigth: 16)
+            .setShowsHorizontalScrollIndicator(false)
+            .setCellsSize(CGSize(width: 50, height: 65))
+            .setMinimumInteritemSpacing(150)
+            .setConstraints { build in
+                build
+                    .setTop.equalTo(changeDateButton.get, .bottom, 8)
+                    .setLeading.setTrailing.equalToSafeArea
+                    .setHeight.equalToConstant(70)
+            }
+        return comp
+    }()
+    
+    lazy var saveButton: CustomButtonPrimary = {
+        let comp = CustomButtonPrimary("Salvar")
+            .setConstraints { build in
+                build
+                    .setBottom.equalToSafeArea(-24)
+                    .setLeading.setTrailing.equalToSafeArea(44)
+                    .setHeight.equalToConstant(48)
+            }
+        return comp
+    }()
+    
     
 //  MARK: - PUBLIC AREA
     func setTopAnchorClient() {
@@ -233,6 +289,10 @@ public class AddScheduleView: UIView {
         serviceCustomText.add(insideTo: self)
         serviceTextField.add(insideTo: self)
         picker.add(insideTo: self)
+        dateLabel.add(insideTo: self)
+        changeDateButton.add(insideTo: self)
+        daysDock.add(insideTo: self)
+        saveButton.add(insideTo: self)
     }
     
     private func configConstraints() {
@@ -245,6 +305,10 @@ public class AddScheduleView: UIView {
         serviceCustomText.applyConstraint()
         serviceTextField.applyConstraint()
         picker.applyConstraint()
+        dateLabel.applyConstraint()
+        changeDateButton.applyConstraint()
+        daysDock.applyConstraint()
+        saveButton.applyConstraint()
     }
     
     private func configTopAnchorServicePicker( ) {
@@ -253,5 +317,4 @@ public class AddScheduleView: UIView {
     }
     
 }
-
 

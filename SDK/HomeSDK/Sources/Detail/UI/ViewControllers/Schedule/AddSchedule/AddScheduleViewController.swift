@@ -2,6 +2,7 @@
 //
 
 import UIKit
+import DesignerSystemSDKComponent
 import CustomComponentsSDK
 
 public protocol AddScheduleViewControllerCoordinator: AnyObject {
@@ -11,6 +12,8 @@ public protocol AddScheduleViewControllerCoordinator: AnyObject {
 
 public class AddScheduleViewController: UIViewController {
     public weak var coordinator: AddScheduleViewControllerCoordinator?
+    
+    private let tagIdentifierDock = 1000
     
     public enum TagTextField: Int {
         case client = 0
@@ -56,17 +59,26 @@ public class AddScheduleViewController: UIViewController {
     private func configure() {
         configDelegate()
         configButtonDisableSchedule()
+        configShowComponents()
     }
     
     private func configDelegate() {
         screen.delegate = self
         screen.picker.delegate = self
-        configTextFieldDelegate()
+        configCellDelegate()
+    }
+    
+    private func configCellDelegate() {
+        screen.daysDock.setDelegate(delegate: self)
     }
     
     private func configTextFieldDelegate() {
         screen.clientTextField.setDelegate(self)
         screen.serviceTextField.setDelegate(self)
+    }
+    
+    private func configShowComponents() {
+        screen.daysDock.show()
     }
     
     private func configButtonDisableSchedule() {
@@ -76,6 +88,20 @@ public class AddScheduleViewController: UIViewController {
         )
     }
     
+    
+    private func makeCellItemDock(_ index: Int) -> UIView {
+                
+        let btn = CustomButtonSecondary("10")
+            .setTitleSize(14)
+            .setBorder { build in
+                build
+                    .setCornerRadius(12)
+            }
+        
+        btn.setTag(tagIdentifierDock)
+        
+        return btn.get
+    }
    
 }
 
@@ -151,6 +177,7 @@ extension AddScheduleViewController: UITextFieldDelegate {
     }
     
     private func showTopAnchor(_ textField: UITextField) {
+        screen.picker.setHidden(false)
         switch textField.tag {
             case TagTextField.client.rawValue:
                 screen.picker.show()
@@ -165,4 +192,54 @@ extension AddScheduleViewController: UITextFieldDelegate {
         }
     }
     
+}
+
+
+
+//  MARK: - EXTESION - DockDelegate
+extension AddScheduleViewController: DockDelegate {
+    
+    public func numberOfItemsCallback() -> Int {
+        return 40
+    }
+    
+    public func cellCallback(_ index: Int) -> UIView {
+        return makeCellItemDock(index)
+    }
+    
+    public func customCellActiveCallback(_ cell: UIView) -> UIView? {
+        let view = cell.getView(tag: tagIdentifierDock)
+        guard let btn = view as? UIButton else { return nil }
+        setColorItemDock("#282a36", btn)
+        btn.makeBorder({ make in
+            make
+                .setCornerRadius(16)
+        })
+        btn.makeNeumorphism({ make in
+            make
+                .setShape(.convex)
+                .setReferenceColor(hexColor: "#baa0f4")
+                .setDistance(to: .light, percent: 2)
+                .setDistance(to: .dark, percent: 10)
+                .setBlur(to: .light, percent: 3)
+                .setBlur(to: .dark, percent: 10)
+                .setIntensity(to: .light, percent: 50)
+                .setIntensity(to: .dark, percent: 100)
+                .apply()
+        })
+        return btn
+    }
+    
+    public func didSelectItemAt(_ index: Int) {
+        print("Selecionado: ", index)
+    }
+    
+    public func didDeselectItemAt(_ index: Int) {
+        print("Removido: ", index)
+    }
+    
+    public func setColorItemDock(_ hexColor: String, _ btn: UIButton) {
+        btn.setTitleColor(UIColor.HEX(hexColor), for: .normal)
+        btn.tintColor = UIColor.HEX(hexColor)
+    }
 }

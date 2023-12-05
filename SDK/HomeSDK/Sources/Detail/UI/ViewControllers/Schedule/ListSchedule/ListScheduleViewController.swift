@@ -59,7 +59,7 @@ public final class ListScheduleViewController: UIViewController {
 //  MARK: - PRIVATE AREA
     private func configure() {
         configNavigationController()
-        configScreenDelegate()
+        configDelegate()
         configShowComponents()
         configSizeItemsFilterDock()
         //TODO: REMOVER PARA DPS QUE FIZER O LOAD PELO PRESENTER
@@ -70,7 +70,7 @@ public final class ListScheduleViewController: UIViewController {
         navigationController?.isNavigationBarHidden = true
     }
     
-    private func configScreenDelegate() {
+    private func configDelegate() {
         screen.delegate = self
         configCellDelegate()
     }
