@@ -6,12 +6,17 @@ import Foundation
 
 public protocol AddSchedulePresenter {
     
-    func getMonthName(_ date: Date?) -> String
+    func fetchDayDock(_ year: Int, _ month: Int)
+    func fetchHourDock(_ year: Int, _ month: Int, _ day: Int)
     
-    func getWeekName(_ date: Date) -> String
+    func getDayDock(_ index: Int) -> DateDockPresenterDTO?
+    func getHourDock(_ index: Int) -> HourDockPresenterDTO?
     
     func numberOfItemsDock(dockID: AddSchedulePresenterImpl.DockID) -> Int
-    
     func sizeOfItemsDock(dockID: AddSchedulePresenterImpl.DockID) -> CGSize
+    
+    func getCurrentDate() -> (year: Int, month: Int, day: Int)
+    func getMonthName(_ date: Date?) -> String
+    func getDayWeekName(_ date: String) -> String?
     
 }
