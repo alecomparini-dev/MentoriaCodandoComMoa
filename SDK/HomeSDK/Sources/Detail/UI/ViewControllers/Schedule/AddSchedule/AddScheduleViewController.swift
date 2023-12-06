@@ -13,14 +13,15 @@ public protocol AddScheduleViewControllerCoordinator: AnyObject {
 
 public class AddScheduleViewController: UIViewController {
     public weak var coordinator: AddScheduleViewControllerCoordinator?
-    
-    private let tagIdentifierDock = 1000
-    
+
     public enum TagTextField: Int {
         case client = 0
         case service = 1
     }
     
+    private let tagIdentifierDock = 1000
+    private var currentDate: (year: Int, month: Int, day: Int)!
+        
     
 //  MARK: - INITIALIZERS
     
@@ -52,6 +53,15 @@ public class AddScheduleViewController: UIViewController {
         configure()
     }
     
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        setSelectionCurrentDay()
+    }
+    
     
 //  MARK: - DATA TRANSFER
     public func setDataTransfer(_ data: Any?) {
@@ -67,6 +77,8 @@ public class AddScheduleViewController: UIViewController {
         configDockIDs()
         configSizeDocks()
         configDateLabel()
+        configCurrentDate()
+        configInitialFetchDaysDock()
     }
     
     private func configDelegate() {
@@ -111,7 +123,81 @@ public class AddScheduleViewController: UIViewController {
     private func configDateLabel() {
         screen.dateLabel.setText(addSchedulePresenter.getMonthName(nil))
     }
-   
+
+    private func configCurrentDate() {
+        currentDate = addSchedulePresenter.getCurrentDate()
+    }
+    
+    private func setSelectionCurrentDay() {
+        screen.daysDock.selectItem(currentDate.day - 1)
+        fetchHoursDock(currentDate.year, currentDate.month, currentDate.day)
+    }
+    
+    private func configInitialFetchDaysDock() {
+        if let year = currentDate?.year, let month = currentDate?.month {
+            fetchDaysDock(year, month)
+        }
+    }
+    
+    private func fetchDaysDock(_ year: Int, _ month: Int) {
+        addSchedulePresenter.fetchDayDock(year, month)
+    }
+    
+    private func fetchHoursDock(_ year: Int, _ month: Int, _ day: Int) {
+        addSchedulePresenter.fetchHourDock(year, month, day)
+        screen.hoursDock.reload()
+    }
+    
+    private func showTopAnchor(_ textField: UITextField) {
+        screen.picker.setHidden(false)
+        switch textField.tag {
+            case TagTextField.client.rawValue:
+                screen.picker.show()
+                screen.setTopAnchorClient()
+                    
+            case TagTextField.service.rawValue:
+                screen.picker.show()
+                screen.setTopAnchorService()
+                
+            default:
+                break
+        }
+    }
+
+    private func makeAddScheduleDaysDockView(_ dockBuilder: DockBuilder, _ index: Int) -> AddScheduleDaysDockView {
+        guard let dayDockPresenterDTO = addSchedulePresenter.getDayDock(index) else { return AddScheduleDaysDockView("","") }
+
+        guard let day = dayDockPresenterDTO.day, let dayWeek = dayDockPresenterDTO.dayWeek  else { return AddScheduleDaysDockView("","") }
+        
+        let daysDockView = AddScheduleDaysDockView( day , dayWeek )
+        
+        daysDockView.setTag(tagIdentifierDock)
+        
+        if dayDockPresenterDTO.disabled {
+            daysDockView.setAlpha(0.4)
+            dockBuilder.setDisableUserInteraction(cells: [index])
+        }
+        
+        return daysDockView
+    }
+        
+    private func makeAddScheduleHoursDockView(_ dockBuilder: DockBuilder, _ index: Int) -> AddScheduleHoursDockView {
+        
+        guard let hourDockDTO = addSchedulePresenter.getHourDock(index) else { return AddScheduleHoursDockView("") }
+        
+        let hoursDockView = AddScheduleHoursDockView("\(hourDockDTO.hour ?? ""):\(hourDockDTO.minute ?? "")")
+        
+        hoursDockView.setTag(tagIdentifierDock)
+        
+        if hourDockDTO.disabled {
+            hoursDockView.setAlpha(0.4)
+            dockBuilder.setDisableUserInteraction(cells: [index])
+        }
+        
+        return hoursDockView
+    }
+    
+    
 }
 
 
@@ -142,7 +228,7 @@ extension AddScheduleViewController: PickerDelegate {
     }
     
     public func rowViewCallBack(component: Int, row: Int) -> UIView {
-        return ViewBuilder()
+        return LabelBuilder("Alessandro Teste")
             .setBackgroundColor(.yellow)
             .get
     }
@@ -185,22 +271,6 @@ extension AddScheduleViewController: UITextFieldDelegate {
         }
     }
     
-    private func showTopAnchor(_ textField: UITextField) {
-        screen.picker.setHidden(false)
-        switch textField.tag {
-            case TagTextField.client.rawValue:
-                screen.picker.show()
-                screen.setTopAnchorClient()
-                    
-            case TagTextField.service.rawValue:
-                screen.picker.show()
-                screen.setTopAnchorService()
-                
-            default:
-                break
-        }
-    }
-    
 }
 
 
@@ -215,41 +285,6 @@ extension AddScheduleViewController: DockDelegate {
         return 0
     }
     
-    private func makeAddScheduleDaysDockView(_ dockBuilder: DockBuilder, _ index: Int) -> AddScheduleDaysDockView {
-        let day = index + 1
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy/MM/dd"
-        let calendar = Calendar.current
-        let currentDate = Date()
-        let month = calendar.component(.month, from: currentDate)
-        let year = calendar.component(.year, from: currentDate)
-        let currentDay = calendar.component(.day, from: currentDate)
-        let dateString = "\(year)/\(month)/\(day)"
-        
-        var dayWeek = ""
-        
-        if let date = formatter.date(from: dateString ) {
-            dayWeek = addSchedulePresenter.getWeekName(date).prefix(3).uppercased()
-        }
-        
-        let daysDockView = AddScheduleDaysDockView(day.description, dayWeek)
-        
-        daysDockView.setTag(tagIdentifierDock)
-        
-        if day < currentDay {
-            daysDockView.setAlpha(0.4)
-            dockBuilder.setDisableUserInteraction(cells: [index])
-        }
-        
-        return daysDockView
-    }
-    
-    private func makeAddScheduleHoursDockView() -> AddScheduleHoursDockView {
-        let view = AddScheduleHoursDockView("18:30")
-        view.setTag(tagIdentifierDock)
-        return view
-    }
-    
     public func cellCallback(_ dockBuilder: DockBuilder, _ index: Int) -> UIView {
         
         switch dockBuilder.id {
@@ -257,7 +292,7 @@ extension AddScheduleViewController: DockDelegate {
                 return makeAddScheduleDaysDockView(dockBuilder, index)
             
             case AddSchedulePresenterImpl.DockID.hoursDock.rawValue:
-                return makeAddScheduleHoursDockView()
+                return makeAddScheduleHoursDockView(dockBuilder, index)
                 
             default:
                 break
