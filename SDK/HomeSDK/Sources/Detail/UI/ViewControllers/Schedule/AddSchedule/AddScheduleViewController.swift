@@ -55,11 +55,11 @@ public class AddScheduleViewController: UIViewController {
     
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        setSelectionCurrentDay()
     }
     
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        setSelectionCurrentDay()
     }
     
     
