@@ -60,6 +60,7 @@ public class AddScheduleViewController: UIViewController {
     
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        screen.daysDock.setScrollToItem(index: screen.daysDock.getIndexSelected() ?? 0)
     }
     
     
