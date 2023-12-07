@@ -229,9 +229,7 @@ extension AddScheduleViewController: PickerDelegate {
     }
     
     public func rowViewCallBack(component: Int, row: Int) -> UIView {
-        return LabelBuilder("Alessandro Teste")
-            .setBackgroundColor(.yellow)
-            .get
+        return UIView()
     }
     
     public func didSelectRowAt(_ component: Int, _ row: Int) {
