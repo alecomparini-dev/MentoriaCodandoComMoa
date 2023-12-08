@@ -47,6 +47,7 @@
 		02D04A7D2B1A6B5E00E75635 /* ListScheduleViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02D04A7C2B1A6B5E00E75635 /* ListScheduleViewControllerFactory.swift */; };
 		02D7D2962AE86283003E4CF4 /* SaveServiceCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02D7D2952AE86283003E4CF4 /* SaveServiceCoordinator.swift */; };
 		02F3F08D2AEAEFE200C90C59 /* ProfileSDKMain in Frameworks */ = {isa = PBXBuildFile; productRef = 02F3F08C2AEAEFE200C90C59 /* ProfileSDKMain */; };
+		02FDA8F62B21F3E0008CC046 /* ListServicesUseCaseFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02FDA8F52B21F3E0008CC046 /* ListServicesUseCaseFactory.swift */; };
 		02FFBF122AEAA14B00BBF19C /* ListServicesViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02FFBF112AEAA14B00BBF19C /* ListServicesViewControllerFactory.swift */; };
 /* End PBXBuildFile section */
 
@@ -94,6 +95,7 @@
 		02D04A7C2B1A6B5E00E75635 /* ListScheduleViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListScheduleViewControllerFactory.swift; sourceTree = "<group>"; };
 		02D7D2952AE86283003E4CF4 /* SaveServiceCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveServiceCoordinator.swift; sourceTree = "<group>"; };
 		02E2C39E2AA0FFD30040A2C8 /* MentoriaCodandoComMoa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MentoriaCodandoComMoa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		02FDA8F52B21F3E0008CC046 /* ListServicesUseCaseFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListServicesUseCaseFactory.swift; sourceTree = "<group>"; };
 		02FFBF112AEAA14B00BBF19C /* ListServicesViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListServicesViewControllerFactory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -311,6 +313,7 @@
 			isa = PBXGroup;
 			children = (
 				0293DF082AE6D42500716142 /* CreateProfileUseCaseFactory.swift */,
+				02FDA8F52B21F3E0008CC046 /* ListServicesUseCaseFactory.swift */,
 			);
 			path = UseCase;
 			sourceTree = "<group>";
@@ -579,6 +582,7 @@
 				0239C4BD2ADDF1460016C0E4 /* ProfileRegistrationStep1Factory.swift in Sources */,
 				0212ECB12AA10867001C1BCF /* SceneDelegate.swift in Sources */,
 				02A0D34D2AF11AB400BF25A5 /* LoadScreenViewController.swift in Sources */,
+				02FDA8F62B21F3E0008CC046 /* ListServicesUseCaseFactory.swift in Sources */,
 				02A0D3552AF184E200BF25A5 /* ForgotPasswordViewControllerFactory.swift in Sources */,
 				026682D42AA7D69D00EE70EC /* NavigationController.swift in Sources */,
 				028B28BC2AA76EEC008E4A7E /* Constants.swift in Sources */,

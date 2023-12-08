@@ -33,7 +33,7 @@ public class ListServicesPresenterImpl: ListServicesPresenter {
     }
 
     
-    public func fetchCurrencies(_ userIDAuth: String) {
+    public func fetchServices(_ userIDAuth: String) {
 
         Task {
             do {

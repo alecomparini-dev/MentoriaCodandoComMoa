@@ -15,8 +15,6 @@ public class ListSchedulePresenterImpl: ListSchedulePresenter {
     }
     
     
-    
-    
     public func numberOfItemsListSchedule() -> Int {
         return 3
     }
