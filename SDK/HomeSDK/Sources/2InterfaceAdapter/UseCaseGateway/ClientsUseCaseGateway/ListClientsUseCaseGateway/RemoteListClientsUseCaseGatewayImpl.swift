@@ -1,11 +1,12 @@
-//  Created by Alessandro Comparini on 23/10/23.
+//  Created by Alessandro Comparini on 08/12/23.
 //
 
 import Foundation
+
 import HomeUseCases
+import HomeDomain
 
-
-public class RemoteListServicesUseCaseGatewayImpl: ListServicesUseCaseGateway {
+public class RemoteListClientsUseCaseGatewayImpl: ListClientsUseCaseGateway {
     
     private let httpGet: HTTPGet
     private let url: URL
@@ -22,7 +23,8 @@ public class RemoteListServicesUseCaseGatewayImpl: ListServicesUseCaseGateway {
         self.queryParameters = queryParameters
     }
     
-    public func list(_ userIDAuth: String) async throws -> [ServiceUseCaseDTO]? {
+    
+    public func list(_ userIDAuth: String) async throws -> [ClientModel] {
         var query: [String: String] = self.queryParameters
         
         query.updateValue(userIDAuth, forKey: "uIdFirebase")
@@ -32,15 +34,13 @@ public class RemoteListServicesUseCaseGatewayImpl: ListServicesUseCaseGateway {
             headers: headers,
             queryParameters: query)
         
-        guard let data else {return nil}
+        guard let data else {return []}
         
-        let servicesCodable: ServicesCodable = try JSONDecoder().decode(ServicesCodable.self, from: data)
+        let clientsCodable: ClientsCodable = try JSONDecoder().decode(ClientsCodable.self, from: data)
                 
-        let servicesMapper = servicesCodable.mapperToServiceDTO()
-        
-        return servicesMapper
-        
+        return clientsCodable.mapperToClientModel()
     }
+    
     
     
 }

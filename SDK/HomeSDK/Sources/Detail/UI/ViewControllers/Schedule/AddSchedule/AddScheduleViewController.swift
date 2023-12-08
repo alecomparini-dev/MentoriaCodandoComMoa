@@ -75,13 +75,25 @@ public class AddScheduleViewController: UIViewController {
     private func configure() {
         configDelegate()
         configButtonDisableSchedule()
-        configShowComponents()
-        configDockIDs()
+        configShowDocks()
+        configIDs()
         configSizeDocks()
         configDateLabel()
         configCurrentDate()
         configInitialFetchDaysDock()
-        fetchListServices()
+        configureAsync()
+    }
+    
+    private func configureAsync() {
+        Task {
+            do {
+                try await getUserAuthID()
+                fetchClients()
+                fetchServices()
+            } catch let error {
+                debugPrint(error.localizedDescription)
+            }
+        }
     }
     
     private func configDelegate() {
@@ -103,16 +115,16 @@ public class AddScheduleViewController: UIViewController {
         screen.serviceTextField.setDelegate(self)
     }
     
-    private func configShowComponents() {
+    private func configShowDocks() {
         screen.daysDock.show()
         screen.hoursDock.show()
-        screen.clientsList.show()
-        screen.clientsList.reload()
     }
     
-    private func configDockIDs() {
+    private func configIDs() {
         screen.daysDock.setID(AddSchedulePresenterImpl.DockID.daysDock.rawValue)
         screen.hoursDock.setID(AddSchedulePresenterImpl.DockID.hoursDock.rawValue)
+        screen.clientsList.setID(AddSchedulePresenterImpl.ListID.clients.rawValue)
+        screen.servicesList.setID(AddSchedulePresenterImpl.ListID.services.rawValue)
     }
     
     private func configSizeDocks() {
@@ -189,42 +201,67 @@ public class AddScheduleViewController: UIViewController {
         return hoursDockView
     }
     
-    private func showPicker(id: AddSchedulePresenterImpl.PickerID) {
+    private func showList(id: AddSchedulePresenterImpl.ListID) {
         switch id {
-            case .clientsPicker:
+            case .clients:
+                screen.clientsList.reload()
                 screen.clientTextField.setImage(ImageViewBuilder(systemName: "chevron.up"), .right)
                 screen.clientsListView.setHidden(false)
             
-            case .servicesPicker:
+            case .services:
+                screen.servicesList.reload()
                 screen.serviceTextField.setImage(ImageViewBuilder(systemName: "chevron.up"), .right)
                 screen.servicesListView.setHidden(false)
         }
     }
     
-    private func hidePickers() {
+    private func hideLists() {
         screen.clientsListView.setHidden(true)
         screen.servicesListView.setHidden(true)
         screen.clientTextField.setImage(ImageViewBuilder(systemName: "chevron.up.chevron.down"), .right)
         screen.serviceTextField.setImage(ImageViewBuilder(systemName: "chevron.up.chevron.down"), .right)
     }
     
-    private func fetchListServices() {
-        Task {
-            do {
-                if userIDAuth == nil {
-                    userIDAuth = try await ProfileSDKMain().getUserAuthenticated()
-                }
-                addSchedulePresenter.fetchServices(userIDAuth!)
-            } catch let error  {
-                print(error.localizedDescription)
-            }
+    private func getUserAuthID() async throws {
+        if userIDAuth == nil {
+            userIDAuth = try await ProfileSDKMain().getUserAuthenticated()
         }
     }
-
-    private func makeServicesList(_ row: Int) -> UIView {
-        let service = addSchedulePresenter.getService(row)
-        guard let id = service?.id, let name = service?.name else { return UIView() }
+    
+    private func fetchClients() {
+        if let userIDAuth {
+            addSchedulePresenter.fetchClients(userIDAuth)
+        }
+    }
+    
+    private func fetchServices() {
+        if let userIDAuth {
+            addSchedulePresenter.fetchServices(userIDAuth)
+        }
+    }
+    
+    private func makeLists(listID: AddSchedulePresenterImpl.ListID, _ row: Int) -> UIView {
+        var id: Int?
+        var name: String?
         
+        if listID == .clients {
+            let client = addSchedulePresenter.getClient(row)
+            id = client?.id
+            name = client?.name
+        }
+        
+        if listID == .services {
+            let service = addSchedulePresenter.getService(row)
+            id = service?.id
+            name = service?.name
+        }
+        
+        guard let id, let name else { return UIView() }
+        
+        return makeListsView(id, name)
+    }
+
+    private func makeListsView(_ id: Int, _ name: String) -> UIView {
         let view = ViewBuilder()
         let backgroundView = ViewBuilder()
             .setBorder { build in
@@ -234,7 +271,7 @@ public class AddScheduleViewController: UIViewController {
                 build
                     .setLeading.setTrailing.equalToSafeArea(16)
                     .setBottom.equalToSafeArea
-                    .setHeight.equalToConstant(1)
+                    .setHeight.equalToConstant(0.5)
             }
         backgroundView.add(insideTo: view.get)
         backgroundView.applyConstraint()
@@ -245,6 +282,7 @@ public class AddScheduleViewController: UIViewController {
                 build
                     .setText(text: id.description)
                     .setAttributed(key: .font, value: UIFont.boldSystemFont(ofSize: 14))
+                    .setAttributed(key: .foregroundColor, value: UIColor.black)
                     .setText(text: " - \(name)")
                     .setAttributed(key: .font, value: UIFont.systemFont(ofSize: 18))
                     .setAttributed(key: .foregroundColor, value: UIColor.black.withAlphaComponent(0.6))
@@ -285,10 +323,12 @@ extension AddScheduleViewController: AddScheduleViewDelegate {
 
 //  MARK: - EXTENSION - AddSchedulePresenterOutput
 extension AddScheduleViewController: AddSchedulePresenterOutput {
+    public func successFetchClientList() {
+        screen.clientsList.show()
+    }
     
-    public func successFetchListServices() {
+    public func successFetchServiceList() {
         screen.servicesList.show()
-        screen.servicesList.reload()
     }
     
 }
@@ -300,22 +340,28 @@ extension AddScheduleViewController: ListDelegate {
     public func numberOfSections(_ list: ListBuilder) -> Int { 1 }
     
     public func numberOfRows(_ list: ListBuilder, section: Int) -> Int {
-        if screen.clientTextField.get.isFirstResponder {
-            return addSchedulePresenter.numberOfRowsPicker(pickerID: .clientsPicker)
+        if list.id == AddSchedulePresenterImpl.ListID.clients.rawValue {
+            return addSchedulePresenter.numberOfRowsList(listID: .clients)
         }
-        return addSchedulePresenter.numberOfRowsPicker(pickerID: .servicesPicker)
+        return addSchedulePresenter.numberOfRowsList(listID: .services)
     }
     
     public func sectionViewCallback(_ list: ListBuilder, section: Int) -> UIView? { nil }
     
     public func rowViewCallBack(_ list: ListBuilder, section: Int, row: Int) -> UIView {
-        if screen.clientTextField.get.isFirstResponder {
-            return LabelBuilder(row.description).get
+        if list.id == AddSchedulePresenterImpl.ListID.clients.rawValue {
+            return makeLists(listID: .clients, row)
         }
-        return makeServicesList(row)
+        return makeLists(listID: .services, row)
     }
     
     public func didSelectItemAt(_ list: ListBuilder, _ section: Int, _ row: Int) {
+        if list.id == AddSchedulePresenterImpl.ListID.clients.rawValue {
+            if let client = addSchedulePresenter.getClient(row) {
+                screen.clientTextField.setText(client.name)
+            }
+            return
+        }
         if let service = addSchedulePresenter.getService(row) {
             screen.serviceTextField.setText(service.name)
         }
@@ -331,34 +377,32 @@ extension AddScheduleViewController: UITextFieldDelegate {
     
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
-        hidePickers()
+        hideLists()
         return true
     }
     
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        showPicker(id: getPickerIdentifier(textField))
+        showList(id: getPickerIdentifier(textField))
         if range.description == "{0, 1}" {
-            hidePickers()
+            hideLists()
         }
         return true
     }
     
     public func textFieldDidEndEditing(_ textField: UITextField) {
-        hidePickers()
+        hideLists()
     }
     
     public func textFieldDidBeginEditing(_ textField: UITextField) {
-//        if (textField.text?.count ?? 0 > 0) {
-            showPicker(id: getPickerIdentifier(textField))
-//        }
+        showList(id: getPickerIdentifier(textField))
     }
     
-    private func getPickerIdentifier(_ textField: UITextField) -> AddSchedulePresenterImpl.PickerID {
+    private func getPickerIdentifier(_ textField: UITextField) -> AddSchedulePresenterImpl.ListID {
         let textFieldTag = textField.tag
         if textFieldTag == AddScheduleViewController.TagTextField.client.rawValue {
-            return .clientsPicker
+            return .clients
         }
-        return .servicesPicker
+        return .services
     }
     
 }

@@ -3,7 +3,7 @@
 
 import Foundation
 
-public struct ServicesPickerPresenterDTO {
+public struct ServiceListPresenterDTO {
     public var id: Int?
     public var name: String?
     public var duration: Int?

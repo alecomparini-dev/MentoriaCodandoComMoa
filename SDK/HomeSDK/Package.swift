@@ -11,7 +11,7 @@ let package = Package(
     ],
     
     products: [
-        .library(name: "HomeSDK", targets: [ "HomePresenters", "HomeUseCaseGateway", "HomeUI", "HomeNetwork"]),
+        .library(name: "HomeSDK", targets: ["HomeUseCases", "HomePresenters", "HomeUseCaseGateway", "HomeUI", "HomeNetwork"]),
     ],
     
     dependencies: [
@@ -25,18 +25,17 @@ let package = Package(
     targets: [
 
 //MARK: - DOMAIN
-//        .target(
-//            name: "HomeDomain",
-//            dependencies: [],
-//            path: "Sources/1Domain/Domain"
-//        ),
+        .target(
+            name: "HomeDomain",
+            dependencies: [],
+            path: "Sources/1Domain/Domain"
+        ),
         
-
-//MARK: - APPLICATION BUSINESS RULES
+        
         .target(
             name: "HomeUseCases",
-            dependencies: [  ],
-            path: "Sources/2Application/UseCases"
+            dependencies: [ "HomeDomain" ],
+            path: "Sources/1Domain/UseCases"
         ),
 
         
@@ -47,7 +46,7 @@ let package = Package(
             dependencies: [
                 "HomeUseCases"
             ],
-            path: "Sources/3InterfaceAdapter/Presenters"
+            path: "Sources/2InterfaceAdapter/Presenters"
         ),
         
         .target(
@@ -55,7 +54,7 @@ let package = Package(
             dependencies: [
                 "HomeUseCases"
             ],
-            path: "Sources/3InterfaceAdapter/UseCaseGateway"
+            path: "Sources/2InterfaceAdapter/UseCaseGateway"
         ),
         
     
