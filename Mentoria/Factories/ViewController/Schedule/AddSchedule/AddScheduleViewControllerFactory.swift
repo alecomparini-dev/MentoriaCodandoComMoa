@@ -15,10 +15,29 @@ class AddScheduleViewControllerFactory {
         
         let listServicesUseCase = ListServicesUseCaseFactory.make()
         
-        let addSchedulePresenter = AddSchedulePresenterImpl(listServicesUseCase: listServicesUseCase)
+        let httpGet = HomeNetwork()
+        
+        let url = makeURL()
+        
+        let listClientsUseCase = ListClientsUseCaseImpl(listClientGateway: RemoteListClientsUseCaseGatewayImpl(httpGet: httpGet,
+                                                                                                               url: url,
+                                                                                                               headers: [:],
+                                                                                                               queryParameters: [:]))
+        
+        let addSchedulePresenter = AddSchedulePresenterImpl(listClientsUseCase: listClientsUseCase,
+                                                            listServicesUseCase: listServicesUseCase)
         
         return AddScheduleViewController(addSchedulePresenter: addSchedulePresenter)
         
+    }
+    
+    
+//  MARK: - PRIVATE AREA
+    
+    static private func makeURL() -> URL {
+        let baseURL = Environment.variable(.apiBaseUrl)
+        let path = K.pathGetClients
+        return URL(string: "\(baseURL)\(path)")!
     }
     
 }

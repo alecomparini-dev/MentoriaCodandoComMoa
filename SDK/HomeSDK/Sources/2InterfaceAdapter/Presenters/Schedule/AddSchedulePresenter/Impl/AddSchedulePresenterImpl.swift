@@ -6,13 +6,15 @@ import Foundation
 import HomeUseCases
 
 public protocol AddSchedulePresenterOutput: AnyObject {
-    func successFetchListServices()
+    func successFetchServiceList()
+    func successFetchClientList()
 }
 
 public class AddSchedulePresenterImpl: AddSchedulePresenter {
     public weak var outputDelegate: AddSchedulePresenterOutput?
     
-    private var servicesPicker: [ServicesPickerPresenterDTO] = []
+    private var clientsList: [ClientListPresenterDTO] = []
+    private var servicesList: [ServiceListPresenterDTO] = []
     private var daysDock: [DateDockPresenterDTO] = []
     private var hoursDock: [HourDockPresenterDTO] = []
     
@@ -21,16 +23,18 @@ public class AddSchedulePresenterImpl: AddSchedulePresenter {
         case hoursDock = "HOURS_DOCK"
     }
     
-    public enum PickerID: String {
-        case clientsPicker = "CLIENTS_PICKER"
-        case servicesPicker = "SERVICES_PICKER"
+    public enum ListID: String {
+        case clients = "CLIENTS"
+        case services = "SERVICES"
     }
     
     private let weekend = [1,7]
     
+    private let listClientsUseCase: ListClientsUseCase
     private let listServicesUseCase: ListServicesUseCase
     
-    public init(listServicesUseCase: ListServicesUseCase) {
+    public init(listClientsUseCase: ListClientsUseCase, listServicesUseCase: ListServicesUseCase) {
+        self.listClientsUseCase = listClientsUseCase
         self.listServicesUseCase = listServicesUseCase
     }
     
@@ -44,24 +48,49 @@ public class AddSchedulePresenterImpl: AddSchedulePresenter {
                 
                 guard let servicesDTO else {return}
                 
-                let servicesPicker = servicesDTO.map({ service in
-                    ServicesPickerPresenterDTO(
+                let servicesList = servicesDTO.map({ service in
+                    ServiceListPresenterDTO(
                         id: service.id,
                         name: service.name,
                         duration: service.duration)
                 })
-//                self.servicesPicker.append(ServicesPickerPresenterDTO())
-                self.servicesPicker.append(contentsOf: servicesPicker)
+                
+                self.servicesList.append(contentsOf: servicesList)
                 
                 successFetchListServices()
+                
             } catch let error {
                 debugPrint(error.localizedDescription)
             }
         }
     }
-    public func getService(_ index: Int) -> ServicesPickerPresenterDTO? {
-        return servicesPicker[index]
+    
+    public func fetchClients(_ userIDAuth: String) {
+        Task {
+            do {
+                let clientsDTO: [ClientUseCaseDTO]? = try await listClientsUseCase.list(userIDAuth)
+                
+                guard let clientsDTO else {return}
+                
+                let clientList = clientsDTO.map({ client in
+                    ClientListPresenterDTO(
+                        id: client.id,
+                        name: client.name)
+                })
+                
+                self.clientsList.append(contentsOf: clientList)
+                
+                successFetchClientList()
+                
+            } catch let error {
+                debugPrint(error.localizedDescription)
+            }
+        }
     }
+
+    public func getClient(_ index: Int) -> ClientListPresenterDTO? { clientsList[index] }
+    
+    public func getService(_ index: Int) -> ServiceListPresenterDTO? { servicesList[index] }
     
     public func fetchDayDock(_ year: Int, _ month: Int) {
         calculateDaysOfMonth(year: year, month: month)
@@ -100,16 +129,15 @@ public class AddSchedulePresenterImpl: AddSchedulePresenter {
         return (year, month, day)
     }
     
-    public func numberOfRowsPicker(pickerID: PickerID) -> Int {
-        switch pickerID {
-            case .clientsPicker:
-                return 2
+    public func numberOfRowsList(listID: ListID) -> Int {
+        switch listID {
+            case .clients:
+                return clientsList.count
                 
-            case .servicesPicker:
-                return servicesPicker.count
+            case .services:
+                return servicesList.count
         }
     }
-    
     
     public func numberOfItemsDock(dockID: DockID) -> Int {
         switch dockID {
@@ -274,7 +302,14 @@ public class AddSchedulePresenterImpl: AddSchedulePresenter {
     private func successFetchListServices() {
         DispatchQueue.main.async { [weak self] in
             guard let self else {return}
-            outputDelegate?.successFetchListServices()
+            outputDelegate?.successFetchServiceList()
+        }
+    }
+    
+    private func successFetchClientList() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else {return}
+            outputDelegate?.successFetchClientList()
         }
     }
 

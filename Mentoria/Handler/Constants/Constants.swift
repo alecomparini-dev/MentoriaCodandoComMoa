@@ -11,6 +11,7 @@ struct K {
     static let pathListServices = "/Service/GetListaService"
     static let pathPostService = "/Service/PostService"
     static let pathDisableService = "/Service/InativarService"
+    static let pathGetClients = "/Client/GetListaClient"
     
     struct Strings {
         static let empty = ""
