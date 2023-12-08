@@ -10,7 +10,7 @@ public protocol ListServicesPresenter {
     
     func heightForRowAt() -> CGFloat
     
-    func fetchCurrencies(_ userIDAuth: String)
+    func fetchServices(_ userIDAuth: String)
     
     func getServices() -> [ServicePresenterDTO]?
     

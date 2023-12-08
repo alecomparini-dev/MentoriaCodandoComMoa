@@ -11,14 +11,12 @@ import DesignerSystemSDKComponent
 public protocol AddScheduleViewDelegate: AnyObject {
     func backButtonTapped()
     func disableScheduleButtonTapped()
+    func scheduleButtonTapped()
 }
 
 
 public class AddScheduleView: UIView {
     public weak var delegate: AddScheduleViewDelegate?
-    
-    public var pickerClientTextFieldTopAnchor: NSLayoutConstraint!
-    public var pickerServiceTextFieldTopAnchor: NSLayoutConstraint!
     
     public init() {
         super.init(frame: .zero)
@@ -104,8 +102,8 @@ public class AddScheduleView: UIView {
     }()
     
     lazy var clientTextField: TextFieldImageBuilder = {
-        let personImg = ImageViewBuilder(systemName: "magnifyingglass")
-        let comp = TextFieldImageBuilder("Pesquisar cliente")
+        let personImg = ImageViewBuilder(systemName: "chevron.up.chevron.down")
+        let comp = TextFieldImageBuilder("Selecione o cliente")
             .setTag(AddScheduleViewController.TagTextField.client.rawValue)
             .setImage(personImg, .right, 8)
             .setAutoCapitalization(.none)
@@ -115,7 +113,8 @@ public class AddScheduleView: UIView {
                 build
                     .setKeyboardType(.default)
                     .setClearButton() { [weak self] textfield in
-                        self?.picker.setHidden(true)
+                        guard let self else {return}
+                        clientsListView.setHidden(true)
                     }
             })
             .setBorder({ build in
@@ -127,6 +126,49 @@ public class AddScheduleView: UIView {
                     .setTop.equalTo(clientTitle.get, .bottom, 8)
                     .setLeading.setTrailing.equalToSafeArea(24)
                     .setHeight.equalToConstant(40)
+            }
+        return comp
+    }()
+    
+    lazy var clientsListView: ViewBuilder = {
+        let comp = ViewBuilder()
+            .setHidden(true)
+            .setBorder({ build in
+                build
+                    .setCornerRadius(16)
+                    .setWidth(1)
+                    .setColor(hexColor: "#baa0f4")
+            })
+            .setBackgroundColor(.white)
+            .setShadow({ build in
+                build
+                    .setColor(.black)
+                    .setRadius(8)
+                    .setOpacity(1)
+                    .setOffset(width: 3, height: 4)
+                    .apply()
+            })
+            .setConstraints { build in
+                build
+                    .setTop.equalTo(clientTextField.get, .bottom, 2)
+                    .setLeading.setTrailing.equalTo(serviceTextField.get)
+                    .setHeight.equalToConstant(180)
+            }
+        return comp
+    }()
+    
+    lazy var clientsList: ListBuilder = {
+        let comp = ListBuilder()
+            .setShowsScroll(false, .both)
+            .setBorder({ build in
+                build
+                    .setCornerRadius(16)
+            })
+            .setRowHeight(50)
+            .setSectionHeaderHeight(0)
+            .setConstraints { build in
+                build
+                    .setPin.equalToSuperView(4)
             }
         return comp
     }()
@@ -144,8 +186,8 @@ public class AddScheduleView: UIView {
     }()
     
     lazy var serviceTextField: TextFieldImageBuilder = {
-        let personImg = ImageViewBuilder(systemName: "magnifyingglass")
-        let comp = TextFieldImageBuilder("Pesquisar serviço")
+        let personImg = ImageViewBuilder(systemName: "chevron.up.chevron.down")
+        let comp = TextFieldImageBuilder("Selecione o serviço")
             .setTag(AddScheduleViewController.TagTextField.service.rawValue)
             .setImage(personImg, .right, 8)
             .setAutoCapitalization(.none)
@@ -159,7 +201,8 @@ public class AddScheduleView: UIView {
                 build
                     .setKeyboardType(.default)
                     .setClearButton() { [weak self] textfield in
-                        self?.picker.setHidden(true)
+                        guard let self else {return}
+                        servicesListView.setHidden(true)
                     }
                     .setReturnKeyType(.default) { textField in
                         textField.get.resignFirstResponder()
@@ -174,17 +217,16 @@ public class AddScheduleView: UIView {
         return comp
     }()
     
-    lazy var picker: PickerBuilder = {
-        let comp = PickerBuilder()
+    lazy var servicesListView: ViewBuilder = {
+        let comp = ViewBuilder()
             .setHidden(true)
-            .setRowHeight(50)
-            .setBackgroundColor(.white)
             .setBorder({ build in
                 build
                     .setCornerRadius(16)
                     .setWidth(1)
                     .setColor(hexColor: "#baa0f4")
             })
+            .setBackgroundColor(.white)
             .setShadow({ build in
                 build
                     .setColor(.black)
@@ -195,8 +237,25 @@ public class AddScheduleView: UIView {
             })
             .setConstraints { build in
                 build
+                    .setTop.equalTo(serviceTextField.get, .bottom, 2)
                     .setLeading.setTrailing.equalTo(serviceTextField.get)
                     .setHeight.equalToConstant(180)
+            }
+        return comp
+    }()
+    
+    lazy var servicesList: ListBuilder = {
+        let comp = ListBuilder()
+            .setShowsScroll(false, .both)
+            .setBorder({ build in
+                build
+                    .setCornerRadius(16)
+            })
+            .setRowHeight(50)
+            .setSectionHeaderHeight(0)
+            .setConstraints { build in
+                build
+                    .setPin.equalToSuperView(4)
             }
         return comp
     }()
@@ -258,12 +317,12 @@ public class AddScheduleView: UIView {
                 build
                     .setTop.equalTo(daysDock.get, .bottom, 16)
                     .setLeading.setTrailing.equalToSafeArea(8)
-                    .setBottom.equalTo(saveButton.get, .top, -24)
+                    .setBottom.equalTo(scheduleButton.get, .top, -24)
             }
         return comp
     }()
     
-    lazy var saveButton: CustomButtonPrimary = {
+    lazy var scheduleButton: CustomButtonPrimary = {
         let comp = CustomButtonPrimary("Agendar")
             .setConstraints { build in
                 build
@@ -271,22 +330,13 @@ public class AddScheduleView: UIView {
                     .setLeading.setTrailing.equalToSafeArea(44)
                     .setHeight.equalToConstant(48)
             }
+        comp.get.addTarget(self, action: #selector(scheduleButtonTapped), for: .touchUpInside)
         return comp
     }()
-    
-    
-//  MARK: - PUBLIC AREA
-    func setTopAnchorClient() {
-        picker.setHidden(false)
-        pickerServiceTextFieldTopAnchor.isActive = false
-        pickerClientTextFieldTopAnchor.isActive = true
+    @objc private func scheduleButtonTapped() {
+        delegate?.scheduleButtonTapped()
     }
     
-    func setTopAnchorService() {
-        picker.setHidden(false)
-        pickerClientTextFieldTopAnchor.isActive = false
-        pickerServiceTextFieldTopAnchor.isActive = true
-    }
     
     
 //  MARK: - PRIVATE AREA
@@ -294,7 +344,6 @@ public class AddScheduleView: UIView {
     private func configure() {
         addElements()
         configConstraints()
-        configTopAnchorServicePicker()
     }
     
     private func addElements() {
@@ -310,8 +359,13 @@ public class AddScheduleView: UIView {
         changeDateButton.add(insideTo: self)
         daysDock.add(insideTo: self)
         hoursDock.add(insideTo: self)
-        saveButton.add(insideTo: self)
-        picker.add(insideTo: self)
+        scheduleButton.add(insideTo: self)
+        
+        servicesListView.add(insideTo: self)
+        servicesList.add(insideTo: servicesListView.get)
+        clientsListView.add(insideTo: self)
+        clientsList.add(insideTo: clientsListView.get)
+        
     }
     
     private func configConstraints() {
@@ -323,17 +377,37 @@ public class AddScheduleView: UIView {
         clientTextField.applyConstraint()
         serviceCustomText.applyConstraint()
         serviceTextField.applyConstraint()
-        picker.applyConstraint()
         dateLabel.applyConstraint()
         changeDateButton.applyConstraint()
         daysDock.applyConstraint()
         hoursDock.applyConstraint()
-        saveButton.applyConstraint()
+        scheduleButton.applyConstraint()
+        servicesListView.applyConstraint()
+        servicesList.applyConstraint()
+        clientsListView.applyConstraint()
+        clientsList.applyConstraint()
     }
     
-    private func configTopAnchorServicePicker( ) {
-        pickerClientTextFieldTopAnchor = NSLayoutConstraint(item: picker.get, attribute: .top , relatedBy: .equal, toItem: clientTextField.get, attribute: .bottom, multiplier: 1, constant: 2)
-        pickerServiceTextFieldTopAnchor = NSLayoutConstraint(item: picker.get, attribute: .top , relatedBy: .equal, toItem: serviceTextField.get, attribute: .bottom, multiplier: 1, constant: 2)
+    
+    private func makePickerBuilder() -> PickerBuilder {
+        return PickerBuilder()
+            .setHidden(true)
+            .setRowHeight(50)
+            .setBackgroundColor(.white)
+            .setBorder({ build in
+                build
+                    .setCornerRadius(16)
+                    .setWidth(1)
+                    .setColor(hexColor: "#baa0f4")
+            })
+            .setShadow({ build in
+                build
+                    .setColor(.black)
+                    .setRadius(8)
+                    .setOpacity(1)
+                    .setOffset(width: 3, height: 4)
+                    .apply()
+            })
     }
     
 }

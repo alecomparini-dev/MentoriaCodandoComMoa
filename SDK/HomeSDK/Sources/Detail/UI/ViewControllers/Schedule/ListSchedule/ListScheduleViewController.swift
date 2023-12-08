@@ -76,8 +76,8 @@ public final class ListScheduleViewController: UIViewController {
     }
     
     private func configCellDelegate() {
-        screen.filterDock.setDelegate(delegate: self)
-        screen.listSchedule.setDelegate(delegate: self)
+        screen.filterDock.setDelegate(self)
+        screen.listSchedule.setDelegate(self)
     }
     
     private func configShowComponents() {
@@ -189,11 +189,11 @@ extension ListScheduleViewController: DockDelegate {
 
 extension ListScheduleViewController: ListDelegate {
     
-    public func numberOfSections() -> Int {
+    public func numberOfSections(_ list: ListBuilder) -> Int {
         return 2
     }
         
-    public func numberOfRows(section: Int) -> Int {
+    public func numberOfRows(_ list: ListBuilder, section: Int) -> Int {
         switch section {
             case 0:
                 return 1
@@ -227,13 +227,13 @@ extension ListScheduleViewController: ListDelegate {
 //        }
     }
     
-    public func sectionViewCallback(section: Int) -> UIView? {
+    public func sectionViewCallback(_ list: ListBuilder, section: Int) -> UIView? {
         let label = ListScheduleSectionView(schedulePresenterDTO: SchedulePresenterDTO())    
         return label
         
     }
     
-    public func rowViewCallBack(section: Int, row: Int) -> UIView {
+    public func rowViewCallBack(_ list: ListBuilder, section: Int, row: Int) -> UIView {
         return ListScheduleRowView(schedulePresenterDTO: SchedulePresenterDTO())
     }
     

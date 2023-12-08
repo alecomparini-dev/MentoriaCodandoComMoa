@@ -5,11 +5,11 @@ import UIKit
 import CustomComponentsSDK
 import DesignerSystemSDKComponent
 import HomePresenters
+import ProfileSDKMain
 
 public protocol AddScheduleViewControllerCoordinator: AnyObject {
     func gotoListScheduleHomeTabBar(_ reload: Bool)
 }
-
 
 public class AddScheduleViewController: UIViewController {
     public weak var coordinator: AddScheduleViewControllerCoordinator?
@@ -19,13 +19,14 @@ public class AddScheduleViewController: UIViewController {
         case service = 1
     }
     
+    private var userIDAuth: String?
     private let tagIdentifierDock = 1000
     private var currentDate: (year: Int, month: Int, day: Int)!
         
     
 //  MARK: - INITIALIZERS
     
-    private let addSchedulePresenter: AddSchedulePresenter
+    private var addSchedulePresenter: AddSchedulePresenter
     
     public init(addSchedulePresenter: AddSchedulePresenter) {
         self.addSchedulePresenter = addSchedulePresenter
@@ -80,18 +81,21 @@ public class AddScheduleViewController: UIViewController {
         configDateLabel()
         configCurrentDate()
         configInitialFetchDaysDock()
+        fetchListServices()
     }
     
     private func configDelegate() {
         screen.delegate = self
-        screen.picker.delegate = self
+        addSchedulePresenter.outputDelegate = self
+        screen.clientsList.setDelegate(self)
+        screen.servicesList.setDelegate(self)
         configTextFieldDelegate()
         configCellDelegate()
     }
     
     private func configCellDelegate() {
-        screen.daysDock.setDelegate(delegate: self)
-        screen.hoursDock.setDelegate(delegate: self)
+        screen.daysDock.setDelegate(self)
+        screen.hoursDock.setDelegate(self)
     }
 
     private func configTextFieldDelegate() {
@@ -102,6 +106,8 @@ public class AddScheduleViewController: UIViewController {
     private func configShowComponents() {
         screen.daysDock.show()
         screen.hoursDock.show()
+        screen.clientsList.show()
+        screen.clientsList.reload()
     }
     
     private func configDockIDs() {
@@ -149,22 +155,7 @@ public class AddScheduleViewController: UIViewController {
         screen.hoursDock.reload()
     }
     
-    private func showTopAnchor(_ textField: UITextField) {
-        screen.picker.setHidden(false)
-        switch textField.tag {
-            case TagTextField.client.rawValue:
-                screen.picker.show()
-                screen.setTopAnchorClient()
-                    
-            case TagTextField.service.rawValue:
-                screen.picker.show()
-                screen.setTopAnchorService()
-                
-            default:
-                break
-        }
-    }
-
+    
     private func makeAddScheduleDaysDockView(_ dockBuilder: DockBuilder, _ index: Int) -> AddScheduleDaysDockView {
         guard let dayDockPresenterDTO = addSchedulePresenter.getDayDock(index) else { return AddScheduleDaysDockView("","") }
 
@@ -198,6 +189,77 @@ public class AddScheduleViewController: UIViewController {
         return hoursDockView
     }
     
+    private func showPicker(id: AddSchedulePresenterImpl.PickerID) {
+        switch id {
+            case .clientsPicker:
+                screen.clientTextField.setImage(ImageViewBuilder(systemName: "chevron.up"), .right)
+                screen.clientsListView.setHidden(false)
+            
+            case .servicesPicker:
+                screen.serviceTextField.setImage(ImageViewBuilder(systemName: "chevron.up"), .right)
+                screen.servicesListView.setHidden(false)
+        }
+    }
+    
+    private func hidePickers() {
+        screen.clientsListView.setHidden(true)
+        screen.servicesListView.setHidden(true)
+        screen.clientTextField.setImage(ImageViewBuilder(systemName: "chevron.up.chevron.down"), .right)
+        screen.serviceTextField.setImage(ImageViewBuilder(systemName: "chevron.up.chevron.down"), .right)
+    }
+    
+    private func fetchListServices() {
+        Task {
+            do {
+                if userIDAuth == nil {
+                    userIDAuth = try await ProfileSDKMain().getUserAuthenticated()
+                }
+                addSchedulePresenter.fetchServices(userIDAuth!)
+            } catch let error  {
+                print(error.localizedDescription)
+            }
+        }
+    }
+
+    private func makeServicesList(_ row: Int) -> UIView {
+        let service = addSchedulePresenter.getService(row)
+        guard let id = service?.id, let name = service?.name else { return UIView() }
+        
+        let view = ViewBuilder()
+        let backgroundView = ViewBuilder()
+            .setBorder { build in
+                build.setWidth(0.5).setColor(.systemGray6)
+            }
+            .setConstraints { build in
+                build
+                    .setLeading.setTrailing.equalToSafeArea(16)
+                    .setBottom.equalToSafeArea
+                    .setHeight.equalToConstant(1)
+            }
+        backgroundView.add(insideTo: view.get)
+        backgroundView.applyConstraint()
+        
+        let label = LabelBuilder()
+            .setTextAlignment(.left)
+            .setTextAttributed { build in
+                build
+                    .setText(text: id.description)
+                    .setAttributed(key: .font, value: UIFont.boldSystemFont(ofSize: 14))
+                    .setText(text: " - \(name)")
+                    .setAttributed(key: .font, value: UIFont.systemFont(ofSize: 18))
+                    .setAttributed(key: .foregroundColor, value: UIColor.black.withAlphaComponent(0.6))
+            }
+            .setConstraints { build in
+                build
+                    .setLeading.equalToSafeArea(16)
+                    .setTrailing.equalToSafeArea(-8)
+                    .setVerticalAlignmentY.equalToSafeArea
+            }
+        label.add(insideTo: view.get)
+        label.applyConstraint()
+        
+        return view.get
+    }
     
 }
 
@@ -205,6 +267,12 @@ public class AddScheduleViewController: UIViewController {
 //  MARK: - EXTESION - AddScheduleViewDelegate
 
 extension AddScheduleViewController: AddScheduleViewDelegate {
+    public func scheduleButtonTapped() {
+        if let index = screen.servicesList.getIndexSelected() {
+            print(addSchedulePresenter.getService(index.row) ?? "" )
+        }
+    }
+    
     public func disableScheduleButtonTapped() {
         
     }
@@ -215,29 +283,47 @@ extension AddScheduleViewController: AddScheduleViewDelegate {
 
 }
 
-
-
-//  MARK: - EXTESION - PickerDelegate
-
-extension AddScheduleViewController: PickerDelegate {
-    public func numberOfComponents() -> Int {
-        1
-    }
+//  MARK: - EXTENSION - AddSchedulePresenterOutput
+extension AddScheduleViewController: AddSchedulePresenterOutput {
     
-    public func numberOfRows(forComponent: Int) -> Int {
-        4
+    public func successFetchListServices() {
+        screen.servicesList.show()
+        screen.servicesList.reload()
     }
-    
-    public func rowViewCallBack(component: Int, row: Int) -> UIView {
-        return UIView()
-    }
-    
-    public func didSelectRowAt(_ component: Int, _ row: Int) {
-        print(component, row)
-    }
-    
     
 }
+
+
+//  MARK: - EXTESION - ListDelegate
+
+extension AddScheduleViewController: ListDelegate {
+    public func numberOfSections(_ list: ListBuilder) -> Int { 1 }
+    
+    public func numberOfRows(_ list: ListBuilder, section: Int) -> Int {
+        if screen.clientTextField.get.isFirstResponder {
+            return addSchedulePresenter.numberOfRowsPicker(pickerID: .clientsPicker)
+        }
+        return addSchedulePresenter.numberOfRowsPicker(pickerID: .servicesPicker)
+    }
+    
+    public func sectionViewCallback(_ list: ListBuilder, section: Int) -> UIView? { nil }
+    
+    public func rowViewCallBack(_ list: ListBuilder, section: Int, row: Int) -> UIView {
+        if screen.clientTextField.get.isFirstResponder {
+            return LabelBuilder(row.description).get
+        }
+        return makeServicesList(row)
+    }
+    
+    public func didSelectItemAt(_ list: ListBuilder, _ section: Int, _ row: Int) {
+        if let service = addSchedulePresenter.getService(row) {
+            screen.serviceTextField.setText(service.name)
+        }
+        
+    }
+    
+}
+
 
 
 //  MARK: - EXTENSION - UITextFieldDelegate
@@ -245,29 +331,34 @@ extension AddScheduleViewController: UITextFieldDelegate {
     
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
-        screen.picker.setHidden(true)
+        hidePickers()
         return true
     }
     
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        showTopAnchor(textField)
-
+        showPicker(id: getPickerIdentifier(textField))
         if range.description == "{0, 1}" {
-            screen.picker.setHidden(true)
+            hidePickers()
         }
-        
         return true
     }
     
     public func textFieldDidEndEditing(_ textField: UITextField) {
-        screen.picker.setHidden(true)
+        hidePickers()
     }
     
     public func textFieldDidBeginEditing(_ textField: UITextField) {
-        if (textField.text?.count ?? 0 > 0) {
-            screen.picker.setHidden(false)
-            showTopAnchor(textField)
+//        if (textField.text?.count ?? 0 > 0) {
+            showPicker(id: getPickerIdentifier(textField))
+//        }
+    }
+    
+    private func getPickerIdentifier(_ textField: UITextField) -> AddSchedulePresenterImpl.PickerID {
+        let textFieldTag = textField.tag
+        if textFieldTag == AddScheduleViewController.TagTextField.client.rawValue {
+            return .clientsPicker
         }
+        return .servicesPicker
     }
     
 }

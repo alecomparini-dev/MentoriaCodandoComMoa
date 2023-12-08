@@ -14,15 +14,7 @@ class ListServicesViewControllerFactory {
     
     static func make() -> ListServicesViewController {
         
-        let httpGet = HomeNetwork()
-        
-        let url = makeURL()
-        
-        let listServicesUseCaseGateway = RemoteListServicesUseCaseGatewayImpl(httpGet: httpGet ,
-                                                                              url: url, headers: [:],
-                                                                              queryParameters: [:])
-        
-        let listServicesUseCase = ListServicesUseCaseImpl(listServicesGateway: listServicesUseCaseGateway)
+        let listServicesUseCase = ListServicesUseCaseFactory.make()
         
         let listServicePresenter = ListServicesPresenterImpl(listServicesUseCase: listServicesUseCase )
         
@@ -31,10 +23,6 @@ class ListServicesViewControllerFactory {
     }
     
     
-    static private func makeURL() -> URL {
-        let baseURL = Environment.variable(.apiBaseUrl)
-        let path = K.pathListServices
-        return URL(string: "\(baseURL)\(path)")!
-    }
+    
     
 }

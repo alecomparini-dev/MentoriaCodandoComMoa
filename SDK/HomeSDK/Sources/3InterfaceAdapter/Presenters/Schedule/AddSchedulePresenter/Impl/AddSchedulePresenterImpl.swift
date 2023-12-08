@@ -3,22 +3,66 @@
 
 import Foundation
 
+import HomeUseCases
+
+public protocol AddSchedulePresenterOutput: AnyObject {
+    func successFetchListServices()
+}
+
 public class AddSchedulePresenterImpl: AddSchedulePresenter {
+    public weak var outputDelegate: AddSchedulePresenterOutput?
     
-    private var daysDock: [DateDockPresenterDTO]? = []
-    private var hoursDock: [HourDockPresenterDTO]? = []
+    private var servicesPicker: [ServicesPickerPresenterDTO] = []
+    private var daysDock: [DateDockPresenterDTO] = []
+    private var hoursDock: [HourDockPresenterDTO] = []
     
     public enum DockID: String {
         case daysDock = "DAYS_DOCK"
         case hoursDock = "HOURS_DOCK"
     }
     
-    private let weekEnd = [1,7]
+    public enum PickerID: String {
+        case clientsPicker = "CLIENTS_PICKER"
+        case servicesPicker = "SERVICES_PICKER"
+    }
     
-    public init() {}
+    private let weekend = [1,7]
+    
+    private let listServicesUseCase: ListServicesUseCase
+    
+    public init(listServicesUseCase: ListServicesUseCase) {
+        self.listServicesUseCase = listServicesUseCase
+    }
     
     
 //  MARK: - PUBLIC AREA
+    
+    public func fetchServices(_ userIDAuth: String) {
+        Task {
+            do {
+                let servicesDTO: [ServiceUseCaseDTO]? = try await listServicesUseCase.list(userIDAuth)
+                
+                guard let servicesDTO else {return}
+                
+                let servicesPicker = servicesDTO.map({ service in
+                    ServicesPickerPresenterDTO(
+                        id: service.id,
+                        name: service.name,
+                        duration: service.duration)
+                })
+//                self.servicesPicker.append(ServicesPickerPresenterDTO())
+                self.servicesPicker.append(contentsOf: servicesPicker)
+                
+                successFetchListServices()
+            } catch let error {
+                debugPrint(error.localizedDescription)
+            }
+        }
+    }
+    public func getService(_ index: Int) -> ServicesPickerPresenterDTO? {
+        return servicesPicker[index]
+    }
+    
     public func fetchDayDock(_ year: Int, _ month: Int) {
         calculateDaysOfMonth(year: year, month: month)
     }
@@ -28,11 +72,11 @@ public class AddSchedulePresenterImpl: AddSchedulePresenter {
     }
 
     public func getDayDock(_ index: Int) -> DateDockPresenterDTO? {
-        return daysDock?[index]
+        return daysDock[index]
     }
     
     public func getHourDock(_ index: Int) -> HourDockPresenterDTO? {
-        return hoursDock?[index]
+        return hoursDock[index]
     }
     
     public func getDayWeekName(_ date: String) -> String? {
@@ -56,13 +100,24 @@ public class AddSchedulePresenterImpl: AddSchedulePresenter {
         return (year, month, day)
     }
     
+    public func numberOfRowsPicker(pickerID: PickerID) -> Int {
+        switch pickerID {
+            case .clientsPicker:
+                return 2
+                
+            case .servicesPicker:
+                return servicesPicker.count
+        }
+    }
+    
+    
     public func numberOfItemsDock(dockID: DockID) -> Int {
         switch dockID {
             case .daysDock:
-                return daysDock?.count ?? 0
+                return daysDock.count
             
             case .hoursDock:
-                return hoursDock?.count ?? 0
+                return hoursDock.count
         }
     }
     
@@ -153,7 +208,7 @@ public class AddSchedulePresenterImpl: AddSchedulePresenter {
             
             guard let dayWeek = dayWeek(dateString) else { return }
             
-            daysDock?.append(DateDockPresenterDTO(
+            daysDock.append(DateDockPresenterDTO(
                 day: "\(day)",
                 month: "\(month)",
                 year: "\(year)",
@@ -184,7 +239,7 @@ public class AddSchedulePresenterImpl: AddSchedulePresenter {
             let formattedHour = dateHourFormatter.string(from: currentDate)
             let formattedMinute = dateMinuteFormatter.string(from: currentDate)
             currentDate = calendar.date(byAdding: .minute, value: 30, to: currentDate)!
-            hoursDock?.append(
+            hoursDock.append(
                 HourDockPresenterDTO(
                     hour: formattedHour,
                     minute: formattedMinute,
@@ -209,6 +264,18 @@ public class AddSchedulePresenterImpl: AddSchedulePresenter {
     private func isDisableDay(_ day: Int, _ dayWeek: Int) -> Bool {
         let calendar = Calendar.current
         let currentDay = calendar.component(.day, from: Date())
-        return day < currentDay || weekEnd.contains(dayWeek)
+        return day < currentDay || weekend.contains(dayWeek)
     }
+    
+    
+    
+//  MARK: - MAIN THREAD AREA
+    
+    private func successFetchListServices() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else {return}
+            outputDelegate?.successFetchListServices()
+        }
+    }
+
 }

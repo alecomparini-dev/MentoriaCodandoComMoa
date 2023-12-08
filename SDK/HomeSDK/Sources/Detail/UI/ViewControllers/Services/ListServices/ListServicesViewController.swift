@@ -110,7 +110,7 @@ public class ListServicesViewController: UIViewController {
                 if userIDAuth == nil {
                     userIDAuth = try await ProfileSDKMain().getUserAuthenticated()
                 }
-                listServicePresenter.fetchCurrencies(userIDAuth!)
+                listServicePresenter.fetchServices(userIDAuth!)
             } catch let error  {
                 print(error.localizedDescription)
             }
