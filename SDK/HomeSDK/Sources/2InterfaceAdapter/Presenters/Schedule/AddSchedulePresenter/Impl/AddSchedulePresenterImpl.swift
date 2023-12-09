@@ -8,6 +8,7 @@ import HomeUseCases
 public protocol AddSchedulePresenterOutput: AnyObject {
     func successFetchServiceList()
     func successFetchClientList()
+    func resetHours()
 }
 
 public class AddSchedulePresenterImpl: AddSchedulePresenter {
@@ -263,6 +264,7 @@ public class AddSchedulePresenterImpl: AddSchedulePresenter {
         dateHourFormatter.dateFormat = "HH"
         dateMinuteFormatter.dateFormat = "mm"
         
+        hoursDock = []
         while currentDate <= endDate {
             let formattedHour = dateHourFormatter.string(from: currentDate)
             let formattedMinute = dateMinuteFormatter.string(from: currentDate)
@@ -274,6 +276,8 @@ public class AddSchedulePresenterImpl: AddSchedulePresenter {
                     disabled: isDisableHour(formattedHour, formattedMinute) )
             )
         }
+        
+        outputDelegate?.resetHours()
     }
     
     private func isDisableHour(_ hour: String, _ min: String) -> Bool {
