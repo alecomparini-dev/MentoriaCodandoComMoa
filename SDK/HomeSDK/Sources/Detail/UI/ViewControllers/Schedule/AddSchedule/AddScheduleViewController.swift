@@ -61,7 +61,8 @@ public class AddScheduleViewController: UIViewController {
     
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        screen.daysDock.setScrollToItem(index: screen.daysDock.getIndexSelected() ?? 0)
+        screen.daysDock.selectItem(currentDate.day - 1)
+//        screen.daysDock.setScrollToItem(index: currentDate.day - 1)
     }
     
     
@@ -148,8 +149,7 @@ public class AddScheduleViewController: UIViewController {
     }
     
     private func setSelectionCurrentDay() {
-        screen.daysDock.selectItem(currentDate.day - 1)
-        fetchHoursDock(currentDate.year, currentDate.month, currentDate.day)
+        screen.daysDock.setScrollToItem(index: currentDate.day - 1)
     }
     
     private func configInitialFetchDaysDock() {
@@ -166,7 +166,6 @@ public class AddScheduleViewController: UIViewController {
         addSchedulePresenter.fetchHourDock(year, month, day)
         screen.hoursDock.reload()
     }
-    
     
     private func makeAddScheduleDaysDockView(_ dockBuilder: DockBuilder, _ index: Int) -> AddScheduleDaysDockView {
         guard let dayDockPresenterDTO = addSchedulePresenter.getDayDock(index) else { return AddScheduleDaysDockView("","") }
@@ -204,14 +203,14 @@ public class AddScheduleViewController: UIViewController {
     private func showList(id: AddSchedulePresenterImpl.ListID) {
         switch id {
             case .clients:
-                screen.clientsList.reload()
                 screen.clientTextField.setImage(ImageViewBuilder(systemName: "chevron.up"), .right)
                 screen.clientsListView.setHidden(false)
+                screen.clientsList.reload()
             
             case .services:
-                screen.servicesList.reload()
                 screen.serviceTextField.setImage(ImageViewBuilder(systemName: "chevron.up"), .right)
                 screen.servicesListView.setHidden(false)
+                screen.servicesList.reload()
         }
     }
     
@@ -323,6 +322,13 @@ extension AddScheduleViewController: AddScheduleViewDelegate {
 
 //  MARK: - EXTENSION - AddSchedulePresenterOutput
 extension AddScheduleViewController: AddSchedulePresenterOutput {
+    public func resetHours() {
+        if let indexSelected = screen.hoursDock.getIndexSelected() {
+            screen.hoursDock.deselect(indexSelected)
+        }
+        
+    }
+    
     public func successFetchClientList() {
         screen.clientsList.show()
     }
@@ -373,6 +379,7 @@ extension AddScheduleViewController: ListDelegate {
 
 
 //  MARK: - EXTENSION - UITextFieldDelegate
+
 extension AddScheduleViewController: UITextFieldDelegate {
     
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -476,8 +483,17 @@ extension AddScheduleViewController: DockDelegate {
         return nil
     }
     
-    public func didSelectItemAt(_ index: Int) {}
+    public func didSelectItemAt(_ dockBuilder: DockBuilder, _ index: Int) {
+        switch dockBuilder.id {
+        case AddSchedulePresenterImpl.DockID.daysDock.rawValue:
+            fetchHoursDock(currentDate.year, currentDate.month, index + 1)
+                    
+        default:
+            break
+        }
+        
+    }
     
-    public func didDeselectItemAt(_ index: Int) {}
+    public func didDeselectItemAt(_ dockBuilder: DockBuilder, _ index: Int) {}
     
 }

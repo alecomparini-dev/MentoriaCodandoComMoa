@@ -17,7 +17,7 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/alecomparini-dev/DesignerSystemSDK.git", branch: "develop"),
         .package(url: "https://github.com/alecomparini-dev/NetworkSDK.git", branch: "develop"),
-        .package(url: "https://github.com/alecomparini-dev/DataStorageSDK.git", branch: "develop"),
+        .package(url: "https://github.com/alecomparini-dev/DataStorageSDK.git", branch: "feature/2023-12-08/brigde-pattern"),
         .package(url: "https://github.com/firebase/firebase-ios-sdk.git", .upToNextMajor(from: "10.18.0") ),
     ],
     
