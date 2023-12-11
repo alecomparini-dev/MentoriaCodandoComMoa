@@ -43,6 +43,7 @@
 		02A0D34F2AF11D4C00BF25A5 /* LoadScreenCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A0D34E2AF11D4C00BF25A5 /* LoadScreenCoordinator.swift */; };
 		02A0D3522AF13E6600BF25A5 /* ForgotPasswordCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A0D3512AF13E6600BF25A5 /* ForgotPasswordCoordinator.swift */; };
 		02A0D3552AF184E200BF25A5 /* ForgotPasswordViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A0D3542AF184E200BF25A5 /* ForgotPasswordViewControllerFactory.swift */; };
+		02C686BC2B26389700ACF488 /* CoreDataMentoria.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 02C686BA2B26389700ACF488 /* CoreDataMentoria.xcdatamodeld */; };
 		02D04A792B1A5A3E00E75635 /* AddScheduleCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02D04A782B1A5A3E00E75635 /* AddScheduleCoordinator.swift */; };
 		02D04A7D2B1A6B5E00E75635 /* ListScheduleViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02D04A7C2B1A6B5E00E75635 /* ListScheduleViewControllerFactory.swift */; };
 		02D7D2962AE86283003E4CF4 /* SaveServiceCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02D7D2952AE86283003E4CF4 /* SaveServiceCoordinator.swift */; };
@@ -91,6 +92,7 @@
 		02A0D34E2AF11D4C00BF25A5 /* LoadScreenCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadScreenCoordinator.swift; sourceTree = "<group>"; };
 		02A0D3512AF13E6600BF25A5 /* ForgotPasswordCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordCoordinator.swift; sourceTree = "<group>"; };
 		02A0D3542AF184E200BF25A5 /* ForgotPasswordViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewControllerFactory.swift; sourceTree = "<group>"; };
+		02C686BB2B26389700ACF488 /* CoreDataMentoria.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataMentoria.xcdatamodel; sourceTree = "<group>"; };
 		02D04A782B1A5A3E00E75635 /* AddScheduleCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddScheduleCoordinator.swift; sourceTree = "<group>"; };
 		02D04A7C2B1A6B5E00E75635 /* ListScheduleViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListScheduleViewControllerFactory.swift; sourceTree = "<group>"; };
 		02D7D2952AE86283003E4CF4 /* SaveServiceCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveServiceCoordinator.swift; sourceTree = "<group>"; };
@@ -138,6 +140,7 @@
 				028B28B92AA76ECF008E4A7E /* Handler */,
 				028B289F2AA75E9D008E4A7E /* Env */,
 				0212ECD42AA10CE7001C1BCF /* Resources */,
+				02C686BA2B26389700ACF488 /* CoreDataMentoria.xcdatamodeld */,
 			);
 			path = Mentoria;
 			sourceTree = "<group>";
@@ -575,6 +578,7 @@
 				0293DF0C2AE6E5B000716142 /* MasksFactory.swift in Sources */,
 				02D7D2962AE86283003E4CF4 /* SaveServiceCoordinator.swift in Sources */,
 				02D04A792B1A5A3E00E75635 /* AddScheduleCoordinator.swift in Sources */,
+				02C686BC2B26389700ACF488 /* CoreDataMentoria.xcdatamodeld in Sources */,
 				02D04A7D2B1A6B5E00E75635 /* ListScheduleViewControllerFactory.swift in Sources */,
 				024340822AD9872B00110844 /* ProfileRegistrationStep1Coordinator.swift in Sources */,
 				02995B4B2AB34BBA00615FDC /* SignInViewControllerFactory.swift in Sources */,
@@ -913,6 +917,19 @@
 			productName = ProfileSDKMain;
 		};
 /* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		02C686BA2B26389700ACF488 /* CoreDataMentoria.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				02C686BB2B26389700ACF488 /* CoreDataMentoria.xcdatamodel */,
+			);
+			currentVersion = 02C686BB2B26389700ACF488 /* CoreDataMentoria.xcdatamodel */;
+			path = CoreDataMentoria.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 02E2C3952AA0FFD30040A2C8 /* Project object */;
 }

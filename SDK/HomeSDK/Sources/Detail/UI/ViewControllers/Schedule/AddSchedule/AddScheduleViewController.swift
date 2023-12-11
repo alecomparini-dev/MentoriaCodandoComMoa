@@ -5,6 +5,7 @@ import UIKit
 import CustomComponentsSDK
 import DesignerSystemSDKComponent
 import HomePresenters
+import HomeUseCases
 import ProfileSDKMain
 
 public protocol AddScheduleViewControllerCoordinator: AnyObject {
@@ -308,6 +309,17 @@ extension AddScheduleViewController: AddScheduleViewDelegate {
         if let index = screen.servicesList.getIndexSelected() {
             print(addSchedulePresenter.getService(index.row) ?? "" )
         }
+        
+        addSchedulePresenter.saveSchedule(ScheduleUseCaseDTO(
+            id: UUID(),
+            clientID: 1,
+            clientName: "Teste Client Name",
+            serviceID: 201,
+            serviceName: "Teste Name Service",
+            dateInitialSchedule: Date(),
+            dateFinalSchedule: Date())
+        )
+        
     }
     
     public func disableScheduleButtonTapped() {

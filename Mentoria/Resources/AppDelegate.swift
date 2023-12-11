@@ -7,10 +7,23 @@
 
 import UIKit
 import FirebaseCore
+import CoreData
+
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+    lazy var persistentContainer: NSPersistentContainer = {
+        let container = NSPersistentContainer(name: "ToolTracking")
+        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+            if let error = error as NSError? {
+                fatalError("Unresolved error \(error), \(error.userInfo)")
+            }
+        })
+        return container
+    }()
+    
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
         return true
@@ -29,3 +42,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+@objc(Person)
+public class Person: NSManagedObject {
+
+}
+
+
+extension Person {
+    @NSManaged public var id: Int32
+    @NSManaged public var name: String?
+}

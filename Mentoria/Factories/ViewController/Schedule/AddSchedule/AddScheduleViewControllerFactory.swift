@@ -3,11 +3,16 @@
 
 import Foundation
 
+import CoreData
+
+
 import HomeUI
 import HomePresenters
 import HomeUseCases
 import HomeUseCaseGateway
 import HomeNetwork
+import HomeDataStorage
+import DataStorageDetail
 
 class AddScheduleViewControllerFactory {
     
@@ -24,8 +29,18 @@ class AddScheduleViewControllerFactory {
                                                                                                                headers: [:],
                                                                                                                queryParameters: [:]))
         
+        let coreDataProvider = CoreDataProvider(container: NSPersistentContainer(name: "ScheduleEntity"))
+        
+//        let homeDataStorage = HomeDataStorage(storageProvider: coreDataProvider)
+        
+//        let saveScheduleGateway = CoreDataSaveScheduleUseCaseGatewayImpl(dataStorageProvider: homeDataStorage)
+        let saveScheduleGateway = CoreDataSaveScheduleUseCaseGatewayImpl()
+        
+        let saveScheduleUseCase = SaveScheduleUseCaseImpl(saveScheduleGateway: saveScheduleGateway)
+        
         let addSchedulePresenter = AddSchedulePresenterImpl(listClientsUseCase: listClientsUseCase,
-                                                            listServicesUseCase: listServicesUseCase)
+                                                            listServicesUseCase: listServicesUseCase, 
+                                                            saveScheduleUseCase: saveScheduleUseCase)
         
         return AddScheduleViewController(addSchedulePresenter: addSchedulePresenter)
         

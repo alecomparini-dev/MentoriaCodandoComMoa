@@ -12,6 +12,7 @@ public protocol AddSchedulePresenterOutput: AnyObject {
 }
 
 public class AddSchedulePresenterImpl: AddSchedulePresenter {
+    
     public weak var outputDelegate: AddSchedulePresenterOutput?
     
     private var clientsList: [ClientListPresenterDTO] = []
@@ -33,10 +34,12 @@ public class AddSchedulePresenterImpl: AddSchedulePresenter {
     
     private let listClientsUseCase: ListClientsUseCase
     private let listServicesUseCase: ListServicesUseCase
+    private let saveScheduleUseCase: SaveScheduleUseCase
     
-    public init(listClientsUseCase: ListClientsUseCase, listServicesUseCase: ListServicesUseCase) {
+    public init(listClientsUseCase: ListClientsUseCase, listServicesUseCase: ListServicesUseCase, saveScheduleUseCase: SaveScheduleUseCase) {
         self.listClientsUseCase = listClientsUseCase
         self.listServicesUseCase = listServicesUseCase
+        self.saveScheduleUseCase = saveScheduleUseCase
     }
     
     
@@ -87,6 +90,18 @@ public class AddSchedulePresenterImpl: AddSchedulePresenter {
                 debugPrint(error.localizedDescription)
             }
         }
+    }
+    
+    public func saveSchedule(_ schedule: ScheduleUseCaseDTO) {
+        Task {
+            do {
+                try await saveScheduleUseCase.save(schedule)
+                print("GRAVOUUUUUUUUUUU")
+            } catch let error {
+                debugPrint(error.localizedDescription)
+            }
+        }
+        
     }
 
     public func getClient(_ index: Int) -> ClientListPresenterDTO? { clientsList[index] }
