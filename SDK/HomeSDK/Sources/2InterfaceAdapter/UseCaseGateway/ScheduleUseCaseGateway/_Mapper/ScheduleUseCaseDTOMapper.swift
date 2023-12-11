@@ -10,6 +10,7 @@ public struct ScheduleUseCaseDTOMapper {
     func toScheduleGatewayDTO(_ scheduleUseCaseDTO: ScheduleUseCaseDTO) -> ScheduleGatewayDTO {
         return ScheduleGatewayDTO(
             id: scheduleUseCaseDTO.id,
+            address: scheduleUseCaseDTO.address,
             clientID: scheduleUseCaseDTO.clientID,
             clientName: scheduleUseCaseDTO.clientName,
             serviceID: scheduleUseCaseDTO.serviceID,

@@ -317,13 +317,9 @@ extension AddScheduleViewController: AddScheduleViewDelegate {
         }
         
         addSchedulePresenter.saveSchedule(
-            ScheduleUseCaseDTO (
-                clientID: client?.id,
-                clientName: client?.name,
-                serviceID: service?.id,
-                serviceName: service?.name,
-                dateInitialSchedule: Date()
-            )
+            clientID: client?.id,
+            serviceID: service?.id,
+            dateInitialSchedule: Date()
         )
         
     }
