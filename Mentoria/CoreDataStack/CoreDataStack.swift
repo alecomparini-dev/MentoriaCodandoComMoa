@@ -4,25 +4,25 @@
 import Foundation
 import CoreData
 
-public struct CoreDataStackFactory {
+final public class CoreDataStack {
     
-    func make() -> NSManagedObjectContext {
-        return persistentContainer.viewContext
-    }
+    static let shared = CoreDataStack()
     
-    private var persistentContainer: NSPersistentContainer = {
+    private init(){}
+    
+
+    // MARK: - Core Data stack
+    lazy var context = persistentContainer.viewContext
+    
+    private lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "CoreDataMentoria")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
-            print(storeDescription)
+            debugPrint(storeDescription)
         })
         return container
     }()
 
-    
-    
-    
 }
-

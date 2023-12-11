@@ -30,7 +30,7 @@ class AddScheduleViewControllerFactory {
             headers: [:],
             queryParameters: [:]))
         
-        let coreDataContext = CoreDataStackFactory().make()
+        let coreDataContext = CoreDataStack.shared.context
         
         let dataStorageProvider = CoreDataStorageProvider(context: coreDataContext)
         
@@ -46,7 +46,6 @@ class AddScheduleViewControllerFactory {
                                                             saveScheduleUseCase: saveScheduleUseCase)
         
         return AddScheduleViewController(addSchedulePresenter: addSchedulePresenter)
-        
     }
     
     
