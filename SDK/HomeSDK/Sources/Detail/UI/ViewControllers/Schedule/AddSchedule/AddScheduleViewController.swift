@@ -306,18 +306,24 @@ public class AddScheduleViewController: UIViewController {
 
 extension AddScheduleViewController: AddScheduleViewDelegate {
     public func scheduleButtonTapped() {
+        
+        var client: ClientListPresenterDTO?
+        var service: ServiceListPresenterDTO?
+        if let index = screen.clientsList.getIndexSelected() {
+            client = addSchedulePresenter.getClient(index.row)
+        }
         if let index = screen.servicesList.getIndexSelected() {
-            print(addSchedulePresenter.getService(index.row) ?? "" )
+            service = addSchedulePresenter.getService(index.row)
         }
         
-        addSchedulePresenter.saveSchedule(ScheduleUseCaseDTO(
-            id: UUID(),
-            clientID: 1,
-            clientName: "Teste Client Name",
-            serviceID: 201,
-            serviceName: "Teste Name Service",
-            dateInitialSchedule: Date(),
-            dateFinalSchedule: Date())
+        addSchedulePresenter.saveSchedule(
+            ScheduleUseCaseDTO (
+                clientID: client?.id,
+                clientName: client?.name,
+                serviceID: service?.id,
+                serviceName: service?.name,
+                dateInitialSchedule: Date()
+            )
         )
         
     }
@@ -334,6 +340,10 @@ extension AddScheduleViewController: AddScheduleViewDelegate {
 
 //  MARK: - EXTENSION - AddSchedulePresenterOutput
 extension AddScheduleViewController: AddSchedulePresenterOutput {
+    public func successSaveSchedule() {
+        print("estou na controller e GRAVOUUUU")
+    }
+    
     public func resetHours() {
         if let indexSelected = screen.hoursDock.getIndexSelected() {
             screen.hoursDock.deselect(indexSelected)

@@ -8,14 +8,15 @@ import CoreData
 
 public class CoreDataSaveScheduleUseCaseGatewayImpl: SaveScheduleUseCaseGateway {
 
+    private var repository: CreateScheduleRepository
     
-    public init() {
+    public init(repository: CreateScheduleRepository) {
+        self.repository = repository
     }
 
-    public func save(_ schedule: ScheduleUseCaseDTO) async throws {
-//        let repository: Schedule = mapperToRepository(schedule)
-        
-//        try await dataStorageProvider.insert(repository)
+    public func save(_ scheduleUseCaseDTO: ScheduleUseCaseDTO) async throws {
+        let scheduleGatewayDTO = ScheduleUseCaseDTOMapper().toScheduleGatewayDTO(scheduleUseCaseDTO)
+        try await repository.create(scheduleGatewayDTO)
     }
     
 

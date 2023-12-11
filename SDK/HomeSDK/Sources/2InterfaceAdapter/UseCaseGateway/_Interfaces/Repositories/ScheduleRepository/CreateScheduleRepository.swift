@@ -4,5 +4,5 @@
 import Foundation
 
 public protocol CreateScheduleRepository {
-    func insert(_ schedule: ScheduleGatewayDTO) async throws
+    func create(_ schedule: ScheduleGatewayDTO) async throws
 }

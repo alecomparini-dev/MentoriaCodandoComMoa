@@ -5,7 +5,7 @@ import Foundation
 
 
 public struct ScheduleUseCaseDTO: Identifiable {
-    public var id: UUID?
+    public let id: UUID = UUID()
     public var clientID: Int?
     public var clientName: String?
     public var serviceID: Int?
@@ -13,8 +13,7 @@ public struct ScheduleUseCaseDTO: Identifiable {
     public var dateInitialSchedule: Date?
     public var dateFinalSchedule: Date?
     
-    public init(id: UUID? = nil, clientID: Int? = nil, clientName: String? = nil, serviceID: Int? = nil, serviceName: String? = nil, dateInitialSchedule: Date? = nil, dateFinalSchedule: Date? = nil) {
-        self.id = id
+    public init( clientID: Int? = nil, clientName: String? = nil, serviceID: Int? = nil, serviceName: String? = nil, dateInitialSchedule: Date? = nil, dateFinalSchedule: Date? = nil) {
         self.clientID = clientID
         self.clientName = clientName
         self.serviceID = serviceID

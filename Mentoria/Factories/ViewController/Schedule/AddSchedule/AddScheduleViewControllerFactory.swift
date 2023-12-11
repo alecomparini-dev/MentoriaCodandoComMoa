@@ -11,8 +11,8 @@ import HomePresenters
 import HomeUseCases
 import HomeUseCaseGateway
 import HomeNetwork
-import HomeDataStorage
-import DataStorageDetail
+import DataStorageSDKMain
+import HomeRepositories
 
 class AddScheduleViewControllerFactory {
     
@@ -24,17 +24,20 @@ class AddScheduleViewControllerFactory {
         
         let url = makeURL()
         
-        let listClientsUseCase = ListClientsUseCaseImpl(listClientGateway: RemoteListClientsUseCaseGatewayImpl(httpGet: httpGet,
-                                                                                                               url: url,
-                                                                                                               headers: [:],
-                                                                                                               queryParameters: [:]))
+        let listClientsUseCase = ListClientsUseCaseImpl(listClientGateway: RemoteListClientsUseCaseGatewayImpl(
+            httpGet: httpGet,
+            url: url,
+            headers: [:],
+            queryParameters: [:]))
         
-        let coreDataProvider = CoreDataProvider(container: NSPersistentContainer(name: "ScheduleEntity"))
+        let coreDataContext = CoreDataStackFactory().make()
         
-//        let homeDataStorage = HomeDataStorage(storageProvider: coreDataProvider)
+        let dataStorageProvider = CoreDataStorageProvider(context: coreDataContext)
         
-//        let saveScheduleGateway = CoreDataSaveScheduleUseCaseGatewayImpl(dataStorageProvider: homeDataStorage)
-        let saveScheduleGateway = CoreDataSaveScheduleUseCaseGatewayImpl()
+        let repository = CoreDataCreateScheduleRepositoryImpl(dataStorage: dataStorageProvider, 
+                                                              context: coreDataContext)
+        
+        let saveScheduleGateway = CoreDataSaveScheduleUseCaseGatewayImpl(repository: repository)
         
         let saveScheduleUseCase = SaveScheduleUseCaseImpl(saveScheduleGateway: saveScheduleGateway)
         

@@ -3,8 +3,15 @@
     <entity name="CDSchedule" representedClassName="CDSchedule" syncable="YES">
         <attribute name="clientID" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="clientName" optional="YES" attributeType="String"/>
+        <attribute name="dateFinalSchedule" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="dateInitialSchedule" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="serviceID" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="serviceName" optional="YES" attributeType="String"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="id"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
     </entity>
 </model>

@@ -6,6 +6,7 @@ import Foundation
 import HomeUseCases
 
 public protocol AddSchedulePresenterOutput: AnyObject {
+    func successSaveSchedule()
     func successFetchServiceList()
     func successFetchClientList()
     func resetHours()
@@ -92,11 +93,13 @@ public class AddSchedulePresenterImpl: AddSchedulePresenter {
         }
     }
     
-    public func saveSchedule(_ schedule: ScheduleUseCaseDTO) {
+    public func saveSchedule(_ scheduleUseCase: ScheduleUseCaseDTO) {
         Task {
+            var schedule = scheduleUseCase
+            schedule.dateFinalSchedule = Date()
             do {
                 try await saveScheduleUseCase.save(schedule)
-                print("GRAVOUUUUUUUUUUU")
+                successSaveSchedule()
             } catch let error {
                 debugPrint(error.localizedDescription)
             }
@@ -329,6 +332,13 @@ public class AddSchedulePresenterImpl: AddSchedulePresenter {
         DispatchQueue.main.async { [weak self] in
             guard let self else {return}
             outputDelegate?.successFetchClientList()
+        }
+    }    
+    
+    private func successSaveSchedule() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else {return}
+            outputDelegate?.successSaveSchedule()
         }
     }
 
