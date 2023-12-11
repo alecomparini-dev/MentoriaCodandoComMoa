@@ -5,6 +5,7 @@ import UIKit
 import CustomComponentsSDK
 import DesignerSystemSDKComponent
 import HomePresenters
+import HomeUseCases
 import ProfileSDKMain
 
 public protocol AddScheduleViewControllerCoordinator: AnyObject {
@@ -305,9 +306,26 @@ public class AddScheduleViewController: UIViewController {
 
 extension AddScheduleViewController: AddScheduleViewDelegate {
     public func scheduleButtonTapped() {
-        if let index = screen.servicesList.getIndexSelected() {
-            print(addSchedulePresenter.getService(index.row) ?? "" )
+        
+        var client: ClientListPresenterDTO?
+        var service: ServiceListPresenterDTO?
+        if let index = screen.clientsList.getIndexSelected() {
+            client = addSchedulePresenter.getClient(index.row)
         }
+        if let index = screen.servicesList.getIndexSelected() {
+            service = addSchedulePresenter.getService(index.row)
+        }
+        
+        addSchedulePresenter.saveSchedule(
+            ScheduleUseCaseDTO (
+                clientID: client?.id,
+                clientName: client?.name,
+                serviceID: service?.id,
+                serviceName: service?.name,
+                dateInitialSchedule: Date()
+            )
+        )
+        
     }
     
     public func disableScheduleButtonTapped() {
@@ -322,6 +340,10 @@ extension AddScheduleViewController: AddScheduleViewDelegate {
 
 //  MARK: - EXTENSION - AddSchedulePresenterOutput
 extension AddScheduleViewController: AddSchedulePresenterOutput {
+    public func successSaveSchedule() {
+        print("estou na controller e GRAVOUUUU")
+    }
+    
     public func resetHours() {
         if let indexSelected = screen.hoursDock.getIndexSelected() {
             screen.hoursDock.deselect(indexSelected)

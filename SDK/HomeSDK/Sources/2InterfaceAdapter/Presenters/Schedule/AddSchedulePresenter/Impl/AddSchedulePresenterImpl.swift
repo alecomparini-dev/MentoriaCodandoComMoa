@@ -6,12 +6,14 @@ import Foundation
 import HomeUseCases
 
 public protocol AddSchedulePresenterOutput: AnyObject {
+    func successSaveSchedule()
     func successFetchServiceList()
     func successFetchClientList()
     func resetHours()
 }
 
 public class AddSchedulePresenterImpl: AddSchedulePresenter {
+    
     public weak var outputDelegate: AddSchedulePresenterOutput?
     
     private var clientsList: [ClientListPresenterDTO] = []
@@ -33,10 +35,12 @@ public class AddSchedulePresenterImpl: AddSchedulePresenter {
     
     private let listClientsUseCase: ListClientsUseCase
     private let listServicesUseCase: ListServicesUseCase
+    private let saveScheduleUseCase: SaveScheduleUseCase
     
-    public init(listClientsUseCase: ListClientsUseCase, listServicesUseCase: ListServicesUseCase) {
+    public init(listClientsUseCase: ListClientsUseCase, listServicesUseCase: ListServicesUseCase, saveScheduleUseCase: SaveScheduleUseCase) {
         self.listClientsUseCase = listClientsUseCase
         self.listServicesUseCase = listServicesUseCase
+        self.saveScheduleUseCase = saveScheduleUseCase
     }
     
     
@@ -87,6 +91,20 @@ public class AddSchedulePresenterImpl: AddSchedulePresenter {
                 debugPrint(error.localizedDescription)
             }
         }
+    }
+    
+    public func saveSchedule(_ scheduleUseCase: ScheduleUseCaseDTO) {
+        Task {
+            var schedule = scheduleUseCase
+            schedule.dateFinalSchedule = Date()
+            do {
+                try await saveScheduleUseCase.save(schedule)
+                successSaveSchedule()
+            } catch let error {
+                debugPrint(error.localizedDescription)
+            }
+        }
+        
     }
 
     public func getClient(_ index: Int) -> ClientListPresenterDTO? { clientsList[index] }
@@ -314,6 +332,13 @@ public class AddSchedulePresenterImpl: AddSchedulePresenter {
         DispatchQueue.main.async { [weak self] in
             guard let self else {return}
             outputDelegate?.successFetchClientList()
+        }
+    }    
+    
+    private func successSaveSchedule() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else {return}
+            outputDelegate?.successSaveSchedule()
         }
     }
 

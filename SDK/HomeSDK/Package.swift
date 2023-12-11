@@ -11,7 +11,7 @@ let package = Package(
     ],
     
     products: [
-        .library(name: "HomeSDK", targets: ["HomeUseCases", "HomePresenters", "HomeUseCaseGateway", "HomeUI", "HomeNetwork"]),
+        .library(name: "HomeSDK", targets: ["HomeUseCases", "HomePresenters", "HomeUseCaseGateway", "HomeUI", "HomeNetwork", "HomeRepositories"]),
     ],
     
     dependencies: [
@@ -64,6 +64,7 @@ let package = Package(
             name: "HomeUI",
             dependencies: [
                 "HomePresenters",
+                "HomeUseCases",
                 .product(name: "DesignerSystemSDKComponent" , package: "DesignerSystemSDK"),
                 .product(name: "FirebaseAuth", package: "firebase-ios-sdk")
             ],
@@ -80,12 +81,12 @@ let package = Package(
         ),
         
         .target(
-            name: "HomeDataStorage",
+            name: "HomeRepositories",
             dependencies: [
                 "HomeUseCaseGateway",
                 .product(name: "DataStorageSDKMain", package: "DataStorageSDK"),
             ],
-            path: "Sources/Detail/Infrastructure/DataStorage"
+            path: "Sources/Detail/Repositories"
         ),
                 
         

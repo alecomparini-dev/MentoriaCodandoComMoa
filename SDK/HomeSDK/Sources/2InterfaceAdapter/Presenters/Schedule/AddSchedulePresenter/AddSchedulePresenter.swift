@@ -3,9 +3,12 @@
 
 import Foundation
 
+import HomeUseCases
 
 public protocol AddSchedulePresenter {
     var outputDelegate: AddSchedulePresenterOutput? { get set }
+    
+    func saveSchedule(_ schedule: ScheduleUseCaseDTO)
     
     func fetchClients(_ userIDAuth: String)
     func getClient(_ index: Int) -> ClientListPresenterDTO?

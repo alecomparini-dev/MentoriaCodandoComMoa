@@ -43,9 +43,11 @@
 		02A0D34F2AF11D4C00BF25A5 /* LoadScreenCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A0D34E2AF11D4C00BF25A5 /* LoadScreenCoordinator.swift */; };
 		02A0D3522AF13E6600BF25A5 /* ForgotPasswordCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A0D3512AF13E6600BF25A5 /* ForgotPasswordCoordinator.swift */; };
 		02A0D3552AF184E200BF25A5 /* ForgotPasswordViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A0D3542AF184E200BF25A5 /* ForgotPasswordViewControllerFactory.swift */; };
+		02C686BC2B26389700ACF488 /* CoreDataMentoria.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 02C686BA2B26389700ACF488 /* CoreDataMentoria.xcdatamodeld */; };
 		02D04A792B1A5A3E00E75635 /* AddScheduleCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02D04A782B1A5A3E00E75635 /* AddScheduleCoordinator.swift */; };
 		02D04A7D2B1A6B5E00E75635 /* ListScheduleViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02D04A7C2B1A6B5E00E75635 /* ListScheduleViewControllerFactory.swift */; };
 		02D7D2962AE86283003E4CF4 /* SaveServiceCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02D7D2952AE86283003E4CF4 /* SaveServiceCoordinator.swift */; };
+		02DBB12B2B273440001F05E8 /* CoreDataStackFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02DBB12A2B273440001F05E8 /* CoreDataStackFactory.swift */; };
 		02F3F08D2AEAEFE200C90C59 /* ProfileSDKMain in Frameworks */ = {isa = PBXBuildFile; productRef = 02F3F08C2AEAEFE200C90C59 /* ProfileSDKMain */; };
 		02FDA8F62B21F3E0008CC046 /* ListServicesUseCaseFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02FDA8F52B21F3E0008CC046 /* ListServicesUseCaseFactory.swift */; };
 		02FFBF122AEAA14B00BBF19C /* ListServicesViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02FFBF112AEAA14B00BBF19C /* ListServicesViewControllerFactory.swift */; };
@@ -91,9 +93,11 @@
 		02A0D34E2AF11D4C00BF25A5 /* LoadScreenCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadScreenCoordinator.swift; sourceTree = "<group>"; };
 		02A0D3512AF13E6600BF25A5 /* ForgotPasswordCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordCoordinator.swift; sourceTree = "<group>"; };
 		02A0D3542AF184E200BF25A5 /* ForgotPasswordViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewControllerFactory.swift; sourceTree = "<group>"; };
+		02C686BB2B26389700ACF488 /* CoreDataMentoria.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataMentoria.xcdatamodel; sourceTree = "<group>"; };
 		02D04A782B1A5A3E00E75635 /* AddScheduleCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddScheduleCoordinator.swift; sourceTree = "<group>"; };
 		02D04A7C2B1A6B5E00E75635 /* ListScheduleViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListScheduleViewControllerFactory.swift; sourceTree = "<group>"; };
 		02D7D2952AE86283003E4CF4 /* SaveServiceCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveServiceCoordinator.swift; sourceTree = "<group>"; };
+		02DBB12A2B273440001F05E8 /* CoreDataStackFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStackFactory.swift; sourceTree = "<group>"; };
 		02E2C39E2AA0FFD30040A2C8 /* MentoriaCodandoComMoa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MentoriaCodandoComMoa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		02FDA8F52B21F3E0008CC046 /* ListServicesUseCaseFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListServicesUseCaseFactory.swift; sourceTree = "<group>"; };
 		02FFBF112AEAA14B00BBF19C /* ListServicesViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListServicesViewControllerFactory.swift; sourceTree = "<group>"; };
@@ -132,6 +136,7 @@
 		0212ECAD2AA10867001C1BCF /* Mentoria */ = {
 			isa = PBXGroup;
 			children = (
+				02C686BA2B26389700ACF488 /* CoreDataMentoria.xcdatamodeld */,
 				026682CC2AA7D5E900EE70EC /* Coordinator */,
 				02995B4C2AB34BCB00615FDC /* Factories */,
 				022055082AE1B15C00C076FC /* Masks */,
@@ -329,6 +334,7 @@
 		02995B4C2AB34BCB00615FDC /* Factories */ = {
 			isa = PBXGroup;
 			children = (
+				02DBB1292B273396001F05E8 /* CoreDataStack */,
 				0293DF0A2AE6E59A00716142 /* Mask */,
 				0293DF072AE6D41600716142 /* UseCase */,
 				02995B4D2AB34C1300615FDC /* ViewController */,
@@ -372,6 +378,14 @@
 				02D04A7C2B1A6B5E00E75635 /* ListScheduleViewControllerFactory.swift */,
 			);
 			path = ListSchedule;
+			sourceTree = "<group>";
+		};
+		02DBB1292B273396001F05E8 /* CoreDataStack */ = {
+			isa = PBXGroup;
+			children = (
+				02DBB12A2B273440001F05E8 /* CoreDataStackFactory.swift */,
+			);
+			path = CoreDataStack;
 			sourceTree = "<group>";
 		};
 		02E2C3942AA0FFD30040A2C8 = {
@@ -575,6 +589,7 @@
 				0293DF0C2AE6E5B000716142 /* MasksFactory.swift in Sources */,
 				02D7D2962AE86283003E4CF4 /* SaveServiceCoordinator.swift in Sources */,
 				02D04A792B1A5A3E00E75635 /* AddScheduleCoordinator.swift in Sources */,
+				02C686BC2B26389700ACF488 /* CoreDataMentoria.xcdatamodeld in Sources */,
 				02D04A7D2B1A6B5E00E75635 /* ListScheduleViewControllerFactory.swift in Sources */,
 				024340822AD9872B00110844 /* ProfileRegistrationStep1Coordinator.swift in Sources */,
 				02995B4B2AB34BBA00615FDC /* SignInViewControllerFactory.swift in Sources */,
@@ -590,6 +605,7 @@
 				02A0D34F2AF11D4C00BF25A5 /* LoadScreenCoordinator.swift in Sources */,
 				023CED872AEC380F001B3562 /* ViewerServiceViewControllerFactory.swift in Sources */,
 				026FC69B2AD9D0430009D1A3 /* ProfileRegistrationStep2Coordinator.swift in Sources */,
+				02DBB12B2B273440001F05E8 /* CoreDataStackFactory.swift in Sources */,
 				024E688E2AB4860A0044A521 /* SignUpViewControllerFactory.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -913,6 +929,19 @@
 			productName = ProfileSDKMain;
 		};
 /* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		02C686BA2B26389700ACF488 /* CoreDataMentoria.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				02C686BB2B26389700ACF488 /* CoreDataMentoria.xcdatamodel */,
+			);
+			currentVersion = 02C686BB2B26389700ACF488 /* CoreDataMentoria.xcdatamodel */;
+			path = CoreDataMentoria.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 02E2C3952AA0FFD30040A2C8 /* Project object */;
 }
