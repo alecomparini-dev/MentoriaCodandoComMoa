@@ -21,7 +21,7 @@ public class CoreDataFetchScheduleRepositoryImpl: FetchScheduleRepository {
         
         let listSchedule = cdSchedules.map({ cdSchedule in
             return ScheduleGatewayDTO(
-                id: cdSchedule.id,
+                id: UUID(uuidString: cdSchedule.id ?? "") ,
                 address: cdSchedule.address,
                 clientID: Int(cdSchedule.clientID),
                 clientName: cdSchedule.clientName,

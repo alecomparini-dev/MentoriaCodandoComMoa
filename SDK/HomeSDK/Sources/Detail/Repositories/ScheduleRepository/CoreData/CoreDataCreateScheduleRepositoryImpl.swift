@@ -25,7 +25,7 @@ public class CoreDataCreateScheduleRepositoryImpl: CreateScheduleRepository {
 //  MARK: - PRIVATE AREA
     private func mapperToRepository(_ schedule: ScheduleGatewayDTO) -> CDSchedule {
         let repository = CDSchedule(context: context)
-        repository.id = UUID()
+        repository.id = schedule.id?.uuidString
         repository.address = schedule.address
         repository.clientID = Int32(schedule.clientID ?? 0)
         repository.clientName = schedule.clientName

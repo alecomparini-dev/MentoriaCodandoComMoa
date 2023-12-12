@@ -4,11 +4,11 @@
 import Foundation
 
 public struct ScheduleClientPresenterDTO {
-    public var id: String?
+    public var id: Int?
     public var name: String?
-    public var address: AddressPresenterDTO?
+    public var address: String?
     
-    public init(id: String? = nil, name: String? = nil, address: AddressPresenterDTO? = nil) {
+    public init(id: Int? = nil, name: String? = nil, address: String? = nil) {
         self.id = id
         self.name = name
         self.address = address
