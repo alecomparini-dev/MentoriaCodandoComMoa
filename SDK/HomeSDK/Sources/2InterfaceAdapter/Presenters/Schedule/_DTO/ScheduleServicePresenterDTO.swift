@@ -6,13 +6,9 @@ import Foundation
 public struct ScheduleServicePresenterDTO {
     public var id: Int?
     public var name: String?
-    public var duration: String?
-    public var howMutch: String?
     
-    public init(id: Int? = nil, name: String? = nil, duration: String? = nil, howMutch: String? = nil) {
+    public init(id: Int? = nil, name: String? = nil) {
         self.id = id
         self.name = name
-        self.duration = duration
-        self.howMutch = howMutch
     }
 }

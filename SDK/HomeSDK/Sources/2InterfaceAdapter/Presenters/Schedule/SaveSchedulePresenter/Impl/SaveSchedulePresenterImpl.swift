@@ -13,7 +13,6 @@ public protocol SaveSchedulePresenterOutput: AnyObject {
 }
 
 public class SaveSchedulePresenterImpl: SaveSchedulePresenter {
-    
     public weak var outputDelegate: SaveSchedulePresenterOutput?
     
     private var clientsList: [ClientListPresenterDTO] = []
@@ -32,6 +31,9 @@ public class SaveSchedulePresenterImpl: SaveSchedulePresenter {
     }
     
     private let weekend = [1,7]
+    
+    
+//  MARK: - INITIALIZERS
     
     private let listClientsUseCase: ListClientsUseCase
     private let listServicesUseCase: ListServicesUseCase
@@ -122,7 +124,6 @@ public class SaveSchedulePresenterImpl: SaveSchedulePresenter {
                 debugPrint(error.localizedDescription)
             }
         }
-        
     }
 
     public func getClient(_ index: Int) -> ClientListPresenterDTO? { clientsList[index] }
@@ -158,12 +159,7 @@ public class SaveSchedulePresenterImpl: SaveSchedulePresenter {
     }
     
     public func getCurrentDate() -> (year: Int, month: Int, day: Int) {
-        let currentDate = Date()
-        let calendar = Calendar.current
-        let year = calendar.component(.year, from: currentDate)
-        let month = calendar.component(.month, from: currentDate)
-        let day = calendar.component(.day, from: currentDate)
-        return (year, month, day)
+        return DateHandler.getCurrentDate()
     }
     
     public func numberOfRowsList(listID: ListID) -> Int {
@@ -200,60 +196,19 @@ public class SaveSchedulePresenterImpl: SaveSchedulePresenter {
 //  MARK: - PRIVATE AREA
     
     private func getMonthName(_ month: Int) -> String {
-        return [
-            1: "Janeiro",
-            2: "Fevereiro",
-            3: "Março",
-            4: "Abril",
-            5: "Maio",
-            6: "Junho",
-            7: "Julho",
-            8: "Agosto",
-            9: "Setembro",
-            10: "Outubro",
-            11: "Novembro",
-            12: "Dezembro"
-        ][month] ?? ""
+        return DateHandler.getMonthName(month)
     }
     
     public func getMonthInt(_ monthPTBR: String) -> Int? {
-        return [
-            "janeiro": 1,
-            "fevereiro": 2,
-            "março": 3 ,
-            "abril": 4 ,
-            "maio": 5 ,
-            "junho": 6 ,
-            "julho": 7 ,
-            "agosto": 8 ,
-            "setembro": 9 ,
-            "outubro": 10 ,
-            "novembro": 11 ,
-            "dezembro": 12
-        ][monthPTBR.lowercased()]
+        return DateHandler.getMonthInt(monthPTBR)
     }
     
     private func dayWeekName(_ dayWeek: Int) -> String {
-        return [
-            1: "Domingo",
-            2: "Segunda-feira",
-            3: "Terça-feira",
-            4: "Quarta-feira",
-            5: "Quinta-feira",
-            6: "Sexta-feira",
-            7: "Sábado",
-        ][dayWeek] ?? ""
+        return DateHandler.dayWeekName(dayWeek)
     }
     
     private func dayWeek(_ date: String) -> Int? {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy/MM/dd"
-        
-        guard let date = formatter.date(from: date ) else { return nil }
-        
-        let calendar = Calendar.current
-        
-        return calendar.component(.weekday, from: date)
+        return DateHandler.dayWeek(date)
     }
     
     private func calculateDaysOfMonth(year: Int, month: Int) {
@@ -280,8 +235,7 @@ public class SaveSchedulePresenterImpl: SaveSchedulePresenter {
                 dayWeek: "\(dayWeekName(dayWeek).prefix(3).uppercased() )",
                 disabled: isDisableDay(day, dayWeek) )
             )
-        }
-        
+        }   
     }
     
     private func calculateHoursOfDay() {

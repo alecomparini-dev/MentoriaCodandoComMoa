@@ -7,7 +7,7 @@ import CoreData
 
 @objc(CDSchedule)
 public class CDSchedule: NSManagedObject {
-    @NSManaged public var id: UUID?
+    @NSManaged public var id: String?
     @NSManaged public var address: String?
     @NSManaged public var clientID: Int32
     @NSManaged public var clientName: String?

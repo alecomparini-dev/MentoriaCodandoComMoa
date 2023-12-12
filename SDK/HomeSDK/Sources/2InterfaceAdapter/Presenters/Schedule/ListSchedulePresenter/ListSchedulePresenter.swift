@@ -4,10 +4,13 @@
 import Foundation
 
 public protocol ListSchedulePresenter {
+    var outputDelegate: ListSchedulePresenterOutput? { get set }
     
     func fetchSchedule()
     
-    func numberOfItemsListSchedule() -> Int
+    func numberOfSectionsSchedule() -> Int
+    func numberOfRowsSchedule(_ section: Int) -> Int
+    
     func numberOfItemsFilterDock() -> Int
     
     func sizeItemsFilterDock() -> [ListSchedulePresenterImpl.ItemsFilterDock: CGSize]
