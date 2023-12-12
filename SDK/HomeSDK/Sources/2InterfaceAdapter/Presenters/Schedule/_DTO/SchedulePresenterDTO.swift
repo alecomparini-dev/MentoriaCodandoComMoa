@@ -7,13 +7,15 @@ public struct SchedulePresenterDTO {
     public var id: String?
     public var date: String?
     public var hour: String?
+    public var min: String?
     public var service: ScheduleServicePresenterDTO?
     public var client: ScheduleClientPresenterDTO?
     
-    public init(id: String? = nil, date: String? = nil, hour: String? = nil, service: ScheduleServicePresenterDTO? = nil, client: ScheduleClientPresenterDTO? = nil) {
+    public init(id: String? = nil, date: String? = nil, hour: String? = nil, min: String? = nil, service: ScheduleServicePresenterDTO? = nil, client: ScheduleClientPresenterDTO? = nil) {
         self.id = id
         self.date = date
         self.hour = hour
+        self.min = min
         self.service = service
         self.client = client
     }

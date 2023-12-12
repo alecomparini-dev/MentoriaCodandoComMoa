@@ -235,8 +235,7 @@ public class SaveSchedulePresenterImpl: SaveSchedulePresenter {
                 dayWeek: "\(dayWeekName(dayWeek).prefix(3).uppercased() )",
                 disabled: isDisableDay(day, dayWeek) )
             )
-        }
-        
+        }   
     }
     
     private func calculateHoursOfDay() {

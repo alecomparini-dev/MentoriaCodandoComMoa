@@ -35,6 +35,17 @@ public class ListSchedulePresenterImpl: ListSchedulePresenter {
     
 //  MARK: - PUBLIC AREA
     
+    private func getDate(_ date: String) -> String {
+        let dateSeparated = DateHandler.separateDate(date)
+        return "\(dateSeparated.day) / \(DateHandler.getMonthName(dateSeparated.month).prefix(3))"
+    }
+    
+    private func getHours(_ date: String) -> (hour: String, min: String) {
+        let dateSeparated = DateHandler.separateDate(date)
+        guard let hours = dateSeparated.hours, let min = dateSeparated.min else { return ("","") }
+        return (hour: hours.description, min: min.description)
+    }
+    
     public func fetchSchedule() {
         Task {
             do {
@@ -43,8 +54,9 @@ public class ListSchedulePresenterImpl: ListSchedulePresenter {
                 schedulePresenterDTO = schedules.map({ schedule in
                     SchedulePresenterDTO(
                         id: schedule.id?.uuidString,
-                        date: schedule.dateInitialSchedule?.description,
-                        hour: schedule.dateInitialSchedule?.description,
+                        date: getDate("\(schedule.dateInitialSchedule ?? Date())"),
+                        hour: getHours("\(schedule.dateInitialSchedule ?? Date())").hour,
+                        min: getHours("\(schedule.dateInitialSchedule ?? Date())").min,
                         service: ScheduleServicePresenterDTO(
                             id: schedule.serviceID,
                             name: schedule.serviceName),
