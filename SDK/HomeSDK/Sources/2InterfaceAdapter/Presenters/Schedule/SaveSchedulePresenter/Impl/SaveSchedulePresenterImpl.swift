@@ -5,16 +5,16 @@ import Foundation
 
 import HomeUseCases
 
-public protocol AddSchedulePresenterOutput: AnyObject {
+public protocol SaveSchedulePresenterOutput: AnyObject {
     func successSaveSchedule()
     func successFetchServiceList()
     func successFetchClientList()
     func resetHours()
 }
 
-public class AddSchedulePresenterImpl: AddSchedulePresenter {
+public class SaveSchedulePresenterImpl: SaveSchedulePresenter {
     
-    public weak var outputDelegate: AddSchedulePresenterOutput?
+    public weak var outputDelegate: SaveSchedulePresenterOutput?
     
     private var clientsList: [ClientListPresenterDTO] = []
     private var servicesList: [ServiceListPresenterDTO] = []
@@ -80,7 +80,12 @@ public class AddSchedulePresenterImpl: AddSchedulePresenter {
                 let clientList = clientsDTO.map({ client in
                     ClientListPresenterDTO(
                         id: client.id,
-                        name: client.name)
+                        name: client.name,
+                        street: client.street,
+                        number: client.number,
+                        neighborhood: client.neighborhood,
+                        complement: client.complement
+                    )
                 })
                 
                 self.clientsList.append(contentsOf: clientList)
@@ -93,10 +98,23 @@ public class AddSchedulePresenterImpl: AddSchedulePresenter {
         }
     }
     
-    public func saveSchedule(_ scheduleUseCase: ScheduleUseCaseDTO) {
+    public func saveSchedule(clientID: Int?, serviceID: Int?, dateInitialSchedule: Date?) {
+        //validation
         Task {
-            var schedule = scheduleUseCase
-            schedule.dateFinalSchedule = Date()
+            
+            guard let client = clientsList.first(where: { $0.id == clientID }) else { return }
+            guard let service = servicesList.first(where: { $0.id == serviceID }) else { return }
+        
+            let schedule = ScheduleUseCaseDTO(
+                id: UUID(), 
+                address: "\(client.street ?? ""), \(client.number ?? "") - \(client.neighborhood ?? "")",
+                clientID: client.id,
+                clientName: client.name,
+                serviceID: service.id,
+                serviceName: service.name,
+                dateInitialSchedule: dateInitialSchedule,
+                dateFinalSchedule: Date())
+            
             do {
                 try await saveScheduleUseCase.save(schedule)
                 successSaveSchedule()

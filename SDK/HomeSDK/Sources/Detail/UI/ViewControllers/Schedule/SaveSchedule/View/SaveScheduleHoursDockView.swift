@@ -8,7 +8,7 @@ import UIKit
 import CustomComponentsSDK
 import DesignerSystemSDKComponent
 
-class AddScheduleHoursDockView: UIView {
+class SaveScheduleHoursDockView: UIView {
     
     private let hours: String
     

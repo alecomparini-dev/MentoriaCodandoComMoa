@@ -15,10 +15,11 @@ public class ListServicesViewController: UIViewController {
     public weak var coordinator: ListServicesViewControllerCoordinator?
     
     private var userIDAuth: String?
-    private var listServicePresenter: ListServicesPresenter
     
     
 //  MARK: - INITIALIZERS
+    
+    private var listServicePresenter: ListServicesPresenter
     
     public init(listServicePresenter: ListServicesPresenter) {
         self.listServicePresenter = listServicePresenter
@@ -82,7 +83,7 @@ public class ListServicesViewController: UIViewController {
     private func configScreenDelegate() {
         screen.delegate = self
     }
-    
+        
     private func configTableViewListServiceDelegate() {
         screen.tableViewListServices.setDelegate(delegate: self)
         screen.tableViewListServices.setDataSource(dataSource: self)

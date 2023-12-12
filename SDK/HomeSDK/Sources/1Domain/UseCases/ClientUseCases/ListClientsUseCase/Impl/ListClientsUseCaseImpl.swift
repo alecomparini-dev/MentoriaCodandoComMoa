@@ -16,7 +16,13 @@ public class ListClientsUseCaseImpl: ListClientsUseCase {
         let clientModel = try await listClientGateway.list(userIDAuth)
         
         return clientModel.map { client in
-            ClientUseCaseDTO(id: client.id, name: client.name)
+            ClientUseCaseDTO(id: client.id,
+                             name: client.name,
+                             street: client.address?.street,
+                             number: client.address?.number?.description,
+                             neighborhood: client.address?.neighborhood,
+                             complement: client.address?.complement
+            )
         }
     }
     

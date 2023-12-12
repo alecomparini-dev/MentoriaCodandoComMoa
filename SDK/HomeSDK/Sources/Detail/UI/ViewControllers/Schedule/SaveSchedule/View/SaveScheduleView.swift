@@ -8,15 +8,15 @@ import CustomComponentsSDK
 import DesignerSystemSDKComponent
 
 
-public protocol AddScheduleViewDelegate: AnyObject {
+public protocol SaveScheduleViewDelegate: AnyObject {
     func backButtonTapped()
     func disableScheduleButtonTapped()
     func scheduleButtonTapped()
 }
 
 
-public class AddScheduleView: UIView {
-    public weak var delegate: AddScheduleViewDelegate?
+public class SaveScheduleView: UIView {
+    public weak var delegate: SaveScheduleViewDelegate?
     
     public init() {
         super.init(frame: .zero)
@@ -104,7 +104,7 @@ public class AddScheduleView: UIView {
     lazy var clientTextField: TextFieldImageBuilder = {
         let personImg = ImageViewBuilder(systemName: "chevron.up.chevron.down")
         let comp = TextFieldImageBuilder("Selecione o cliente")
-            .setTag(AddScheduleViewController.TagTextField.client.rawValue)
+            .setTag(SaveScheduleViewController.TagTextField.client.rawValue)
             .setImage(personImg, .right, 8)
             .setAutoCapitalization(.none)
             .setBackgroundColor(hexColor: "#ffffff")
@@ -188,7 +188,7 @@ public class AddScheduleView: UIView {
     lazy var serviceTextField: TextFieldImageBuilder = {
         let personImg = ImageViewBuilder(systemName: "chevron.up.chevron.down")
         let comp = TextFieldImageBuilder("Selecione o serviço")
-            .setTag(AddScheduleViewController.TagTextField.service.rawValue)
+            .setTag(SaveScheduleViewController.TagTextField.service.rawValue)
             .setImage(personImg, .right, 8)
             .setAutoCapitalization(.none)
             .setBackgroundColor(hexColor: "#ffffff")

@@ -18,12 +18,12 @@ class AddScheduleCoordinator: Coordinator {
     func start() {
         childCoordinator = self
         
-        var controller: AddScheduleViewController!
+        var controller: SaveScheduleViewController!
         
-        controller = navigationController.popToViewControllerIfNeeded(AddScheduleViewController.self)
+        controller = navigationController.popToViewControllerIfNeeded(SaveScheduleViewController.self)
         
         if controller == nil {
-            controller = AddScheduleViewControllerFactory.make()
+            controller = SaveScheduleViewControllerFactory.make()
             controller = navigationController.pushViewController(controller)
         }
         
@@ -34,7 +34,7 @@ class AddScheduleCoordinator: Coordinator {
 }
 
 //  MARK: - EXTENSION - AddScheduleViewControllerCoordinator
-extension AddScheduleCoordinator: AddScheduleViewControllerCoordinator {
+extension AddScheduleCoordinator: SaveScheduleViewControllerCoordinator {
     
     func gotoListScheduleHomeTabBar(_ reload: Bool) {
         let coodinator = HomeTabBarCoordinator(navigationController)

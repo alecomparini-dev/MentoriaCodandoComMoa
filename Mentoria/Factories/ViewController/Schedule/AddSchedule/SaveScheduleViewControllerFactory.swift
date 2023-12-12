@@ -5,18 +5,17 @@ import Foundation
 
 import CoreData
 
-
 import HomeUI
 import HomePresenters
 import HomeUseCases
 import HomeUseCaseGateway
 import HomeNetwork
-import DataStorageSDKMain
 import HomeRepositories
+import DataStorageSDKMain
 
-class AddScheduleViewControllerFactory {
+class SaveScheduleViewControllerFactory {
     
-    static func make() -> AddScheduleViewController {
+    static func make() -> SaveScheduleViewController {
         
         let listServicesUseCase = ListServicesUseCaseFactory.make()
         
@@ -34,18 +33,18 @@ class AddScheduleViewControllerFactory {
         
         let dataStorageProvider = CoreDataStorageProvider(context: coreDataContext)
         
-        let repository = CoreDataCreateScheduleRepositoryImpl(dataStorage: dataStorageProvider, 
+        let createRepository = CoreDataCreateScheduleRepositoryImpl(dataStorage: dataStorageProvider,
                                                               context: coreDataContext)
         
-        let saveScheduleGateway = CoreDataSaveScheduleUseCaseGatewayImpl(repository: repository)
+        let saveScheduleGateway = CoreDataSaveScheduleUseCaseGatewayImpl(createRepository: createRepository)
         
         let saveScheduleUseCase = SaveScheduleUseCaseImpl(saveScheduleGateway: saveScheduleGateway)
         
-        let addSchedulePresenter = AddSchedulePresenterImpl(listClientsUseCase: listClientsUseCase,
+        let addSchedulePresenter = SaveSchedulePresenterImpl(listClientsUseCase: listClientsUseCase,
                                                             listServicesUseCase: listServicesUseCase, 
                                                             saveScheduleUseCase: saveScheduleUseCase)
         
-        return AddScheduleViewController(addSchedulePresenter: addSchedulePresenter)
+        return SaveScheduleViewController(addSchedulePresenter: addSchedulePresenter)
     }
     
     

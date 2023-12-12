@@ -5,6 +5,8 @@ import Foundation
 
 public protocol ListSchedulePresenter {
     
+    func fetchSchedule()
+    
     func numberOfItemsListSchedule() -> Int
     func numberOfItemsFilterDock() -> Int
     

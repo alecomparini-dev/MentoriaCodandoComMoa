@@ -1,9 +1,9 @@
-//  Created by Alessandro Comparini on 08/12/23.
+//  Created by Alessandro Comparini on 07/12/23.
 //
 
 import Foundation
 
-public struct ClientUseCaseDTO {
+public struct ClientListPresenterDTO {
     public var id: Int?
     public var name: String?
     public var street: String?

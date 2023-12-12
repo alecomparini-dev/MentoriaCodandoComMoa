@@ -7,6 +7,7 @@ import HomeUseCases
 
 public struct ScheduleGatewayDTO {
     public var id: UUID?
+    public var address: String?
     public var clientID: Int?
     public var clientName: String?
     public var serviceID: Int?
@@ -14,8 +15,9 @@ public struct ScheduleGatewayDTO {
     public var dateInitialSchedule: Date?
     public var dateFinalSchedule: Date?
     
-    public init(id: UUID? = nil, clientID: Int? = nil, clientName: String? = nil, serviceID: Int? = nil, serviceName: String? = nil, dateInitialSchedule: Date? = nil, dateFinalSchedule: Date? = nil) {
+    public init(id: UUID? = nil, address: String? = nil, clientID: Int? = nil, clientName: String? = nil, serviceID: Int? = nil, serviceName: String? = nil, dateInitialSchedule: Date? = nil, dateFinalSchedule: Date? = nil) {
         self.id = id
+        self.address = address
         self.clientID = clientID
         self.clientName = clientName
         self.serviceID = serviceID
@@ -25,19 +27,4 @@ public struct ScheduleGatewayDTO {
     }
     
 }
-
-extension ScheduleGatewayDTO {
-//    func mapper(_ scheduleUseCaseDTO: ScheduleUseCaseDTO) -> Self {
-//        return ScheduleGatewayDTO(
-//            id: scheduleUseCaseDTO.id,
-//            clientID: scheduleUseCaseDTO.clientID,
-//            clientName: scheduleUseCaseDTO.clientName,
-//            serviceID: scheduleUseCaseDTO.serviceID,
-//            serviceName: scheduleUseCaseDTO.serviceName,
-//            dateInitialSchedule: scheduleUseCaseDTO.dateInitialSchedule,
-//            dateFinalSchedule: scheduleUseCaseDTO.dateFinalSchedule)
-//    }
-}
-
-
    
