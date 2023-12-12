@@ -20,7 +20,8 @@ public class ListSchedulePresenterImpl: ListSchedulePresenter {
         case all = 3
     }
     
-    
+    private var scheduleShowList: [String: [[String]]] = [:]
+    private var sections: [SectionSchedules] = []
     private var schedulePresenterDTO: [SchedulePresenterDTO] = []
     
     
@@ -52,11 +53,12 @@ public class ListSchedulePresenterImpl: ListSchedulePresenter {
                 let schedules = try await listScheduleUseCase.list()
                 
                 schedulePresenterDTO = schedules.map({ schedule in
-                    SchedulePresenterDTO(
+                    let hours = getHours("\(schedule.dateInitialSchedule ?? Date())")
+                    return SchedulePresenterDTO(
                         id: schedule.id?.uuidString,
                         date: getDate("\(schedule.dateInitialSchedule ?? Date())"),
-                        hour: getHours("\(schedule.dateInitialSchedule ?? Date())").hour,
-                        min: getHours("\(schedule.dateInitialSchedule ?? Date())").min,
+                        hour: hours.hour,
+                        min: hours.min,
                         service: ScheduleServicePresenterDTO(
                             id: schedule.serviceID,
                             name: schedule.serviceName),
@@ -67,29 +69,45 @@ public class ListSchedulePresenterImpl: ListSchedulePresenter {
                     )
                 })
                 
-                print(schedulePresenterDTO)
+                calculateSectionAndRows()
                 
+                successFetchSchedule()
+                                
             } catch let error {
                 debugPrint(error.localizedDescription)
             }
         }
     }
     
+    private func calculateSectionAndRows() {
+        scheduleShowList = [:]
+        for schedule in schedulePresenterDTO {
+            guard let date = schedule.date, let hour = schedule.hour, let min = schedule.min else {return}
+            if var hours = scheduleShowList[date] {
+                hours.append([hour, min])
+                scheduleShowList[date] = hours
+            } else {
+                scheduleShowList[date] = [[hour, min]]
+            }
+        }
+        sections = []
+        schedulePresenterDTO.enumerated().forEach { index, schedule in
+            guard let date = schedule.date else { return }
+            if let indexSection = sections.firstIndex(where: { $0.title == date }){
+                sections[indexSection].rows?.append(RowsSchedules(schedule: schedule))
+            } else {
+                let section = SectionSchedules(title: date, rows: [RowsSchedules(schedule: schedule)])
+                sections.append(section)
+            }
+        }
+    }
+    
     public func numberOfSectionsSchedule() -> Int {
-        return 3
+        return sections.count
     }
     
     public func numberOfRowsSchedule(_ section: Int) -> Int {
-        switch section {
-        case 0:
-            return 1
-        case 1:
-            return 3
-        case 2:
-            return 10
-        default:
-            return 0
-        }
+        return sections[section].rows?.count ?? 0
     }
     
     public func numberOfItemsFilterDock() -> Int { sizeItemsFilterDock().count }
@@ -120,27 +138,18 @@ public class ListSchedulePresenterImpl: ListSchedulePresenter {
             ItemsFilterDock.all: "rectangle.stack",
         ]
     }
+    
+    
+//  MARK: - MAIN THREAD AREA
+    private func successFetchSchedule() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else {return}
+            outputDelegate?.successFetchSchedule()
+        }
+    }
                             
     
 }
 
 
-//
-//        do {
-//            let jsonData = jsonData.data(using: .utf8)!
-//
-//            let events = try JSONDecoder().decode([Event].self, from: jsonData)
-//
-//            var hoursByDate: [String: Set<String>] = [:]
-//
-//            for event in events {
-//                if var hours = hoursByDate[event.data] {
-//                    hours.insert(event.hora)
-//                    hoursByDate[event.data] = hours
-//                } else {
-//                    hoursByDate[event.data] = [event.hora]
-//                }
-//            }
-//        } catch {
-//            print("Erro ao decodificar JSON: \(error)")
-//        }
+

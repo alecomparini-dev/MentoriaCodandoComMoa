@@ -22,3 +22,11 @@ public struct SchedulePresenterDTO {
     
 }
 
+public struct SectionSchedules {
+    public var title: String?
+    public var rows: [RowsSchedules]?
+}
+
+public struct RowsSchedules {
+    public var schedule: SchedulePresenterDTO?
+}
