@@ -2,3 +2,7 @@
 //
 
 import Foundation
+
+public protocol ListScheduleUseCaseGateway {
+    func list() async throws -> [ScheduleUseCaseDTO]
+}

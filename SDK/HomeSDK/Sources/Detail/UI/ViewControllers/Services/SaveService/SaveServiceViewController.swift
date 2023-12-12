@@ -28,10 +28,10 @@ public class SaveServiceViewController: UIViewController {
     private var servicePresenterDTO: ServicePresenterDTO?
     private var cellScreen: SaveServiceTableViewCell?
     
-    private var saveServicePresenter: SaveServicePresenter
-    
     
 //  MARK: - INITIALIZERS
+    
+    private var saveServicePresenter: SaveServicePresenter
     
     public init(saveServicePresenter: SaveServicePresenter) {
         self.saveServicePresenter = saveServicePresenter

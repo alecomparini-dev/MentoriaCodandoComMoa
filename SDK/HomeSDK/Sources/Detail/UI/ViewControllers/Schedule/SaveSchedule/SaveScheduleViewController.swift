@@ -8,12 +8,12 @@ import HomePresenters
 import HomeUseCases
 import ProfileSDKMain
 
-public protocol AddScheduleViewControllerCoordinator: AnyObject {
+public protocol SaveScheduleViewControllerCoordinator: AnyObject {
     func gotoListScheduleHomeTabBar(_ reload: Bool)
 }
 
-public class AddScheduleViewController: UIViewController {
-    public weak var coordinator: AddScheduleViewControllerCoordinator?
+public class SaveScheduleViewController: UIViewController {
+    public weak var coordinator: SaveScheduleViewControllerCoordinator?
 
     public enum TagTextField: Int {
         case client = 0
@@ -27,9 +27,9 @@ public class AddScheduleViewController: UIViewController {
     
 //  MARK: - INITIALIZERS
     
-    private var addSchedulePresenter: AddSchedulePresenter
+    private var addSchedulePresenter: SaveSchedulePresenter
     
-    public init(addSchedulePresenter: AddSchedulePresenter) {
+    public init(addSchedulePresenter: SaveSchedulePresenter) {
         self.addSchedulePresenter = addSchedulePresenter
         super.init(nibName: nil, bundle: nil)
     }
@@ -38,8 +38,8 @@ public class AddScheduleViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public lazy var screen: AddScheduleView = {
-        let view = AddScheduleView()
+    public lazy var screen: SaveScheduleView = {
+        let view = SaveScheduleView()
         return view
     }()
     
@@ -123,10 +123,10 @@ public class AddScheduleViewController: UIViewController {
     }
     
     private func configIDs() {
-        screen.daysDock.setID(AddSchedulePresenterImpl.DockID.daysDock.rawValue)
-        screen.hoursDock.setID(AddSchedulePresenterImpl.DockID.hoursDock.rawValue)
-        screen.clientsList.setID(AddSchedulePresenterImpl.ListID.clients.rawValue)
-        screen.servicesList.setID(AddSchedulePresenterImpl.ListID.services.rawValue)
+        screen.daysDock.setID(SaveSchedulePresenterImpl.DockID.daysDock.rawValue)
+        screen.hoursDock.setID(SaveSchedulePresenterImpl.DockID.hoursDock.rawValue)
+        screen.clientsList.setID(SaveSchedulePresenterImpl.ListID.clients.rawValue)
+        screen.servicesList.setID(SaveSchedulePresenterImpl.ListID.services.rawValue)
     }
     
     private func configSizeDocks() {
@@ -168,12 +168,12 @@ public class AddScheduleViewController: UIViewController {
         screen.hoursDock.reload()
     }
     
-    private func makeAddScheduleDaysDockView(_ dockBuilder: DockBuilder, _ index: Int) -> AddScheduleDaysDockView {
-        guard let dayDockPresenterDTO = addSchedulePresenter.getDayDock(index) else { return AddScheduleDaysDockView("","") }
+    private func makeAddScheduleDaysDockView(_ dockBuilder: DockBuilder, _ index: Int) -> SaveScheduleDaysDockView {
+        guard let dayDockPresenterDTO = addSchedulePresenter.getDayDock(index) else { return SaveScheduleDaysDockView("","") }
 
-        guard let day = dayDockPresenterDTO.day, let dayWeek = dayDockPresenterDTO.dayWeek  else { return AddScheduleDaysDockView("","") }
+        guard let day = dayDockPresenterDTO.day, let dayWeek = dayDockPresenterDTO.dayWeek  else { return SaveScheduleDaysDockView("","") }
         
-        let daysDockView = AddScheduleDaysDockView( day , dayWeek )
+        let daysDockView = SaveScheduleDaysDockView( day , dayWeek )
         
         daysDockView.setTag(tagIdentifierDock)
         
@@ -185,11 +185,11 @@ public class AddScheduleViewController: UIViewController {
         return daysDockView
     }
         
-    private func makeAddScheduleHoursDockView(_ dockBuilder: DockBuilder, _ index: Int) -> AddScheduleHoursDockView {
+    private func makeAddScheduleHoursDockView(_ dockBuilder: DockBuilder, _ index: Int) -> SaveScheduleHoursDockView {
         
-        guard let hourDockDTO = addSchedulePresenter.getHourDock(index) else { return AddScheduleHoursDockView("") }
+        guard let hourDockDTO = addSchedulePresenter.getHourDock(index) else { return SaveScheduleHoursDockView("") }
         
-        let hoursDockView = AddScheduleHoursDockView("\(hourDockDTO.hour ?? ""):\(hourDockDTO.minute ?? "")")
+        let hoursDockView = SaveScheduleHoursDockView("\(hourDockDTO.hour ?? ""):\(hourDockDTO.minute ?? "")")
         
         hoursDockView.setTag(tagIdentifierDock)
         
@@ -201,7 +201,7 @@ public class AddScheduleViewController: UIViewController {
         return hoursDockView
     }
     
-    private func showList(id: AddSchedulePresenterImpl.ListID) {
+    private func showList(id: SaveSchedulePresenterImpl.ListID) {
         switch id {
             case .clients:
                 screen.clientTextField.setImage(ImageViewBuilder(systemName: "chevron.up"), .right)
@@ -240,7 +240,7 @@ public class AddScheduleViewController: UIViewController {
         }
     }
     
-    private func makeLists(listID: AddSchedulePresenterImpl.ListID, _ row: Int) -> UIView {
+    private func makeLists(listID: SaveSchedulePresenterImpl.ListID, _ row: Int) -> UIView {
         var id: Int?
         var name: String?
         
@@ -304,7 +304,7 @@ public class AddScheduleViewController: UIViewController {
 
 //  MARK: - EXTESION - AddScheduleViewDelegate
 
-extension AddScheduleViewController: AddScheduleViewDelegate {
+extension SaveScheduleViewController: SaveScheduleViewDelegate {
     public func scheduleButtonTapped() {
         
         var client: ClientListPresenterDTO?
@@ -335,7 +335,7 @@ extension AddScheduleViewController: AddScheduleViewDelegate {
 }
 
 //  MARK: - EXTENSION - AddSchedulePresenterOutput
-extension AddScheduleViewController: AddSchedulePresenterOutput {
+extension SaveScheduleViewController: SaveSchedulePresenterOutput {
     public func successSaveSchedule() {
         print("estou na controller e GRAVOUUUU")
     }
@@ -360,11 +360,11 @@ extension AddScheduleViewController: AddSchedulePresenterOutput {
 
 //  MARK: - EXTESION - ListDelegate
 
-extension AddScheduleViewController: ListDelegate {
+extension SaveScheduleViewController: ListDelegate {
     public func numberOfSections(_ list: ListBuilder) -> Int { 1 }
     
     public func numberOfRows(_ list: ListBuilder, section: Int) -> Int {
-        if list.id == AddSchedulePresenterImpl.ListID.clients.rawValue {
+        if list.id == SaveSchedulePresenterImpl.ListID.clients.rawValue {
             return addSchedulePresenter.numberOfRowsList(listID: .clients)
         }
         return addSchedulePresenter.numberOfRowsList(listID: .services)
@@ -373,14 +373,14 @@ extension AddScheduleViewController: ListDelegate {
     public func sectionViewCallback(_ list: ListBuilder, section: Int) -> UIView? { nil }
     
     public func rowViewCallBack(_ list: ListBuilder, section: Int, row: Int) -> UIView {
-        if list.id == AddSchedulePresenterImpl.ListID.clients.rawValue {
+        if list.id == SaveSchedulePresenterImpl.ListID.clients.rawValue {
             return makeLists(listID: .clients, row)
         }
         return makeLists(listID: .services, row)
     }
     
     public func didSelectItemAt(_ list: ListBuilder, _ section: Int, _ row: Int) {
-        if list.id == AddSchedulePresenterImpl.ListID.clients.rawValue {
+        if list.id == SaveSchedulePresenterImpl.ListID.clients.rawValue {
             if let client = addSchedulePresenter.getClient(row) {
                 screen.clientTextField.setText(client.name)
             }
@@ -398,7 +398,7 @@ extension AddScheduleViewController: ListDelegate {
 
 //  MARK: - EXTENSION - UITextFieldDelegate
 
-extension AddScheduleViewController: UITextFieldDelegate {
+extension SaveScheduleViewController: UITextFieldDelegate {
     
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
@@ -422,9 +422,9 @@ extension AddScheduleViewController: UITextFieldDelegate {
         showList(id: getPickerIdentifier(textField))
     }
     
-    private func getPickerIdentifier(_ textField: UITextField) -> AddSchedulePresenterImpl.ListID {
+    private func getPickerIdentifier(_ textField: UITextField) -> SaveSchedulePresenterImpl.ListID {
         let textFieldTag = textField.tag
-        if textFieldTag == AddScheduleViewController.TagTextField.client.rawValue {
+        if textFieldTag == SaveScheduleViewController.TagTextField.client.rawValue {
             return .clients
         }
         return .services
@@ -435,10 +435,10 @@ extension AddScheduleViewController: UITextFieldDelegate {
 
 
 //  MARK: - EXTESION - DockDelegate
-extension AddScheduleViewController: DockDelegate {
+extension SaveScheduleViewController: DockDelegate {
     
     public func numberOfItemsCallback(_ dockBuilder: DockBuilder) -> Int {
-        if let dockID = AddSchedulePresenterImpl.DockID(rawValue: dockBuilder.id) {
+        if let dockID = SaveSchedulePresenterImpl.DockID(rawValue: dockBuilder.id) {
             return addSchedulePresenter.numberOfItemsDock(dockID: dockID)
         }
         return 0
@@ -447,10 +447,10 @@ extension AddScheduleViewController: DockDelegate {
     public func cellCallback(_ dockBuilder: DockBuilder, _ index: Int) -> UIView {
         
         switch dockBuilder.id {
-            case AddSchedulePresenterImpl.DockID.daysDock.rawValue:
+            case SaveSchedulePresenterImpl.DockID.daysDock.rawValue:
                 return makeAddScheduleDaysDockView(dockBuilder, index)
             
-            case AddSchedulePresenterImpl.DockID.hoursDock.rawValue:
+            case SaveSchedulePresenterImpl.DockID.hoursDock.rawValue:
                 return makeAddScheduleHoursDockView(dockBuilder, index)
                 
             default:
@@ -463,7 +463,7 @@ extension AddScheduleViewController: DockDelegate {
     public func customCellActiveCallback(_ dockBuilder: DockBuilder, _ cell: UIView) -> UIView? {
         let view = cell.getView(tag: tagIdentifierDock)
         
-        if let addDays = view as? AddScheduleDaysDockView {
+        if let addDays = view as? SaveScheduleDaysDockView {
             addDays.dayLabel.setColor(hexColor: "#282a36")
             addDays.dayWeakLabel.setColor(UIColor.HEX("#282a36").withAlphaComponent(0.8))
             addDays.backgroundView.get.makeNeumorphism({ make in
@@ -480,7 +480,7 @@ extension AddScheduleViewController: DockDelegate {
             })
         }
         
-        if let addHours = view as? AddScheduleHoursDockView {
+        if let addHours = view as? SaveScheduleHoursDockView {
             addHours.hourLabel.setColor(hexColor: "#282a36")
                 .setWeight(.semibold)
             
@@ -503,7 +503,7 @@ extension AddScheduleViewController: DockDelegate {
     
     public func didSelectItemAt(_ dockBuilder: DockBuilder, _ index: Int) {
         switch dockBuilder.id {
-        case AddSchedulePresenterImpl.DockID.daysDock.rawValue:
+        case SaveSchedulePresenterImpl.DockID.daysDock.rawValue:
             fetchHoursDock(currentDate.year, currentDate.month, index + 1)
                     
         default:

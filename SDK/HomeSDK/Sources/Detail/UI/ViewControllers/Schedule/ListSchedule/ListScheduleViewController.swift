@@ -64,6 +64,7 @@ public final class ListScheduleViewController: UIViewController {
         configSizeItemsFilterDock()
         //TODO: REMOVER PARA DPS QUE FIZER O LOAD PELO PRESENTER
         activeCurrentMonthItemFilterDock()
+        fetchSchedules()
     }
     
     private func configNavigationController() {
@@ -93,6 +94,10 @@ public final class ListScheduleViewController: UIViewController {
     
     private func activeCurrentMonthItemFilterDock() {
         screen.filterDock.selectItem(0)
+    }
+    
+    private func fetchSchedules() {
+        listSchedulePresenter.fetchSchedule()
     }
     
     private func makeCellItemDock(_ index: Int) -> UIView {

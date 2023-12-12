@@ -4,5 +4,5 @@
 import Foundation
 
 public protocol ListScheduleUseCase {
-//    func list() -> []
+    func list() async throws -> [ScheduleUseCaseDTO]
 }

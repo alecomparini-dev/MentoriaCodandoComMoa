@@ -3,9 +3,30 @@
 
 import Foundation
 
+import HomeUseCases
+
 public class ListSchedulePresenterImpl: ListSchedulePresenter {
     
-    public init() {}
+    private let listScheduleUseCase: ListScheduleUseCase
+    
+    public init(listScheduleUseCase: ListScheduleUseCase) {
+        self.listScheduleUseCase = listScheduleUseCase
+    }
+    
+    
+//  MARK: - PUBLIC AREA
+    
+    public func fetchSchedule() {
+        Task {
+            do {
+                let schedules = try await listScheduleUseCase.list()
+                print(schedules)
+            } catch let error {
+                debugPrint(error.localizedDescription)
+            }
+        }
+        
+    }
     
     public enum ItemsFilterDock: Int {
         case currentMonth = 0
@@ -13,7 +34,6 @@ public class ListSchedulePresenterImpl: ListSchedulePresenter {
         case sevenDay = 2
         case all = 3
     }
-    
     
     public func numberOfItemsListSchedule() -> Int {
         return 3

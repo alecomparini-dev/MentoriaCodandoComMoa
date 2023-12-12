@@ -5,8 +5,8 @@ import Foundation
 
 import HomeUseCases
 
-public protocol AddSchedulePresenter {
-    var outputDelegate: AddSchedulePresenterOutput? { get set }
+public protocol SaveSchedulePresenter {
+    var outputDelegate: SaveSchedulePresenterOutput? { get set }
     
     func saveSchedule(clientID: Int?, serviceID: Int?, dateInitialSchedule: Date?)
     
@@ -22,10 +22,10 @@ public protocol AddSchedulePresenter {
     func getDayDock(_ index: Int) -> DateDockPresenterDTO?
     func getHourDock(_ index: Int) -> HourDockPresenterDTO?
     
-    func numberOfRowsList(listID: AddSchedulePresenterImpl.ListID) -> Int
-    func numberOfItemsDock(dockID: AddSchedulePresenterImpl.DockID) -> Int
+    func numberOfRowsList(listID: SaveSchedulePresenterImpl.ListID) -> Int
+    func numberOfItemsDock(dockID: SaveSchedulePresenterImpl.DockID) -> Int
     
-    func sizeOfItemsDock(dockID: AddSchedulePresenterImpl.DockID) -> CGSize
+    func sizeOfItemsDock(dockID: SaveSchedulePresenterImpl.DockID) -> CGSize
     
     func getCurrentDate() -> (year: Int, month: Int, day: Int)
     func getMonthName(_ date: Date?) -> String

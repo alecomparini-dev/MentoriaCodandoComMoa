@@ -16,7 +16,7 @@
 		0220550D2AE1C93400C076FC /* CPFMask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0220550C2AE1C93400C076FC /* CPFMask.swift */; };
 		0220550E2AE1C93400C076FC /* DateMask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0220550B2AE1C93400C076FC /* DateMask.swift */; };
 		022055102AE1E48100C076FC /* CEPMask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0220550F2AE1E48100C076FC /* CEPMask.swift */; };
-		0224A7292B1F616A00E2A7AC /* AddScheduleViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0224A7282B1F616A00E2A7AC /* AddScheduleViewControllerFactory.swift */; };
+		0224A7292B1F616A00E2A7AC /* SaveScheduleViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0224A7282B1F616A00E2A7AC /* SaveScheduleViewControllerFactory.swift */; };
 		0239C4BD2ADDF1460016C0E4 /* ProfileRegistrationStep1Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0239C4BC2ADDF1460016C0E4 /* ProfileRegistrationStep1Factory.swift */; };
 		023CED872AEC380F001B3562 /* ViewerServiceViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 023CED862AEC380F001B3562 /* ViewerServiceViewControllerFactory.swift */; };
 		023CED8A2AED4BA8001B3562 /* AddServiceViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 023CED892AED4BA8001B3562 /* AddServiceViewControllerFactory.swift */; };
@@ -67,7 +67,7 @@
 		0220550B2AE1C93400C076FC /* DateMask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateMask.swift; sourceTree = "<group>"; };
 		0220550C2AE1C93400C076FC /* CPFMask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPFMask.swift; sourceTree = "<group>"; };
 		0220550F2AE1E48100C076FC /* CEPMask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CEPMask.swift; sourceTree = "<group>"; };
-		0224A7282B1F616A00E2A7AC /* AddScheduleViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddScheduleViewControllerFactory.swift; sourceTree = "<group>"; };
+		0224A7282B1F616A00E2A7AC /* SaveScheduleViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveScheduleViewControllerFactory.swift; sourceTree = "<group>"; };
 		0239C4BC2ADDF1460016C0E4 /* ProfileRegistrationStep1Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRegistrationStep1Factory.swift; sourceTree = "<group>"; };
 		023CED862AEC380F001B3562 /* ViewerServiceViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewerServiceViewControllerFactory.swift; sourceTree = "<group>"; };
 		023CED892AED4BA8001B3562 /* AddServiceViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddServiceViewControllerFactory.swift; sourceTree = "<group>"; };
@@ -182,7 +182,7 @@
 		0224A7272B1F614E00E2A7AC /* AddSchedule */ = {
 			isa = PBXGroup;
 			children = (
-				0224A7282B1F616A00E2A7AC /* AddScheduleViewControllerFactory.swift */,
+				0224A7282B1F616A00E2A7AC /* SaveScheduleViewControllerFactory.swift */,
 			);
 			path = AddSchedule;
 			sourceTree = "<group>";
@@ -584,7 +584,7 @@
 				028B28A12AA75EAE008E4A7E /* Environment.swift in Sources */,
 				023CED8A2AED4BA8001B3562 /* AddServiceViewControllerFactory.swift in Sources */,
 				0293DF092AE6D42500716142 /* CreateProfileUseCaseFactory.swift in Sources */,
-				0224A7292B1F616A00E2A7AC /* AddScheduleViewControllerFactory.swift in Sources */,
+				0224A7292B1F616A00E2A7AC /* SaveScheduleViewControllerFactory.swift in Sources */,
 				0220550E2AE1C93400C076FC /* DateMask.swift in Sources */,
 				0293DF0C2AE6E5B000716142 /* MasksFactory.swift in Sources */,
 				02D7D2962AE86283003E4CF4 /* SaveServiceCoordinator.swift in Sources */,

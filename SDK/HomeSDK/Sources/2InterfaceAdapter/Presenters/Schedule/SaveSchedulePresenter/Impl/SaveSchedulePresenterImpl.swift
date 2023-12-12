@@ -5,16 +5,16 @@ import Foundation
 
 import HomeUseCases
 
-public protocol AddSchedulePresenterOutput: AnyObject {
+public protocol SaveSchedulePresenterOutput: AnyObject {
     func successSaveSchedule()
     func successFetchServiceList()
     func successFetchClientList()
     func resetHours()
 }
 
-public class AddSchedulePresenterImpl: AddSchedulePresenter {
+public class SaveSchedulePresenterImpl: SaveSchedulePresenter {
     
-    public weak var outputDelegate: AddSchedulePresenterOutput?
+    public weak var outputDelegate: SaveSchedulePresenterOutput?
     
     private var clientsList: [ClientListPresenterDTO] = []
     private var servicesList: [ServiceListPresenterDTO] = []
@@ -106,6 +106,7 @@ public class AddSchedulePresenterImpl: AddSchedulePresenter {
             guard let service = servicesList.first(where: { $0.id == serviceID }) else { return }
         
             let schedule = ScheduleUseCaseDTO(
+                id: UUID(), 
                 address: "\(client.street ?? ""), \(client.number ?? "") - \(client.neighborhood ?? "")",
                 clientID: client.id,
                 clientName: client.name,
