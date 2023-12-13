@@ -27,10 +27,10 @@ public class SaveScheduleViewController: UIViewController {
     
 //  MARK: - INITIALIZERS
     
-    private var addSchedulePresenter: SaveSchedulePresenter
+    private var saveSchedulePresenter: SaveSchedulePresenter
     
-    public init(addSchedulePresenter: SaveSchedulePresenter) {
-        self.addSchedulePresenter = addSchedulePresenter
+    public init(saveSchedulePresenter: SaveSchedulePresenter) {
+        self.saveSchedulePresenter = saveSchedulePresenter
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -63,7 +63,6 @@ public class SaveScheduleViewController: UIViewController {
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         screen.daysDock.selectItem(currentDate.day - 1)
-//        screen.daysDock.setScrollToItem(index: currentDate.day - 1)
     }
     
     
@@ -83,10 +82,10 @@ public class SaveScheduleViewController: UIViewController {
         configDateLabel()
         configCurrentDate()
         configInitialFetchDaysDock()
-        configureAsync()
+        fetchAsync()
     }
     
-    private func configureAsync() {
+    private func fetchAsync() {
         Task {
             do {
                 try await getUserAuthID()
@@ -100,7 +99,7 @@ public class SaveScheduleViewController: UIViewController {
     
     private func configDelegate() {
         screen.delegate = self
-        addSchedulePresenter.outputDelegate = self
+        saveSchedulePresenter.outputDelegate = self
         screen.clientsList.setDelegate(self)
         screen.servicesList.setDelegate(self)
         configTextFieldDelegate()
@@ -130,8 +129,8 @@ public class SaveScheduleViewController: UIViewController {
     }
     
     private func configSizeDocks() {
-        screen.daysDock.setCellsSize(addSchedulePresenter.sizeOfItemsDock(dockID: .daysDock))
-        screen.hoursDock.setCellsSize(addSchedulePresenter.sizeOfItemsDock(dockID: .hoursDock))
+        screen.daysDock.setCellsSize(saveSchedulePresenter.sizeOfItemsDock(dockID: .daysDock))
+        screen.hoursDock.setCellsSize(saveSchedulePresenter.sizeOfItemsDock(dockID: .hoursDock))
     }
     
     private func configButtonDisableSchedule() {
@@ -142,11 +141,11 @@ public class SaveScheduleViewController: UIViewController {
     }
     
     private func configDateLabel() {
-        screen.dateLabel.setText(addSchedulePresenter.getMonthName(nil))
+        screen.dateLabel.setText(saveSchedulePresenter.getMonthName(nil))
     }
 
     private func configCurrentDate() {
-        currentDate = addSchedulePresenter.getCurrentDate()
+        currentDate = saveSchedulePresenter.getCurrentDate()
     }
     
     private func setSelectionCurrentDay() {
@@ -160,16 +159,16 @@ public class SaveScheduleViewController: UIViewController {
     }
     
     private func fetchDaysDock(_ year: Int, _ month: Int) {
-        addSchedulePresenter.fetchDayDock(year, month)
+        saveSchedulePresenter.fetchDayDock(year, month)
     }
     
     private func fetchHoursDock(_ year: Int, _ month: Int, _ day: Int) {
-        addSchedulePresenter.fetchHourDock(year, month, day)
+        saveSchedulePresenter.fetchHourDock(year, month, day)
         screen.hoursDock.reload()
     }
     
     private func makeAddScheduleDaysDockView(_ dockBuilder: DockBuilder, _ index: Int) -> SaveScheduleDaysDockView {
-        guard let dayDockPresenterDTO = addSchedulePresenter.getDayDock(index) else { return SaveScheduleDaysDockView("","") }
+        guard let dayDockPresenterDTO = saveSchedulePresenter.getDayDock(index) else { return SaveScheduleDaysDockView("","") }
 
         guard let day = dayDockPresenterDTO.day, let dayWeek = dayDockPresenterDTO.dayWeek  else { return SaveScheduleDaysDockView("","") }
         
@@ -187,7 +186,7 @@ public class SaveScheduleViewController: UIViewController {
         
     private func makeAddScheduleHoursDockView(_ dockBuilder: DockBuilder, _ index: Int) -> SaveScheduleHoursDockView {
         
-        guard let hourDockDTO = addSchedulePresenter.getHourDock(index) else { return SaveScheduleHoursDockView("") }
+        guard let hourDockDTO = saveSchedulePresenter.getHourDock(index) else { return SaveScheduleHoursDockView("") }
         
         let hoursDockView = SaveScheduleHoursDockView("\(hourDockDTO.hour ?? ""):\(hourDockDTO.minute ?? "")")
         
@@ -230,13 +229,13 @@ public class SaveScheduleViewController: UIViewController {
     
     private func fetchClients() {
         if let userIDAuth {
-            addSchedulePresenter.fetchClients(userIDAuth)
+            saveSchedulePresenter.fetchClients(userIDAuth)
         }
     }
     
     private func fetchServices() {
         if let userIDAuth {
-            addSchedulePresenter.fetchServices(userIDAuth)
+            saveSchedulePresenter.fetchServices(userIDAuth)
         }
     }
     
@@ -245,13 +244,13 @@ public class SaveScheduleViewController: UIViewController {
         var name: String?
         
         if listID == .clients {
-            let client = addSchedulePresenter.getClient(row)
+            let client = saveSchedulePresenter.getClient(row)
             id = client?.id
             name = client?.name
         }
         
         if listID == .services {
-            let service = addSchedulePresenter.getService(row)
+            let service = saveSchedulePresenter.getService(row)
             id = service?.id
             name = service?.name
         }
@@ -299,6 +298,21 @@ public class SaveScheduleViewController: UIViewController {
         return view.get
     }
     
+    private func makeDateInitial() -> String {
+        let day = (screen.daysDock.getIndexSelected() ?? 0) + 1
+        var hour = ""
+        var min = ""
+        if let index = screen.hoursDock.getIndexSelected() {
+            hour = saveSchedulePresenter.getHourDock(index)?.hour ?? ""
+            min = saveSchedulePresenter.getHourDock(index)?.minute ?? ""
+        }
+        
+        let year = DateHandler.getCurrentDate().year
+        let month = DateHandler.getCurrentDate().month
+        
+        return "\(year)-\(month)-\(day) \(hour):\(min)"
+    }
+    
 }
 
 
@@ -310,16 +324,16 @@ extension SaveScheduleViewController: SaveScheduleViewDelegate {
         var client: ClientListPresenterDTO?
         var service: ServiceListPresenterDTO?
         if let index = screen.clientsList.getIndexSelected() {
-            client = addSchedulePresenter.getClient(index.row)
+            client = saveSchedulePresenter.getClient(index.row)
         }
         if let index = screen.servicesList.getIndexSelected() {
-            service = addSchedulePresenter.getService(index.row)
+            service = saveSchedulePresenter.getService(index.row)
         }
         
-        addSchedulePresenter.saveSchedule(
+        saveSchedulePresenter.saveSchedule(
             clientID: client?.id,
             serviceID: service?.id,
-            dateInitialSchedule: Date()
+            dateInitialSchedule: makeDateInitial()
         )
         
     }
@@ -337,7 +351,7 @@ extension SaveScheduleViewController: SaveScheduleViewDelegate {
 //  MARK: - EXTENSION - AddSchedulePresenterOutput
 extension SaveScheduleViewController: SaveSchedulePresenterOutput {
     public func successSaveSchedule() {
-        print("estou na controller e GRAVOUUUU")
+        coordinator?.gotoListScheduleHomeTabBar(true)
     }
     
     public func resetHours() {
@@ -365,9 +379,9 @@ extension SaveScheduleViewController: ListDelegate {
     
     public func numberOfRows(_ list: ListBuilder, section: Int) -> Int {
         if list.id == SaveSchedulePresenterImpl.ListID.clients.rawValue {
-            return addSchedulePresenter.numberOfRowsList(listID: .clients)
+            return saveSchedulePresenter.numberOfRowsList(listID: .clients)
         }
-        return addSchedulePresenter.numberOfRowsList(listID: .services)
+        return saveSchedulePresenter.numberOfRowsList(listID: .services)
     }
     
     public func sectionViewCallback(_ list: ListBuilder, section: Int) -> UIView? { nil }
@@ -381,12 +395,12 @@ extension SaveScheduleViewController: ListDelegate {
     
     public func didSelectItemAt(_ list: ListBuilder, _ section: Int, _ row: Int) {
         if list.id == SaveSchedulePresenterImpl.ListID.clients.rawValue {
-            if let client = addSchedulePresenter.getClient(row) {
+            if let client = saveSchedulePresenter.getClient(row) {
                 screen.clientTextField.setText(client.name)
             }
             return
         }
-        if let service = addSchedulePresenter.getService(row) {
+        if let service = saveSchedulePresenter.getService(row) {
             screen.serviceTextField.setText(service.name)
         }
         
@@ -439,7 +453,7 @@ extension SaveScheduleViewController: DockDelegate {
     
     public func numberOfItemsCallback(_ dockBuilder: DockBuilder) -> Int {
         if let dockID = SaveSchedulePresenterImpl.DockID(rawValue: dockBuilder.id) {
-            return addSchedulePresenter.numberOfItemsDock(dockID: dockID)
+            return saveSchedulePresenter.numberOfItemsDock(dockID: dockID)
         }
         return 0
     }

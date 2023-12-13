@@ -100,13 +100,15 @@ public class SaveSchedulePresenterImpl: SaveSchedulePresenter {
         }
     }
     
-    public func saveSchedule(clientID: Int?, serviceID: Int?, dateInitialSchedule: Date?) {
+    public func saveSchedule(clientID: Int?, serviceID: Int?, dateInitialSchedule: String) {
         //validation
         Task {
             
             guard let client = clientsList.first(where: { $0.id == clientID }) else { return }
             guard let service = servicesList.first(where: { $0.id == serviceID }) else { return }
         
+            let dateIni = DateHandler.separateDate("\(dateInitialSchedule):00")
+            
             let schedule = ScheduleUseCaseDTO(
                 id: UUID(), 
                 address: "\(client.street ?? ""), \(client.number ?? "") - \(client.neighborhood ?? "")",
@@ -114,7 +116,7 @@ public class SaveSchedulePresenterImpl: SaveSchedulePresenter {
                 clientName: client.name,
                 serviceID: service.id,
                 serviceName: service.name,
-                dateInitialSchedule: dateInitialSchedule,
+                dateInitialSchedule: dateIni.date,
                 dateFinalSchedule: Date())
             
             do {

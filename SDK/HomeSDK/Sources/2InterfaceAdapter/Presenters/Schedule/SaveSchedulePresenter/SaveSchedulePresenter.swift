@@ -8,7 +8,7 @@ import HomeUseCases
 public protocol SaveSchedulePresenter {
     var outputDelegate: SaveSchedulePresenterOutput? { get set }
     
-    func saveSchedule(clientID: Int?, serviceID: Int?, dateInitialSchedule: Date?)
+    func saveSchedule(clientID: Int?, serviceID: Int?, dateInitialSchedule: String)
     
     func fetchClients(_ userIDAuth: String)
     func getClient(_ index: Int) -> ClientListPresenterDTO?
