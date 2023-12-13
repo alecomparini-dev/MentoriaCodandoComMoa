@@ -64,6 +64,8 @@ public class ListSchedulePresenterImpl: ListSchedulePresenter {
                 
                 calculateSectionAndRows()
                 
+                sortSectionsAndRows()
+                
                 successFetchSchedule()
                                 
             } catch let error {
@@ -164,6 +166,24 @@ public class ListSchedulePresenterImpl: ListSchedulePresenter {
         let dateControl = "\(dateSeparated.year)-\(dateSeparated.month)-\(title.day)"
         
         return (dateControl: dateControl, day: title.day, month: title.month, dayWeekName: title.dayWeekName)
+    }
+    
+    private func sortSectionsAndRows() {
+        sections.sort {
+            DateHandler.separateDate($0.dateControl).date < DateHandler.separateDate($1.dateControl).date
+        }
+
+        for i in 0..<sections.count {
+            sections[i].rows.sort {
+                getDate($0.schedule) < getDate($1.schedule)
+            }
+        }
+        
+    }
+    
+    private func getDate(_ schedule: SchedulePresenterDTO?) -> Date {
+        guard let schedule else { return Date() }
+        return DateHandler.separateDate("\(schedule.date ?? "") \(schedule.hour ?? ""):\(schedule.min ?? ""):00").date
     }
     
     
