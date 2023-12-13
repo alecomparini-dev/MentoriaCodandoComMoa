@@ -23,8 +23,11 @@ public struct SchedulePresenterDTO {
 }
 
 public struct SectionSchedules {
-    public var title: String?
-    public var rows: [RowsSchedules]?
+    public var dateControl: String
+    public var dayTitle: String
+    public var monthTitle: String
+    public var dayWeekNameTitle: String
+    public var rows: [RowsSchedules]
 }
 
 public struct RowsSchedules {

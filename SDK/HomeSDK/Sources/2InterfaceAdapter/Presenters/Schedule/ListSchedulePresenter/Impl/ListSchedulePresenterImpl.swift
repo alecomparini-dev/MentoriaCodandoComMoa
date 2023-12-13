@@ -20,7 +20,6 @@ public class ListSchedulePresenterImpl: ListSchedulePresenter {
         case all = 3
     }
     
-    private var scheduleShowList: [String: [[String]]] = [:]
     private var sections: [SectionSchedules] = []
     private var schedulePresenterDTO: [SchedulePresenterDTO] = []
     
@@ -35,16 +34,10 @@ public class ListSchedulePresenterImpl: ListSchedulePresenter {
     
     
 //  MARK: - PUBLIC AREA
-    
-    private func getDate(_ date: String) -> String {
-        let dateSeparated = DateHandler.separateDate(date)
-        return "\(dateSeparated.day) / \(DateHandler.getMonthName(dateSeparated.month).prefix(3))"
-    }
-    
-    private func getHours(_ date: String) -> (hour: String, min: String) {
-        let dateSeparated = DateHandler.separateDate(date)
-        guard let hours = dateSeparated.hours, let min = dateSeparated.min else { return ("","") }
-        return (hour: hours.description, min: min.description)
+    private func saveOnlyDate(_ date: String?) -> String {
+        guard let date else { return "" }
+        let separetedDate = DateHandler.separateDate(date)
+        return "\(separetedDate.year)-\(separetedDate.month)-\(separetedDate.day)"
     }
     
     public func fetchSchedule() {
@@ -56,7 +49,7 @@ public class ListSchedulePresenterImpl: ListSchedulePresenter {
                     let hours = getHours("\(schedule.dateInitialSchedule ?? Date())")
                     return SchedulePresenterDTO(
                         id: schedule.id?.uuidString,
-                        date: getDate("\(schedule.dateInitialSchedule ?? Date())"),
+                        date: saveOnlyDate(schedule.dateInitialSchedule?.description),
                         hour: hours.hour,
                         min: hours.min,
                         service: ScheduleServicePresenterDTO(
@@ -79,27 +72,12 @@ public class ListSchedulePresenterImpl: ListSchedulePresenter {
         }
     }
     
-    private func calculateSectionAndRows() {
-        scheduleShowList = [:]
-        for schedule in schedulePresenterDTO {
-            guard let date = schedule.date, let hour = schedule.hour, let min = schedule.min else {return}
-            if var hours = scheduleShowList[date] {
-                hours.append([hour, min])
-                scheduleShowList[date] = hours
-            } else {
-                scheduleShowList[date] = [[hour, min]]
-            }
-        }
-        sections = []
-        schedulePresenterDTO.enumerated().forEach { index, schedule in
-            guard let date = schedule.date else { return }
-            if let indexSection = sections.firstIndex(where: { $0.title == date }){
-                sections[indexSection].rows?.append(RowsSchedules(schedule: schedule))
-            } else {
-                let section = SectionSchedules(title: date, rows: [RowsSchedules(schedule: schedule)])
-                sections.append(section)
-            }
-        }
+    public func getSectionSchedule(_ section: Int) -> SectionSchedules {
+        return sections[section]
+    }
+    
+    public func getRowSchedule(_ section: Int, _ row: Int) -> SchedulePresenterDTO {
+        return sections[section].rows[row].schedule ?? SchedulePresenterDTO()
     }
     
     public func numberOfSectionsSchedule() -> Int {
@@ -107,7 +85,7 @@ public class ListSchedulePresenterImpl: ListSchedulePresenter {
     }
     
     public func numberOfRowsSchedule(_ section: Int) -> Int {
-        return sections[section].rows?.count ?? 0
+        return sections[section].rows.count
     }
     
     public func numberOfItemsFilterDock() -> Int { sizeItemsFilterDock().count }
@@ -137,6 +115,55 @@ public class ListSchedulePresenterImpl: ListSchedulePresenter {
             ItemsFilterDock.sevenDay: "calendar.circle",
             ItemsFilterDock.all: "rectangle.stack",
         ]
+    }
+    
+    
+    
+//  MARK: - PRIVATE AREA
+    
+    private func getHours(_ date: String) -> (hour: String, min: String) {
+        let dateSeparated = DateHandler.separateDate(date)
+        guard let hours = dateSeparated.hours, let min = dateSeparated.min else { return ("","") }
+        return (hour: hours.description, min: min.description)
+    }
+    
+    private func calculateSectionAndRows() {
+        sections = []
+        schedulePresenterDTO.enumerated().forEach { index, schedule in
+            guard let date = schedule.date else { return }
+            if let indexSection = sections.firstIndex(where: { $0.dateControl == date }){
+                sections[indexSection].rows.append(RowsSchedules(schedule: schedule))
+            } else {
+                let title = makeTitleSection(date)
+                let section = SectionSchedules(
+                    dateControl: title.dateControl,
+                    dayTitle: title.day,
+                    monthTitle: title.month,
+                    dayWeekNameTitle: title.dayWeekName,
+                    rows: [RowsSchedules(schedule: schedule)])
+                sections.append(section)
+            }
+        }
+    }
+    
+    private func makeTitleSection(_ date: String) -> (dateControl: String,  day: String, month: String, dayWeekName: String) {
+        let dateSeparated = DateHandler.separateDate(date)
+        
+        var title: (day: String, month: String, dayWeekName: String)
+        
+        title.day = "\(dateSeparated.day)"
+        
+        title.month = "\(DateHandler.getMonthName(dateSeparated.month).prefix(3))"
+        
+        title.dayWeekName = ""
+        
+        if let dayWeekInt = DateHandler.dayWeek(date) {
+            title.dayWeekName = "\(DateHandler.dayWeekName(dayWeekInt).lowercased())"
+        }
+        
+        let dateControl = "\(dateSeparated.year)-\(dateSeparated.month)-\(title.day)"
+        
+        return (dateControl: dateControl, day: title.day, month: title.month, dayWeekName: title.dayWeekName)
     }
     
     
