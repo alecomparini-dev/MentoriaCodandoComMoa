@@ -14,11 +14,11 @@ public final class ListScheduleViewController: UIViewController {
     public weak var coordinator: ListScheduleViewControllerCoordinator?
     
     private let tagIdentifierItemDock = 100
+    private var itemDockActive: UIView?
     
     
 //  MARK: - INITIALIZERS
     
-    private var itemDockActive: UIView?
     private var listSchedulePresenter: ListSchedulePresenter
     
     public init(listSchedulePresenter: ListSchedulePresenter) {
@@ -37,7 +37,6 @@ public final class ListScheduleViewController: UIViewController {
 
     
 //  MARK: - STYLE
-    
     public override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
@@ -62,6 +61,12 @@ public final class ListScheduleViewController: UIViewController {
         super.viewDidAppear(animated)
     }
     
+//  MARK: - DATA TRANSFER
+    public func setDataTransfer(_ data: Any?) {
+        if let reload = data as? Bool {
+            if reload { self.reload() }
+        }
+    }
     
 //  MARK: - PRIVATE AREA
     private func configure() {
@@ -110,6 +115,10 @@ public final class ListScheduleViewController: UIViewController {
     
     private func fetchSchedules() {
         listSchedulePresenter.fetchSchedule()
+    }
+    
+    private func reload() {
+        fetchSchedules()
     }
     
     private func makeCellItemDock(_ index: Int) -> UIView {

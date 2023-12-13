@@ -53,7 +53,6 @@ class HomeTabBarCoordinator: Coordinator {
     
     //  MARK: - PRIVATE AREA
     
-    
     private func createProfileSummaryTabBarItem() -> TabBarItems {
         let profileSummaryController = ProfileSummaryViewControllerFactory.make()
         return TabBarItems(viewController: profileSummaryController, image: ImageViewBuilder(systemName: "person"), title: "Perfil")
@@ -80,7 +79,7 @@ class HomeTabBarCoordinator: Coordinator {
         
         let scheduleViewController = (controller.viewControllers?[2] as! ListScheduleViewController)
         scheduleViewController.coordinator = self
-        
+        scheduleViewController.setDataTransfer(dataTransfer)
     }
     
 }
@@ -131,7 +130,7 @@ extension HomeTabBarCoordinator: ListServicesViewControllerCoordinator {
 extension HomeTabBarCoordinator: ListScheduleViewControllerCoordinator {
     
     func gotoAddSchedule() {
-        let coordinator = AddScheduleCoordinator(navigationController)
+        let coordinator = SaveScheduleCoordinator(navigationController)
         coordinator.start()
         childCoordinator = nil
     }

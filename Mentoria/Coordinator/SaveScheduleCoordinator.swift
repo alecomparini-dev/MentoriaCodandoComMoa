@@ -5,7 +5,7 @@ import Foundation
 
 import HomeUI
 
-class AddScheduleCoordinator: Coordinator {
+class SaveScheduleCoordinator: Coordinator {
     var childCoordinator: Coordinator?
     unowned var navigationController: NavigationController
     
@@ -33,8 +33,8 @@ class AddScheduleCoordinator: Coordinator {
     
 }
 
-//  MARK: - EXTENSION - AddScheduleViewControllerCoordinator
-extension AddScheduleCoordinator: SaveScheduleViewControllerCoordinator {
+//  MARK: - EXTENSION - SaveScheduleViewControllerCoordinator
+extension SaveScheduleCoordinator: SaveScheduleViewControllerCoordinator {
     
     func gotoListScheduleHomeTabBar(_ reload: Bool) {
         let coodinator = HomeTabBarCoordinator(navigationController)

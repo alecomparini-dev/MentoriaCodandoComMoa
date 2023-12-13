@@ -14,7 +14,7 @@ public struct DateHandler {
         return (year, month, day)
     }
     
-    public static func separateDate(_ universalDate: String) -> (year: Int, month: Int, day: Int, hours: Int?, min: Int?, sec: Int?) {
+    public static func separateDate(_ universalDate: String) -> (date: Date, year: Int, month: Int, day: Int, hours: Int?, min: Int?, sec: Int?) {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         
@@ -27,21 +27,22 @@ public struct DateHandler {
             if let dateFormatted = dateFormatter.date(from: universalDate) {
                 date = dateFormatted
             } else {
-                return (0, 0, 0, nil, nil, nil)
+                return (Date(), 0, 0, 0, nil, nil, nil)
             }
         }
         
         let calendar = Calendar.current
-            let components = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
-            
-            return (
-                year: components.year ?? 0,
-                month: components.month ?? 0,
-                day: components.day ?? 0,
-                hours: components.hour,
-                min: components.minute,
-                sec: components.second
-            )
+        let components = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+        
+        return (
+            date: date,
+            year: components.year ?? 0,
+            month: components.month ?? 0,
+            day: components.day ?? 0,
+            hours: components.hour,
+            min: components.minute,
+            sec: components.second
+        )
     }
     
     public static func getMonthName(_ month: Int) -> String {

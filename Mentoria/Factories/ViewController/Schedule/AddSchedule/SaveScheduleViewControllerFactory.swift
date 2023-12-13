@@ -40,11 +40,11 @@ class SaveScheduleViewControllerFactory {
         
         let saveScheduleUseCase = SaveScheduleUseCaseImpl(saveScheduleGateway: saveScheduleGateway)
         
-        let addSchedulePresenter = SaveSchedulePresenterImpl(listClientsUseCase: listClientsUseCase,
+        let saveSchedulePresenter = SaveSchedulePresenterImpl(listClientsUseCase: listClientsUseCase,
                                                             listServicesUseCase: listServicesUseCase, 
                                                             saveScheduleUseCase: saveScheduleUseCase)
         
-        return SaveScheduleViewController(addSchedulePresenter: addSchedulePresenter)
+        return SaveScheduleViewController(saveSchedulePresenter: saveSchedulePresenter)
     }
     
     
