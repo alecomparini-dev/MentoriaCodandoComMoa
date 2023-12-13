@@ -37,7 +37,7 @@ class ListScheduleRowView: UIView {
     
     
     lazy var clientName: LabelBuilder = {
-        let comp = LabelBuilder("ALESSANDRO COMPARINI")
+        let comp = LabelBuilder(schedulePresenterDTO.client?.name?.uppercased() ?? "")
             .setSize(16)
             .setColor(UIColor.white)
             .setWeight(.light)
@@ -69,10 +69,10 @@ class ListScheduleRowView: UIView {
             .setNumberOfLines(2)
             .setTextAttributed({ build in
                 build
-                    .setText(text: "18")
+                    .setText(text: schedulePresenterDTO.hour ?? "")
                     .setAttributed(key: .font, value: UIFont.boldSystemFont(ofSize: 26))
                     .setAttributed(key: .foregroundColor, value: UIColor.white)
-                    .setText(text: "\n25")
+                    .setText(text: "\n\(schedulePresenterDTO.min ?? "")")
                     .setAttributed(key: .font, value: UIFont.systemFont(ofSize: 18))
                     .setAttributed(key: .foregroundColor, value: UIColor.white.withAlphaComponent(0.7))
             })
@@ -136,7 +136,7 @@ class ListScheduleRowView: UIView {
     }()
     
     lazy var addressLabel: LabelBuilder = {
-        let comp = LabelBuilder("Rua Marcos de Freitas Costas, 1222 - Apto 10")
+        let comp = LabelBuilder(schedulePresenterDTO.client?.address ?? "")
             .setNumberOfLines(2)
             .setColor(UIColor.white)
             .setSize(14)
@@ -166,7 +166,7 @@ class ListScheduleRowView: UIView {
     }()
     
     lazy var serviceTitle: LabelBuilder = {
-        let comp = LabelBuilder("Desenv. App para iPhone")
+        let comp = LabelBuilder(schedulePresenterDTO.service?.name ?? "")
             .setSize(16)
             .setColor(.white)
             .setWeight(.light)

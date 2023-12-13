@@ -61,6 +61,7 @@ public final class ListScheduleViewController: UIViewController {
         super.viewDidAppear(animated)
     }
     
+    
 //  MARK: - DATA TRANSFER
     public func setDataTransfer(_ data: Any?) {
         if let reload = data as? Bool {
@@ -233,12 +234,13 @@ extension ListScheduleViewController: ListDelegate {
     }
     
     public func sectionViewCallback(_ list: ListBuilder, section: Int) -> UIView? {
-        let label = ListScheduleSectionView(schedulePresenterDTO: SchedulePresenterDTO())    
-        return label
+        let section: SectionSchedules = listSchedulePresenter.getSectionSchedule(section)
+        return ListScheduleSectionView(section: section)
     }
     
     public func rowViewCallBack(_ list: ListBuilder, section: Int, row: Int) -> UIView {
-        return ListScheduleRowView(schedulePresenterDTO: SchedulePresenterDTO())
+        let row: SchedulePresenterDTO = listSchedulePresenter.getRowSchedule(section, row)
+        return ListScheduleRowView(schedulePresenterDTO: row)
     }
     
 }

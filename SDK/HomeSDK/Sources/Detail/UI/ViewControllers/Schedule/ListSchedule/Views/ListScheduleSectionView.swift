@@ -7,10 +7,10 @@ import CustomComponentsSDK
 import HomePresenters
 
 class ListScheduleSectionView: UIView {
-    private let schedulePresenterDTO: SchedulePresenterDTO
+    private let section: SectionSchedules
     
-    init(schedulePresenterDTO: SchedulePresenterDTO) {
-        self.schedulePresenterDTO = schedulePresenterDTO
+    init(section: SectionSchedules) {
+        self.section = section
         super.init(frame: .zero)
         configure()
     }
@@ -68,11 +68,11 @@ class ListScheduleSectionView: UIView {
             .setWeight(.bold)
             .setTextAttributed({ build in
                 build
-                    .setText(text: "04 /")
+                    .setText(text: "\(section.dayTitle) /")
                     .setAttributed(key: .font, value: UIFont.boldSystemFont(ofSize: 24))
-                    .setText(text: " Dez")
+                    .setText(text: " \(section.monthTitle)")
                     .setAttributed(key: .font, value: UIFont.systemFont(ofSize: 20))
-                    .setText(text: "  terça-feira")
+                    .setText(text: "  \(section.dayWeekNameTitle)")
                     .setAttributed(key: .font, value: UIFont.systemFont(ofSize: 16))
                     .setAttributed(key: .foregroundColor, value: UIColor.white.withAlphaComponent(0.7))
             })

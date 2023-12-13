@@ -14,22 +14,34 @@ public struct DateHandler {
         return (year, month, day)
     }
     
-    public static func separateDate(_ universalDate: String) -> (date: Date, year: Int, month: Int, day: Int, hours: Int?, min: Int?, sec: Int?) {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+    private static func convertDate(_ universalDate: String) -> Date? {
+        return attemptConvertDatesFormat(universalDate)
+    }
         
-        //TODO: TO IMPROVE
-        var date = Date()
-        if let dateFormatted = dateFormatter.date(from: universalDate) {
-            date = dateFormatted
-        } else {
-            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
-            if let dateFormatted = dateFormatter.date(from: universalDate) {
-                date = dateFormatted
-            } else {
-                return (Date(), 0, 0, 0, nil, nil, nil)
-            }
+    private static func attemptConvertDatesFormat(_ date: String) -> Date? {
+        let dateFormatter = DateFormatter()
+        
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        if let dateFormatted = dateFormatter.date(from: date) {
+            return dateFormatted
         }
+        
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss Z"
+        if let dateFormatted = dateFormatter.date(from: date) {
+            return dateFormatted
+        }
+        
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        if let dateFormatted = dateFormatter.date(from: date) {
+            return dateFormatted
+        }
+        
+        return nil
+    }
+    
+    public static func separateDate(_ universalDate: String) -> (date: Date, year: Int, month: Int, day: Int, hours: Int?, min: Int?, sec: Int?) {
+        
+        guard let date = convertDate(universalDate) else { return (Date(), 0,0,0,nil,nil,nil) }
         
         let calendar = Calendar.current
         let components = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
@@ -92,10 +104,7 @@ public struct DateHandler {
     }
     
     public static func dayWeek(_ date: String) -> Int? {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy/MM/dd"
-        
-        guard let date = formatter.date(from: date ) else { return nil }
+        guard let date = convertDate(date) else { return nil }
         
         let calendar = Calendar.current
         
