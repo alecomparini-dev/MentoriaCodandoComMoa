@@ -50,8 +50,8 @@ public class ListSchedulePresenterImpl: ListSchedulePresenter {
                     return SchedulePresenterDTO(
                         id: schedule.id?.uuidString,
                         date: saveOnlyDate(schedule.dateInitialSchedule?.description),
-                        hour: hours.hour,
-                        min: hours.min,
+                        hour: String(format: "%02d", Int(hours.hour) ?? ""),
+                        min: String(format: "%02d", Int(hours.min) ?? ""),
                         service: ScheduleServicePresenterDTO(
                             id: schedule.serviceID,
                             name: schedule.serviceName),
