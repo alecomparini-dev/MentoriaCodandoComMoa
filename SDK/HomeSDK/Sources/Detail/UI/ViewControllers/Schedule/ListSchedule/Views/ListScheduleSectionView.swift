@@ -36,7 +36,7 @@ class ListScheduleSectionView: UIView {
     
     lazy var triangleImage: ImageViewBuilder = {
         let comp = ImageViewBuilder(systemName: "arrowtriangle.right.fill")
-            .setTintColor(hexColor: "#fa79c7")
+            .setTintColor(hexColor: "#4f5376")
             .setContentMode(.scaleAspectFill)
             .setConstraints { build in
                 build
