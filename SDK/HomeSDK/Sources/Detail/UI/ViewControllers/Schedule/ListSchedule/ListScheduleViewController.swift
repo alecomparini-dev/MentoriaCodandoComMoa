@@ -235,7 +235,11 @@ extension ListScheduleViewController: ListDelegate {
     
     public func sectionViewCallback(_ list: ListBuilder, section: Int) -> UIView? {
         let section: SectionSchedules = listSchedulePresenter.getSectionSchedule(section)
-        return ListScheduleSectionView(section: section)
+        let sectionView = ListScheduleSectionView(section: section)
+        if section.dayTitle == DateHandler.getCurrentDate().day.description {
+            sectionView.triangleImage.setTintColor(hexColor: "#fa79c7")
+        }
+        return sectionView
     }
     
     public func rowViewCallBack(_ list: ListBuilder, section: Int, row: Int) -> UIView {
