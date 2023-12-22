@@ -11,7 +11,7 @@ import ProfileUI
 import ProfilePresenters
 
 class HomeTabBarCoordinator: Coordinator {
-    var childCoordinator: Coordinator?
+    var coordinator: Coordinator?
     unowned var navigationController: NavigationController
     
     var dataTransfer: Any?
@@ -23,7 +23,7 @@ class HomeTabBarCoordinator: Coordinator {
     }
     
     func start() {
-        childCoordinator = self
+        coordinator = self
         
         var controller: UITabBarController!
         
@@ -92,7 +92,7 @@ extension HomeTabBarCoordinator: ProfileSummaryViewControllerCoordinator {
         let coordinator = ProfileRegistrationStep1Coordinator(navigationController)
         coordinator.dataTransfer = profilePresenterDTO
         coordinator.start()
-        childCoordinator = nil
+        self.coordinator = nil
     }
 
     func gotoSignIn() {
@@ -100,7 +100,7 @@ extension HomeTabBarCoordinator: ProfileSummaryViewControllerCoordinator {
         let useBiometric = false
         coordinator.dataTransfer = useBiometric
         coordinator.start()
-        childCoordinator = nil
+        self.coordinator = nil
     }
     
 }
@@ -113,7 +113,7 @@ extension HomeTabBarCoordinator: ListServicesViewControllerCoordinator {
         let coordinator = SaveServiceCoordinator(navigationController)
         coordinator.dataTransfer = servicePresenterDTO
         coordinator.start()
-        childCoordinator = nil
+        self.coordinator = nil
     }
     
     func gotoViewerService(_ servicePresenterDTO: ServicePresenterDTO?) {
@@ -132,7 +132,7 @@ extension HomeTabBarCoordinator: ListScheduleViewControllerCoordinator {
     func gotoAddSchedule() {
         let coordinator = SaveScheduleCoordinator(navigationController)
         coordinator.start()
-        childCoordinator = nil
+        self.coordinator = nil
     }
     
     

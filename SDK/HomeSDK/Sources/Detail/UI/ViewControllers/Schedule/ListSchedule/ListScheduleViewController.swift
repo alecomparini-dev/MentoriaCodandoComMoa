@@ -111,6 +111,7 @@ public final class ListScheduleViewController: UIViewController {
     }
     
     private func activeCurrentMonthItemFilterDock() {
+//        screen.filterDock.setDisableUserInteraction(cells: [0])
         screen.filterDock.selectItem(0)
     }
     
@@ -128,6 +129,7 @@ public final class ListScheduleViewController: UIViewController {
         let title = listSchedulePresenter.labelItemsFilterDock()[itemDock] ?? ""
         
         let btn = CustomButtonSecondary("  \(title)")
+            .setIsUserInteractionEnabled(false)
             .setTitleSize(14)
         
         setImageToItemsDock(itemDock, btn, title)
@@ -138,6 +140,7 @@ public final class ListScheduleViewController: UIViewController {
     }
     
     private func setImageToItemsDock(_ itemDock: ListSchedulePresenterImpl.ItemsFilterDock, _ btn: CustomButtonSecondary, _ title: String ) {
+        
         let systemNameImage = listSchedulePresenter.iconItemsFilterDock()[itemDock] ?? ""
         
         let img = ImageViewBuilder()

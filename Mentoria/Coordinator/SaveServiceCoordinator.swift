@@ -6,7 +6,7 @@ import Foundation
 import HomeUI
 
 class SaveServiceCoordinator: Coordinator {
-    var childCoordinator: Coordinator?
+    var coordinator: Coordinator?
     unowned var navigationController: NavigationController
     
     var dataTransfer: Any?
@@ -16,7 +16,7 @@ class SaveServiceCoordinator: Coordinator {
     }
     
     func start() { 
-        childCoordinator = self
+        coordinator = self
         
         var controller: SaveServiceViewController!
         
@@ -42,7 +42,7 @@ extension SaveServiceCoordinator: SaveServiceViewControllerCoordinator {
         coodinator.dataTransfer = reload
         coodinator.start()
         coodinator.selectedTabBarItem(1)
-        childCoordinator = nil
+        coordinator = nil
     }
     
     

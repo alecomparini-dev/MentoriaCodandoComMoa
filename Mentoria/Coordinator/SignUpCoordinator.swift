@@ -6,7 +6,7 @@ import Foundation
 import ProfileUI
 
 class SignUpCoordinator: Coordinator {
-    var childCoordinator: Coordinator?
+    var coordinator: Coordinator?
     unowned let navigationController: NavigationController
     
     var dataTransfer: Any?
@@ -16,7 +16,7 @@ class SignUpCoordinator: Coordinator {
     }
     
     func start() {
-        childCoordinator = self
+        coordinator = self
         var controller: SignUpViewController!
         
         controller = navigationController.popToViewControllerIfNeeded(SignUpViewController.self)
@@ -37,13 +37,13 @@ extension SignUpCoordinator: SignUpViewControllerCoordinator {
     func gotoSignIn() {
         let coordinator = SignInCoordinator(navigationController)
         coordinator.start()
-        childCoordinator = nil
+        self.coordinator = nil
     }
 
     func gotoHome() {
         let coordinator = HomeTabBarCoordinator(navigationController)
         coordinator.start()
-        childCoordinator = nil
+        self.coordinator = nil
     }
     
 }

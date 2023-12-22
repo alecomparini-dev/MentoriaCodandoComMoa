@@ -5,7 +5,7 @@ import ProfileUI
 
 class ForgotPasswordCoordinator: Coordinator {
     
-    var childCoordinator: Coordinator?
+    var coordinator: Coordinator?
     unowned let navigationController: NavigationController
 
     var dataTransfer: Any?
@@ -15,7 +15,7 @@ class ForgotPasswordCoordinator: Coordinator {
     }
     
     func start() {
-        childCoordinator = self
+        coordinator = self
         
         var controller: ForgotPasswordViewController!
         
@@ -40,7 +40,7 @@ extension ForgotPasswordCoordinator: ForgotPasswordViewControllerCoordinator {
     func gotoSignIn() {
         let coordinator = SignInCoordinator(navigationController)
         coordinator.start()
-        childCoordinator = nil
+        self.coordinator = nil
     }
     
 }

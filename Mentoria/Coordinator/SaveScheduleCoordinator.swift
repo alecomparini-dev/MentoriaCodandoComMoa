@@ -6,7 +6,7 @@ import Foundation
 import HomeUI
 
 class SaveScheduleCoordinator: Coordinator {
-    var childCoordinator: Coordinator?
+    var coordinator: Coordinator?
     unowned var navigationController: NavigationController
     
     var dataTransfer: Any?
@@ -16,7 +16,7 @@ class SaveScheduleCoordinator: Coordinator {
     }
     
     func start() {
-        childCoordinator = self
+        coordinator = self
         
         var controller: SaveScheduleViewController!
         
@@ -41,7 +41,7 @@ extension SaveScheduleCoordinator: SaveScheduleViewControllerCoordinator {
         coodinator.dataTransfer = reload
         coodinator.start()
         coodinator.selectedTabBarItem(2)
-        childCoordinator = nil
+        coordinator = nil
     }
     
     
