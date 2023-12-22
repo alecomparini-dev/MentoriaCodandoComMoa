@@ -6,7 +6,7 @@ import ProfileUI
 import ProfilePresenters
 
 class ProfileRegistrationStep2Coordinator: Coordinator {
-    var childCoordinator: Coordinator?
+    var coordinator: Coordinator?
     unowned let navigationController: NavigationController
     
     var dataTransfer: Any?
@@ -16,7 +16,7 @@ class ProfileRegistrationStep2Coordinator: Coordinator {
     }
     
     func start() {
-        childCoordinator = self
+        coordinator = self
         
         var controller: ProfileRegistrationStep2ViewController!
         
@@ -42,7 +42,7 @@ extension ProfileRegistrationStep2Coordinator: ProfileRegistrationStep2ViewContr
         let coordinator = ProfileRegistrationStep1Coordinator(navigationController)
         coordinator.dataTransfer = profilePresenterDTO
         coordinator.start()
-        childCoordinator = nil
+        self.coordinator = nil
     }
     
     func gotoProfileSummaryHomeTabBar(_ reload: Bool) {
@@ -50,7 +50,7 @@ extension ProfileRegistrationStep2Coordinator: ProfileRegistrationStep2ViewContr
         coodinator.dataTransfer = reload
         coodinator.start()
         coodinator.selectedTabBarItem(0)
-        childCoordinator = nil
+        self.coordinator = nil
     }
     
         

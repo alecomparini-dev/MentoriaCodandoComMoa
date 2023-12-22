@@ -6,7 +6,7 @@ import ProfileUI
 import CustomComponentsSDK
 
 class SignInCoordinator: Coordinator {
-    var childCoordinator: Coordinator?
+    var coordinator: Coordinator?
     let navigationController: NavigationController
     var dataTransfer: Any?
     
@@ -15,7 +15,7 @@ class SignInCoordinator: Coordinator {
     }
     
     func start() {
-        childCoordinator = self
+        coordinator = self
         var controller: SignInViewController!
         
         controller = navigationController.popToViewControllerIfNeeded(SignInViewController.self)
@@ -47,21 +47,21 @@ extension SignInCoordinator: SignInViewControllerCoordinator {
     func gotoSignIn() {
         let coordinator = SignUpCoordinator(navigationController)
         coordinator.start()
-        childCoordinator = nil
+        self.coordinator = nil
     }
     
     func gotoHome() {
         let coordinator = HomeTabBarCoordinator(navigationController)
         coordinator.start()
         coordinator.selectedTabBarItem(2)
-        childCoordinator = nil
+        self.coordinator = nil
     }
     
     func gotoForgotPassword(_ email: String?) {
         let coordinator = ForgotPasswordCoordinator(navigationController)
         coordinator.start()
         coordinator.dataTransfer = email
-        childCoordinator = nil
+        self.coordinator = nil
     }
 
     

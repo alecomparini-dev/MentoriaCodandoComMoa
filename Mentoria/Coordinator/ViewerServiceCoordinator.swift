@@ -8,7 +8,7 @@ import HomeUI
 import HomePresenters
 
 class ViewerServiceCoordinator: NSObject, Coordinator {
-    var childCoordinator: Coordinator?
+    var coordinator: Coordinator?
     unowned var navigationController: NavigationController
     
     var dataTransfer: Any?
@@ -18,7 +18,7 @@ class ViewerServiceCoordinator: NSObject, Coordinator {
     }
     
     func start() {
-        childCoordinator = self
+        coordinator = self
         let controller = ViewerServiceViewControllerFactory.make()
         controller.setDataTransfer(dataTransfer)
         controller.coordinator = self
@@ -45,7 +45,7 @@ class ViewerServiceCoordinator: NSObject, Coordinator {
 extension ViewerServiceCoordinator: ViewerServiceViewControllerCoordinator {
     
     func freeMemoryCoordinator() {
-        childCoordinator = nil
+        self.coordinator = nil
     }
     
     func gotoEditService(_ vc: UIViewController, _ servicePresenterDTO: ServicePresenterDTO?) {
@@ -53,7 +53,7 @@ extension ViewerServiceCoordinator: ViewerServiceViewControllerCoordinator {
         let coordinator = SaveServiceCoordinator(navigationController)
         coordinator.dataTransfer = servicePresenterDTO
         coordinator.start()
-        childCoordinator = nil
+        self.coordinator = nil
     }
     
     func gotoListServiceHomeTabBar(_ vc: UIViewController, _ reloadTable: Bool = false) {
@@ -62,7 +62,7 @@ extension ViewerServiceCoordinator: ViewerServiceViewControllerCoordinator {
         let homeTabBar = currentScene.rootViewController
         let listServiceController = homeTabBar?.children[1].children[1] as? ListServicesViewController
         listServiceController?.setDataTransfer(reloadTable)
-        childCoordinator = nil
+        self.coordinator = nil
     }
     
     

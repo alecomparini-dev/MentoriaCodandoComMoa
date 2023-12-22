@@ -170,7 +170,7 @@ public class SaveScheduleViewController: UIViewController {
     private func makeAddScheduleDaysDockView(_ dockBuilder: DockBuilder, _ index: Int) -> SaveScheduleDaysDockView {
         guard let dayDockPresenterDTO = saveSchedulePresenter.getDayDock(index) else { return SaveScheduleDaysDockView("","") }
 
-        guard let day = dayDockPresenterDTO.day, let dayWeek = dayDockPresenterDTO.dayWeek  else { return SaveScheduleDaysDockView("","") }
+        guard let day = dayDockPresenterDTO.day, let dayWeek = dayDockPresenterDTO.dayWeek else { return SaveScheduleDaysDockView("","") }
         
         let daysDockView = SaveScheduleDaysDockView( day , dayWeek )
         

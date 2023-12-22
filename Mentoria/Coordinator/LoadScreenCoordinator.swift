@@ -5,7 +5,7 @@ import Foundation
 import ProfileUI
 
 class LoadScreenCoordinator: Coordinator {
-    var childCoordinator: Coordinator?
+    var coordinator: Coordinator?
     unowned let navigationController: NavigationController
     
     var dataTransfer: Any?
@@ -15,7 +15,7 @@ class LoadScreenCoordinator: Coordinator {
     }
     
     func start() {
-        childCoordinator = self
+        coordinator = self
         var controller = LoadScreenViewController()
         controller = navigationController.pushViewController(controller)
         controller.coordinator = self
@@ -33,7 +33,7 @@ extension LoadScreenCoordinator: LoadScreenViewControllerCoordinator {
     func gotoSignIn() {
         let coordinator = SignInCoordinator(navigationController)
         coordinator.start()
-        childCoordinator = nil
+        self.coordinator = nil
         
         removeLoadingViewController()
         
