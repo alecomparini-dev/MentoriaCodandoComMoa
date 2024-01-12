@@ -167,12 +167,12 @@ public class SaveScheduleViewController: UIViewController {
         screen.hoursDock.reload()
     }
     
-    private func makeAddScheduleDaysDockView(_ dockBuilder: DockBuilder, _ index: Int) -> SaveScheduleDaysDockView {
-        guard let dayDockPresenterDTO = saveSchedulePresenter.getDayDock(index) else { return SaveScheduleDaysDockView("","") }
+    private func makeAddScheduleDaysDockView(_ dockBuilder: DockBuilder, _ index: Int) -> DaysDockView {
+        guard let dayDockPresenterDTO = saveSchedulePresenter.getDayDock(index) else { return DaysDockView("","") }
 
-        guard let day = dayDockPresenterDTO.day, let dayWeek = dayDockPresenterDTO.dayWeek else { return SaveScheduleDaysDockView("","") }
+        guard let day = dayDockPresenterDTO.day, let dayWeek = dayDockPresenterDTO.dayWeek else { return DaysDockView("","") }
         
-        let daysDockView = SaveScheduleDaysDockView( day , dayWeek )
+        let daysDockView = DaysDockView( day , dayWeek )
         
         daysDockView.setTag(tagIdentifierDock)
         
@@ -477,7 +477,7 @@ extension SaveScheduleViewController: DockDelegate {
     public func customCellActiveCallback(_ dockBuilder: DockBuilder, _ cell: UIView) -> UIView? {
         let view = cell.getView(tag: tagIdentifierDock)
         
-        if let addDays = view as? SaveScheduleDaysDockView {
+        if let addDays = view as? DaysDockView {
             addDays.dayLabel.setColor(hexColor: "#282a36")
             addDays.dayWeakLabel.setColor(UIColor.HEX("#282a36").withAlphaComponent(0.8))
             addDays.backgroundView.get.makeNeumorphism({ make in

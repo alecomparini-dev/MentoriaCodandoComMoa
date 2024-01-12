@@ -97,7 +97,7 @@ class ListScheduleView: UIView {
             .setBorder { build in
                 build
                     .setCornerRadius(36)
-                    .setWhichCornersWillBeRounded([.top])
+                    .setRoundedCorners([.top])
             }
             .setConstraints { build in
                 build

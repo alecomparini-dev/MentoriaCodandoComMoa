@@ -6,7 +6,7 @@ import UIKit
 import CustomComponentsSDK
 import DesignerSystemSDKComponent
 
-class SaveScheduleDaysDockView: UIView {
+class DaysDockView: UIView {
     private let day: String
     private let dayWeek: String
     
