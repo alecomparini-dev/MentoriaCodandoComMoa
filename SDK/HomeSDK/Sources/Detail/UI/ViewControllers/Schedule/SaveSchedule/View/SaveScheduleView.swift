@@ -70,7 +70,8 @@ public class SaveScheduleView: UIView {
     }
 
     lazy var disableScheduleButton: ButtonImageBuilder = {
-        let img = ImageViewBuilder(systemName: "trash")
+        let img = ImageViewBuilder(systemName: "")
+            .setHidden(true)
             .setContentMode(.center)
             .setSize(15)
         let comp = ButtonImageBuilder()
