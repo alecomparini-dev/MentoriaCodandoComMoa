@@ -36,7 +36,7 @@ class ListScheduleView: UIView {
     
     lazy var screenTitle: CustomTextTitle = {
         let comp = CustomTextTitle()
-            .setText("Dezembro")
+            .setText("Fevereiro")
             .setTextAlignment(.center)
             .setConstraints { build in
                 build

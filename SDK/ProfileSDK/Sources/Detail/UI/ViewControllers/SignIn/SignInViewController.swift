@@ -51,7 +51,7 @@ public final class SignInViewController: UIViewController {
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         screen.passwordLoginView.passwordTextField.setCloseEye()
-        screen.passwordLoginView.passwordTextField.setText("123456Aa")
+        screen.passwordLoginView.passwordTextField.setText("")
         getEmailKeyChain()
     }
     
