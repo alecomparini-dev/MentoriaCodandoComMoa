@@ -1,0 +1,14 @@
+
+//  Created by Alessandro Comparini on 05/09/23.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+
+//MY ENVIRONMENT VARIABLES
+API_BASE_URL = http:/$()/mentoria.codandocommoa.com.br/Api
+API_BASE_CEP = https:/$()/viacep.com.br/ws/id_cep/json
+UID_FIREBASE = MentoriaAlessandro
+DEFAULT_THEME = 3
+//API_BASE_CEP = https:/$()/brasilaberto.com/api/v1/zipcode

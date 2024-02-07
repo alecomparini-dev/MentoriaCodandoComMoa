@@ -6,12 +6,114 @@
 	objectVersion = 56;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		020924732AB3228D008F8DC8 /* SignUpCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 020924722AB3228D008F8DC8 /* SignUpCoordinator.swift */; };
+		0212ECAF2AA10867001C1BCF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0212ECAE2AA10867001C1BCF /* AppDelegate.swift */; };
+		0212ECB12AA10867001C1BCF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0212ECB02AA10867001C1BCF /* SceneDelegate.swift */; };
+		0212ECB82AA10868001C1BCF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0212ECB72AA10868001C1BCF /* Assets.xcassets */; };
+		0212ECBB2AA10868001C1BCF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0212ECB92AA10868001C1BCF /* LaunchScreen.storyboard */; };
+		0220550A2AE1C8C900C076FC /* CellPhoneMask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022055092AE1C8C900C076FC /* CellPhoneMask.swift */; };
+		0220550D2AE1C93400C076FC /* CPFMask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0220550C2AE1C93400C076FC /* CPFMask.swift */; };
+		0220550E2AE1C93400C076FC /* DateMask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0220550B2AE1C93400C076FC /* DateMask.swift */; };
+		022055102AE1E48100C076FC /* CEPMask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0220550F2AE1E48100C076FC /* CEPMask.swift */; };
+		0224A7292B1F616A00E2A7AC /* SaveScheduleViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0224A7282B1F616A00E2A7AC /* SaveScheduleViewControllerFactory.swift */; };
+		0239C4BD2ADDF1460016C0E4 /* ProfileRegistrationStep1Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0239C4BC2ADDF1460016C0E4 /* ProfileRegistrationStep1Factory.swift */; };
+		023CED872AEC380F001B3562 /* ViewerServiceViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 023CED862AEC380F001B3562 /* ViewerServiceViewControllerFactory.swift */; };
+		023CED8A2AED4BA8001B3562 /* AddServiceViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 023CED892AED4BA8001B3562 /* AddServiceViewControllerFactory.swift */; };
+		024340822AD9872B00110844 /* ProfileRegistrationStep1Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024340812AD9872B00110844 /* ProfileRegistrationStep1Coordinator.swift */; };
+		0249C1952AE9A6230045A126 /* ViewerServiceCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0249C1942AE9A6230045A126 /* ViewerServiceCoordinator.swift */; };
+		024BC97E2ADAEB6500E9EEDC /* ProfileRegistrationStep2Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024BC97D2ADAEB6500E9EEDC /* ProfileRegistrationStep2Factory.swift */; };
+		024E688E2AB4860A0044A521 /* SignUpViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024E688D2AB4860A0044A521 /* SignUpViewControllerFactory.swift */; };
+		026682D12AA7D62600EE70EC /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026682CF2AA7D62600EE70EC /* Coordinator.swift */; };
+		026682D42AA7D69D00EE70EC /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026682D32AA7D69D00EE70EC /* NavigationController.swift */; };
+		026682D62AA7D75F00EE70EC /* SignInCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026682D52AA7D75F00EE70EC /* SignInCoordinator.swift */; };
+		026682D82AA7D8A200EE70EC /* HomeTabBarCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026682D72AA7D8A200EE70EC /* HomeTabBarCoordinator.swift */; };
+		026FC69B2AD9D0430009D1A3 /* ProfileRegistrationStep2Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026FC69A2AD9D0430009D1A3 /* ProfileRegistrationStep2Coordinator.swift */; };
+		027239622AE0437E009BA9A1 /* ProfileSummaryViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 027239612AE0437E009BA9A1 /* ProfileSummaryViewControllerFactory.swift */; };
+		0287A7342AEAC8BC006DDFC1 /* ProfileSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 0287A7332AEAC8BC006DDFC1 /* ProfileSDK */; };
+		0287A7362AEAC8C3006DDFC1 /* HomeSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 0287A7352AEAC8C3006DDFC1 /* HomeSDK */; };
+		028B28A12AA75EAE008E4A7E /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 028B28A02AA75EAE008E4A7E /* Environment.swift */; };
+		028B28A42AA75F8C008E4A7E /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 028B28A32AA75F8C008E4A7E /* Release.xcconfig */; };
+		028B28BC2AA76EEC008E4A7E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 028B28BB2AA76EEC008E4A7E /* Constants.swift */; };
+		0293DF092AE6D42500716142 /* CreateProfileUseCaseFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0293DF082AE6D42500716142 /* CreateProfileUseCaseFactory.swift */; };
+		0293DF0C2AE6E5B000716142 /* MasksFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0293DF0B2AE6E5B000716142 /* MasksFactory.swift */; };
+		02995B4B2AB34BBA00615FDC /* SignInViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02995B4A2AB34BBA00615FDC /* SignInViewControllerFactory.swift */; };
+		02995B942AB39B6200615FDC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 02995B932AB39B6200615FDC /* GoogleService-Info.plist */; };
+		02A0D34D2AF11AB400BF25A5 /* LoadScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A0D34C2AF11AB400BF25A5 /* LoadScreenViewController.swift */; };
+		02A0D34F2AF11D4C00BF25A5 /* LoadScreenCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A0D34E2AF11D4C00BF25A5 /* LoadScreenCoordinator.swift */; };
+		02A0D3522AF13E6600BF25A5 /* ForgotPasswordCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A0D3512AF13E6600BF25A5 /* ForgotPasswordCoordinator.swift */; };
+		02A0D3552AF184E200BF25A5 /* ForgotPasswordViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A0D3542AF184E200BF25A5 /* ForgotPasswordViewControllerFactory.swift */; };
+		02C686BC2B26389700ACF488 /* CoreDataMentoria.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 02C686BA2B26389700ACF488 /* CoreDataMentoria.xcdatamodeld */; };
+		02D04A792B1A5A3E00E75635 /* SaveScheduleCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02D04A782B1A5A3E00E75635 /* SaveScheduleCoordinator.swift */; };
+		02D04A7D2B1A6B5E00E75635 /* ListScheduleViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02D04A7C2B1A6B5E00E75635 /* ListScheduleViewControllerFactory.swift */; };
+		02D7D2962AE86283003E4CF4 /* SaveServiceCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02D7D2952AE86283003E4CF4 /* SaveServiceCoordinator.swift */; };
+		02DBB12B2B273440001F05E8 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02DBB12A2B273440001F05E8 /* CoreDataStack.swift */; };
+		02F3F08D2AEAEFE200C90C59 /* ProfileSDKMain in Frameworks */ = {isa = PBXBuildFile; productRef = 02F3F08C2AEAEFE200C90C59 /* ProfileSDKMain */; };
+		02FDA8F62B21F3E0008CC046 /* ListServicesUseCaseFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02FDA8F52B21F3E0008CC046 /* ListServicesUseCaseFactory.swift */; };
+		02FFBF122AEAA14B00BBF19C /* ListServicesViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02FFBF112AEAA14B00BBF19C /* ListServicesViewControllerFactory.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
+		020924722AB3228D008F8DC8 /* SignUpCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpCoordinator.swift; sourceTree = "<group>"; };
 		0212ECA72AA10254001C1BCF /* ProfileSDK */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = ProfileSDK; path = SDK/ProfileSDK; sourceTree = "<group>"; };
+		0212ECAC2AA10867001C1BCF /* Mentoria.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mentoria.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0212ECAE2AA10867001C1BCF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		0212ECB02AA10867001C1BCF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		0212ECB72AA10868001C1BCF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		0212ECBA2AA10868001C1BCF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		0212ECBC2AA10868001C1BCF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0212ECC72AA10A20001C1BCF /* HomeSDK */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = HomeSDK; path = SDK/HomeSDK; sourceTree = "<group>"; };
+		022055092AE1C8C900C076FC /* CellPhoneMask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellPhoneMask.swift; sourceTree = "<group>"; };
+		0220550B2AE1C93400C076FC /* DateMask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateMask.swift; sourceTree = "<group>"; };
+		0220550C2AE1C93400C076FC /* CPFMask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPFMask.swift; sourceTree = "<group>"; };
+		0220550F2AE1E48100C076FC /* CEPMask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CEPMask.swift; sourceTree = "<group>"; };
+		0224A7282B1F616A00E2A7AC /* SaveScheduleViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveScheduleViewControllerFactory.swift; sourceTree = "<group>"; };
+		0239C4BC2ADDF1460016C0E4 /* ProfileRegistrationStep1Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRegistrationStep1Factory.swift; sourceTree = "<group>"; };
+		023CED862AEC380F001B3562 /* ViewerServiceViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewerServiceViewControllerFactory.swift; sourceTree = "<group>"; };
+		023CED892AED4BA8001B3562 /* AddServiceViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddServiceViewControllerFactory.swift; sourceTree = "<group>"; };
+		024340812AD9872B00110844 /* ProfileRegistrationStep1Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRegistrationStep1Coordinator.swift; sourceTree = "<group>"; };
+		0249C1942AE9A6230045A126 /* ViewerServiceCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewerServiceCoordinator.swift; sourceTree = "<group>"; };
+		024BC97D2ADAEB6500E9EEDC /* ProfileRegistrationStep2Factory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRegistrationStep2Factory.swift; sourceTree = "<group>"; };
+		024E688D2AB4860A0044A521 /* SignUpViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewControllerFactory.swift; sourceTree = "<group>"; };
+		026682CF2AA7D62600EE70EC /* Coordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		026682D32AA7D69D00EE70EC /* NavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
+		026682D52AA7D75F00EE70EC /* SignInCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInCoordinator.swift; sourceTree = "<group>"; };
+		026682D72AA7D8A200EE70EC /* HomeTabBarCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeTabBarCoordinator.swift; sourceTree = "<group>"; };
+		026FC69A2AD9D0430009D1A3 /* ProfileRegistrationStep2Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRegistrationStep2Coordinator.swift; sourceTree = "<group>"; };
+		027239612AE0437E009BA9A1 /* ProfileSummaryViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSummaryViewControllerFactory.swift; sourceTree = "<group>"; };
+		028B28A02AA75EAE008E4A7E /* Environment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
+		028B28A22AA75F52008E4A7E /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		028B28A32AA75F8C008E4A7E /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+		028B28BB2AA76EEC008E4A7E /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		0293DF082AE6D42500716142 /* CreateProfileUseCaseFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProfileUseCaseFactory.swift; sourceTree = "<group>"; };
+		0293DF0B2AE6E5B000716142 /* MasksFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasksFactory.swift; sourceTree = "<group>"; };
+		02995B4A2AB34BBA00615FDC /* SignInViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewControllerFactory.swift; sourceTree = "<group>"; };
+		02995B932AB39B6200615FDC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		02A0D34C2AF11AB400BF25A5 /* LoadScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadScreenViewController.swift; sourceTree = "<group>"; };
+		02A0D34E2AF11D4C00BF25A5 /* LoadScreenCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadScreenCoordinator.swift; sourceTree = "<group>"; };
+		02A0D3512AF13E6600BF25A5 /* ForgotPasswordCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordCoordinator.swift; sourceTree = "<group>"; };
+		02A0D3542AF184E200BF25A5 /* ForgotPasswordViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewControllerFactory.swift; sourceTree = "<group>"; };
+		02C686BB2B26389700ACF488 /* CoreDataMentoria.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataMentoria.xcdatamodel; sourceTree = "<group>"; };
+		02D04A782B1A5A3E00E75635 /* SaveScheduleCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveScheduleCoordinator.swift; sourceTree = "<group>"; };
+		02D04A7C2B1A6B5E00E75635 /* ListScheduleViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListScheduleViewControllerFactory.swift; sourceTree = "<group>"; };
+		02D7D2952AE86283003E4CF4 /* SaveServiceCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveServiceCoordinator.swift; sourceTree = "<group>"; };
+		02DBB12A2B273440001F05E8 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		02E2C39E2AA0FFD30040A2C8 /* MentoriaCodandoComMoa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MentoriaCodandoComMoa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		02FDA8F52B21F3E0008CC046 /* ListServicesUseCaseFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListServicesUseCaseFactory.swift; sourceTree = "<group>"; };
+		02FFBF112AEAA14B00BBF19C /* ListServicesViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListServicesViewControllerFactory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		0212ECA92AA10867001C1BCF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0287A7362AEAC8C3006DDFC1 /* HomeSDK in Frameworks */,
+				0287A7342AEAC8BC006DDFC1 /* ProfileSDK in Frameworks */,
+				02F3F08D2AEAEFE200C90C59 /* ProfileSDKMain in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		02E2C39B2AA0FFD30040A2C8 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -26,16 +128,273 @@
 			isa = PBXGroup;
 			children = (
 				0212ECA72AA10254001C1BCF /* ProfileSDK */,
+				0212ECC72AA10A20001C1BCF /* HomeSDK */,
 			);
 			name = Packages;
+			sourceTree = "<group>";
+		};
+		0212ECAD2AA10867001C1BCF /* Mentoria */ = {
+			isa = PBXGroup;
+			children = (
+				02DBB1292B273396001F05E8 /* CoreDataStack */,
+				026682CC2AA7D5E900EE70EC /* Coordinator */,
+				02995B4C2AB34BCB00615FDC /* Factories */,
+				022055082AE1B15C00C076FC /* Masks */,
+				028B28B92AA76ECF008E4A7E /* Handler */,
+				028B289F2AA75E9D008E4A7E /* Env */,
+				0212ECD42AA10CE7001C1BCF /* Resources */,
+			);
+			path = Mentoria;
+			sourceTree = "<group>";
+		};
+		0212ECC02AA1087D001C1BCF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		0212ECD42AA10CE7001C1BCF /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				0212ECAE2AA10867001C1BCF /* AppDelegate.swift */,
+				0212ECB02AA10867001C1BCF /* SceneDelegate.swift */,
+				0212ECB92AA10868001C1BCF /* LaunchScreen.storyboard */,
+				02A0D34C2AF11AB400BF25A5 /* LoadScreenViewController.swift */,
+				0212ECB72AA10868001C1BCF /* Assets.xcassets */,
+				0212ECBC2AA10868001C1BCF /* Info.plist */,
+				02995B932AB39B6200615FDC /* GoogleService-Info.plist */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		022055082AE1B15C00C076FC /* Masks */ = {
+			isa = PBXGroup;
+			children = (
+				0220550C2AE1C93400C076FC /* CPFMask.swift */,
+				0220550F2AE1E48100C076FC /* CEPMask.swift */,
+				0220550B2AE1C93400C076FC /* DateMask.swift */,
+				022055092AE1C8C900C076FC /* CellPhoneMask.swift */,
+			);
+			path = Masks;
+			sourceTree = "<group>";
+		};
+		0224A7272B1F614E00E2A7AC /* AddSchedule */ = {
+			isa = PBXGroup;
+			children = (
+				0224A7282B1F616A00E2A7AC /* SaveScheduleViewControllerFactory.swift */,
+			);
+			path = AddSchedule;
+			sourceTree = "<group>";
+		};
+		0239C4BB2ADDF10E0016C0E4 /* ProfileRegistrationStep1 */ = {
+			isa = PBXGroup;
+			children = (
+				0239C4BC2ADDF1460016C0E4 /* ProfileRegistrationStep1Factory.swift */,
+			);
+			path = ProfileRegistrationStep1;
+			sourceTree = "<group>";
+		};
+		023CED852AEC37F9001B3562 /* ViewerService */ = {
+			isa = PBXGroup;
+			children = (
+				023CED862AEC380F001B3562 /* ViewerServiceViewControllerFactory.swift */,
+			);
+			path = ViewerService;
+			sourceTree = "<group>";
+		};
+		023CED882AED4B9A001B3562 /* AddService */ = {
+			isa = PBXGroup;
+			children = (
+				023CED892AED4BA8001B3562 /* AddServiceViewControllerFactory.swift */,
+			);
+			path = AddService;
+			sourceTree = "<group>";
+		};
+		024BC97B2ADAEB0900E9EEDC /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				0239C4BB2ADDF10E0016C0E4 /* ProfileRegistrationStep1 */,
+				024BC97C2ADAEB1100E9EEDC /* ProfileRegistrationStep2 */,
+				027239602AE04368009BA9A1 /* ProfileSummary */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		024BC97C2ADAEB1100E9EEDC /* ProfileRegistrationStep2 */ = {
+			isa = PBXGroup;
+			children = (
+				024BC97D2ADAEB6500E9EEDC /* ProfileRegistrationStep2Factory.swift */,
+			);
+			path = ProfileRegistrationStep2;
+			sourceTree = "<group>";
+		};
+		024E688B2AB485D70044A521 /* SignIn */ = {
+			isa = PBXGroup;
+			children = (
+				02995B4A2AB34BBA00615FDC /* SignInViewControllerFactory.swift */,
+			);
+			path = SignIn;
+			sourceTree = "<group>";
+		};
+		024E688C2AB485EB0044A521 /* SignUp */ = {
+			isa = PBXGroup;
+			children = (
+				024E688D2AB4860A0044A521 /* SignUpViewControllerFactory.swift */,
+			);
+			path = SignUp;
+			sourceTree = "<group>";
+		};
+		026682CC2AA7D5E900EE70EC /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				026682CD2AA7D62600EE70EC /* Protocol */,
+				026682D22AA7D68700EE70EC /* NavigationController */,
+				02A0D34E2AF11D4C00BF25A5 /* LoadScreenCoordinator.swift */,
+				026682D52AA7D75F00EE70EC /* SignInCoordinator.swift */,
+				02A0D3512AF13E6600BF25A5 /* ForgotPasswordCoordinator.swift */,
+				020924722AB3228D008F8DC8 /* SignUpCoordinator.swift */,
+				026682D72AA7D8A200EE70EC /* HomeTabBarCoordinator.swift */,
+				024340812AD9872B00110844 /* ProfileRegistrationStep1Coordinator.swift */,
+				026FC69A2AD9D0430009D1A3 /* ProfileRegistrationStep2Coordinator.swift */,
+				02D7D2952AE86283003E4CF4 /* SaveServiceCoordinator.swift */,
+				0249C1942AE9A6230045A126 /* ViewerServiceCoordinator.swift */,
+				02D04A782B1A5A3E00E75635 /* SaveScheduleCoordinator.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		026682CD2AA7D62600EE70EC /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				026682CF2AA7D62600EE70EC /* Coordinator.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		026682D22AA7D68700EE70EC /* NavigationController */ = {
+			isa = PBXGroup;
+			children = (
+				026682D32AA7D69D00EE70EC /* NavigationController.swift */,
+			);
+			path = NavigationController;
+			sourceTree = "<group>";
+		};
+		027239602AE04368009BA9A1 /* ProfileSummary */ = {
+			isa = PBXGroup;
+			children = (
+				027239612AE0437E009BA9A1 /* ProfileSummaryViewControllerFactory.swift */,
+			);
+			path = ProfileSummary;
+			sourceTree = "<group>";
+		};
+		028B289F2AA75E9D008E4A7E /* Env */ = {
+			isa = PBXGroup;
+			children = (
+				028B28A02AA75EAE008E4A7E /* Environment.swift */,
+				028B28A22AA75F52008E4A7E /* Debug.xcconfig */,
+				028B28A32AA75F8C008E4A7E /* Release.xcconfig */,
+			);
+			path = Env;
+			sourceTree = "<group>";
+		};
+		028B28B92AA76ECF008E4A7E /* Handler */ = {
+			isa = PBXGroup;
+			children = (
+				028B28BA2AA76EDC008E4A7E /* Constants */,
+			);
+			path = Handler;
+			sourceTree = "<group>";
+		};
+		028B28BA2AA76EDC008E4A7E /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				028B28BB2AA76EEC008E4A7E /* Constants.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
+		0293DF072AE6D41600716142 /* UseCase */ = {
+			isa = PBXGroup;
+			children = (
+				0293DF082AE6D42500716142 /* CreateProfileUseCaseFactory.swift */,
+				02FDA8F52B21F3E0008CC046 /* ListServicesUseCaseFactory.swift */,
+			);
+			path = UseCase;
+			sourceTree = "<group>";
+		};
+		0293DF0A2AE6E59A00716142 /* Mask */ = {
+			isa = PBXGroup;
+			children = (
+				0293DF0B2AE6E5B000716142 /* MasksFactory.swift */,
+			);
+			path = Mask;
+			sourceTree = "<group>";
+		};
+		02995B4C2AB34BCB00615FDC /* Factories */ = {
+			isa = PBXGroup;
+			children = (
+				0293DF0A2AE6E59A00716142 /* Mask */,
+				0293DF072AE6D41600716142 /* UseCase */,
+				02995B4D2AB34C1300615FDC /* ViewController */,
+			);
+			path = Factories;
+			sourceTree = "<group>";
+		};
+		02995B4D2AB34C1300615FDC /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				02D04A7A2B1A6B4000E75635 /* Schedule */,
+				02A0D3532AF184C900BF25A5 /* ForgotPassword */,
+				02FFBF0F2AEAA12700BBF19C /* Service */,
+				024BC97B2ADAEB0900E9EEDC /* Profile */,
+				024E688B2AB485D70044A521 /* SignIn */,
+				024E688C2AB485EB0044A521 /* SignUp */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		02A0D3532AF184C900BF25A5 /* ForgotPassword */ = {
+			isa = PBXGroup;
+			children = (
+				02A0D3542AF184E200BF25A5 /* ForgotPasswordViewControllerFactory.swift */,
+			);
+			path = ForgotPassword;
+			sourceTree = "<group>";
+		};
+		02D04A7A2B1A6B4000E75635 /* Schedule */ = {
+			isa = PBXGroup;
+			children = (
+				0224A7272B1F614E00E2A7AC /* AddSchedule */,
+				02D04A7B2B1A6B4800E75635 /* ListSchedule */,
+			);
+			path = Schedule;
+			sourceTree = "<group>";
+		};
+		02D04A7B2B1A6B4800E75635 /* ListSchedule */ = {
+			isa = PBXGroup;
+			children = (
+				02D04A7C2B1A6B5E00E75635 /* ListScheduleViewControllerFactory.swift */,
+			);
+			path = ListSchedule;
+			sourceTree = "<group>";
+		};
+		02DBB1292B273396001F05E8 /* CoreDataStack */ = {
+			isa = PBXGroup;
+			children = (
+				02C686BA2B26389700ACF488 /* CoreDataMentoria.xcdatamodeld */,
+				02DBB12A2B273440001F05E8 /* CoreDataStack.swift */,
+			);
+			path = CoreDataStack;
 			sourceTree = "<group>";
 		};
 		02E2C3942AA0FFD30040A2C8 = {
 			isa = PBXGroup;
 			children = (
 				0212ECA62AA10254001C1BCF /* Packages */,
-				02E2C3A02AA0FFD30040A2C8 /* MentoriaCodandoComMoa */,
+				0212ECAD2AA10867001C1BCF /* Mentoria */,
 				02E2C39F2AA0FFD30040A2C8 /* Products */,
+				0212ECC02AA1087D001C1BCF /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -43,15 +402,27 @@
 			isa = PBXGroup;
 			children = (
 				02E2C39E2AA0FFD30040A2C8 /* MentoriaCodandoComMoa.framework */,
+				0212ECAC2AA10867001C1BCF /* Mentoria.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		02E2C3A02AA0FFD30040A2C8 /* MentoriaCodandoComMoa */ = {
+		02FFBF0F2AEAA12700BBF19C /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				023CED882AED4B9A001B3562 /* AddService */,
+				023CED852AEC37F9001B3562 /* ViewerService */,
+				02FFBF102AEAA13600BBF19C /* ListServices */,
 			);
-			path = MentoriaCodandoComMoa;
+			path = Service;
+			sourceTree = "<group>";
+		};
+		02FFBF102AEAA13600BBF19C /* ListServices */ = {
+			isa = PBXGroup;
+			children = (
+				02FFBF112AEAA14B00BBF19C /* ListServicesViewControllerFactory.swift */,
+			);
+			path = ListServices;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -67,6 +438,29 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		0212ECAB2AA10867001C1BCF /* Mentoria */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0212ECBF2AA10868001C1BCF /* Build configuration list for PBXNativeTarget "Mentoria" */;
+			buildPhases = (
+				0212ECA82AA10867001C1BCF /* Sources */,
+				0212ECA92AA10867001C1BCF /* Frameworks */,
+				0212ECAA2AA10867001C1BCF /* Resources */,
+				02995B922AB399EB00615FDC /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Mentoria;
+			packageProductDependencies = (
+				0287A7332AEAC8BC006DDFC1 /* ProfileSDK */,
+				0287A7352AEAC8C3006DDFC1 /* HomeSDK */,
+				02F3F08C2AEAEFE200C90C59 /* ProfileSDKMain */,
+			);
+			productName = Main;
+			productReference = 0212ECAC2AA10867001C1BCF /* Mentoria.app */;
+			productType = "com.apple.product-type.application";
+		};
 		02E2C39D2AA0FFD30040A2C8 /* MentoriaCodandoComMoa */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 02E2C3A52AA0FFD30040A2C8 /* Build configuration list for PBXNativeTarget "MentoriaCodandoComMoa" */;
@@ -81,6 +475,8 @@
 			dependencies = (
 			);
 			name = MentoriaCodandoComMoa;
+			packageProductDependencies = (
+			);
 			productName = MentoriaCodandoComMoa;
 			productReference = 02E2C39E2AA0FFD30040A2C8 /* MentoriaCodandoComMoa.framework */;
 			productType = "com.apple.product-type.framework";
@@ -92,10 +488,15 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1430;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
+					0212ECAB2AA10867001C1BCF = {
+						CreatedOnToolsVersion = 14.3.1;
+					};
 					02E2C39D2AA0FFD30040A2C8 = {
 						CreatedOnToolsVersion = 14.3.1;
+						LastSwiftMigration = 1430;
 					};
 				};
 			};
@@ -108,16 +509,30 @@
 				Base,
 			);
 			mainGroup = 02E2C3942AA0FFD30040A2C8;
+			packageReferences = (
+			);
 			productRefGroup = 02E2C39F2AA0FFD30040A2C8 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				02E2C39D2AA0FFD30040A2C8 /* MentoriaCodandoComMoa */,
+				0212ECAB2AA10867001C1BCF /* Mentoria */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		0212ECAA2AA10867001C1BCF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0212ECBB2AA10868001C1BCF /* LaunchScreen.storyboard in Resources */,
+				02995B942AB39B6200615FDC /* GoogleService-Info.plist in Resources */,
+				0212ECB82AA10868001C1BCF /* Assets.xcassets in Resources */,
+				028B28A42AA75F8C008E4A7E /* Release.xcconfig in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		02E2C39C2AA0FFD30040A2C8 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -127,7 +542,74 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		02995B922AB399EB00615FDC /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
+				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
+		0212ECA82AA10867001C1BCF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				02FFBF122AEAA14B00BBF19C /* ListServicesViewControllerFactory.swift in Sources */,
+				022055102AE1E48100C076FC /* CEPMask.swift in Sources */,
+				02A0D3522AF13E6600BF25A5 /* ForgotPasswordCoordinator.swift in Sources */,
+				0220550A2AE1C8C900C076FC /* CellPhoneMask.swift in Sources */,
+				026682D82AA7D8A200EE70EC /* HomeTabBarCoordinator.swift in Sources */,
+				0212ECAF2AA10867001C1BCF /* AppDelegate.swift in Sources */,
+				026682D12AA7D62600EE70EC /* Coordinator.swift in Sources */,
+				0249C1952AE9A6230045A126 /* ViewerServiceCoordinator.swift in Sources */,
+				026682D62AA7D75F00EE70EC /* SignInCoordinator.swift in Sources */,
+				0220550D2AE1C93400C076FC /* CPFMask.swift in Sources */,
+				024BC97E2ADAEB6500E9EEDC /* ProfileRegistrationStep2Factory.swift in Sources */,
+				028B28A12AA75EAE008E4A7E /* Environment.swift in Sources */,
+				023CED8A2AED4BA8001B3562 /* AddServiceViewControllerFactory.swift in Sources */,
+				0293DF092AE6D42500716142 /* CreateProfileUseCaseFactory.swift in Sources */,
+				0224A7292B1F616A00E2A7AC /* SaveScheduleViewControllerFactory.swift in Sources */,
+				0220550E2AE1C93400C076FC /* DateMask.swift in Sources */,
+				0293DF0C2AE6E5B000716142 /* MasksFactory.swift in Sources */,
+				02D7D2962AE86283003E4CF4 /* SaveServiceCoordinator.swift in Sources */,
+				02D04A792B1A5A3E00E75635 /* SaveScheduleCoordinator.swift in Sources */,
+				02C686BC2B26389700ACF488 /* CoreDataMentoria.xcdatamodeld in Sources */,
+				02D04A7D2B1A6B5E00E75635 /* ListScheduleViewControllerFactory.swift in Sources */,
+				024340822AD9872B00110844 /* ProfileRegistrationStep1Coordinator.swift in Sources */,
+				02995B4B2AB34BBA00615FDC /* SignInViewControllerFactory.swift in Sources */,
+				020924732AB3228D008F8DC8 /* SignUpCoordinator.swift in Sources */,
+				0239C4BD2ADDF1460016C0E4 /* ProfileRegistrationStep1Factory.swift in Sources */,
+				0212ECB12AA10867001C1BCF /* SceneDelegate.swift in Sources */,
+				02A0D34D2AF11AB400BF25A5 /* LoadScreenViewController.swift in Sources */,
+				02FDA8F62B21F3E0008CC046 /* ListServicesUseCaseFactory.swift in Sources */,
+				02A0D3552AF184E200BF25A5 /* ForgotPasswordViewControllerFactory.swift in Sources */,
+				026682D42AA7D69D00EE70EC /* NavigationController.swift in Sources */,
+				028B28BC2AA76EEC008E4A7E /* Constants.swift in Sources */,
+				027239622AE0437E009BA9A1 /* ProfileSummaryViewControllerFactory.swift in Sources */,
+				02A0D34F2AF11D4C00BF25A5 /* LoadScreenCoordinator.swift in Sources */,
+				023CED872AEC380F001B3562 /* ViewerServiceViewControllerFactory.swift in Sources */,
+				026FC69B2AD9D0430009D1A3 /* ProfileRegistrationStep2Coordinator.swift in Sources */,
+				02DBB12B2B273440001F05E8 /* CoreDataStack.swift in Sources */,
+				024E688E2AB4860A0044A521 /* SignUpViewControllerFactory.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		02E2C39A2AA0FFD30040A2C8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -137,7 +619,84 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXVariantGroup section */
+		0212ECB92AA10868001C1BCF /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0212ECBA2AA10868001C1BCF /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
+		0212ECBD2AA10868001C1BCF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 028B28A22AA75F52008E4A7E /* Debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 2HCBZJR5K3;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Mentoria/Resources/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Mentoria deseja acessar sua câmera";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Mentoria deseja acessar sua galeria de foto";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = "";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = br.com.alecomparini.MentoriaCodandoComMoa;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		0212ECBE2AA10868001C1BCF /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 028B28A32AA75F8C008E4A7E /* Release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2HCBZJR5K3;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Mentoria/Resources/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Mentoria deseja acessar sua câmera";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Mentoria deseja acessar sua galeria de foto";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = "";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = br.com.alecomparini.MentoriaCodandoComMoa;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		02E2C3A32AA0FFD30040A2C8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -189,6 +748,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MACOSX_DEPLOYMENT_TARGET = 13.3;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -246,6 +806,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MACOSX_DEPLOYMENT_TARGET = 13.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -260,6 +821,7 @@
 		02E2C3A62AA0FFD30040A2C8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -284,6 +846,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -291,6 +854,7 @@
 		02E2C3A72AA0FFD30040A2C8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -322,6 +886,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0212ECBF2AA10868001C1BCF /* Build configuration list for PBXNativeTarget "Mentoria" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0212ECBD2AA10868001C1BCF /* Debug */,
+				0212ECBE2AA10868001C1BCF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		02E2C3982AA0FFD30040A2C8 /* Build configuration list for PBXProject "MentoriaCodandoComMoa" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -341,6 +914,34 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		0287A7332AEAC8BC006DDFC1 /* ProfileSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ProfileSDK;
+		};
+		0287A7352AEAC8C3006DDFC1 /* HomeSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = HomeSDK;
+		};
+		02F3F08C2AEAEFE200C90C59 /* ProfileSDKMain */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ProfileSDKMain;
+		};
+/* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		02C686BA2B26389700ACF488 /* CoreDataMentoria.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				02C686BB2B26389700ACF488 /* CoreDataMentoria.xcdatamodel */,
+			);
+			currentVersion = 02C686BB2B26389700ACF488 /* CoreDataMentoria.xcdatamodel */;
+			path = CoreDataMentoria.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 02E2C3952AA0FFD30040A2C8 /* Project object */;
 }
