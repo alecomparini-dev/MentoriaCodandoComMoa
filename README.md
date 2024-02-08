@@ -1,6 +1,6 @@
 <h3 align="center">
   <br>
-  <img src="https://github.com/alecomparini-dev/MentoriaCodandoComMoa/assets/76792477/2de45eaf-a717-4f94-9793-a17c704357dd" height="400">
+  <img src="https://github.com/alecomparini-dev/MentoriaCodandoComMoa/assets/76792477/2de45eaf-a717-4f94-9793-a17c704357dd" >
   <br>
 </h3>
 
