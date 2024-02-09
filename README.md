@@ -17,24 +17,32 @@
 #### # Telas de SignIn e SignUp:
 - [x] Criar perfil do usuário(Email e Senha).
 - [x] Opção de gravar localmente o email(usuário)
+- [x] Autenticar usuário (foi usado o Firebase Auth)
 - [x] Caso o device aceitar biometria, permitir autenticar com biometria
 - [x] Recuperar senha
+- [x] Validar dados (email, senha e confirmação de senha)
 
 #### # Telas de Profile:
-- [x] Tela 1: Cadastro dos dados básicos + Foto do perfil
-- [x] Tela 2: Cadastro do endereço + Pesquisa de CEP
+- [x] Step 1:
+  - [x] Cadastro dos dados básicos
+  - [x] Cadastrar foto do perfil
+- [x] Step 2:
+  - [x] Cadastro do endereço
+  - [x] Pesquisa de CEP
+- [x] Validação dos dados: email, CPF, telefone, data de nascimento
+- [x] Máscaras: telefone, email, data, CPF e CEP
 - [x] Salvar no Backend
 
 #### # Tela Services:
 - [x] Listar os Serviços
-  - [x] Filtrar serviços
+  - [x] Filtrar Serviços
 - [x] BottomSheet para ver detalhes do serviço
 - [x] Tela de Criar / Editar / Deletar serviço
 - [x] Salvar no Backend
 
 #### # Tela Schedule:
 - [x] Listar os Agendamentos
-  - [ ] Filtrar os Agendamentos
+  - [ ] Filtrar Agendamentos
 - [x] Tela Criar Agendamento
   - [x] Listar Serviços
   - [x] Listar Clientes
