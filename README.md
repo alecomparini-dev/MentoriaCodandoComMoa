@@ -10,11 +10,11 @@
 
 - Seguem os requisitos:
   
-#### # Design System:
+#### # Módulo Design System:
 - [x] Criar um módulo específico para o Design System
 - [x] O tema deve ser recebido pelo backend(criado pelo MOA)
 
-#### # Telas de SignIn e SignUp:
+#### # Telas SignIn e SignUp:
 - [x] Criar perfil do usuário(Email e Senha).
 - [x] Opção de gravar localmente o email(usuário)
 - [x] Autenticar usuário (foi usado o Firebase Auth)
@@ -22,7 +22,7 @@
 - [x] Recuperar senha
 - [x] Validar dados (email, senha e confirmação de senha)
 
-#### # Telas de Profile:
+#### # Telas Profile:
 - [x] Step 1:
   - [x] Cadastro dos dados básicos
   - [x] Cadastrar foto do perfil
@@ -36,7 +36,7 @@
 #### # Tela Services:
 - [x] Listar os Serviços
   - [x] Filtrar Serviços
-- [x] BottomSheet para ver detalhes do serviço
+- [x] BottomSheet para visualização dos detalhes do serviço
 - [x] Tela de Criar / Editar / Deletar serviço
 - [x] Salvar no Backend
 
@@ -57,4 +57,45 @@
 https://github.com/alecomparini-dev/MentoriaCodandoComMoa/assets/76792477/8debd234-709f-47d6-bce4-77738a3e92f4
 
 <br>
+
+---
+## DESENVOLVIMENTO
+- Neste projeto foi utilizado:
+  - UserDefaults para gravar as moedas favoritas
+  - URLSession para as chamadas remotas
+  - Foi utilizado o arquivo Env para armazenar a url base e a chave da API ***(Estou ciente que esta informação deverá ficar na esteira de deploy)***
+  - Também foi utilizado os arquivos Localizable.strings para inglês -> português
+- Não foi criado módulos para este projeto, foi utilizado um único target, porém foi separado os diretórios para seguir o padrão do clean architecture.
+
+#### DEPENDÊNCIAS: 
+- SDKs PRÓPRIOS:
+  - **CustomComponentsSDK** ( [veja aqui](https://github.com/alecomparini-dev/CustomComponentsSDK/tree/develop/Sources/CustomComponents/Components) )
+    > Responsável por todos os componentes visuais utilizados na camada de UI dos meus Projetos.
+  - **DataStorageSDK** ( [veja aqui](https://github.com/alecomparini-dev/DataStorageSDK) )
+
+  
+- #### SDKs TERCEIROS:
+  - Firebase
+ 
+- #### Gerenciador de Dependência:
+  - SPM(Swift Package Manager)
+
+#### ARQUITETURA
+- MVVM-C
+- Clean Architecture
+
+#### PATTERNS (em estudo)
+- Strategy
+- Builder
+- Factory
+- Adapter
+- Repository
+
+#### TESTE UNITÁRIOS
+- Ainda não foram criados os testes unitários
+
+#### OUTROS
+- Depedency Injection
+- Princípios do SOLID
+- Clean Code (em estudo)
 
