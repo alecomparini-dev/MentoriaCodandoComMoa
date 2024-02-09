@@ -65,8 +65,8 @@ https://github.com/alecomparini-dev/MentoriaCodandoComMoa/assets/76792477/8debd2
   - NetworkSDK (usando URLSession) para as chamadas remotas
   - Foi utilizado o arquivo Env para armazenar a url base e a chave da API ***(Estou ciente que esta informação deverá ficar na esteira de deploy)***
   - Além do módulo de DesignSystemSDK, também foi usado 2 SDK para simular equipes distintas desenvolvendo o APP
-    - ProfileSDK: Seria uma squad responsável por toda parte de cadastros dos dados básicos e endereço do perfil do usuário, cadastro de email/senha para autenticação, cadastro da biometria, ou seja toda parte responsável pelo perfil do usuário
-    - HomeSDK: Seria outra squad responsável pelo core da aplicação: todo os cadastros dos serviços e dos agendamentos dos serviços.
+    - ***ProfileSDK***: Seria uma squad responsável por toda parte de cadastros dos dados básicos e endereço do perfil do usuário, cadastro de email/senha para autenticação, cadastro da biometria, ou seja toda parte responsável pelo perfil do usuário
+    - ***HomeSDK***: Seria outra squad responsável pelo core da aplicação: todo os cadastros dos serviços e dos agendamentos dos serviços.
     - Ambos os SDK`s estão no mesmo repo e foram adicionados diretamente no projeto Mentoria
     - OS Demais SDK`s utilizados foram baixados como dependências, conforme descrito abaixo:
 
