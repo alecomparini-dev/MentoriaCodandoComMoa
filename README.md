@@ -63,7 +63,7 @@ https://github.com/alecomparini-dev/MentoriaCodandoComMoa/assets/76792477/8debd2
 - Neste projeto foi utilizado:
   - CoreData para gravar os agendamentos localmente
   - NetworkSDK (usando URLSession) para as chamadas remotas
-  - Foi utilizado o arquivo Env para armazenar a url base e a chave da API ***(Estou ciente que esta informação deverá ficar na esteira de deploy)***
+  - Foi utilizado o arquivo Env para armazenar as url base do backEnd e ID do Tema utilizado
   - Além do módulo de DesignSystemSDK, também foi usado 2 SDK para simular equipes distintas desenvolvendo o APP
     - ***ProfileSDK***: Seria uma squad responsável por toda parte de cadastros dos dados básicos e endereço do perfil do usuário, cadastro de email/senha para autenticação, cadastro da biometria, ou seja toda parte responsável pelo perfil do usuário
     - ***HomeSDK***: Seria outra squad responsável pelo core da aplicação: todo os cadastros dos serviços e dos agendamentos dos serviços.
@@ -77,11 +77,10 @@ https://github.com/alecomparini-dev/MentoriaCodandoComMoa/assets/76792477/8debd2
   - **DataStorageSDK** ( [veja aqui](https://github.com/alecomparini-dev/DataStorageSDK) )
     - Aqui vale uma ressalva: Neste projeto ainda tem o **LocalStorageSDK** que estou migrando para o DataStorageSDK. Inicialmente o LocalStorage iria trabalhar com persistências locais, porém o DataStorage será mais abrangente trabalhando com qualquer tipo de persistência.
   - **NetworkSDK** ( [veja aqui](https://github.com/alecomparini-dev/NetworkSDK) )
+      > Foi utilizado para este projeto o URLSession, apesar do SDK estar preparado para trabalhar com outros, como por exemplo Alamofire, sem nenhum impacto no app principal.
   - **ValidatorSDK** ( [veja aqui](https://github.com/alecomparini-dev/ValidatorSDK) )
       > Atualmente possui CPF/CNPJ validator, EmailValidator e PasswordComplexityValidator
     
-
-  
 - #### SDKs TERCEIROS:
   - Firebase
  
@@ -100,7 +99,7 @@ https://github.com/alecomparini-dev/MentoriaCodandoComMoa/assets/76792477/8debd2
 - Repository
 
 #### TESTE UNITÁRIOS
-- Ainda não foram criados os testes unitários
+- Não foram feitos testes unitários para este projeto. Exemplo dos testes unitário [veja neste projeto](https://github.com/alecomparini-dev/Hangman)
 
 #### OUTROS
 - Depedency Injection
