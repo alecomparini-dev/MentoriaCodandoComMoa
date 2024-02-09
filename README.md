@@ -75,10 +75,8 @@ https://github.com/alecomparini-dev/MentoriaCodandoComMoa/assets/76792477/8debd2
   - **DesignSystemSDK** ( [veja aqui](https://github.com/alecomparini-dev/DesignerSystemSDK) )
   - **CustomComponentsSDK** ( [veja aqui](https://github.com/alecomparini-dev/CustomComponentsSDK/tree/develop/Sources/CustomComponents/Components) )
   - **DataStorageSDK** ( [veja aqui](https://github.com/alecomparini-dev/DataStorageSDK) )
-    > Responsável pela camada de persitência dos meus Projetos.
-    - Aqui tem uma ressalva, que também tem o LocalStorageSDK que estou migrando tudo para o DataStorageSDK, este último será responsável por quaisquer tipo de persistência e não somente local.
+    - Aqui vale uma ressalva: Neste projeto ainda tem o **LocalStorageSDK** que estou migrando para o DataStorageSDK. Inicialmente o LocalStorage iria trabalhar com persistências locais, porém o DataStorage será mais abrangente trabalhando com qualquer tipo de persistência.
     - **NetworkSDK** ( [veja aqui](https://github.com/alecomparini-dev/NetworkSDK) )
-    > Responsável pela camada de network dos meus Projetos.
     
 
   
