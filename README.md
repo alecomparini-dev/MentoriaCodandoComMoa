@@ -36,7 +36,9 @@
 - [x] Listar os Agendamentos
   - [ ] Filtrar os Agendamentos
 - [x] Tela Criar Agendamento
-  - [ ] Editar e Deletar agendamento
+  - [x] Listar Serviços
+  - [x] Listar Clientes
+- [ ] Tela Editar e Deletar agendamento
 - [x] Salvar localmente (não deu tempo da API do back ficar pronta)
 
 ---
