@@ -5,4 +5,7 @@
 </h3>
 
 ## FEATURES
-> Este foi um teste encontrato na internet, onde a empresa solicitou em uma entrevista técnica o seguinte desafio.
+> Este foi uma mentoria gratuita que o Moa criou para as pessoas que participaram do grupo no whatsapp.
+
+### Créditos do MOA:
+  - [![](https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white)]
