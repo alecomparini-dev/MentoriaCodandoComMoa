@@ -99,7 +99,7 @@ https://github.com/alecomparini-dev/MentoriaCodandoComMoa/assets/76792477/8debd2
 - Repository
 
 #### TESTE UNITÁRIOS
-- Não foram feitos testes unitários para este projeto. Exemplo dos testes unitário [veja neste projeto](https://github.com/alecomparini-dev/Hangman)
+- Não foram feitos testes unitários para este projeto. Exemplo de testes unitários [veja neste projeto](https://github.com/alecomparini-dev/Hangman)
 
 #### OUTROS
 - Depedency Injection
