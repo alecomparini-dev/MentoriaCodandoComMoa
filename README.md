@@ -61,17 +61,25 @@ https://github.com/alecomparini-dev/MentoriaCodandoComMoa/assets/76792477/8debd2
 ---
 ## DESENVOLVIMENTO
 - Neste projeto foi utilizado:
-  - UserDefaults para gravar as moedas favoritas
-  - URLSession para as chamadas remotas
+  - CoreData para gravar os agendamentos localmente
+  - NetworkSDK (usando URLSession) para as chamadas remotas
   - Foi utilizado o arquivo Env para armazenar a url base e a chave da API ***(Estou ciente que esta informação deverá ficar na esteira de deploy)***
-  - Também foi utilizado os arquivos Localizable.strings para inglês -> português
-- Não foi criado módulos para este projeto, foi utilizado um único target, porém foi separado os diretórios para seguir o padrão do clean architecture.
+  - Além do módulo de DesignSystemSDK, também foi usado 2 SDK para simular equipes distintas desenvolvendo o APP
+    - ProfileSDK: Seria uma squad responsável por toda parte de cadastros dos dados básicos e endereço do perfil do usuário, cadastro de email/senha para autenticação, cadastro da biometria, ou seja toda parte responsável pelo perfil do usuário
+    - HomeSDK: Seria outra squad responsável pelo core da aplicação: todo os cadastros dos serviços e dos agendamentos dos serviços.
+    - Ambos os SDK`s estão no mesmo repo e foram adicionados diretamente no projeto Mentoria
+    - OS Demais SDK`s utilizados foram baixados como dependências, conforme descrito abaixo:
 
 #### DEPENDÊNCIAS: 
 - SDKs PRÓPRIOS:
+  - **DesignSystemSDK** ( [veja aqui](https://github.com/alecomparini-dev/DesignerSystemSDK) )
   - **CustomComponentsSDK** ( [veja aqui](https://github.com/alecomparini-dev/CustomComponentsSDK/tree/develop/Sources/CustomComponents/Components) )
-    > Responsável por todos os componentes visuais utilizados na camada de UI dos meus Projetos.
   - **DataStorageSDK** ( [veja aqui](https://github.com/alecomparini-dev/DataStorageSDK) )
+    > Responsável pela camada de persitência dos meus Projetos.
+    - Aqui tem uma ressalva, que também tem o LocalStorageSDK que estou migrando tudo para o DataStorageSDK, este último será responsável por quaisquer tipo de persistência e não somente local.
+    - **NetworkSDK** ( [veja aqui](https://github.com/alecomparini-dev/NetworkSDK) )
+    > Responsável pela camada de network dos meus Projetos.
+    
 
   
 - #### SDKs TERCEIROS:
