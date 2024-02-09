@@ -47,7 +47,7 @@
   - [x] Listar Serviços
   - [x] Listar Clientes
 - [ ] Tela Editar e Deletar agendamento
-- [x] Salvar localmente (não deu tempo da API do back ficar pronta)
+- [x] Salvar localmente (não deu tempo da API do Backend ficar pronta)
 
 ---
 ## PREVIEW APP
