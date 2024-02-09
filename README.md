@@ -76,7 +76,9 @@ https://github.com/alecomparini-dev/MentoriaCodandoComMoa/assets/76792477/8debd2
   - **CustomComponentsSDK** ( [veja aqui](https://github.com/alecomparini-dev/CustomComponentsSDK/tree/develop/Sources/CustomComponents/Components) )
   - **DataStorageSDK** ( [veja aqui](https://github.com/alecomparini-dev/DataStorageSDK) )
     - Aqui vale uma ressalva: Neste projeto ainda tem o **LocalStorageSDK** que estou migrando para o DataStorageSDK. Inicialmente o LocalStorage iria trabalhar com persistências locais, porém o DataStorage será mais abrangente trabalhando com qualquer tipo de persistência.
-    - **NetworkSDK** ( [veja aqui](https://github.com/alecomparini-dev/NetworkSDK) )
+  - **NetworkSDK** ( [veja aqui](https://github.com/alecomparini-dev/NetworkSDK) )
+  - **ValidatorSDK** ( [veja aqui](https://github.com/alecomparini-dev/ValidatorSDK) )
+      > Atualmente possui CPF/CNPJ validator, EmailValidator e PasswordComplexityValidator
     
 
   
