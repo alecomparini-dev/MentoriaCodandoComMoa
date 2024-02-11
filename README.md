@@ -78,7 +78,7 @@ https://github.com/alecomparini-dev/MentoriaCodandoComMoa/assets/76792477/8debd2
   - **CustomComponentsSDK** ( [veja aqui](https://github.com/alecomparini-dev/CustomComponentsSDK/tree/develop/Sources/CustomComponents/Components) )
   - **DataStorageSDK** ( [veja aqui](https://github.com/alecomparini-dev/DataStorageSDK) )
   - **NetworkSDK** ( [veja aqui](https://github.com/alecomparini-dev/NetworkSDK) )
-      > Foi utilizado para este projeto o URLSession, apesar do SDK estar preparado para trabalhar com outros, como por exemplo Alamofire, sem nenhum impacto no app principal.
+      > Foi utilizado para este projeto o URLSession, apesar do SDK estar preparado para trabalhar com outros, como por exemplo Alamofire, sem ter nenhum impacto no app principal.
   - **ValidatorSDK** ( [veja aqui](https://github.com/alecomparini-dev/ValidatorSDK) )
       > Atualmente possui CPF/CNPJ validator, EmailValidator e PasswordComplexityValidator
     
