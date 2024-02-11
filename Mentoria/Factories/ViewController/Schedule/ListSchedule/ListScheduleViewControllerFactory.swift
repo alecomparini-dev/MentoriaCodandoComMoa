@@ -8,7 +8,7 @@ import HomePresenters
 import HomeUseCases
 import HomeUseCaseGateway
 import HomeRepositories
-import DataStorageSDKMain
+import DataStorageSDK
 
 class ListScheduleViewControllerFactory {
     

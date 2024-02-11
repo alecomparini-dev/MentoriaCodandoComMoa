@@ -11,7 +11,7 @@ public class DeleteKeyChainRememberEmailUseCaseImpl: DeleteKeyChainRememberEmail
         self.delRememberEmailGateway = delRememberEmailGateway
     }
     
-    public func delete() throws {
-        try delRememberEmailGateway.delete(ProfileUseCasesConstants.email)
+    public func delete() async throws {
+        try await delRememberEmailGateway.delete(ProfileUseCasesConstants.email)
     }
 }

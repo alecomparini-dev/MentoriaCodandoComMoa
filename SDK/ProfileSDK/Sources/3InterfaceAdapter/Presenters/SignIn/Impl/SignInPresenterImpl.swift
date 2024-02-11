@@ -9,6 +9,7 @@ import ProfileUseCases
 public protocol SignInPresenterOutput: AnyObject {
     func errorSignIn(_ error: String)
     func successSignIn(_ userId: String)
+    func getEmailSuccess(_ email: String)
     func loadingLogin(_ isLoading: Bool)
     func signInUserPasswordLogin(_ continueLoginUserPassword: Bool)
     func askIfWantToUseBiometrics(title: String, message: String, completion: @escaping (_ acceptUseBiometry: Bool) -> Void )
@@ -57,13 +58,16 @@ public class SignInPresenterImpl: SignInPresenter  {
     
     
 //  MARK: - PUBLIC AREA
-    public func getEmailKeyChain() -> String? {
-        do {
-            return try getKeyChainEmailUseCase.getEmail()
-        } catch let error {
-            debugPrint(error)
+    public func getEmailKeyChain(){
+        Task {
+            do {
+                if let email = try await getKeyChainEmailUseCase.getEmail() {
+                    getEmailSuccess(email)
+                }
+            } catch let error {
+                debugPrint(error)
+            }
         }
-        return nil
     }
     
     public func login(email: String, password: String, rememberEmail: Bool = false) {
@@ -81,7 +85,7 @@ public class SignInPresenterImpl: SignInPresenter  {
                 
                 try configRememberEmail(email: email, rememberEmail)
                 
-                if userNotRespondedUseBiometry(email) { return }
+                if await userNotRespondedUseBiometry(email) { return }
                 
                 successSignIn()
                 
@@ -94,14 +98,14 @@ public class SignInPresenterImpl: SignInPresenter  {
     
     public func loginByBiometry(_ userEmail: String) {
         Task {
-            if let biometricPreference: BiometricPreference = getBiometricPreference(userEmail) {
+            if let biometricPreference: BiometricPreference = await getBiometricPreference(userEmail) {
                 switch biometricPreference {
                     case .accepted(let credentials):
                         performLoginBiometry(credentials)
                         return
                     
                     case .notSameUser:
-                        try delAuthCredentialsUseCase.delete()
+                        try await delAuthCredentialsUseCase.delete()
                         signInUserPasswordLogin(true)
                         return
                     
@@ -116,11 +120,14 @@ public class SignInPresenterImpl: SignInPresenter  {
     
 //  MARK: - PRIVATE AREA
     private func saveRememberEmail(_ email: String) {
-        do {
-            try saveKeyChainEmailUseCase.save(email)
-        } catch let error {
-            print(error.localizedDescription)
+        Task {
+            do {
+                try await saveKeyChainEmailUseCase.save(email)
+            } catch let error {
+                print(error.localizedDescription)
+            }
         }
+        
     }
     
     private func validations() -> String? {
@@ -157,14 +164,17 @@ public class SignInPresenterImpl: SignInPresenter  {
     }
     
     private func configRememberEmail(email: String, _ rememberPassword: Bool) throws {
-        try delKeyChainEmailUseCase.delete()
-        if rememberPassword {
-            saveRememberEmail(email)
+        Task {
+            try await delKeyChainEmailUseCase.delete()
+            
+            if rememberPassword {
+                saveRememberEmail(email)
+            }
         }
     }
     
-    private func userNotRespondedUseBiometry(_ userEmail: String) -> Bool {
-        if let biometricPreference: BiometricPreference = getBiometricPreference(userEmail) {
+    private func userNotRespondedUseBiometry(_ userEmail: String) async -> Bool {
+        if let biometricPreference: BiometricPreference = await getBiometricPreference(userEmail) {
             if biometricPreference == .notResponded {
                 askIfWantToUseBiometrics()
                 return true
@@ -172,7 +182,7 @@ public class SignInPresenterImpl: SignInPresenter  {
             
             if biometricPreference == .notSameUser {
                 do {
-                    try delAuthCredentialsUseCase.delete()
+                    try await delAuthCredentialsUseCase.delete()
                 } catch let error {
                     debugPrint(error.localizedDescription)
                 }
@@ -219,7 +229,13 @@ public class SignInPresenterImpl: SignInPresenter  {
         }
     }
     
-
+    private func getEmailSuccess(_ email: String) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else {return}
+            outputDelegate?.getEmailSuccess(email)
+        }
+    }
+    
     
     
 //  MARK: - BIOMETRICS FLOW
@@ -239,9 +255,9 @@ public class SignInPresenterImpl: SignInPresenter  {
         }
     }
     
-    private func getBiometricPreference(_ userEmail: String) -> BiometricPreference? {
+    private func getBiometricPreference(_ userEmail: String) async -> BiometricPreference? {
         do {
-            return try getAuthCredentialsUseCase.getCredentials(userEmail)
+            return try await getAuthCredentialsUseCase.getCredentials(userEmail)
         } catch let error {
             debugPrint(error.localizedDescription)
         }
@@ -278,16 +294,17 @@ public class SignInPresenterImpl: SignInPresenter  {
     }
     
     private func saveCredentials(email: String, password: String) {
-        do {
-            if try saveAuthCredentialsUseCase.save(email: email, password: password) {
-                successSignIn()
-                return
+        Task {
+            do {
+                if try await saveAuthCredentialsUseCase.save(email: email, password: password) {
+                    successSignIn()
+                    return
+                }
+                //TODO: FLUXO DE EXEÇÃO PARA QUANDO NAO SALVA AS CREDENCIAIS
+            } catch let error {
+                debugPrint(error.localizedDescription)
             }
-            //TODO: FLUXO DE EXEÇÃO PARA QUANDO NAO SALVA AS CREDENCIAIS
-        } catch let error {
-            debugPrint(error.localizedDescription)
         }
-        return
     }
     
 }

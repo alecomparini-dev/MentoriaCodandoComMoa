@@ -2,9 +2,10 @@
 //
 
 import Foundation
+
 import CoreData
 import HomeUseCaseGateway
-import DataStorageSDKMain
+import DataStorageSDK
 
 public class CoreDataCreateScheduleRepositoryImpl: CreateScheduleRepository {
     

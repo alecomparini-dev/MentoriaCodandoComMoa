@@ -4,5 +4,5 @@
 import Foundation
 
 public protocol DeleteAuthCredentialsUseCase {
-    func delete() throws
+    func delete() async throws
 }

@@ -1,20 +1,16 @@
-//
-//  SignInViewControllerFactory.swift
-//  Mentoria
-//
 //  Created by Alessandro Comparini on 14/09/23.
 //
 
 import Foundation
 import LocalAuthentication
-import LocalStorageDetails
+import DataStorageSDK
 import ProfileAuthentication
-import ProfileLocalStorage
 import ProfilePresenters
 import ProfileUI
 import ProfileUseCases
 import ProfileUseCaseGateway
 import ProfileValidations
+import ProfileDataStorage
 
 
 class SignInViewControllerFactory {
@@ -23,21 +19,21 @@ class SignInViewControllerFactory {
         
         let authUseCase = makeAuthUseCase()
         
-        let keyChainProviderStrategy = KeyChainProvider(appName: K.Strings.appName)
+        let keyChainDataProvider = KeyChainDataStorageProvider(appName: K.Strings.appName)
         
-        let localStorage = ProfileLocalStorage(storageProvider: keyChainProviderStrategy)
+        let profileDataStorage = ProfileDataStorage(dataStorage: keyChainDataProvider)
         
-        let saveKeyChainEmailUseCase = makeSaveKeyChainEmailUseCase(localStorage)
+        let saveKeyChainEmailUseCase = makeSaveKeyChainEmailUseCase(profileDataStorage)
         
-        let getKeyChainEmailUseCase = makeGetKeyChainEmailUseCase(localStorage)
+        let getKeyChainEmailUseCase = makeGetKeyChainEmailUseCase(profileDataStorage)
         
-        let delKeyChainEmailUseCase = makeDelKeyChainEmailUseCase(localStorage)
+        let delKeyChainEmailUseCase = makeDelKeyChainEmailUseCase(profileDataStorage)
         
-        let getAuthCredentialsUseCase = makeGetAuthCredentialsUseCase(localStorage)
+        let getAuthCredentialsUseCase = makeGetAuthCredentialsUseCase(profileDataStorage)
         
-        let saveAuthCredentialsUseCase = makeSaveAuthCredentialsUseCase(localStorage)
+        let saveAuthCredentialsUseCase = makeSaveAuthCredentialsUseCase(profileDataStorage)
         
-        let delAuthCredentialsUseCase = makeDeleteAuthCredentialsUseCase(localStorage)
+        let delAuthCredentialsUseCase = makeDeleteAuthCredentialsUseCase(profileDataStorage)
         
         let checkBiometryUseCase = makeCheckBiometryUseCase()
         
@@ -68,44 +64,44 @@ class SignInViewControllerFactory {
         return AuthenticateUseCaseImpl(authUseCaseGateway: authUseCaseGateway)
     }
     
-    static private func makeCheckBiometryUseCase() -> CheckBiometryUseCaseImpl{
+    static private func makeCheckBiometryUseCase() -> CheckBiometryUseCaseImpl {
         let biometryCheckAuthentication = LocalAuthentication(context: LAContext())
         let checkBiometryGateway = CheckBiometryUseCaseGatewayImpl(biometryAuthentication: biometryCheckAuthentication)
         return CheckBiometryUseCaseImpl(checkBiometryGateway: checkBiometryGateway)
     }
     
-    static private func makeAuthenticateWithBiometricsUseCase() -> AuthenticateWithBiometricsUseCaseImpl{
+    static private func makeAuthenticateWithBiometricsUseCase() -> AuthenticateWithBiometricsUseCaseImpl {
         let biometryAuthentication = LocalAuthentication(context: LAContext())
         let authenticateWithBiometricGateway = AuthenticateWithBiometricsUseCaseGatewayImpl(biometryAuthentication: biometryAuthentication)
         return AuthenticateWithBiometricsUseCaseImpl(authenticateWithBiometricGateway: authenticateWithBiometricGateway)
     }
     
-    static private func makeDelKeyChainEmailUseCase(_ localStorage: ProfileLocalStorage) -> DeleteKeyChainRememberEmailUseCaseImpl{
+    static private func makeDelKeyChainEmailUseCase(_ localStorage: ProfileDataStorage) -> DeleteKeyChainRememberEmailUseCaseImpl {
         let delKeyChainEmailUseCaseGateway = DeleteKeyChainUseCaseGatewayImpl(localStorageKeyChainProvider: localStorage)
         return DeleteKeyChainRememberEmailUseCaseImpl(delRememberEmailGateway: delKeyChainEmailUseCaseGateway)
     }
     
-    static private func makeGetKeyChainEmailUseCase(_ localStorage: ProfileLocalStorage) -> GetKeyChainRememberEmailUseCaseImpl{
+    static private func makeGetKeyChainEmailUseCase(_ localStorage: ProfileDataStorage) -> GetKeyChainRememberEmailUseCaseImpl {
         let getKeyChainEmailUseCaseGateway = GetKeyChainUseCaseGatewayImpl(localStorageKeyChainProvider: localStorage)
         return GetKeyChainRememberEmailUseCaseImpl(getRememberEmailGateway: getKeyChainEmailUseCaseGateway)
     }
     
-    static private func makeSaveKeyChainEmailUseCase(_ localStorage: ProfileLocalStorage) -> SaveKeyChainRememberEmailUseCaseImpl{
+    static private func makeSaveKeyChainEmailUseCase(_ localStorage: ProfileDataStorage) -> SaveKeyChainRememberEmailUseCaseImpl {
         let saveKeyChainGateway = SaveKeyChainUseCaseGatewayImpl(localStorageKeyChainProvider: localStorage)
         return SaveKeyChainRememberEmailUseCaseImpl(saveKeyChainGateway: saveKeyChainGateway)
     }
     
-    static private func makeDeleteAuthCredentialsUseCase(_ localStorage: ProfileLocalStorage) -> DeleteAuthCredentialsUseCaseImpl {
+    static private func makeDeleteAuthCredentialsUseCase(_ localStorage: ProfileDataStorage) -> DeleteAuthCredentialsUseCaseImpl {
         let delKeyChainGateway = DeleteKeyChainUseCaseGatewayImpl(localStorageKeyChainProvider: localStorage)
         return DeleteAuthCredentialsUseCaseImpl(delAuthCredentialsGateway: delKeyChainGateway)
     }
     
-    static private func makeGetAuthCredentialsUseCase(_ localStorage: ProfileLocalStorage) -> GetAuthCredentialsUseCaseImpl{
+    static private func makeGetAuthCredentialsUseCase(_ localStorage: ProfileDataStorage) -> GetAuthCredentialsUseCaseImpl{
         let getAuthCredentialsGateway = GetKeyChainUseCaseGatewayImpl(localStorageKeyChainProvider: localStorage)
         return GetAuthCredentialsUseCaseImpl(getAuthCredentialsGateway: getAuthCredentialsGateway)
     }
     
-    static private func makeSaveAuthCredentialsUseCase(_ localStorage: ProfileLocalStorage) -> SaveAuthCredentialsUseCaseImpl{
+    static private func makeSaveAuthCredentialsUseCase(_ localStorage: ProfileDataStorage) -> SaveAuthCredentialsUseCaseImpl{
         let saveAuthCredentialsGateway = SaveKeyChainUseCaseGatewayImpl(localStorageKeyChainProvider: localStorage)
         return SaveAuthCredentialsUseCaseImpl(saveAuthCredentialsGateway: saveAuthCredentialsGateway)
     }

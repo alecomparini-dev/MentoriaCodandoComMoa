@@ -84,7 +84,7 @@ let package = Package(
             name: "HomeRepositories",
             dependencies: [
                 "HomeUseCaseGateway",
-                .product(name: "DataStorageSDKMain", package: "DataStorageSDK"),
+                .product(name: "DataStorageSDK", package: "DataStorageSDK"),
             ],
             path: "Sources/Detail/Repositories"
         ),

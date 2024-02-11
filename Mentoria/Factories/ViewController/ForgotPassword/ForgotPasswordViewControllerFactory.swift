@@ -3,27 +3,27 @@
 
 import UIKit
 
-import LocalStorageDetails
+import DataStorageSDK
 import ProfileUI
 import ProfilePresenters
 import ProfileUseCases
 import ProfileUseCaseGateway
 import ProfileAuthentication
-import ProfileLocalStorage
+import ProfileDataStorage
 
 class ForgotPasswordViewControllerFactory {
     
     static func make() -> ForgotPasswordViewController {
         
-        let keyChainProviderStrategy = KeyChainProvider(appName: K.Strings.appName)
+        let keyChainDataProvider = KeyChainDataStorageProvider(appName: K.Strings.appName)
         
-        let localStorage = ProfileLocalStorage(storageProvider: keyChainProviderStrategy)
+        let profileDataStorage = ProfileDataStorage(dataStorage: keyChainDataProvider)
         
-        let deleteKeyChainUseCaseGateway = DeleteKeyChainUseCaseGatewayImpl(localStorageKeyChainProvider: localStorage)
+        let deleteKeyChainUseCaseGateway = DeleteKeyChainUseCaseGatewayImpl(localStorageKeyChainProvider: profileDataStorage)
         
         let deleteAuthCredentialsUseCase = DeleteAuthCredentialsUseCaseImpl(delAuthCredentialsGateway: deleteKeyChainUseCaseGateway)
         
-        let getAuthCredentialsGateway = GetKeyChainUseCaseGatewayImpl(localStorageKeyChainProvider: localStorage)
+        let getAuthCredentialsGateway = GetKeyChainUseCaseGatewayImpl(localStorageKeyChainProvider: profileDataStorage)
         
         let getAuthCredentialsUseCase = GetAuthCredentialsUseCaseImpl(getAuthCredentialsGateway: getAuthCredentialsGateway)
         
