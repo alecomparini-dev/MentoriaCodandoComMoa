@@ -17,6 +17,28 @@ public class ProfileDataStorage {
 }
 
 
+
+//  MARK: - EXTENSION
+extension ProfileDataStorage: InsertStorageProvider {
+    public func insert<T>(_ object: T) async throws -> T? {
+        if let resultInsert = try await dataStorage.create(object) {
+            return resultInsert
+        }
+        return nil
+    }
+    
+    public func insert<T>(key: String, _ value: T) async throws -> T? {
+        if let resultInsert = try await dataStorage.create(key, value) {
+            return resultInsert
+        }
+        return nil
+    }
+    
+    
+}
+
+
+
 //  MARK: - EXTENSION
 extension ProfileDataStorage: FindStorageProvider {
     
@@ -37,7 +59,6 @@ extension ProfileDataStorage: DeleteStorageProvider {
     public func delete<T>(_ object: T) async throws {
         try await dataStorage.delete(object)
     }
-    
     
 }
 

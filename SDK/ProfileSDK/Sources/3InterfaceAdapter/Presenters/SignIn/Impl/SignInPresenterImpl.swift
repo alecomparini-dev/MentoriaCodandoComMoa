@@ -120,11 +120,14 @@ public class SignInPresenterImpl: SignInPresenter  {
     
 //  MARK: - PRIVATE AREA
     private func saveRememberEmail(_ email: String) {
-        do {
-            try saveKeyChainEmailUseCase.save(email)
-        } catch let error {
-            print(error.localizedDescription)
+        Task {
+            do {
+                try await saveKeyChainEmailUseCase.save(email)
+            } catch let error {
+                print(error.localizedDescription)
+            }
         }
+        
     }
     
     private func validations() -> String? {
@@ -291,16 +294,17 @@ public class SignInPresenterImpl: SignInPresenter  {
     }
     
     private func saveCredentials(email: String, password: String) {
-        do {
-            if try saveAuthCredentialsUseCase.save(email: email, password: password) {
-                successSignIn()
-                return
+        Task {
+            do {
+                if try await saveAuthCredentialsUseCase.save(email: email, password: password) {
+                    successSignIn()
+                    return
+                }
+                //TODO: FLUXO DE EXEÇÃO PARA QUANDO NAO SALVA AS CREDENCIAIS
+            } catch let error {
+                debugPrint(error.localizedDescription)
             }
-            //TODO: FLUXO DE EXEÇÃO PARA QUANDO NAO SALVA AS CREDENCIAIS
-        } catch let error {
-            debugPrint(error.localizedDescription)
         }
-        return
     }
     
 }

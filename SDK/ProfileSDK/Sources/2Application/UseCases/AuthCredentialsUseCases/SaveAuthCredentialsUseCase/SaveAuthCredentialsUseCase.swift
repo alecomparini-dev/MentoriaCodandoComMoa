@@ -4,5 +4,5 @@
 import Foundation
 
 public protocol SaveAuthCredentialsUseCase {
-    func save(email: String, password: String) throws -> Bool
+    func save(email: String, password: String) async throws -> Bool
 }

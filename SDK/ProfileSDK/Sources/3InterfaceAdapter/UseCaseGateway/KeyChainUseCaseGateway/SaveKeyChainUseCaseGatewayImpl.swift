@@ -12,8 +12,8 @@ public class SaveKeyChainUseCaseGatewayImpl: SaveKeyChainUseCaseGateway {
         self.localStorageKeyChainProvider = localStorageKeyChainProvider
     }
 
-    public func save(forKey: String, _ value: Any) throws {
-        try localStorageKeyChainProvider.insert(key: forKey, value)
+    public func save(forKey: String, _ value: Any) async throws {
+        try await localStorageKeyChainProvider.insert(key: forKey, value)
     }
 
     

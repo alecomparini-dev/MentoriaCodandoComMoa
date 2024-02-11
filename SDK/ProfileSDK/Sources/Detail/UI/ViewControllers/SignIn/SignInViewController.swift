@@ -92,7 +92,7 @@ public final class SignInViewController: UIViewController {
     }
     
     private func isEmailFilledIn() -> Bool {
-        guard let email = screen.emailLoginView.emailTextField.get.text else {return false}
+        guard let email = screen.emailLoginView.emailTextField.get.text else { return false }
         return !email.isEmpty
     }
     
@@ -144,6 +144,7 @@ extension SignInViewController: SignInViewDelegate {
     func forgotPasswordButtonTapped() {
         coordinator?.gotoForgotPassword(screen.passwordLoginView.passwordTextField.get.text)
     }
+    
 }
 
 
