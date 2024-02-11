@@ -66,6 +66,8 @@ public final class SignInViewController: UIViewController {
         configDelegate()
         getEmailKeyChain()
         biometricsFlow()
+        configEmailTextField()
+        
     }
     
     private func configDelegate() {
@@ -74,13 +76,7 @@ public final class SignInViewController: UIViewController {
     }
     
     private func getEmailKeyChain() {
-        if let email = signInPresenter.getEmailKeyChain() {
-            screen.emailLoginView.emailTextField.get.text = email
-            screen.rememberSwitch.setIsOn(true)
-            return
-        }
-        screen.emailLoginView.emailTextField.get.text = ""
-        screen.rememberSwitch.setIsOn(false)
+        signInPresenter.getEmailKeyChain()
     }
     
     private func biometricsFlow() {
@@ -88,6 +84,11 @@ public final class SignInViewController: UIViewController {
         if let email = screen.emailLoginView.emailTextField.get.text {
             signInPresenter.loginByBiometry(email)
         }
+    }
+    
+    private func configEmailTextField() {
+        screen.emailLoginView.emailTextField.get.text = ""
+        screen.rememberSwitch.setIsOn(false)
     }
     
     private func isEmailFilledIn() -> Bool {
@@ -149,6 +150,11 @@ extension SignInViewController: SignInViewDelegate {
 
 //  MARK: - EXTENSION - LoginPresenterOutput
 extension SignInViewController: SignInPresenterOutput {
+    public func getEmailSuccess(_ email: String) {
+        screen.emailLoginView.emailTextField.get.text = email
+        screen.rememberSwitch.setIsOn(true)
+    }
+    
     
     public func signInUserPasswordLogin(_ continueLoginUserPassword: Bool) {
         callBiometricsFlow = false

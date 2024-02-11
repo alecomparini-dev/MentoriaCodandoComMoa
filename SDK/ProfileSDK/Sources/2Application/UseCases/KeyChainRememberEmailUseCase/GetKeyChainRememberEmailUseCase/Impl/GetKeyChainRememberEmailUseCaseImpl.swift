@@ -11,8 +11,8 @@ public class GetKeyChainRememberEmailUseCaseImpl: GetKeyChainRememberEmailUseCas
         self.getRememberEmailGateway = getRememberEmailGateway
     }
     
-    public func getEmail() throws -> String? {
-        if let email = try getRememberEmailGateway.get(ProfileUseCasesConstants.email) as? [String] {
+    public func getEmail() async throws -> String? {
+        if let email = try await getRememberEmailGateway.get(ProfileUseCasesConstants.email) as? [String] {
             return email[0]
         }
         return nil

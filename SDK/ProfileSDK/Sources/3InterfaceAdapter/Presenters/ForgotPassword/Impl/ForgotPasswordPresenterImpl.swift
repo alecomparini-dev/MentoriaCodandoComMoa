@@ -34,13 +34,13 @@ public class ForgotPasswordPresenterImpl: ForgotPasswordPresenter {
         
         Task {
             if await resetPasswordUseCase.reset(userEmail: userEmail) {
-                let pref = try getAuthCredentialsUseCase.getCredentials(userEmail)
+                let pref = try await getAuthCredentialsUseCase.getCredentials(userEmail)
                 
                 successResetPassword()
                 
                 if pref != .notSameUser {
                     do {
-                        try delAuthCredentialsUseCase.delete()
+                        try await delAuthCredentialsUseCase.delete()
                     } catch let error {
                         debugPrint(error.localizedDescription)
                     }

@@ -149,7 +149,7 @@ public class SignUpPresenterImpl: SignUpPresenter  {
                 }
             }
             
-            try delKeyChainEmailUseCase.delete()
+            try await delKeyChainEmailUseCase.delete()
         }
     }
 

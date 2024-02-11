@@ -4,5 +4,5 @@
 import Foundation
 
 public protocol DeleteStorageProvider {
-    func delete<T>(_ object: T) throws
+    func delete<T>(_ object: T) async throws
 }

@@ -33,5 +33,5 @@ public enum BiometricPreference: Equatable {
 }
 
 public protocol GetAuthCredentialsUseCase {
-    func getCredentials(_ userEmail: String) throws -> BiometricPreference
+    func getCredentials(_ userEmail: String) async throws -> BiometricPreference
 }

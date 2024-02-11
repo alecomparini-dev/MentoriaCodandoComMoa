@@ -13,7 +13,7 @@ public class DeleteKeyChainUseCaseGatewayImpl: DeleteKeyChainUseCaseGateway {
         self.localStorageKeyChainProvider = localStorageKeyChainProvider
     }
     
-    public func delete(_ id: String) throws {
-        try localStorageKeyChainProvider.delete(id)
+    public func delete(_ id: String) async throws {
+        try await localStorageKeyChainProvider.delete(id)
     }
 }

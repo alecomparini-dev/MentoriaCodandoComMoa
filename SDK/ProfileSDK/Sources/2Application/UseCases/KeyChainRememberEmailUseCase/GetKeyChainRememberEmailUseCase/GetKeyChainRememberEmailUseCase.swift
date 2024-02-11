@@ -4,5 +4,5 @@
 import Foundation
 
 public protocol GetKeyChainRememberEmailUseCase {
-    func getEmail() throws -> String?
+    func getEmail() async throws -> String?
 }
