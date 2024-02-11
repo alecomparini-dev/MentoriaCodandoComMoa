@@ -4,6 +4,6 @@
 import Foundation
 
 public protocol GetKeyChainUseCaseGateway {
-    func get(_ key: String) throws -> Any?
+    func get(_ key: String) async throws -> Any?
 }
 

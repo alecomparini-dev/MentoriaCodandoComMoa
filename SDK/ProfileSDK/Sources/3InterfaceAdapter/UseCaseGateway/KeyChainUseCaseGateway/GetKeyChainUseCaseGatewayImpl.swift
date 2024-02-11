@@ -7,14 +7,14 @@ import ProfileUseCases
 
 public class GetKeyChainUseCaseGatewayImpl: GetKeyChainUseCaseGateway {
     
-    private let localStorageKeyChainProvider: FetchStorageProvider
+    private let localStorageKeyChainProvider: FindStorageProvider
     
-    public init(localStorageKeyChainProvider: FetchStorageProvider) {
+    public init(localStorageKeyChainProvider: FindStorageProvider) {
         self.localStorageKeyChainProvider = localStorageKeyChainProvider
     }
     
-    public func get(_ key: String) throws -> Any? {
-        return try localStorageKeyChainProvider.fetchByID(key)
+    public func get(_ key: String) async throws -> Any? {
+        return try await localStorageKeyChainProvider.findBy(key)
     }
     
 }

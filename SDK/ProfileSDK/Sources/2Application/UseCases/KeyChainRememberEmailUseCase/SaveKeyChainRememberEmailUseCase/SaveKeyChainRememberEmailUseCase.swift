@@ -4,5 +4,5 @@
 import Foundation
 
 public protocol SaveKeyChainRememberEmailUseCase {
-    func save(_ email: String) throws
+    func save(_ email: String) async throws
 }

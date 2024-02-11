@@ -4,5 +4,5 @@
 import Foundation
 
 public protocol DeleteKeyChainUseCaseGateway {
-    func delete(_ key: String) throws
+    func delete(_ key: String) async throws
 }

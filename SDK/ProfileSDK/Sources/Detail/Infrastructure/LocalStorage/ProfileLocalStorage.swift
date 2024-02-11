@@ -52,20 +52,20 @@ extension ProfileLocalStorage: FetchStorageProvider {
         return []
     }
     
-    public func fetchByID<T>(_ id: String) throws -> T? {
+    
+}
+
+
+extension ProfileLocalStorage: FindStorageProvider {
+    public func findBy<T>(_ id: String) async throws -> T? {
         if let resultInsert: T = try storageProvider.fetchById(id) {
             return resultInsert
         }
         return nil
     }
     
-    public func findByColumn<T, DataType>(column: String, value: DataType) throws -> [T] {
+    public func findBy<T, V>(column: String, value: V) async throws -> [T] {
         return []
     }
     
-
-    
-    
-    
 }
-

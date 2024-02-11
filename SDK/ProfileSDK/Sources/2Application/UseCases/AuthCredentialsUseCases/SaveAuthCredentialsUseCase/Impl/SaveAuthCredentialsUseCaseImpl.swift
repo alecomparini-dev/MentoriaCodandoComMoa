@@ -10,9 +10,9 @@ public class SaveAuthCredentialsUseCaseImpl: SaveAuthCredentialsUseCase {
         self.saveAuthCredentialsGateway = saveAuthCredentialsGateway
     }
     
-    public func save(email: String, password: String) throws -> Bool {
+    public func save(email: String, password: String) async throws -> Bool {
         do {
-            try saveAuthCredentialsGateway.save(forKey: ProfileUseCasesConstants.credentials, [email, password])
+            try await saveAuthCredentialsGateway.save(forKey: ProfileUseCasesConstants.credentials, [email, password])
             return true
         } catch {
             return false

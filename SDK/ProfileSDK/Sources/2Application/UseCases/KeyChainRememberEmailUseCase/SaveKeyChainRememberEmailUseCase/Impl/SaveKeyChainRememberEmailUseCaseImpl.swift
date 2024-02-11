@@ -11,8 +11,8 @@ public class SaveKeyChainRememberEmailUseCaseImpl: SaveKeyChainRememberEmailUseC
         self.saveKeyChainGateway = saveKeyChainGateway
     }
     
-    public func save(_ email: String) throws {
-        try saveKeyChainGateway.save(forKey: ProfileUseCasesConstants.email, [email] )
+    public func save(_ email: String) async throws {
+        try await saveKeyChainGateway.save(forKey: ProfileUseCasesConstants.email, [email] )
     }
     
 }
