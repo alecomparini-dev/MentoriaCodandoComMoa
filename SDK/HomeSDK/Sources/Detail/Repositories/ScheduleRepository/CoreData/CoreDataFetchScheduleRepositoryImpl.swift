@@ -5,7 +5,7 @@ import Foundation
 
 import CoreData
 import HomeUseCaseGateway
-import DataStorageSDKMain
+import DataStorageSDK
 
 public class CoreDataFetchScheduleRepositoryImpl: FetchScheduleRepository {
     private let dataStorage: DataStorageProviderStrategy

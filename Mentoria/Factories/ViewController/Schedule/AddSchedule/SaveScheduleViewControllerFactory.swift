@@ -11,7 +11,7 @@ import HomeUseCases
 import HomeUseCaseGateway
 import HomeNetwork
 import HomeRepositories
-import DataStorageSDKMain
+import DataStorageSDK
 
 class SaveScheduleViewControllerFactory {
     
