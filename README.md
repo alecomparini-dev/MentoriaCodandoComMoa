@@ -97,6 +97,7 @@ https://github.com/alecomparini-dev/MentoriaCodandoComMoa/assets/76792477/8debd2
 - Builder
 - Factory
 - Adapter
+- Facade
 - Repository
 
 #### TESTE UNITÁRIOS
