@@ -63,6 +63,7 @@ https://github.com/alecomparini-dev/MentoriaCodandoComMoa/assets/76792477/8debd2
 ---
 ## DESENVOLVIMENTO
 - Neste projeto foi utilizado:
+  - KeyChain para armazenar email para lembrete
   - CoreData para gravar os agendamentos localmente
   - NetworkSDK (usando URLSession) para as chamadas remotas
   - Foi utilizado o arquivo Env para armazenar as url base do backEnd e ID do Tema utilizado
