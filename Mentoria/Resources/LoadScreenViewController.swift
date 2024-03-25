@@ -44,7 +44,7 @@ class LoadScreenViewController: UIViewController {
             .setBackgroundColor(hexColor: "#282A35")
             .setConstraints { build in
                 build
-                    .setPin.equalToSuperView
+                    .setPin.equalToSuperview
             }
         return comp
     }()

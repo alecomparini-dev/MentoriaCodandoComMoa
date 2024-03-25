@@ -29,7 +29,7 @@ class ListScheduleSectionView: UIView {
             })
             .setConstraints { build in
                 build
-                    .setPin.equalToSuperView
+                    .setPin.equalToSuperview
             }
         return comp
     }()

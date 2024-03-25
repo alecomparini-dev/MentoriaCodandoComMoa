@@ -24,7 +24,7 @@ class TestThemeView: UIView {
         let view = CustomView()
             .setConstraints { build in
                 build
-                    .setPin.equalToSuperView
+                    .setPin.equalToSuperview
             }
         return view
     }()

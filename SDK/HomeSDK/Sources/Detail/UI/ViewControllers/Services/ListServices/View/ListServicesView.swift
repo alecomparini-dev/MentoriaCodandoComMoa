@@ -29,7 +29,7 @@ public class ListServicesView: UIView {
         let comp = CustomView()
             .setConstraints { build in
                 build
-                    .setPin.equalToSuperView
+                    .setPin.equalToSuperview
             }
         return comp
     }()
@@ -114,7 +114,7 @@ public class ListServicesView: UIView {
             .setShowsScroll(false, .both)
             .setSeparatorStyle(.none)
             .setBackgroundColor(.clear)
-            .setTableFooter(ViewBuilder(frame: CGRect(origin: .zero, size: CGSize(width: 50, height: 50))))
+            .setTableFooterView(ViewBuilder(frame: CGRect(origin: .zero, size: CGSize(width: 50, height: 50))))
             .setRegisterCell(ListServicesTableViewCell.self)
             .setConstraints { build in
                 build
@@ -134,7 +134,7 @@ public class ListServicesView: UIView {
             .setConstraints { build in
                 build
                     .setLeading.setTrailing.equalToSafeArea(32)
-                    .setVerticalAlignmentY.equalToSuperView(30)
+                    .setVerticalAlignmentY.equalToSuperview(30)
                     .setHorizontalAlignmentX.equalToSafeArea
             }
         return view

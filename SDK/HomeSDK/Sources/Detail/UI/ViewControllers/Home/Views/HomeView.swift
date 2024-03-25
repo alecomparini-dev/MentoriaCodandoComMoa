@@ -29,7 +29,11 @@ class HomeView: UIView {
         let comp = CustomView()
             .setConstraints { build in
                 build
-                    .setPin.equalToSuperView
+//                    .setPin.equalToSuperview
+            }
+            .setAutoLayout { build in
+                build
+                    .pin.equalToSuperview()
             }
         return comp
     }()
@@ -41,10 +45,17 @@ class HomeView: UIView {
             .setSize(24)
             .setConstraints { build in
                 build
-                    .setTop.equalToSafeArea(24)
-                    .setLeading.equalToSafeArea(16)
-                    .setWidth.equalToConstant(35)
-                    .setHeight.equalToConstant(40)
+//                    .setTop.equalToSafeArea(24)
+//                    .setLeading.equalToSafeArea(16)
+//                    .setWidth.equalToConstant(35)
+//                    .setHeight.equalToConstant(40)
+            }
+            .setAutoLayout { build in
+                build
+                    .top.equalToSafeArea(24)
+                    .leading.equalToSafeArea(16)
+                    .width.equalToConstant(35)
+                    .height.equalToConstant(40)
             }
         return comp
     }()

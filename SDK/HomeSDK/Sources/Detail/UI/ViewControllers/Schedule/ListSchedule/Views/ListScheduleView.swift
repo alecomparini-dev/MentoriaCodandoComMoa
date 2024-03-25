@@ -29,7 +29,7 @@ class ListScheduleView: UIView {
         let comp = CustomView()
             .setConstraints { build in
                 build
-                    .setPin.equalToSuperView
+                    .setPin.equalToSuperview
             }
         return comp
     }()
@@ -174,11 +174,6 @@ class ListScheduleView: UIView {
     
     
 //  MARK: - PUBLIC AREA
-    func configStyleOnComponents() {
-        configStyleBackgroundListView()
-        configStyleAddScheduleFloatButton()
-        configStyleSearchTextField()
-    }
     
     
     
@@ -192,16 +187,14 @@ class ListScheduleView: UIView {
                     .setRadius(10)
                     .setOpacity(0.8)
                     .setOffset(width: -2, height: -2)
-                    .apply()
             })
             .setGradient({ build in
                 build
                     .setReferenceColor(referenceHexColor: "#444966", percentageGradient: 20)
                     .setAxialGradient(.leftToRight)
                     .apply()
-            })
+            })   
     }
-    
     
     private func configStyleAddScheduleFloatButton() {
         addScheduleFloatButton
@@ -215,7 +208,6 @@ class ListScheduleView: UIView {
                     .setBlur(to: .dark, percent: 10)
                     .setIntensity(to: .light, percent: 30)
                     .setIntensity(to: .dark, percent: 100)
-                    .apply()
             })
     }
     
@@ -225,16 +217,14 @@ class ListScheduleView: UIView {
                 .setColor(hexColor: "#000000")
                 .setRadius(5)
                 .setOffset(width: 2, height: 2)
-                .apply()
         })
     }
     
     private func configure() {
         addElements()
         configConstraints()
+        configStyleOnComponents()
     }
-    
-    
     
     private func addElements() {
         backgroundView.add(insideTo: self)
@@ -258,6 +248,12 @@ class ListScheduleView: UIView {
         listSchedule.applyConstraint()
         searchTextField.applyConstraint()
         addScheduleFloatButton.applyConstraint()
+    }
+    
+    private func configStyleOnComponents() {
+        configStyleBackgroundListView()
+        configStyleAddScheduleFloatButton()
+        configStyleSearchTextField()
     }
     
     

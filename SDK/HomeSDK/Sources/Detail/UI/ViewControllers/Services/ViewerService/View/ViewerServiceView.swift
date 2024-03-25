@@ -33,7 +33,7 @@ public class ViewerServiceView: UIView {
             .setBackgroundColor(hexColor: "#363a51")
             .setConstraints { build in
                 build
-                    .setPin.equalToSuperView
+                    .setPin.equalToSuperview
             }
         return comp
     }()
@@ -47,10 +47,10 @@ public class ViewerServiceView: UIView {
             })
             .setConstraints { build in
                 build
-                    .setTop.equalToSuperView(10)
+                    .setTop.equalToSuperview(10)
                     .setWidth.equalToConstant(45)
                     .setHeight.equalToConstant(4)
-                    .setHorizontalAlignmentX.equalToSuperView
+                    .setHorizontalAlignmentX.equalToSuperview
             }
         return comp
     }()

@@ -386,7 +386,7 @@ extension SaveScheduleViewController: ListDelegate {
     
     public func sectionViewCallback(_ list: ListBuilder, section: Int) -> UIView? { nil }
     
-    public func rowViewCallBack(_ list: ListBuilder, section: Int, row: Int) -> UIView {
+    public func rowViewCallBack(_ list: ListBuilder, section: Int, row: Int) -> Any {
         if list.id == SaveSchedulePresenterImpl.ListID.clients.rawValue {
             return makeLists(listID: .clients, row)
         }
@@ -480,8 +480,8 @@ extension SaveScheduleViewController: DockDelegate {
         if let addDays = view as? DaysDockView {
             addDays.dayLabel.setColor(hexColor: "#282a36")
             addDays.dayWeakLabel.setColor(UIColor.HEX("#282a36").withAlphaComponent(0.8))
-            addDays.backgroundView.get.makeNeumorphism({ make in
-                make
+            addDays.backgroundView.setNeumorphism { build in
+                build
                     .setShape(.convex)
                     .setReferenceColor(hexColor: "#baa0f4")
                     .setDistance(to: .light, percent: 2)
@@ -490,16 +490,17 @@ extension SaveScheduleViewController: DockDelegate {
                     .setBlur(to: .dark, percent: 10)
                     .setIntensity(to: .light, percent: 50)
                     .setIntensity(to: .dark, percent: 100)
-                    .apply()
-            })
+            }
+            addDays.backgroundView.applyNeumorphism()
         }
         
         if let addHours = view as? SaveScheduleHoursDockView {
             addHours.hourLabel.setColor(hexColor: "#282a36")
                 .setWeight(.semibold)
             
-            addHours.backgroundView.get.makeNeumorphism({ make in
-                make
+//            addHours.backgroundView.get.makeNeumorphism({ make in
+            addHours.backgroundView.setNeumorphism { build in
+                build
                     .setShape(.convex)
                     .setReferenceColor(hexColor: "#baa0f4")
                     .setDistance(to: .light, percent: 2)
@@ -508,8 +509,8 @@ extension SaveScheduleViewController: DockDelegate {
                     .setBlur(to: .dark, percent: 10)
                     .setIntensity(to: .light, percent: 50)
                     .setIntensity(to: .dark, percent: 100)
-                    .apply()
-            })
+            }
+            addHours.backgroundView.applyNeumorphism()
         }
         
         return nil

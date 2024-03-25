@@ -25,12 +25,12 @@ class ListScheduleRowView: UIView {
                 build
                     .setCornerRadius(16)
             })
-            .setConstraints { build in
+            .setAutoLayout { build in
                 build
-                    .setTop.equalToSafeArea(8)
-                    .setLeading.equalToSuperView(20)
-                    .setTrailing.equalToSuperView(-24)
-                    .setBottom.equalToSuperView(-24)
+                    .top.equalToSafeArea(8)
+                    .leading.equalToSuperview(20)
+                    .trailing.equalToSuperview(-24)
+                    .bottom.equalToSuperview(-24)
             }
         return comp
     }()
@@ -76,9 +76,9 @@ class ListScheduleRowView: UIView {
                     .setAttributed(key: .font, value: UIFont.systemFont(ofSize: 18))
                     .setAttributed(key: .foregroundColor, value: UIColor.white.withAlphaComponent(0.7))
             })
-            .setConstraints { build in
+            .setAutoLayout { build in
                 build
-                    .setPin.equalToSuperView
+                    .pin.equalToSuperview()
             }
         return comp
     }()
@@ -95,7 +95,6 @@ class ListScheduleRowView: UIView {
                     .setBlur(to: .dark, percent: 5)
                     .setIntensity(to: .light, percent: 30)
                     .setIntensity(to: .dark, percent: 100)
-                    .apply()
             })
             .setConstraints { build in
                 build
@@ -180,34 +179,21 @@ class ListScheduleRowView: UIView {
     }()
     
     
-    
 //  MARK: - PUBLIC AREA
-    func setStyleOnComponents() {
-        configBackgroundViewNeumorphism()
+    public func applyStyles() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else {return}
+            backgroundView.applyNeumorphism()
+            lineDivisor.applyNeumorphism()
+        }
     }
     
-    private func configBackgroundViewNeumorphism() {
-        backgroundView
-            .setNeumorphism({ build in
-                build
-                    .setShape(.concave)
-                    .setReferenceColor(hexColor: "#4d5274")
-                    .setDistance(to: .light, percent: 5)
-                    .setDistance(to: .dark, percent: 10)
-                    .setBlur(to: .light, percent: 5)
-                    .setBlur(to: .dark, percent: 10)
-                    .setIntensity(to: .light, percent: 30)
-                    .setIntensity(to: .dark, percent: 100)
-                    .apply()
-            })
-    }
     
 //  MARK: - PRIVATE AREA
 
     private func configure() {
         addElements()
         configConstraints()
-        
         configBackgroundViewNeumorphism()
     }
     
@@ -225,10 +211,10 @@ class ListScheduleRowView: UIView {
     }
     
     private func configConstraints() {
-        backgroundView.applyConstraint()
+        backgroundView.applyAutoLayout()
         clientName.applyConstraint()
         hourView.applyConstraint()
-        hourLabel.applyConstraint()
+        hourLabel.applyAutoLayout()
         lineDivisor.applyConstraint()
         mappinImage.applyConstraint()
         addressTitle.applyConstraint()
@@ -237,6 +223,22 @@ class ListScheduleRowView: UIView {
         serviceTitle.applyConstraint()
     }
     
+    private func configBackgroundViewNeumorphism() {
+        backgroundView
+            .setNeumorphism({ build in
+                build
+                    .setShape(.concave)
+                    .setReferenceColor(hexColor: "#4d5274")
+                    .setDistance(to: .light, percent: 5)
+                    .setDistance(to: .dark, percent: 10)
+                    .setBlur(to: .light, percent: 5)
+                    .setBlur(to: .dark, percent: 10)
+                    .setIntensity(to: .light, percent: 30)
+                    .setIntensity(to: .dark, percent: 100)
+            })
+        
+    }
+
     
     
 }

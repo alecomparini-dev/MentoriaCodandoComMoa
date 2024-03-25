@@ -52,9 +52,14 @@ public final class ListScheduleViewController: UIViewController {
         configure()
     }
     
+    public override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        configViewDidLayoutSubviews()
+    }
+    
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        screen.configStyleOnComponents()
+        configWillAppear()
     }
     
     public override func viewDidAppear(_ animated: Bool) {
@@ -88,6 +93,18 @@ public final class ListScheduleViewController: UIViewController {
         screen.delegate = self
         configOutputPresenterDelegate()
         configCellDelegate()
+    }
+    
+    private func configViewDidLayoutSubviews() {
+        screen.addScheduleFloatButton.applyNeumorphism()
+    }
+    
+    private func configWillAppear() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else {return}
+            screen.backgroundListView.applyShadow()
+            screen.searchTextField.applyShadow()
+        }
     }
     
     private func configOutputPresenterDelegate() {
@@ -194,18 +211,19 @@ extension ListScheduleViewController: DockDelegate {
             make
                 .setCornerRadius(16)
         })
-        btn.makeNeumorphism({ make in
-            make
-                .setShape(.convex)
-                .setReferenceColor(hexColor: "#baa0f4")
-                .setDistance(to: .light, percent: 2)
-                .setDistance(to: .dark, percent: 10)
-                .setBlur(to: .light, percent: 3)
-                .setBlur(to: .dark, percent: 10)
-                .setIntensity(to: .light, percent: 50)
-                .setIntensity(to: .dark, percent: 100)
-                .apply()
-        })
+        
+        let neu = NeumorphismBuilder(btn)
+            .setShape(.convex)
+            .setReferenceColor(hexColor: "#baa0f4")
+            .setDistance(to: .light, percent: 2)
+            .setDistance(to: .dark, percent: 10)
+            .setBlur(to: .light, percent: 3)
+            .setBlur(to: .dark, percent: 10)
+            .setIntensity(to: .light, percent: 50)
+            .setIntensity(to: .dark, percent: 100)
+
+        neu.apply()
+        
         return btn
     }
     
@@ -245,9 +263,11 @@ extension ListScheduleViewController: ListDelegate {
         return sectionView
     }
     
-    public func rowViewCallBack(_ list: ListBuilder, section: Int, row: Int) -> UIView {
+    public func rowViewCallBack(_ list: ListBuilder, section: Int, row: Int) -> Any {
         let row: SchedulePresenterDTO = listSchedulePresenter.getRowSchedule(section, row)
-        return ListScheduleRowView(schedulePresenterDTO: row)
+        let scheduleRow = ListScheduleRowView(schedulePresenterDTO: row)
+        scheduleRow.applyStyles()
+        return scheduleRow
     }
     
 }

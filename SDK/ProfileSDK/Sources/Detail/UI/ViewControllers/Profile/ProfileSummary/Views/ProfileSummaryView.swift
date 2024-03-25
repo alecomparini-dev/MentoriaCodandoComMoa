@@ -30,7 +30,7 @@ public class ProfileSummaryView: UIView {
         let comp = CustomView()
             .setConstraints { build in
                 build
-                    .setPin.equalToSuperView
+                    .setPin.equalToSuperview
             }
         return comp
     }()

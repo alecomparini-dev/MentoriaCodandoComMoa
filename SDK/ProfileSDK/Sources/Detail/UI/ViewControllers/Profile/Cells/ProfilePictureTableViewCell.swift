@@ -36,6 +36,7 @@ class ProfilePictureTableViewCell: UITableViewCell {
         let comp = ProfilePictureBuilder(size: 120)
             .setBackgroundColor(hexColor: "#FFFFFF")
             .setTintColor("#282a36")
+            .setCircleProfilePicture()
             .setConstraints { build in
                 build
                     .setTop.equalToSafeArea(8)

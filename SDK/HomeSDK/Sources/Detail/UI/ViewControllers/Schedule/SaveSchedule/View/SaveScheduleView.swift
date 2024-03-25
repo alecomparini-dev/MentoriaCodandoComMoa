@@ -33,7 +33,7 @@ public class SaveScheduleView: UIView {
         let comp = CustomView()
             .setConstraints { build in
                 build
-                    .setPin.equalToSuperView
+                    .setPin.equalToSuperview
             }
         return comp
     }()
@@ -147,7 +147,6 @@ public class SaveScheduleView: UIView {
                     .setRadius(8)
                     .setOpacity(1)
                     .setOffset(width: 3, height: 4)
-                    .apply()
             })
             .setConstraints { build in
                 build
@@ -155,6 +154,7 @@ public class SaveScheduleView: UIView {
                     .setLeading.setTrailing.equalTo(serviceTextField.get)
                     .setHeight.equalToConstant(180)
             }
+        comp.applyShadow()
         return comp
     }()
     
@@ -169,7 +169,7 @@ public class SaveScheduleView: UIView {
             .setSectionHeaderHeight(0)
             .setConstraints { build in
                 build
-                    .setPin.equalToSuperView(4)
+                    .setPin.equalToSuperview(4)
             }
         return comp
     }()
@@ -234,7 +234,6 @@ public class SaveScheduleView: UIView {
                     .setRadius(8)
                     .setOpacity(1)
                     .setOffset(width: 3, height: 4)
-                    .apply()
             })
             .setConstraints { build in
                 build
@@ -242,6 +241,7 @@ public class SaveScheduleView: UIView {
                     .setLeading.setTrailing.equalTo(serviceTextField.get)
                     .setHeight.equalToConstant(180)
             }
+        comp.applyShadow()
         return comp
     }()
     
@@ -256,7 +256,7 @@ public class SaveScheduleView: UIView {
             .setSectionHeaderHeight(0)
             .setConstraints { build in
                 build
-                    .setPin.equalToSuperView(4)
+                    .setPin.equalToSuperview(4)
             }
         return comp
     }()
@@ -391,7 +391,7 @@ public class SaveScheduleView: UIView {
     
     
     private func makePickerBuilder() -> PickerBuilder {
-        return PickerBuilder()
+        let picker = PickerBuilder()
             .setHidden(true)
             .setRowHeight(50)
             .setBackgroundColor(.white)
@@ -407,8 +407,9 @@ public class SaveScheduleView: UIView {
                     .setRadius(8)
                     .setOpacity(1)
                     .setOffset(width: 3, height: 4)
-                    .apply()
             })
+        picker.applyShadow()
+        return picker
     }
     
 }
