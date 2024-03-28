@@ -63,6 +63,7 @@ https://github.com/alecomparini-dev/MentoriaCodandoComMoa/assets/76792477/8debd2
 ---
 ## DESENVOLVIMENTO
 - Neste projeto foi utilizado:
+  - KeyChain para armazenar o email quando usuário opta por lembrar email.
   - CoreData para gravar os agendamentos localmente
   - NetworkSDK (usando URLSession) para as chamadas remotas
   - Foi utilizado o arquivo Env para armazenar as url base do backEnd e ID do Tema utilizado
@@ -77,9 +78,8 @@ https://github.com/alecomparini-dev/MentoriaCodandoComMoa/assets/76792477/8debd2
   - **DesignSystemSDK** ( [veja aqui](https://github.com/alecomparini-dev/DesignerSystemSDK) )
   - **CustomComponentsSDK** ( [veja aqui](https://github.com/alecomparini-dev/CustomComponentsSDK/tree/develop/Sources/CustomComponents/Components) )
   - **DataStorageSDK** ( [veja aqui](https://github.com/alecomparini-dev/DataStorageSDK) )
-    - Aqui vale uma ressalva: Neste projeto ainda tem o **LocalStorageSDK** que estou migrando para o DataStorageSDK. Inicialmente o LocalStorage iria trabalhar com persistências locais, porém o DataStorage será mais abrangente trabalhando com qualquer tipo de persistência.
   - **NetworkSDK** ( [veja aqui](https://github.com/alecomparini-dev/NetworkSDK) )
-      > Foi utilizado para este projeto o URLSession, apesar do SDK estar preparado para trabalhar com outros, como por exemplo Alamofire, sem nenhum impacto no app principal.
+      > Foi utilizado para este projeto o URLSession, apesar do SDK estar preparado para trabalhar com outros, como por exemplo Alamofire, sem ter nenhum impacto no app principal.
   - **ValidatorSDK** ( [veja aqui](https://github.com/alecomparini-dev/ValidatorSDK) )
       > Atualmente possui CPF/CNPJ validator, EmailValidator e PasswordComplexityValidator
     
@@ -98,6 +98,7 @@ https://github.com/alecomparini-dev/MentoriaCodandoComMoa/assets/76792477/8debd2
 - Builder
 - Factory
 - Adapter
+- Facade
 - Repository
 
 #### TESTE UNITÁRIOS

@@ -114,7 +114,7 @@ public class ListServicesView: UIView {
             .setShowsScroll(false, .both)
             .setSeparatorStyle(.none)
             .setBackgroundColor(.clear)
-            .setTableFooter(ViewBuilder(frame: CGRect(origin: .zero, size: CGSize(width: 50, height: 50))))
+            .setTableFooterView(ViewBuilder(frame: CGRect(origin: .zero, size: CGSize(width: 50, height: 50))))
             .setRegisterCell(ListServicesTableViewCell.self)
             .setConstraints { build in
                 build
